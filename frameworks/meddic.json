@@ -1,0 +1,336 @@
+{
+  "slug": "meddic",
+  "name": "MEDDIC",
+  "version": "0.1.0",
+  "maxLevel": 3,
+  "elements": [
+    {
+      "code": "M",
+      "name": "Metrics",
+      "definition": "The quantified result the buyer expects from the change, expressed in their own KPIs, with a current value, a target and a time horizon. It is the buyer's number, not the rep's ROI model, and it is strongest when the person who owns that KPI has agreed it is how the project will be judged.",
+      "questions": [
+        "Which number, when it moves, tells you this succeeded?",
+        "What is the current value of that number, and where does it need to be by when?",
+        "What is this problem costing you each month today?",
+        "Who reports that figure, and to whom?",
+        "Do you have an internal payback or ROI threshold a purchase like this has to clear?",
+        "If this works, what does it mean for you personally?"
+      ],
+      "evidenceSignals": [
+        "Level 1: the only numbers in the text come from the rep (a benchmark, a case study, an ROI estimate) or the buyer gives a direction without a figure (faster, cheaper, better).",
+        "Level 2: a buyer-side speaker states a specific figure with a baseline or a target, or both, on the call or in writing.",
+        "Level 3: the same figure is confirmed by a second buyer-side person, appears in a buyer document (business case, board pack, scorecard), or the person who owns the KPI says it is how the project will be measured, with a date.",
+        "A buyer figure with no owner or date stays at 2 however precise it is.",
+        "A quantified cost of the problem with no target for the solution is still Metrics at 2; it also supports Pain."
+      ],
+      "anchors": {
+        "0": "No quantified outcome anywhere in the interaction; nobody names a number, a KPI or a cost.",
+        "1": "A number exists but the rep supplied it (benchmark, case study, ROI model) or the buyer spoke only in directions with no figure; nothing here the buyer would own.",
+        "2": "A buyer-side speaker states a specific number with a current value or a target, from a single source; no owner or date confirmed.",
+        "3": "The buyer number has a baseline, a target and a date, and is confirmed by a second buyer-side person, a buyer document, or the owner of the KPI stating it is how the project will be judged."
+      },
+      "exampleQuotes": {
+        "1": "Rep: Teams your size typically cut reconciliation effort by about a third in the first year.",
+        "2": "Buyer: We are running month-end at nine working days and the auditors want it under five.",
+        "3": "Buyer (finance director): Five-day close is the number I have committed to the audit committee for the March year end, and finance has signed off the nine-day baseline."
+      },
+      "nextQuestionAt1": "What number moves if this works, what is it today, and who reports it?",
+      "behaviourTags": [
+        "asked-metrics",
+        "quantified-impact"
+      ],
+      "failureModes": [
+        "Rep-projected savings logged as if the buyer had said them.",
+        "A vanity or efficiency metric the Economic Buyer does not care about.",
+        "The cost of the pain is quantified but the value of the solution never is.",
+        "The metric is never revalidated after signature, so the renewal starts from zero."
+      ],
+      "stageExpectations": {
+        "discovery": 2,
+        "evaluation": 2,
+        "proposal": 2,
+        "commit": 2
+      },
+      "applicableFrom": "discovery"
+    },
+    {
+      "code": "E",
+      "name": "Economic Buyer",
+      "definition": "The one person who can approve this spend, release or reallocate the budget, and overrule others in either direction. The element measures how well that person is identified, reached and engaged, not how senior the friendliest contact is.",
+      "questions": [
+        "Walk me through how a decision of this size gets made here: who signs the actual contract, and who else has to be comfortable before they do?",
+        "Whose budget does this come from, and what is their discretionary signing limit?",
+        "Will I be able to meet them as part of this process?",
+        "How does this rank against their other priorities right now?",
+        "Is the budget already allocated, or would it need to be reallocated from somewhere?"
+      ],
+      "evidenceSignals": [
+        "Level 1: the rep names a likely approver by title or org chart, or a buyer says something vague such as leadership or the board will decide.",
+        "Level 2: a buyer-side speaker names the person and their authority (signs above a threshold, owns the budget line), or a meeting with them is requested or being arranged.",
+        "Level 3: the Economic Buyer is present on the call or the email thread and confirms priority, funds or timing, or the champion has booked the meeting and the Economic Buyer has visibly accepted or replied.",
+        "Someone senior attending a call is not the Economic Buyer unless the text shows they hold the budget or the veto.",
+        "Scored on any discovery call: naming who signs is a discovery-stage aim even if meeting them is not."
+      ],
+      "anchors": {
+        "0": "Nobody with budget authority is identified by anyone; the topic of who approves does not come up.",
+        "1": "An approver is guessed from a title, an org chart or the rep's assumption, or the buyer describes the decision maker only vaguely; nobody has met them and no path to them exists.",
+        "2": "A buyer-side speaker names the person and states their authority, and a meeting is requested or planned but has not happened.",
+        "3": "The Economic Buyer has been met on a call or replied in writing and confirmed at least one of priority, funds or timing, or the champion has booked the meeting and the Economic Buyer has visibly engaged."
+      },
+      "exampleQuotes": {
+        "1": "Rep (note): Probably sits with the COO given the size, need to confirm.",
+        "2": "Buyer: Anything over eighty thousand goes to Marta as CFO; she will want the business case before procurement sees it.",
+        "3": "Buyer (CFO): I can move this out of the analytics budget if payback lands inside two quarters, and I want it live before the audit."
+      },
+      "nextQuestionAt1": "How does a decision of this size get made here, and who signs the actual contract?",
+      "behaviourTags": [
+        "identified-eb",
+        "asked-eb-access",
+        "engaged-eb"
+      ],
+      "failureModes": [
+        "Economic Buyer chosen by title rather than by what the buyer said.",
+        "Treating the senior person who took the first call as the approver.",
+        "Meeting the Economic Buyer only after the solution has been presented.",
+        "Assuming the same person approves every product line or every deal."
+      ],
+      "stageExpectations": {
+        "discovery": 1,
+        "evaluation": 2,
+        "proposal": 2,
+        "commit": 3
+      },
+      "applicableFrom": "discovery"
+    },
+    {
+      "code": "DC",
+      "name": "Decision Criteria",
+      "definition": "The requirements and principles the buyer will judge vendors against, across technical fit, economic case and relationship or trust. The element measures whether those criteria are known in the buyer's words, weighted, and whether the rep has helped shape them.",
+      "questions": [
+        "If you wrote the evaluation scorecard today, what are the rows and how are they weighted?",
+        "What disqualifies a vendor in the first fifteen minutes of a demo?",
+        "How will you justify this purchase to the people who are not in this room?",
+        "Are the criteria written down anywhere, and who owns that document?",
+        "Beyond the technical list, what would make you trust one vendor over another?",
+        "Has anything on the list changed since you started looking?"
+      ],
+      "evidenceSignals": [
+        "Level 1: a generic list (price, integrations, support) or the rep's own assumptions about what will matter.",
+        "Level 2: a buyer-side speaker states specific, actionable criteria, even if inherited from an RFP or known from only one person.",
+        "Level 3: criteria are documented or weighted, cover more than the technical dimension, are confirmed by a second buyer-side person, and include at least one criterion the rep visibly introduced.",
+        "The buyer saying they like the product is not a criterion.",
+        "A buyer mentioning that the criteria have changed is evidence for this element and a prompt to ask who influenced the change."
+      ],
+      "anchors": {
+        "0": "No criteria are stated by anyone; the interaction does not touch how vendors will be judged.",
+        "1": "Only a generic list or the rep's assumption; nothing specific enough to design a demo around.",
+        "2": "A buyer-side speaker states specific criteria in their own words, from one person, possibly inherited from an RFP; weighting and documentation unknown.",
+        "3": "Criteria are weighted or documented, span technical and economic or relationship dimensions, are confirmed by more than one buyer-side person, and include a criterion the rep shaped."
+      },
+      "exampleQuotes": {
+        "1": "Buyer: The usual things really, price, integrations and decent support.",
+        "2": "Buyer: It has to read the raw ledger tables, not just the modelled ones, and it cannot add test work for my two engineers.",
+        "3": "Buyer: After your session we added no new test burden to the scoring sheet at thirty percent, and both Pieter and I have signed the sheet off."
+      },
+      "nextQuestionAt1": "If you wrote the evaluation scorecard today, what are the rows and how are they weighted?",
+      "behaviourTags": [
+        "mapped-decision-criteria",
+        "shaped-decision-criteria"
+      ],
+      "failureModes": [
+        "Only technical criteria are worked; the economic and trust criteria are never asked about.",
+        "Criteria are known from one stakeholder and assumed to hold for the committee.",
+        "Criteria change late under competitor influence and nobody notices.",
+        "The rep evaluates the deal against their own feature list."
+      ],
+      "stageExpectations": {
+        "discovery": 1,
+        "evaluation": 2,
+        "proposal": 2,
+        "commit": 2
+      },
+      "applicableFrom": "discovery"
+    },
+    {
+      "code": "DP",
+      "name": "Decision Process",
+      "definition": "The ordered steps, people and dates between today and a decision, covering both technical validation and business approval. It is the element that predicts time to close, and it is only as real as the owners and dates the buyer has confirmed.",
+      "questions": [
+        "Walk me from today to the day we would sign: what are the steps, who approves each one, and roughly when?",
+        "When is the next steering or budget meeting, and what has to be decided there?",
+        "Who has a veto that we have not spoken to yet?",
+        "Has a purchase like this ever stalled internally, and what caused it?",
+        "What has to be true by a date on your side for this to happen this quarter?"
+      ],
+      "evidenceSignals": [
+        "Level 1: a timeline alone (this quarter, before summer) or a process the rep inferred from how the buyer bought last time.",
+        "Level 2: a buyer-side speaker names the steps and the participants, with some dates or owners still missing.",
+        "Level 3: steps, owners and dates are all stated by the buyer, a critical event with a date is named, and a mutual plan has been agreed or the process has been confirmed by a second buyer-side person.",
+        "Demos, workshops and reference calls are activity, not process, unless the buyer places them in an approval sequence.",
+        "Not applicable on discovery-phase interactions; a buyer volunteering the process there is noted for the deal but not scored."
+      ],
+      "anchors": {
+        "0": "Nothing in the interaction describes how or when the decision will be made.",
+        "1": "Only a rough timeframe, or a process the rep assumed from precedent; no buyer-stated steps or owners.",
+        "2": "A buyer-side speaker names the steps and who is involved; at least one owner or date is missing and nothing has been tested against a second source.",
+        "3": "Steps, owners and dates are stated by the buyer, a dated critical event is named, and either a mutual plan is agreed or a second buyer-side person confirms the sequence."
+      },
+      "exampleQuotes": {
+        "1": "Buyer: Ideally we would have something in place this quarter.",
+        "2": "Buyer: Technical sign-off from Ana's team first, then the security review, then it goes to the procurement committee, which meets on the first Monday.",
+        "3": "Buyer: Steering is on the fourteenth, Marta wants a decision before the budget lock on the thirtieth, and I have put your plan back into our tracker with the owners against each step."
+      },
+      "nextQuestionAt1": "Walk me from today to the day we would sign: steps, who approves, and roughly when?",
+      "behaviourTags": [
+        "mapped-decision-process",
+        "agreed-mutual-plan"
+      ],
+      "failureModes": [
+        "Engagement mistaken for progress: lots of meetings, no approval step passed.",
+        "A committee or board cycle is missed because nobody asked when it sits.",
+        "No critical event, so the deal has no reason to happen this quarter.",
+        "The first answer is taken at face value instead of being tested with a second person."
+      ],
+      "stageExpectations": {
+        "discovery": 0,
+        "evaluation": 1,
+        "proposal": 2,
+        "commit": 2
+      },
+      "applicableFrom": "evaluation"
+    },
+    {
+      "code": "I",
+      "name": "Identify Pain",
+      "definition": "The business problem the buyer needs to solve, stated in the buyer's own words, with an owner and a sense of what it costs them. MEDDIC's original letter asks the rep to identify the pain, and the ladder still climbs as the buyer moves from acknowledging a problem the rep named, to describing it, to quantifying it with a consequence and a date.",
+      "questions": [
+        "Tell me about how this problem shows up day to day.",
+        "How does it affect the business, financially and otherwise?",
+        "What happens if it is still like this in six months?",
+        "Who else is affected, and how are they measured?",
+        "What have you already tried, and why did it not stick?",
+        "What is the second-order effect you worry about most?"
+      ],
+      "evidenceSignals": [
+        "Level 1: the rep names the problem and the buyer merely agrees (yes, that is annoying) or the buyer describes a wish rather than a problem.",
+        "Level 2: a buyer-side speaker describes the problem in their own words, qualitatively, and it is clear who suffers from it.",
+        "Level 3: the buyer quantifies the impact, names what happens if nothing changes, ties it to a date or event, and links it to a personal or organisational stake.",
+        "Pain spoken by the buyer after a rep pitch counts only if the buyer adds substance beyond agreement.",
+        "Unprompted cost-of-inaction language from the buyer is the strongest single signal."
+      ],
+      "anchors": {
+        "0": "No problem is named by anyone; the conversation is about features or logistics.",
+        "1": "The rep names or frames the pain and the buyer only acknowledges it, or the buyer expresses a vague wish to improve something.",
+        "2": "A buyer-side speaker states the problem in their own words, qualitatively, with an identifiable owner or sufferer.",
+        "3": "The buyer quantifies the impact, states the consequence of inaction, ties it to a date or event, and connects it to a personal or organisational stake."
+      },
+      "exampleQuotes": {
+        "1": "Buyer: Yes, the reporting side is a bit slow, I suppose.",
+        "2": "Buyer: Every month my team is up until midnight rebuilding the board pack by hand, and we are the ones who take the blame when a number is wrong.",
+        "3": "Buyer: Two analyst days per incident, twice a month, and the last time we missed the board deadline the CFO named my team in the all-hands; if it happens again before the year end review I lose the headcount request."
+      },
+      "nextQuestionAt1": "What happens if this is still the case in six months?",
+      "behaviourTags": [
+        "identified-pain",
+        "implicated-pain"
+      ],
+      "failureModes": [
+        "Feature-mapping instead of implicating: the rep hears a pain and jumps to a demo.",
+        "The rep's own framing of the pain is logged as the buyer's.",
+        "A mild acknowledgement is inflated into serious pain.",
+        "No personal stake is ever surfaced, so the pain has no urgency."
+      ],
+      "stageExpectations": {
+        "discovery": 2,
+        "evaluation": 2,
+        "proposal": 2,
+        "commit": 2
+      },
+      "applicableFrom": "discovery"
+    },
+    {
+      "code": "CH",
+      "name": "Champion",
+      "definition": "A buyer-side person with real influence who actively sells for you when you are not in the room and who has a personal stake in the outcome. Someone friendly and helpful who lacks any of those three traits is a coach or a contact, and the score reflects tests passed, not warmth.",
+      "questions": [
+        "Who else needs to be in the room for the next conversation, and can you set that up?",
+        "What does success here mean for you personally?",
+        "Would you be willing to walk your leadership through the business case before our next session?",
+        "What happens to this project if it does not get funded this cycle?",
+        "What happened the last time you bought something like this?",
+        "What are people saying internally about this that I would not hear from you?"
+      ],
+      "evidenceSignals": [
+        "Level 1: a friendly, responsive contact; the rep describes them as keen or engaged; no test has been passed, or the person visibly lacks influence.",
+        "Level 2: one champion test passed with evidence in the text: an introduction made, an internal document shared, an explicit statement of personal stake, or unprompted internal information.",
+        "Level 3: repeated internal selling is visible: booked the Economic Buyer meeting, presented the case in a meeting the rep was not in, defended the deal against pushback, and has stated their personal win.",
+        "Let me take it to my team followed by no reported action is a coach signal, not a champion signal.",
+        "Actions the champion reports having taken count; promises to act do not."
+      ],
+      "anchors": {
+        "0": "No buyer-side advocate is identified; nobody on the buyer side shows any personal interest in the change.",
+        "1": "A friendly, responsive contact with no test passed, or a contact who plainly lacks the power to move the deal; includes rep descriptions such as keen or a strong relationship.",
+        "2": "One test passed with evidence in the text: an introduction made, an internal document shared, a personal stake stated explicitly, or internal intelligence volunteered.",
+        "3": "Repeated internal selling observed: the Economic Buyer meeting booked, the case presented without the rep present, pushback defended, and a personal win stated."
+      },
+      "exampleQuotes": {
+        "1": "Rep (note): Head of data is keen and always replies within the hour.",
+        "2": "Buyer: I have been told to fix this by year end and my bonus is tied to close time, so I have shared your deck with Marta already.",
+        "3": "Buyer (email): I presented your numbers to Marta and the ops leads yesterday; ops pushed on migration risk and I used the reference notes to answer it. She wants twenty minutes with you on Thursday."
+      },
+      "nextQuestionAt1": "Who else needs to be in the room for the next conversation, and can you set that up by Friday?",
+      "behaviourTags": [
+        "tested-champion",
+        "developed-champion"
+      ],
+      "failureModes": [
+        "A coach or friendly contact labelled as a champion.",
+        "A champion who cannot or will not get the rep to the Economic Buyer.",
+        "Single-threading through one person who then leaves or goes quiet.",
+        "Never asking the champion to do anything, so they are never tested."
+      ],
+      "stageExpectations": {
+        "discovery": 2,
+        "evaluation": 2,
+        "proposal": 2,
+        "commit": 3
+      },
+      "applicableFrom": "discovery"
+    }
+  ],
+  "generalBehaviourTags": [
+    "secured-next-step",
+    "multi-threaded",
+    "summarised-and-confirmed"
+  ],
+  "scoring": {
+    "quoteRequiredAbove": 1,
+    "decayDays": 45,
+    "commitGate": {
+      "all": 2,
+      "E": 3,
+      "CH": 3
+    },
+    "qualifyOut": {
+      "maxTotal": 7,
+      "minInteractions": 4
+    }
+  },
+  "sources": [
+    "https://meddicc.com/what-is-meddpicc/metrics",
+    "https://meddicc.com/what-is-meddpicc/economic-buyer",
+    "https://meddicc.com/what-is-meddpicc/decision-criteria",
+    "https://meddicc.com/what-is-meddpicc/decision-process",
+    "https://meddicc.com/what-is-meddpicc/implicate-the-pain",
+    "https://meddicc.com/what-is-meddpicc/champion",
+    "https://meddicc.com/resources/lessons-ive-learnt-since-implementing-meddic",
+    "https://www.forcemanagement.com/blog/how-meddicc-helps-win-with-decision-makers",
+    "https://www.forcemanagement.com/blog/stand-in-the-moment-of-pain",
+    "https://www.forcemanagement.com/blog/meddic-vs.-meddpic-the-meaning-difference-and-benefits-of-each-for-sales-qualification-force-management",
+    "https://www.ebsta.com/wp-content/uploads/2023/02/2023-B2B-Sales-Benchmark-Report.pdf",
+    "https://www.ebsta.com/wp-content/uploads/2023/10/Ebsta-x-Sprocketeer-B2B-Sales-Benchmarks-INBOUND.pdf",
+    "https://www.ebsta.com/wp-content/uploads/2024/02/B2B-Sales-Benchmarks-2024_.pdf",
+    "https://www.ebsta.com/wp-content/uploads/2024/07/H1-Update-2024-B2B-Sales-Benchmarks.pdf",
+    "https://benchmarks.ebsta.com/hubfs/V3%202025%20Benchmark%20Report/gtm_benchmarks_digital_report.pdf"
+  ]
+}

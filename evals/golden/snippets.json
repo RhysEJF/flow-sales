@@ -1,0 +1,1940 @@
+{
+  "version": "0.1.0",
+  "framework": "meddpicc",
+  "targets": {
+    "exactAgreement": 0.8,
+    "withinOneLevel": 0.95,
+    "behaviourTagAgreement": 0.9
+  },
+  "snippets": [
+    {
+      "id": "g01",
+      "type": "call",
+      "phase": "discovery",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Elin, Head of Finance, Brindlewood Logistics)": "buyer"
+      },
+      "body": "Rep: Tell me how month-end shows up for your team at the moment. Buyer (Elin, Head of Finance, Brindlewood Logistics): We close in nine working days and the auditors have told us they want it under five by the March year end. Rep: What happens if it is still nine in March? Buyer: Then we fail the control test again, and last time that happened the group CFO put my team's name on the audit committee slide. I am not having that twice. Rep: Which number would you report if this worked? Buyer: Days to close. It is the one figure I own personally. Rep: And who signs off spend of this size? Buyer: Anything over eighty thousand goes to Marta as CFO; she will want the business case before procurement sees it. Rep: What would you need to see from a vendor? Buyer: The usual, decent integrations and support.",
+      "expected": {
+        "M": {
+          "evidence": 2,
+          "quote": "We close in nine working days and the auditors have told us they want it under five by the March year end.",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 2,
+          "quote": "Anything over eighty thousand goes to Marta as CFO; she will want the business case before procurement sees it.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 1
+        },
+        "I": {
+          "evidence": 3,
+          "quote": "Then we fail the control test again, and last time that happened the group CFO put my team's name on the audit committee slide. I am not having that twice.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {
+        "DP": "discovery",
+        "PP": "discovery",
+        "CO": "alternatives not raised"
+      },
+      "expectedBehaviourTags": [
+        "identified-pain",
+        "implicated-pain",
+        "asked-metrics",
+        "identified-eb",
+        "mapped-decision-criteria"
+      ]
+    },
+    {
+      "id": "g02",
+      "type": "call",
+      "phase": "discovery",
+      "kind": "pitch-monologue",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Bram, Operations Director, Ostara Foods)": "buyer"
+      },
+      "body": "Rep: Thanks for making the time, Bram. Let me walk you through what we do. Most food manufacturers we work with are struggling with manual batch reconciliation, and our platform removes that completely. Customers like you typically save around thirty percent of planning time in the first six months. We integrate with every major ERP, we have a native mobile app for line supervisors, and our dashboard gives you real-time yield by line. I will share a case study from a bakery group that cut waste by a fifth. We can also do a pilot in four weeks with our onboarding team, who handle data mapping for you. I think the best next step is a technical demo with your IT team, and I can send over pricing tiers today. Does that sound reasonable? Buyer (Bram, Operations Director, Ostara Foods): Sure, send it over.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 0
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "I": {
+          "evidence": 1
+        },
+        "CH": {
+          "evidence": 0
+        }
+      },
+      "notApplicable": {
+        "DP": "discovery",
+        "PP": "discovery",
+        "CO": "alternatives not raised"
+      },
+      "expectedBehaviourTags": [],
+      "hygiene": {
+        "pitchBeforePain": true
+      }
+    },
+    {
+      "id": "g03",
+      "type": "call",
+      "phase": "discovery",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Sinead, IT Manager, Halvorsen Marine)": "buyer"
+      },
+      "body": "Rep: What is driving the interest in changing now? Buyer (Sinead, IT Manager, Halvorsen Marine): The crew scheduling tool we built in-house falls over every rota change, and it is my two engineers who get the weekend calls to patch it. Rep: What would you want to be different in a year? Buyer: Faster, really, and fewer calls at the weekend. Rep: Is there a number on that? Buyer: Not one I have written down. Rep: If you had to score vendors today, what would be on the list? Buyer: It has to run offline on the vessels, it has to sync with our crewing database without a rewrite, and it cannot need more than one admin. Rep: Who else are you looking at? Buyer: Honestly you are the only ones we are talking to. Rep: And who makes the final call? Buyer: Leadership, I suppose, it would go up the chain.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 1
+        },
+        "DC": {
+          "evidence": 2,
+          "quote": "It has to run offline on the vessels, it has to sync with our crewing database without a rewrite, and it cannot need more than one admin.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "The crew scheduling tool we built in-house falls over every rota change, and it is my two engineers who get the weekend calls to patch it.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 0
+        },
+        "CO": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {
+        "DP": "discovery",
+        "PP": "discovery"
+      },
+      "expectedBehaviourTags": [
+        "identified-pain",
+        "asked-metrics",
+        "mapped-decision-criteria",
+        "named-competition",
+        "identified-eb"
+      ]
+    },
+    {
+      "id": "g04",
+      "type": "email",
+      "phase": "discovery",
+      "kind": "standard",
+      "speakerRoles": {
+        "From: Callum (Head of Data, Kestrel Payments)": "buyer"
+      },
+      "body": "From: Callum (Head of Data, Kestrel Payments)\nSubject: Following up on Tuesday\n\nHi, thanks for the session. I wanted to be upfront about where I am on this. I have been told to get the reconciliation backlog under control by year end and my own bonus is tied to how fast we clear it, so I have already shared your deck with Freya, our CFO, and flagged it as the option I prefer. She approves anything over fifty thousand and she will want to see a business case before it goes anywhere near procurement. The problem itself is simple to describe: every settlement mismatch lands on my analysts as a manual investigation and the queue never empties. I will let you know how Freya reacts. Callum",
+      "expected": {
+        "M": {
+          "evidence": 0
+        },
+        "E": {
+          "evidence": 2,
+          "quote": "She approves anything over fifty thousand and she will want to see a business case before it goes anywhere near procurement.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "every settlement mismatch lands on my analysts as a manual investigation and the queue never empties",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 2,
+          "quote": "my own bonus is tied to how fast we clear it, so I have already shared your deck with Freya, our CFO, and flagged it as the option I prefer",
+          "speaker": "buyer"
+        }
+      },
+      "notApplicable": {
+        "DP": "discovery",
+        "PP": "discovery",
+        "CO": "alternatives not raised"
+      },
+      "expectedBehaviourTags": []
+    },
+    {
+      "id": "g05",
+      "type": "note",
+      "phase": "discovery",
+      "kind": "rep-assertion",
+      "speakerRoles": {
+        "Rep": "rep"
+      },
+      "body": "Rep: Call notes, Vantage Freight, intro with Ruaridh (Transport Planning Lead). Good energy, he is clearly keen and replied to my follow-up within the hour, so I think we have our champion. Approver is probably the COO given the size of the spend, need to confirm. Pain is the manual route planning, which I explained costs firms like theirs roughly two planner days a week. They will want integrations, price and support like everyone else. I reckon we can show a fifteen percent fuel saving based on the Nordvik case. Next step: send the deck and propose a demo for the wider team. Overall a promising start, strong fit for our transport module.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 1
+        },
+        "DC": {
+          "evidence": 1
+        },
+        "I": {
+          "evidence": 1
+        },
+        "CH": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {
+        "DP": "discovery",
+        "PP": "discovery",
+        "CO": "alternatives not raised"
+      },
+      "expectedBehaviourTags": []
+    },
+    {
+      "id": "g06",
+      "type": "call",
+      "phase": "discovery",
+      "kind": "reversal",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Ines, Finance Systems Lead, Tessaly Pharma)": "buyer"
+      },
+      "body": "Rep: What is the problem you are trying to solve? Buyer (Ines, Finance Systems Lead, Tessaly Pharma): Intercompany reconciliation is done in spreadsheets across four entities and my team loses the last week of every month to it. Rep: How many hours is that? Buyer: About sixty hours a month across the team, and we want that under ten. Rep: Who signs off a purchase like this? Buyer: The CFO signs anything over a hundred thousand. Rep: Would you be able to get me time with the CFO? Buyer: Actually, wait, since the reorganisation in June it is the COO, Dario, who approves systems spend; the CFO only gets informed. Rep: Understood, so Dario. Could you introduce us? Buyer: I can ask, but I do not know him well. Rep: Fair enough. Let me send a summary and we can go from there.",
+      "expected": {
+        "M": {
+          "evidence": 2,
+          "quote": "About sixty hours a month across the team, and we want that under ten.",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 2,
+          "quote": "since the reorganisation in June it is the COO, Dario, who approves systems spend; the CFO only gets informed",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "Intercompany reconciliation is done in spreadsheets across four entities and my team loses the last week of every month to it.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 1
+        }
+      },
+      "reversal": {
+        "element": "E",
+        "earlierQuote": "The CFO signs anything over a hundred thousand.",
+        "rule": "later buyer statement wins"
+      },
+      "notApplicable": {
+        "DP": "discovery",
+        "PP": "discovery",
+        "CO": "alternatives not raised"
+      },
+      "expectedBehaviourTags": [
+        "identified-pain",
+        "asked-metrics",
+        "identified-eb",
+        "asked-eb-access",
+        "tested-champion"
+      ]
+    },
+    {
+      "id": "g07",
+      "type": "call",
+      "phase": "discovery",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Freya, Controller, Lumen Retail)": "buyer"
+      },
+      "body": "Rep: Before we go further, who else needs to be in the room, and can you set that up? Buyer (Freya, Controller, Lumen Retail): I already took this to Marta, our CFO, last week. She pushed hard on the cost and I walked her through the numbers myself; she has cleared Thursday at two for you and me. Rep: That is brilliant. What does fixing this mean for you personally? Buyer: My promotion case rests on getting the close automated this year, so I have a lot riding on it. Rep: What is the pain in your words? Buyer: Every close, two of my people rekey supplier invoices from the portal, and it is the part of the month everyone dreads. Rep: Is there a target? Buyer: Not a firm one yet. Rep: What will you judge us on? Buyer: Ease of use, mostly.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 3,
+          "quote": "she has cleared Thursday at two for you and me",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 1
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "Every close, two of my people rekey supplier invoices from the portal, and it is the part of the month everyone dreads.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 3,
+          "quote": "I already took this to Marta, our CFO, last week. She pushed hard on the cost and I walked her through the numbers myself; she has cleared Thursday at two for you and me.",
+          "speaker": "buyer"
+        }
+      },
+      "notApplicable": {
+        "DP": "discovery",
+        "PP": "discovery",
+        "CO": "alternatives not raised"
+      },
+      "expectedBehaviourTags": [
+        "tested-champion",
+        "developed-champion",
+        "asked-eb-access",
+        "identified-pain",
+        "asked-metrics",
+        "mapped-decision-criteria"
+      ]
+    },
+    {
+      "id": "g08",
+      "type": "call",
+      "phase": "discovery",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Pieter, Head of Analytics, Nordvik Energy)": "buyer"
+      },
+      "body": "Rep: What else is on the table besides us? Buyer (Pieter, Head of Analytics, Nordvik Energy): Two things. Our BI vendor bundles a module, but it cannot read the raw meter tables, only the modelled layer. And the platform team offered to build it, but that is six months we do not have. Rep: And if you did nothing for two quarters? Buyer: Then we miss another regulator submission, and the last one cost us a formal warning. Doing nothing is not an option. Rep: What is the cost of the problem today? Buyer: Roughly three analyst days per submission, and we do twelve a year. Rep: Tell me about how it shows up. Buyer: Every submission is hand-assembled from exports and somebody always finds an error after we have sent it. Rep: What would the evaluation look at? Buyer: Raw table access without a rewrite, and audit trails on every number.",
+      "expected": {
+        "M": {
+          "evidence": 2,
+          "quote": "Roughly three analyst days per submission, and we do twelve a year.",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 0
+        },
+        "DC": {
+          "evidence": 2,
+          "quote": "Raw table access without a rewrite, and audit trails on every number.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "Every submission is hand-assembled from exports and somebody always finds an error after we have sent it.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 0
+        },
+        "CO": {
+          "evidence": 3,
+          "quote": "Our BI vendor bundles a module, but it cannot read the raw meter tables, only the modelled layer. And the platform team offered to build it, but that is six months we do not have.",
+          "speaker": "buyer"
+        }
+      },
+      "notApplicable": {
+        "DP": "discovery",
+        "PP": "discovery"
+      },
+      "expectedBehaviourTags": [
+        "named-competition",
+        "tested-status-quo",
+        "asked-metrics",
+        "identified-pain",
+        "mapped-decision-criteria"
+      ]
+    },
+    {
+      "id": "g09",
+      "type": "email",
+      "phase": "discovery",
+      "kind": "pitch-monologue",
+      "speakerRoles": {
+        "From: Rep": "rep"
+      },
+      "body": "From: Rep\nSubject: Quick intro to our platform\n\nHi Tomasz, great to connect on the webinar. I wanted to share a few highlights. Our platform gives you a single workspace for contract lifecycle management with clause libraries, e-signature, approval routing and a reporting layer that most legal teams get value from in week one. We integrate with the major CRMs and document stores, we are ISO certified, and our customers typically report a forty percent reduction in contract turnaround time. I would love to show you a fifteen-minute demo of the redline comparison feature, which tends to be the favourite. I have pencilled in Thursday at ten if that works, otherwise send me a time. Looking forward to it. Best, Rep",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 0
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "I": {
+          "evidence": 0
+        },
+        "CH": {
+          "evidence": 0
+        }
+      },
+      "notApplicable": {
+        "DP": "discovery",
+        "PP": "discovery",
+        "CO": "alternatives not raised"
+      },
+      "expectedBehaviourTags": [],
+      "hygiene": {
+        "pitchBeforePain": true
+      }
+    },
+    {
+      "id": "g10",
+      "type": "call",
+      "phase": "discovery",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Ana, Warehouse Systems Lead, Vantage Freight)": "buyer"
+      },
+      "body": "Rep: I hear a lot of warehouse teams say their pick accuracy reporting is a day behind reality. Is that something you recognise? Buyer (Ana, Warehouse Systems Lead, Vantage Freight): Yes, I suppose it is a bit slow, we live with it. Rep: What does that cost you? Buyer: Hard to say, honestly. Rep: Is there anyone else who feels it more sharply? Buyer: Not really, it is mostly a nuisance for my team. Rep: Would you be open to a session with your operations lead too? Buyer: Maybe later, let us see what you have first. Rep: Of course. Shall I send some material over and we pick this up next week? Buyer: Sure, that works, send it across and I will take a look when I get a chance.",
+      "expected": {
+        "M": {
+          "evidence": 0
+        },
+        "E": {
+          "evidence": 0
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "I": {
+          "evidence": 1
+        },
+        "CH": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {
+        "DP": "discovery",
+        "PP": "discovery",
+        "CO": "alternatives not raised"
+      },
+      "expectedBehaviourTags": [
+        "identified-pain",
+        "asked-metrics",
+        "tested-champion"
+      ]
+    },
+    {
+      "id": "g11",
+      "type": "call",
+      "phase": "evaluation",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Elin, Head of Finance, Brindlewood Logistics)": "buyer"
+      },
+      "body": "Rep: Walk me from today to the day we would sign. Buyer (Elin, Head of Finance, Brindlewood Logistics): Technical sign-off from Ana's team first, then the security review, then it goes to the procurement committee, which meets on the first Monday. Rep: Who owns the security review and how long does it take? Buyer: Legal will need to have a look at it at some point, I am not sure who. Rep: What will the committee score us on? Buyer: Raw ledger access without a rewrite and no extra test work for my engineers. Rep: Who else is in the running? Buyer: We have a second proposal from the incumbent ERP vendor. Rep: Has Marta seen anything yet? Buyer: I sent her our internal write-up of the problem yesterday, and I would like her in the next session. Rep: Shall we hold Thursday for that? Buyer: Yes, put it in.",
+      "expected": {
+        "M": {
+          "evidence": 0
+        },
+        "E": {
+          "evidence": 2,
+          "quote": "I sent her our internal write-up of the problem yesterday, and I would like her in the next session.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 2,
+          "quote": "Raw ledger access without a rewrite and no extra test work for my engineers.",
+          "speaker": "buyer"
+        },
+        "DP": {
+          "evidence": 2,
+          "quote": "Technical sign-off from Ana's team first, then the security review, then it goes to the procurement committee, which meets on the first Monday.",
+          "speaker": "buyer"
+        },
+        "PP": {
+          "evidence": 1
+        },
+        "I": {
+          "evidence": 0
+        },
+        "CH": {
+          "evidence": 2,
+          "quote": "I sent her our internal write-up of the problem yesterday",
+          "speaker": "buyer"
+        },
+        "CO": {
+          "evidence": 2,
+          "quote": "We have a second proposal from the incumbent ERP vendor.",
+          "speaker": "buyer"
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "mapped-decision-process",
+        "asked-paper-process",
+        "mapped-decision-criteria",
+        "named-competition",
+        "asked-eb-access",
+        "secured-next-step"
+      ]
+    },
+    {
+      "id": "g12",
+      "type": "email",
+      "phase": "evaluation",
+      "kind": "standard",
+      "speakerRoles": {
+        "From: Freya (Controller, Lumen Retail)": "buyer"
+      },
+      "body": "From: Freya (Controller, Lumen Retail)\nSubject: Update from yesterday\n\nHi, quick update. I presented your numbers to Marta and the ops leads yesterday afternoon. Ops pushed back on migration risk and I used the reference call notes you sent to answer them, which landed well. Marta asked two questions about payback and then said she wants twenty minutes with you on Thursday; her assistant has already sent the invite. I also let her know I am the one who will own this internally if we go ahead. I will send you the questions ops raised so you can prepare. Thanks for the notes, they made the difference. Freya",
+      "expected": {
+        "M": {
+          "evidence": 0
+        },
+        "E": {
+          "evidence": 3,
+          "quote": "Marta asked two questions about payback and then said she wants twenty minutes with you on Thursday; her assistant has already sent the invite.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 0
+        },
+        "PP": {
+          "evidence": 0
+        },
+        "I": {
+          "evidence": 0
+        },
+        "CH": {
+          "evidence": 3,
+          "quote": "I presented your numbers to Marta and the ops leads yesterday afternoon. Ops pushed back on migration risk and I used the reference call notes you sent to answer them, which landed well.",
+          "speaker": "buyer"
+        },
+        "CO": {
+          "evidence": 0
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": []
+    },
+    {
+      "id": "g13",
+      "type": "call",
+      "phase": "evaluation",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Elin, Head of Finance, Brindlewood Logistics)": "buyer",
+        "Buyer 2 (Marta, CFO, Brindlewood Logistics)": "buyer"
+      },
+      "body": "Rep: Marta, thank you for joining. Is the five-day close the number you will hold this to? Buyer 2 (Marta, CFO, Brindlewood Logistics): Yes. Five-day close is the figure I have committed to the audit committee for the March year end, and finance has signed off the nine-day baseline. I can move the money out of the analytics budget if payback lands inside two quarters. Rep: Elin, can you confirm the steps? Buyer (Elin, Head of Finance, Brindlewood Logistics): Steering is on the fourteenth, Marta wants a decision before the budget lock on the thirtieth, and I have put your plan into our tracker with owners against each step. Buyer 2: That matches my calendar. Rep: And the paperwork? Buyer: Security review is Tomasz's team and it usually takes about six weeks, and we will want to use our own MSA. Rep: So to confirm: steering on the fourteenth, decision by the thirtieth, security in parallel. Buyer 2: Correct.",
+      "expected": {
+        "M": {
+          "evidence": 3,
+          "quote": "Five-day close is the figure I have committed to the audit committee for the March year end, and finance has signed off the nine-day baseline.",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 3,
+          "quote": "I can move the money out of the analytics budget if payback lands inside two quarters.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 3,
+          "quote": "Steering is on the fourteenth, Marta wants a decision before the budget lock on the thirtieth, and I have put your plan into our tracker with owners against each step.",
+          "speaker": "buyer"
+        },
+        "PP": {
+          "evidence": 2,
+          "quote": "Security review is Tomasz's team and it usually takes about six weeks, and we will want to use our own MSA.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 0
+        },
+        "CH": {
+          "evidence": 2,
+          "quote": "I have put your plan into our tracker with owners against each step",
+          "speaker": "buyer"
+        },
+        "CO": {
+          "evidence": 0
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "engaged-eb",
+        "quantified-impact",
+        "mapped-decision-process",
+        "agreed-mutual-plan",
+        "asked-paper-process",
+        "multi-threaded",
+        "summarised-and-confirmed"
+      ]
+    },
+    {
+      "id": "g14",
+      "type": "note",
+      "phase": "evaluation",
+      "kind": "rep-assertion",
+      "speakerRoles": {
+        "Rep": "rep"
+      },
+      "body": "Rep: Deal review notes, Halvorsen Marine. Security will probably take six weeks like it did on the last vendor they bought, and the procurement committee meets monthly, so I am pencilling a March close. Sinead is our champion, she is very responsive and clearly likes the product. The approver will be the CTO, I would guess, since crewing sits under technology. The main competitor is likely the incumbent crewing suite, though nobody has said so. Pain is the in-house tool breaking on rota changes, which I estimate costs them a day of engineering a week. Criteria will be offline support, integration and admin effort. Target saving in my model is forty percent of engineering time. Next: chase Sinead for the security contact.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 1
+        },
+        "DC": {
+          "evidence": 1
+        },
+        "DP": {
+          "evidence": 1
+        },
+        "PP": {
+          "evidence": 1
+        },
+        "I": {
+          "evidence": 1
+        },
+        "CH": {
+          "evidence": 1
+        },
+        "CO": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": []
+    },
+    {
+      "id": "g15",
+      "type": "call",
+      "phase": "evaluation",
+      "kind": "reversal",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Ines, Finance Systems Lead, Tessaly Pharma)": "buyer"
+      },
+      "body": "Rep: Remind me how the decision gets made from here. Buyer (Ines, Finance Systems Lead, Tessaly Pharma): The systems committee reviews it in March and then it goes for sign-off. Rep: Who sits on that committee? Buyer: Sorry, scratch that. The committee was dissolved last month; now it is Dario alone who decides, after a technical check by my team, and he wants it on his desk by the twentieth of February. Rep: So technical check by your team, then Dario by the twentieth. Buyer: Exactly. Rep: What does the current process cost you? Buyer: About sixty hours a month, and we want it under ten. Rep: And the problem in your words? Buyer: Four entities reconciled in spreadsheets, and my team loses a week every month to it. Rep: Does Dario need anything from me before then? Buyer: A one-page summary I can hand him, and I will pass it on.",
+      "expected": {
+        "M": {
+          "evidence": 2,
+          "quote": "About sixty hours a month, and we want it under ten.",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 2,
+          "quote": "now it is Dario alone who decides, after a technical check by my team, and he wants it on his desk by the twentieth of February",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 2,
+          "quote": "now it is Dario alone who decides, after a technical check by my team, and he wants it on his desk by the twentieth of February",
+          "speaker": "buyer"
+        },
+        "PP": {
+          "evidence": 0
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "Four entities reconciled in spreadsheets, and my team loses a week every month to it.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 1
+        },
+        "CO": {
+          "evidence": 0
+        }
+      },
+      "reversal": {
+        "element": "DP",
+        "earlierQuote": "The systems committee reviews it in March and then it goes for sign-off.",
+        "rule": "later buyer statement wins"
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "mapped-decision-process",
+        "summarised-and-confirmed",
+        "asked-metrics",
+        "identified-pain"
+      ]
+    },
+    {
+      "id": "g16",
+      "type": "call",
+      "phase": "evaluation",
+      "kind": "pitch-monologue",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Tomasz, Security Lead, Kestrel Payments)": "buyer"
+      },
+      "body": "Rep: So this is the admin console. From here you can configure every workflow, and unlike the incumbent tools in your space we do not charge per connector. Our benchmark data shows customers reduce manual reconciliation effort by half within a quarter. Over here is the audit view, which most compliance teams love, and the anomaly detection runs on every batch automatically. We also ship a mobile approval flow, single sign-on out of the box, and role-based permissions down to field level. I will now show you the reporting layer, which has forty prebuilt templates. After that I will cover the roadmap for the next two releases and the partner ecosystem. Then I can send pricing and a proposed rollout plan. Buyer (Tomasz, Security Lead, Kestrel Payments): Okay.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 0
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 0
+        },
+        "PP": {
+          "evidence": 0
+        },
+        "I": {
+          "evidence": 0
+        },
+        "CH": {
+          "evidence": 0
+        },
+        "CO": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [],
+      "hygiene": {
+        "pitchBeforePain": true
+      }
+    },
+    {
+      "id": "g17",
+      "type": "email",
+      "phase": "evaluation",
+      "kind": "rep-assertion",
+      "speakerRoles": {
+        "From: Rep": "rep"
+      },
+      "body": "From: Rep\nSubject: Summary and proposed plan\n\nHi Pieter, thanks again for today. My understanding of where we are: the problem is the hand-assembled regulator submissions, costing roughly three analyst days each by my estimate. Your evaluation criteria are raw table access and audit trails. I believe the decision goes through your platform steering group with a target of the end of the quarter, and that security review will take around four weeks based on similar customers. I understand your director of analytics will be the final approver, and that the BI vendor's module is the main alternative. Proposed plan: technical session next week, security questionnaire in parallel, then commercial proposal. Could you confirm or correct any of this and tell me if Wednesday at eleven works for the technical session? Best, Rep",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 1
+        },
+        "DC": {
+          "evidence": 1
+        },
+        "DP": {
+          "evidence": 1
+        },
+        "PP": {
+          "evidence": 1
+        },
+        "I": {
+          "evidence": 1
+        },
+        "CH": {
+          "evidence": 1
+        },
+        "CO": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "summarised-and-confirmed",
+        "secured-next-step"
+      ]
+    },
+    {
+      "id": "g18",
+      "type": "call",
+      "phase": "evaluation",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Pieter, Head of Analytics, Nordvik Energy)": "buyer"
+      },
+      "body": "Rep: How did the scoring sheet end up? Buyer (Pieter, Head of Analytics, Nordvik Energy): After your session we added no new test burden to the sheet at thirty percent, and both Ana and I have signed it off. Rep: Where do the alternatives stand? Buyer: The bundled module cannot read raw tables, hiring would take six months we do not have, and carrying on as we are means another missed submission, which is not an option. Rep: What is the cost of another miss? Buyer: Three analyst days per submission, twelve a year, and a second formal warning would put my role under review before the December audit. Rep: Who approves? Buyer: Katrin, our CFO, above fifty thousand. Rep: Steps from here? Buyer: Technical check, then Katrin, then procurement. Rep: And the contracting side? Buyer: Legal is Elin's team, usually four weeks, and we use our own DPA. Rep: Could you share the sheet with me? Buyer: Sending it now.",
+      "expected": {
+        "M": {
+          "evidence": 2,
+          "quote": "Three analyst days per submission, twelve a year",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 2,
+          "quote": "Katrin, our CFO, above fifty thousand.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 3,
+          "quote": "After your session we added no new test burden to the sheet at thirty percent, and both Ana and I have signed it off.",
+          "speaker": "buyer"
+        },
+        "DP": {
+          "evidence": 2,
+          "quote": "Technical check, then Katrin, then procurement.",
+          "speaker": "buyer"
+        },
+        "PP": {
+          "evidence": 2,
+          "quote": "Legal is Elin's team, usually four weeks, and we use our own DPA.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 3,
+          "quote": "Three analyst days per submission, twelve a year, and a second formal warning would put my role under review before the December audit.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 2,
+          "quote": "Sending it now.",
+          "speaker": "buyer"
+        },
+        "CO": {
+          "evidence": 3,
+          "quote": "The bundled module cannot read raw tables, hiring would take six months we do not have, and carrying on as we are means another missed submission, which is not an option.",
+          "speaker": "buyer"
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "shaped-decision-criteria",
+        "positioned-differentiation",
+        "tested-status-quo",
+        "implicated-pain",
+        "identified-eb",
+        "mapped-decision-process",
+        "asked-paper-process",
+        "tested-champion"
+      ]
+    },
+    {
+      "id": "g19",
+      "type": "call",
+      "phase": "evaluation",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Ruaridh, Transport Planning Lead, Vantage Freight)": "buyer"
+      },
+      "body": "Rep: Could you introduce me to whoever owns the budget for this? Buyer (Ruaridh, Transport Planning Lead, Vantage Freight): Let me take it to my team first and see what they think. Rep: Of course. What does the planning problem look like day to day? Buyer: Every evening two planners rebuild tomorrow's routes by hand because the depot data arrives late, and it is the planners who take the blame when a truck leaves half empty. Rep: What would better look like? Buyer: Faster, and fewer half-empty trucks. Rep: A number? Buyer: I could not say. Rep: What has to be true for you to choose a vendor? Buyer: It must take the depot feed as it is, with no reformatting, and planners must be able to override a route in under a minute. Rep: Timing? Buyer: Hopefully this quarter. Rep: Anyone else you are looking at? Buyer: No, just you at the moment.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 0
+        },
+        "DC": {
+          "evidence": 2,
+          "quote": "It must take the depot feed as it is, with no reformatting, and planners must be able to override a route in under a minute.",
+          "speaker": "buyer"
+        },
+        "DP": {
+          "evidence": 1
+        },
+        "PP": {
+          "evidence": 0
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "Every evening two planners rebuild tomorrow's routes by hand because the depot data arrives late, and it is the planners who take the blame when a truck leaves half empty.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 1
+        },
+        "CO": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "asked-eb-access",
+        "tested-champion",
+        "identified-pain",
+        "asked-metrics",
+        "mapped-decision-criteria",
+        "mapped-decision-process",
+        "named-competition"
+      ]
+    },
+    {
+      "id": "g20",
+      "type": "email",
+      "phase": "evaluation",
+      "kind": "standard",
+      "speakerRoles": {
+        "From: Bram (Procurement Manager, Ostara Foods)": "buyer"
+      },
+      "body": "From: Bram (Procurement Manager, Ostara Foods)\nSubject: Vendor onboarding, next steps\n\nHello, following the evaluation team's recommendation I am picking this up from the procurement side. Please find attached our vendor security questionnaire; procurement has opened the onboarding ticket and legal has committed to returning redlines on your MSA by the twentieth. Once security clears, the contract goes to Katrin, our CFO, for signature at the month-end approvals meeting on the twenty-eighth; she signs all software above forty thousand. Please return the questionnaire within ten working days so we hold the slot. Let me know if you need a call to go through it. Regards, Bram",
+      "expected": {
+        "M": {
+          "evidence": 0
+        },
+        "E": {
+          "evidence": 2,
+          "quote": "the contract goes to Katrin, our CFO, for signature at the month-end approvals meeting on the twenty-eighth; she signs all software above forty thousand",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 2,
+          "quote": "Once security clears, the contract goes to Katrin, our CFO, for signature at the month-end approvals meeting on the twenty-eighth",
+          "speaker": "buyer"
+        },
+        "PP": {
+          "evidence": 3,
+          "quote": "Please find attached our vendor security questionnaire; procurement has opened the onboarding ticket and legal has committed to returning redlines on your MSA by the twentieth.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 0
+        },
+        "CH": {
+          "evidence": 0
+        },
+        "CO": {
+          "evidence": 0
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": []
+    },
+    {
+      "id": "g21",
+      "type": "call",
+      "phase": "proposal",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Katrin, CFO, Nordvik Energy)": "buyer",
+        "Buyer 2 (Pieter, Head of Analytics, Nordvik Energy)": "buyer"
+      },
+      "body": "Rep: Katrin, is the submission effort the number you will hold this to? Buyer (Katrin, CFO, Nordvik Energy): Yes. Three analyst days per submission down to under one, twelve submissions a year, and I want it evidenced by the June regulator cycle; finance has checked the baseline. This is funded from my transformation line and it sits above the two other requests on my desk. Rep: What does another miss mean? Buyer: A second warning triggers a formal review of my department, and I would be the one explaining it to the board in December. Rep: Pieter, the plan? Buyer 2 (Pieter, Head of Analytics, Nordvik Energy): Katrin signs after the technical sign-off on the ninth; procurement is booked for the sixteenth; the plan you sent is in our tracker with owners. Rep: Contracting? Buyer 2: Legal is Elin's team, four weeks, on our DPA. Rep: Then next step is the technical sign-off on the ninth. Buyer: Agreed.",
+      "expected": {
+        "M": {
+          "evidence": 3,
+          "quote": "Three analyst days per submission down to under one, twelve submissions a year, and I want it evidenced by the June regulator cycle; finance has checked the baseline.",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 3,
+          "quote": "This is funded from my transformation line and it sits above the two other requests on my desk.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 3,
+          "quote": "Katrin signs after the technical sign-off on the ninth; procurement is booked for the sixteenth; the plan you sent is in our tracker with owners.",
+          "speaker": "buyer"
+        },
+        "PP": {
+          "evidence": 2,
+          "quote": "Legal is Elin's team, four weeks, on our DPA.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 3,
+          "quote": "A second warning triggers a formal review of my department, and I would be the one explaining it to the board in December.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 2,
+          "quote": "the plan you sent is in our tracker with owners",
+          "speaker": "buyer"
+        },
+        "CO": {
+          "evidence": 0
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "engaged-eb",
+        "quantified-impact",
+        "implicated-pain",
+        "mapped-decision-process",
+        "agreed-mutual-plan",
+        "asked-paper-process",
+        "secured-next-step",
+        "multi-threaded"
+      ]
+    },
+    {
+      "id": "g22",
+      "type": "note",
+      "phase": "proposal",
+      "kind": "rep-assertion",
+      "speakerRoles": {
+        "Rep": "rep"
+      },
+      "body": "Rep: Proposal sent to Kestrel Payments today. Freya the CFO is bought in from what Callum tells me, and Callum is a strong champion who will carry this through. No competition to speak of; they are not looking at anyone else as far as I know. Legal should be straightforward, they are a modern company and I expect a two-week turnaround. Decision is expected before the end of the quarter, probably via Freya after Callum's team reviews. The pain is the reconciliation backlog, which I estimate at three analysts full time. My ROI model shows payback in seven months. Criteria will come down to accuracy and ease of rollout. Forecast: commit for this quarter, high confidence.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 1
+        },
+        "DC": {
+          "evidence": 1
+        },
+        "DP": {
+          "evidence": 1
+        },
+        "PP": {
+          "evidence": 1
+        },
+        "I": {
+          "evidence": 1
+        },
+        "CH": {
+          "evidence": 1
+        },
+        "CO": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": []
+    },
+    {
+      "id": "g23",
+      "type": "call",
+      "phase": "proposal",
+      "kind": "reversal",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Callum, Head of Data, Kestrel Payments)": "buyer"
+      },
+      "body": "Rep: Before I finalise pricing, is anyone else in the frame? Buyer (Callum, Head of Data, Kestrel Payments): No, just you, we have not spoken to anyone else. Rep: Okay. And the problem is still the mismatch queue? Buyer: Yes. Every settlement mismatch becomes a manual investigation for my analysts and the queue never empties; it is about four hundred cases a month and Freya wants it under fifty by the autumn audit. Rep: Who approves? Buyer: Freya, our CFO, signs above fifty thousand. Rep: Timing? Buyer: Hopefully next month. Rep: Anything else I should know? Buyer: Actually, I should be straight with you. We have a second proposal from our BI vendor, and the platform team has offered to build it themselves. Rep: Thank you for telling me. If you did nothing, what happens? Buyer: The queue keeps growing, I suppose.",
+      "expected": {
+        "M": {
+          "evidence": 2,
+          "quote": "it is about four hundred cases a month and Freya wants it under fifty by the autumn audit",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 2,
+          "quote": "Freya, our CFO, signs above fifty thousand.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 1
+        },
+        "PP": {
+          "evidence": 1
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "Every settlement mismatch becomes a manual investigation for my analysts and the queue never empties",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 1
+        },
+        "CO": {
+          "evidence": 2,
+          "quote": "We have a second proposal from our BI vendor, and the platform team has offered to build it themselves.",
+          "speaker": "buyer"
+        }
+      },
+      "reversal": {
+        "element": "CO",
+        "earlierQuote": "No, just you, we have not spoken to anyone else.",
+        "rule": "later buyer statement wins"
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "named-competition",
+        "tested-status-quo",
+        "identified-pain",
+        "identified-eb",
+        "mapped-decision-process"
+      ]
+    },
+    {
+      "id": "g24",
+      "type": "email",
+      "phase": "proposal",
+      "kind": "standard",
+      "speakerRoles": {
+        "From: Freya (Controller, Lumen Retail)": "buyer"
+      },
+      "body": "From: Freya (Controller, Lumen Retail)\nSubject: Proposal review outcome\n\nHi, I took your proposal into the finance leadership meeting this morning without you, as we agreed. Marta questioned the year-two pricing and I defended it using the payback table; ops raised migration again and I used the reference notes. Outcome: Marta has asked me to bring a final version to her on the twelfth, and she signs it herself as the budget holder above eighty thousand, no committee. On paperwork, security review is Tomasz's team and it usually takes about six weeks, and we will want to use our own MSA. If you can get the questionnaire back quickly we can run it in parallel. Freya",
+      "expected": {
+        "M": {
+          "evidence": 0
+        },
+        "E": {
+          "evidence": 2,
+          "quote": "she signs it herself as the budget holder above eighty thousand, no committee",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 2,
+          "quote": "Marta has asked me to bring a final version to her on the twelfth, and she signs it herself as the budget holder above eighty thousand, no committee.",
+          "speaker": "buyer"
+        },
+        "PP": {
+          "evidence": 2,
+          "quote": "security review is Tomasz's team and it usually takes about six weeks, and we will want to use our own MSA",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 0
+        },
+        "CH": {
+          "evidence": 3,
+          "quote": "I took your proposal into the finance leadership meeting this morning without you, as we agreed. Marta questioned the year-two pricing and I defended it using the payback table; ops raised migration again and I used the reference notes.",
+          "speaker": "buyer"
+        },
+        "CO": {
+          "evidence": 0
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": []
+    },
+    {
+      "id": "g25",
+      "type": "call",
+      "phase": "proposal",
+      "kind": "pitch-monologue",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Dario, COO, Tessaly Pharma)": "buyer"
+      },
+      "body": "Rep: Dario, thanks for joining. I will take you through the proposal. As you know, intercompany reconciliation is a huge drain on finance teams like yours, and our model shows a saving of roughly fifty hours a month, which pays back the licence in under a year. Unlike the spreadsheet add-ins some of our competitors sell, we are a proper platform with an audit trail, and their approach tends to break at scale. Page two shows the rollout: four weeks to go live with our onboarding team. Page three is pricing, with a ten percent discount if we sign this month. Page four is the reference list. I am confident this is the right fit and I would suggest we move to contract this week. Buyer (Dario, COO, Tessaly Pharma): Thanks, I will read it.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 0
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 0
+        },
+        "PP": {
+          "evidence": 0
+        },
+        "I": {
+          "evidence": 1
+        },
+        "CH": {
+          "evidence": 0
+        },
+        "CO": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [],
+      "hygiene": {
+        "pitchBeforePain": true
+      }
+    },
+    {
+      "id": "g26",
+      "type": "call",
+      "phase": "proposal",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Bram, Procurement Manager, Ostara Foods)": "buyer",
+        "Buyer 2 (Ana, Evaluation Lead, Ostara Foods)": "buyer"
+      },
+      "body": "Rep: Where are we on the contracting side? Buyer (Bram, Procurement Manager, Ostara Foods): Your questionnaire cleared security on Monday, the vendor code was issued yesterday, and legal have promised the last redlines by Friday. Rep: And the decision steps from here? Buyer 2 (Ana, Evaluation Lead, Ostara Foods): Final review with Katrin on the twenty-second, then her signature at the month-end approvals meeting on the twenty-eighth; that meeting is the deadline because the budget rolls over on the first. I have updated the shared plan with those dates and owners. Buyer: That matches what I have. Rep: Katrin signs above forty thousand? Buyer 2: Yes, she is the budget holder. Rep: Is the incumbent still in the running? Buyer 2: They are, on price mainly. Rep: Then shall I send the signed-off pricing before the twenty-second? Buyer 2: Please, by Thursday.",
+      "expected": {
+        "M": {
+          "evidence": 0
+        },
+        "E": {
+          "evidence": 2,
+          "quote": "Yes, she is the budget holder.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 3,
+          "quote": "Final review with Katrin on the twenty-second, then her signature at the month-end approvals meeting on the twenty-eighth; that meeting is the deadline because the budget rolls over on the first.",
+          "speaker": "buyer"
+        },
+        "PP": {
+          "evidence": 3,
+          "quote": "Your questionnaire cleared security on Monday, the vendor code was issued yesterday, and legal have promised the last redlines by Friday.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 0
+        },
+        "CH": {
+          "evidence": 2,
+          "quote": "I have updated the shared plan with those dates and owners.",
+          "speaker": "buyer"
+        },
+        "CO": {
+          "evidence": 2,
+          "quote": "They are, on price mainly.",
+          "speaker": "buyer"
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "asked-paper-process",
+        "mapped-decision-process",
+        "identified-eb",
+        "named-competition",
+        "secured-next-step",
+        "multi-threaded"
+      ]
+    },
+    {
+      "id": "g27",
+      "type": "call",
+      "phase": "proposal",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Sinead, IT Manager, Halvorsen Marine)": "buyer"
+      },
+      "body": "Rep: Before I send the proposal, what number would you want it to move? Buyer (Sinead, IT Manager, Halvorsen Marine): Fewer weekend calls, really. Rep: Our customers usually see a sixty percent drop in scheduling incidents, would that be the measure? Buyer: I guess so. Rep: And the problem is still the tool breaking on rota changes? Buyer: Yes, it is annoying. Rep: What will the decision come down to? Buyer: Price, support, the usual. Rep: Walk me through the steps to sign? Buyer: Sometime this quarter, I would think. Rep: Who handles contracts on your side? Buyer: Legal will look at it at some point. Rep: Alright, I will send the proposal today and we can regroup next week. Buyer: Fine.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 0
+        },
+        "DC": {
+          "evidence": 1
+        },
+        "DP": {
+          "evidence": 1
+        },
+        "PP": {
+          "evidence": 1
+        },
+        "I": {
+          "evidence": 1
+        },
+        "CH": {
+          "evidence": 0
+        },
+        "CO": {
+          "evidence": 0
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "asked-metrics",
+        "identified-pain",
+        "mapped-decision-criteria",
+        "mapped-decision-process",
+        "asked-paper-process"
+      ]
+    },
+    {
+      "id": "g28",
+      "type": "call",
+      "phase": "commit",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Marta, CFO, Brindlewood Logistics)": "buyer",
+        "Buyer 2 (Elin, Head of Finance, Brindlewood Logistics)": "buyer"
+      },
+      "body": "Rep: Marta, thank you for joining the final call. Buyer (Marta, CFO, Brindlewood Logistics): I have approved the spend from the analytics line; I sign on the thirtieth once legal is done, and this is the priority for my team this quarter. Rep: Elin, the paperwork? Buyer 2 (Elin, Head of Finance, Brindlewood Logistics): Security cleared you on Tuesday, procurement issued the vendor code, and legal has sent the final redlines back this morning for your countersign. Rep: And the remaining steps? Buyer 2: Countersign by Friday, then Marta signs on the thirtieth ahead of the budget lock on the thirty-first; it is in the tracker with owners. Rep: You have carried this internally, Elin. Buyer 2: I presented it at steering on the fourteenth, took the questions on migration myself, and got the ops leads to back it; this close is my project. Rep: The target remains five days? Buyer: Five days from nine, by the March year end.",
+      "expected": {
+        "M": {
+          "evidence": 2,
+          "quote": "Five days from nine, by the March year end.",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 3,
+          "quote": "I have approved the spend from the analytics line; I sign on the thirtieth once legal is done, and this is the priority for my team this quarter.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 3,
+          "quote": "Countersign by Friday, then Marta signs on the thirtieth ahead of the budget lock on the thirty-first; it is in the tracker with owners.",
+          "speaker": "buyer"
+        },
+        "PP": {
+          "evidence": 3,
+          "quote": "Security cleared you on Tuesday, procurement issued the vendor code, and legal has sent the final redlines back this morning for your countersign.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 0
+        },
+        "CH": {
+          "evidence": 3,
+          "quote": "I presented it at steering on the fourteenth, took the questions on migration myself, and got the ops leads to back it; this close is my project.",
+          "speaker": "buyer"
+        },
+        "CO": {
+          "evidence": 0
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "engaged-eb",
+        "asked-paper-process",
+        "mapped-decision-process",
+        "asked-metrics",
+        "multi-threaded"
+      ]
+    },
+    {
+      "id": "g29",
+      "type": "email",
+      "phase": "commit",
+      "kind": "standard",
+      "speakerRoles": {
+        "From: Tomasz (Legal Counsel, Kestrel Payments)": "buyer"
+      },
+      "body": "From: Tomasz (Legal Counsel, Kestrel Payments)\nSubject: Contract review timing\n\nHello, I have been asked to handle the contract from our side. Legal review sits with me and normally takes three weeks for a SaaS agreement of this size; the data processing addendum goes to our privacy officer, Ines, who usually needs a further week. We will work from our standard MSA rather than yours. Once I clear it, the agreement goes to Freya, our CFO, who signs all software contracts above fifty thousand, and then to procurement to raise the order. Please send your latest security certificate so I can attach it to the file. Regards, Tomasz",
+      "expected": {
+        "M": {
+          "evidence": 0
+        },
+        "E": {
+          "evidence": 2,
+          "quote": "the agreement goes to Freya, our CFO, who signs all software contracts above fifty thousand",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 2,
+          "quote": "Once I clear it, the agreement goes to Freya, our CFO, who signs all software contracts above fifty thousand, and then to procurement to raise the order.",
+          "speaker": "buyer"
+        },
+        "PP": {
+          "evidence": 2,
+          "quote": "Legal review sits with me and normally takes three weeks for a SaaS agreement of this size; the data processing addendum goes to our privacy officer, Ines, who usually needs a further week.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 0
+        },
+        "CH": {
+          "evidence": 0
+        },
+        "CO": {
+          "evidence": 0
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": []
+    },
+    {
+      "id": "g30",
+      "type": "note",
+      "phase": "commit",
+      "kind": "rep-assertion",
+      "speakerRoles": {
+        "Rep": "rep"
+      },
+      "body": "Rep: Forecast note, Tessaly Pharma. Verbal yes from Dario the COO on Friday, so I am moving this to commit. Paperwork should be fine, they are a pharma company so legal will be thorough but I expect two weeks at most. Ines says it will all be done by the end of the month and she is fully behind us. No competitor has come up. The saving in my model is fifty hours a month, which is the pain we have been discussing all along. Criteria were audit trail and ease of rollout as far as I recall. Decision is basically made; just waiting on signature routing. Confidence high.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 1
+        },
+        "DC": {
+          "evidence": 1
+        },
+        "DP": {
+          "evidence": 1
+        },
+        "PP": {
+          "evidence": 1
+        },
+        "I": {
+          "evidence": 1
+        },
+        "CH": {
+          "evidence": 1
+        },
+        "CO": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": []
+    },
+    {
+      "id": "g31",
+      "type": "call",
+      "phase": "commit",
+      "kind": "reversal",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Dario, COO, Tessaly Pharma)": "buyer",
+        "Buyer 2 (Ines, Finance Systems Lead, Tessaly Pharma)": "buyer"
+      },
+      "body": "Rep: Where is legal at? Buyer 2 (Ines, Finance Systems Lead, Tessaly Pharma): Legal has cleared it, we are just waiting on Dario's signature. Buyer (Dario, COO, Tessaly Pharma): I have the budget released and this is my top systems priority; I will sign as soon as it lands. Buyer 2: Hold on, I have just seen a message. Legal has flagged the data processing clause, it sits with Lotte in legal and she needs another two weeks, then the privacy officer signs off. Rep: So legal with Lotte, two weeks, then privacy, then Dario signs. Buyer 2: Yes, and I have moved the dates in our shared plan. Buyer: Correct, then it comes to me. Rep: Dario, does that timing still work for you? Buyer: Yes, provided it is before the quarter closes.",
+      "expected": {
+        "M": {
+          "evidence": 0
+        },
+        "E": {
+          "evidence": 3,
+          "quote": "I have the budget released and this is my top systems priority; I will sign as soon as it lands.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 2,
+          "quote": "she needs another two weeks, then the privacy officer signs off",
+          "speaker": "buyer"
+        },
+        "PP": {
+          "evidence": 2,
+          "quote": "Legal has flagged the data processing clause, it sits with Lotte in legal and she needs another two weeks, then the privacy officer signs off.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 0
+        },
+        "CH": {
+          "evidence": 2,
+          "quote": "I have moved the dates in our shared plan",
+          "speaker": "buyer"
+        },
+        "CO": {
+          "evidence": 0
+        }
+      },
+      "reversal": {
+        "element": "PP",
+        "earlierQuote": "Legal has cleared it, we are just waiting on Dario's signature.",
+        "rule": "later buyer statement wins"
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "asked-paper-process",
+        "summarised-and-confirmed",
+        "engaged-eb",
+        "multi-threaded"
+      ]
+    },
+    {
+      "id": "g32",
+      "type": "call",
+      "phase": "commit",
+      "kind": "pitch-monologue",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Ruaridh, Transport Planning Lead, Vantage Freight)": "buyer"
+      },
+      "body": "Rep: Ruaridh, I wanted to get this over the line today. As I said in the proposal, our customers see fifteen percent fuel savings on average and the licence pays for itself in months. I have already put the contract into our e-signature tool, so it is just a case of your legal team clicking through; that normally takes a couple of days at most. From what I understand the decision is made and it is only signature routing left, so if we can get it done by Friday I can hold the discount. I will also line up onboarding for the first week of next month and send the kickoff agenda. Does Friday work? Buyer (Ruaridh, Transport Planning Lead, Vantage Freight): I will need to check.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 0
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 1
+        },
+        "PP": {
+          "evidence": 1
+        },
+        "I": {
+          "evidence": 0
+        },
+        "CH": {
+          "evidence": 0
+        },
+        "CO": {
+          "evidence": 0
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [],
+      "hygiene": {
+        "pitchBeforePain": true
+      }
+    },
+    {
+      "id": "g33",
+      "type": "call",
+      "phase": "evaluation",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Ana, Warehouse Systems Lead, Vantage Freight)": "buyer",
+        "Buyer 2 (Ruaridh, Transport Planning Lead, Vantage Freight)": "buyer"
+      },
+      "body": "Rep: How did the evaluation sheet land after last week? Buyer (Ana, Warehouse Systems Lead, Vantage Freight): We wrote it up properly. Five rows, weighted: depot feed as-is at thirty percent, override speed at twenty-five, price at twenty, support at fifteen, and the audit trail row you suggested at ten; Ruaridh and I both signed it off and it went to the steering pack. Buyer 2 (Ruaridh, Transport Planning Lead, Vantage Freight): Agreed, that is the sheet. Rep: What is the cost of the problem today? Buyer 2: Two planners lose three hours every evening rebuilding routes, and we want that under thirty minutes. Rep: How does it show up? Buyer 2: Half-empty trucks leave and the planners take the blame. Rep: Who approves, and when? Buyer: Probably the operations director, sometime this quarter. Rep: Anyone else you are considering? Buyer: Not really, maybe the incumbent.",
+      "expected": {
+        "M": {
+          "evidence": 2,
+          "quote": "Two planners lose three hours every evening rebuilding routes, and we want that under thirty minutes.",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 1
+        },
+        "DC": {
+          "evidence": 3,
+          "quote": "Five rows, weighted: depot feed as-is at thirty percent, override speed at twenty-five, price at twenty, support at fifteen, and the audit trail row you suggested at ten; Ruaridh and I both signed it off and it went to the steering pack.",
+          "speaker": "buyer"
+        },
+        "DP": {
+          "evidence": 1
+        },
+        "PP": {
+          "evidence": 0
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "Half-empty trucks leave and the planners take the blame.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 1
+        },
+        "CO": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "mapped-decision-criteria",
+        "shaped-decision-criteria",
+        "asked-metrics",
+        "identified-pain",
+        "identified-eb",
+        "mapped-decision-process",
+        "named-competition",
+        "multi-threaded"
+      ]
+    },
+    {
+      "id": "g34",
+      "type": "note",
+      "phase": "evaluation",
+      "kind": "rep-assertion",
+      "speakerRoles": {
+        "Rep": "rep"
+      },
+      "body": "Rep: Post-demo notes, Lumen Retail. Demo went well, Freya was engaged throughout and is clearly our champion. Marta the CFO will be the approver, I would think, given the amount. Criteria as I see them are ease of use and integration with their portal. The pain is the invoice rekeying, probably costing them a couple of days a month per person. Decision likely by the end of the quarter via Marta; security will be a formality, they use the same tooling as our other retail customers, so I expect a month. The only real competitor is the incumbent, who they are unhappy with. My model gives a forty percent reduction in close effort. Next: send pricing and propose a workshop with finance.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 1
+        },
+        "DC": {
+          "evidence": 1
+        },
+        "DP": {
+          "evidence": 1
+        },
+        "PP": {
+          "evidence": 1
+        },
+        "I": {
+          "evidence": 1
+        },
+        "CH": {
+          "evidence": 1
+        },
+        "CO": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": []
+    },
+    {
+      "id": "g35",
+      "type": "call",
+      "phase": "proposal",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Sinead, IT Manager, Halvorsen Marine)": "buyer",
+        "Buyer 2 (Lotte, Operations Director, Halvorsen Marine)": "buyer"
+      },
+      "body": "Rep: Lotte, is the incident number the one that matters to you? Buyer 2 (Lotte, Operations Director, Halvorsen Marine): It is. We log about forty scheduling incidents a month and I need that under ten before the summer season starts in May; Sinead pulled the baseline from the ticketing system this week and I report that figure to the board monthly. Buyer (Sinead, IT Manager, Halvorsen Marine): Confirmed, forty is the average over six months. Rep: Where do the other options stand? Buyer 2: The incumbent crewing suite cannot run offline on the vessels, rebuilding our own tool means another year of weekend patching, and doing nothing means we cannot crew the extra summer routes, which is not acceptable. Rep: Who signs? Buyer: Lotte, above sixty thousand. Rep: Timing? Buyer 2: Before May, ideally. Rep: And the problem in one line? Buyer: The in-house tool breaks on every rota change and my engineers patch it at weekends.",
+      "expected": {
+        "M": {
+          "evidence": 3,
+          "quote": "We log about forty scheduling incidents a month and I need that under ten before the summer season starts in May; Sinead pulled the baseline from the ticketing system this week and I report that figure to the board monthly.",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 2,
+          "quote": "Lotte, above sixty thousand.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 1
+        },
+        "PP": {
+          "evidence": 0
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "The in-house tool breaks on every rota change and my engineers patch it at weekends.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 1
+        },
+        "CO": {
+          "evidence": 3,
+          "quote": "The incumbent crewing suite cannot run offline on the vessels, rebuilding our own tool means another year of weekend patching, and doing nothing means we cannot crew the extra summer routes, which is not acceptable.",
+          "speaker": "buyer"
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "quantified-impact",
+        "named-competition",
+        "tested-status-quo",
+        "identified-eb",
+        "mapped-decision-process",
+        "identified-pain",
+        "multi-threaded"
+      ]
+    },
+    {
+      "id": "g36",
+      "type": "call",
+      "phase": "evaluation",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Callum, Head of Data, Kestrel Payments)": "buyer"
+      },
+      "body": "Rep: Would you be willing to walk Freya through the business case before our next session? Buyer (Callum, Head of Data, Kestrel Payments): I already did, on Monday, in her weekly. She pushed on why not build it ourselves and I showed her the platform team's own estimate; she then asked her assistant to put you in her diary for Thursday, and the invite is in your inbox. Rep: What does fixing this mean for you? Buyer: My bonus is tied to clearing the backlog, and frankly my credibility with Freya is on it. Rep: What happens if the queue is still there in the autumn? Buyer: Four hundred cases a month becomes six hundred, the audit flags it as a control weakness, and I am the named owner on that finding. Rep: Timing? Buyer: Hopefully next month. Rep: Contracts? Buyer: Legal will need to look, not sure who.",
+      "expected": {
+        "M": {
+          "evidence": 2,
+          "quote": "Four hundred cases a month becomes six hundred",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 3,
+          "quote": "she then asked her assistant to put you in her diary for Thursday, and the invite is in your inbox",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 0
+        },
+        "DP": {
+          "evidence": 1
+        },
+        "PP": {
+          "evidence": 1
+        },
+        "I": {
+          "evidence": 3,
+          "quote": "Four hundred cases a month becomes six hundred, the audit flags it as a control weakness, and I am the named owner on that finding.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 3,
+          "quote": "I already did, on Monday, in her weekly. She pushed on why not build it ourselves and I showed her the platform team's own estimate; she then asked her assistant to put you in her diary for Thursday, and the invite is in your inbox.",
+          "speaker": "buyer"
+        },
+        "CO": {
+          "evidence": 0
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "tested-champion",
+        "developed-champion",
+        "asked-eb-access",
+        "implicated-pain",
+        "mapped-decision-process",
+        "asked-paper-process"
+      ]
+    },
+    {
+      "id": "g37",
+      "type": "call",
+      "phase": "discovery",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Katrin, CFO, Ostara Foods)": "buyer",
+        "Buyer 2 (Bram, Operations Director, Ostara Foods)": "buyer"
+      },
+      "body": "Rep: Katrin, what brings you to this conversation so early? Buyer (Katrin, CFO, Ostara Foods): Waste. We write off about four percent of production every month, that is roughly three hundred thousand a year, and I have told the board it will be under two percent by the December results; Bram owns the number day to day and I own it at board level. I hold the budget for this and I have ring-fenced it. Rep: What happens if it stays at four? Buyer: We miss the margin target I committed to publicly, and the plant manager and I both answer for it. Buyer 2 (Bram, Operations Director, Ostara Foods): The baseline is right, it is from our yield reports. Rep: What would the evaluation look at? Buyer 2: It must read line data live and it cannot need a second shift of admin. Rep: Bram, could you set up time with the plant managers? Buyer 2: I can try.",
+      "expected": {
+        "M": {
+          "evidence": 3,
+          "quote": "We write off about four percent of production every month, that is roughly three hundred thousand a year, and I have told the board it will be under two percent by the December results; Bram owns the number day to day and I own it at board level.",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 3,
+          "quote": "I hold the budget for this and I have ring-fenced it.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 2,
+          "quote": "It must read line data live and it cannot need a second shift of admin.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 3,
+          "quote": "We miss the margin target I committed to publicly, and the plant manager and I both answer for it.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 1
+        }
+      },
+      "notApplicable": {
+        "DP": "discovery",
+        "PP": "discovery",
+        "CO": "alternatives not raised"
+      },
+      "expectedBehaviourTags": [
+        "engaged-eb",
+        "quantified-impact",
+        "implicated-pain",
+        "mapped-decision-criteria",
+        "tested-champion",
+        "multi-threaded"
+      ]
+    },
+    {
+      "id": "g38",
+      "type": "call",
+      "phase": "discovery",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Ines, Finance Systems Lead, Tessaly Pharma)": "buyer",
+        "Buyer 2 (Lotte, Group Controller, Tessaly Pharma)": "buyer"
+      },
+      "body": "Rep: You mentioned you had already started a scorecard. Buyer (Ines, Finance Systems Lead, Tessaly Pharma): Yes. Lotte and I wrote it together: multi-entity matching at forty percent, audit trail at twenty, no spreadsheet exports at twenty, and after your call we added reviewer workflow at twenty; it is in the shared drive and both of us have signed it. Buyer 2 (Lotte, Group Controller, Tessaly Pharma): That is the sheet we will score everyone against. Rep: Everyone? Buyer 2: You, the ERP vendor's add-on, and an outsourcing option. Rep: What does the problem cost today? Buyer: Sixty hours a month across the team, and we want it under ten. Rep: And how does it show up? Buyer 2: Four entities reconciled by hand and the group close slips every quarter. Rep: Who signs? Buyer: Someone above us, probably Dario. Rep: Ines, could you share the sheet? Buyer: Sent it to you this morning already.",
+      "expected": {
+        "M": {
+          "evidence": 2,
+          "quote": "Sixty hours a month across the team, and we want it under ten.",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 1
+        },
+        "DC": {
+          "evidence": 3,
+          "quote": "Lotte and I wrote it together: multi-entity matching at forty percent, audit trail at twenty, no spreadsheet exports at twenty, and after your call we added reviewer workflow at twenty; it is in the shared drive and both of us have signed it.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "Four entities reconciled by hand and the group close slips every quarter.",
+          "speaker": "buyer"
+        },
+        "CH": {
+          "evidence": 2,
+          "quote": "Sent it to you this morning already.",
+          "speaker": "buyer"
+        },
+        "CO": {
+          "evidence": 2,
+          "quote": "You, the ERP vendor's add-on, and an outsourcing option.",
+          "speaker": "buyer"
+        }
+      },
+      "notApplicable": {
+        "DP": "discovery",
+        "PP": "discovery"
+      },
+      "expectedBehaviourTags": [
+        "mapped-decision-criteria",
+        "shaped-decision-criteria",
+        "named-competition",
+        "asked-metrics",
+        "identified-pain",
+        "identified-eb",
+        "tested-champion",
+        "multi-threaded"
+      ]
+    },
+    {
+      "id": "g39",
+      "type": "call",
+      "phase": "evaluation",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Elin, Head of Finance, Brindlewood Logistics)": "buyer"
+      },
+      "body": "Rep: Walk me through the last vendor you onboarded. Buyer (Elin, Head of Finance, Brindlewood Logistics): For you it is already moving: I sent your security questionnaire to Tomasz yesterday, procurement has opened the vendor ticket, and legal has agreed to return redlines on our MSA by the twentieth. Rep: And the decision steps? Buyer: Technical sign-off on the ninth with Ana, steering on the fourteenth, Marta signs before the budget lock on the thirtieth; I have put your plan into our tracker with owners against each step. Rep: Marta signs above eighty? Buyer: Yes, she is the budget holder. Rep: Is the ERP vendor still in? Buyer: They are, with a cheaper bundle. Rep: What is the problem costing? Buyer: It is significant. Rep: And the criteria? Buyer: Mostly integration. Rep: So next step is the technical sign-off on the ninth; I will send the agenda today. Buyer: Perfect.",
+      "expected": {
+        "M": {
+          "evidence": 1
+        },
+        "E": {
+          "evidence": 2,
+          "quote": "Yes, she is the budget holder.",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 1
+        },
+        "DP": {
+          "evidence": 3,
+          "quote": "Technical sign-off on the ninth with Ana, steering on the fourteenth, Marta signs before the budget lock on the thirtieth; I have put your plan into our tracker with owners against each step.",
+          "speaker": "buyer"
+        },
+        "PP": {
+          "evidence": 3,
+          "quote": "I sent your security questionnaire to Tomasz yesterday, procurement has opened the vendor ticket, and legal has agreed to return redlines on our MSA by the twentieth.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 1
+        },
+        "CH": {
+          "evidence": 2,
+          "quote": "I have put your plan into our tracker with owners against each step.",
+          "speaker": "buyer"
+        },
+        "CO": {
+          "evidence": 2,
+          "quote": "They are, with a cheaper bundle.",
+          "speaker": "buyer"
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "asked-paper-process",
+        "mapped-decision-process",
+        "agreed-mutual-plan",
+        "identified-eb",
+        "named-competition",
+        "asked-metrics",
+        "mapped-decision-criteria",
+        "secured-next-step"
+      ]
+    },
+    {
+      "id": "g40",
+      "type": "call",
+      "phase": "commit",
+      "kind": "standard",
+      "speakerRoles": {
+        "Rep": "rep",
+        "Buyer (Katrin, CFO, Nordvik Energy)": "buyer",
+        "Buyer 2 (Pieter, Head of Analytics, Nordvik Energy)": "buyer"
+      },
+      "body": "Rep: Katrin, to confirm where we are. Buyer (Katrin, CFO, Nordvik Energy): I have released the budget from the transformation line, I sign on the sixteenth after procurement, and the number in the board paper is three analyst days per submission down to under one by the June cycle; Pieter and finance have both verified the baseline. Rep: Pieter, the criteria? Buyer 2 (Pieter, Head of Analytics, Nordvik Energy): The signed scoring sheet stands: raw table access, no new test burden at thirty percent, and the audit trail row we added after your session; Ana and I scored you against it. Rep: Steps? Buyer 2: Procurement on the fourteenth, Katrin signs on the sixteenth, go-live kick-off on the twentieth; all in the tracker with owners. Rep: Contracting? Buyer 2: Legal is Elin's team, redlines due Friday, on our DPA. Rep: Pieter, you carried this. Buyer 2: I presented at steering, answered the build-it-ourselves challenge, and got Ana on side; this is my project.",
+      "expected": {
+        "M": {
+          "evidence": 3,
+          "quote": "the number in the board paper is three analyst days per submission down to under one by the June cycle; Pieter and finance have both verified the baseline",
+          "speaker": "buyer"
+        },
+        "E": {
+          "evidence": 3,
+          "quote": "I have released the budget from the transformation line, I sign on the sixteenth after procurement",
+          "speaker": "buyer"
+        },
+        "DC": {
+          "evidence": 3,
+          "quote": "The signed scoring sheet stands: raw table access, no new test burden at thirty percent, and the audit trail row we added after your session; Ana and I scored you against it.",
+          "speaker": "buyer"
+        },
+        "DP": {
+          "evidence": 3,
+          "quote": "Procurement on the fourteenth, Katrin signs on the sixteenth, go-live kick-off on the twentieth; all in the tracker with owners.",
+          "speaker": "buyer"
+        },
+        "PP": {
+          "evidence": 2,
+          "quote": "Legal is Elin's team, redlines due Friday, on our DPA.",
+          "speaker": "buyer"
+        },
+        "I": {
+          "evidence": 0
+        },
+        "CH": {
+          "evidence": 3,
+          "quote": "I presented at steering, answered the build-it-ourselves challenge, and got Ana on side; this is my project.",
+          "speaker": "buyer"
+        },
+        "CO": {
+          "evidence": 0
+        }
+      },
+      "notApplicable": {},
+      "expectedBehaviourTags": [
+        "engaged-eb",
+        "quantified-impact",
+        "shaped-decision-criteria",
+        "mapped-decision-process",
+        "asked-paper-process",
+        "developed-champion",
+        "summarised-and-confirmed",
+        "multi-threaded"
+      ]
+    }
+  ]
+}
