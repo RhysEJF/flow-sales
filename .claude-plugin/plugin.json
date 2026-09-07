@@ -1,0 +1,11 @@
+{
+  "name": "flow-sales",
+  "displayName": "FlowSales",
+  "version": "0.1.0",
+  "description": "Turns a sales methodology (MEDDPICC) from training people attend into a system of record, checks and daily stand-ups. Audits your CRM deals and meeting transcripts with quoted evidence, measures framework adoption per rep over time, links adoption to won and lost deals, and briefs each rep every morning. Local-first and read-only.",
+  "author": { "name": "Rhys Fisher", "email": "rhys@unvanity.com", "url": "https://github.com/RhysEJF" },
+  "homepage": "https://github.com/RhysEJF/flow-sales",
+  "repository": "https://github.com/RhysEJF/flow-sales",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "keywords": ["sales", "meddpicc", "meddic", "hubspot", "granola", "crm", "coaching", "revops", "sales-enablement"]
+}

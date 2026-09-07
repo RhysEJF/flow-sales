@@ -1,0 +1,14 @@
+{
+  "name": "flow-sales",
+  "description": "FlowSales: methodology adoption audits, daily stand-ups and weekly retros for sales teams, inside Claude Code.",
+  "owner": { "name": "Rhys Fisher", "email": "rhys@unvanity.com" },
+  "plugins": [
+    {
+      "name": "flow-sales",
+      "source": "./",
+      "description": "Audit your CRM against MEDDPICC with quoted evidence, measure adoption per rep over time, link it to won and lost deals, and brief every rep each morning. Local-first, read-only, HubSpot and Granola.",
+      "category": "productivity",
+      "keywords": ["sales", "meddpicc", "hubspot", "granola", "coaching"]
+    }
+  ]
+}
