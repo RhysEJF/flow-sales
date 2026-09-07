@@ -1,0 +1,28 @@
+[
+  {
+    "id": "41629779",
+    "email": "sam@vendor.com",
+    "type": "PERSON",
+    "firstName": "Sam",
+    "lastName": "Rep",
+    "userId": 1,
+    "userIdIncludingInactive": 1,
+    "createdAt": "2025-01-01T00:00:00Z",
+    "updatedAt": "2025-01-01T00:00:00Z",
+    "archived": false,
+    "teams": []
+  },
+  {
+    "id": "555",
+    "email": "jo@vendor.com",
+    "type": "PERSON",
+    "firstName": "Jo",
+    "lastName": "Lee",
+    "userId": 2,
+    "userIdIncludingInactive": 2,
+    "createdAt": "2025-01-01T00:00:00Z",
+    "updatedAt": "2025-01-01T00:00:00Z",
+    "archived": false,
+    "teams": []
+  }
+]

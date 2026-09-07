@@ -1,0 +1,95 @@
+[
+  {
+    "id": "demo:i3-1",
+    "source": "demo",
+    "type": "call",
+    "dealId": "demo:3",
+    "direction": "outbound",
+    "at": "2026-03-18T10:00:00Z",
+    "durationSec": 1800,
+    "title": "Cobalt renewal check-in",
+    "body": "Dana Whitfield: We know the close is slow but nobody has put a number on it.\nDana Whitfield: We will probably compare a couple of options first.\nDana Whitfield: The close is painful, honestly.\nDana Whitfield: I think this could work for us.\nDana Whitfield: We have looked at a couple of other tools.\nSam Okafor: Thanks, let me summarise what I heard and we can agree the next step.\nDana Whitfield: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Renewal check-in: general pain, nothing quantified, no budget holder.",
+    "participants": [
+      {
+        "name": "Dana Whitfield",
+        "email": "dana@cobalt.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Sam Okafor",
+        "email": "sam@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:sam@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  },
+  {
+    "id": "demo:i3-2",
+    "source": "demo",
+    "type": "email",
+    "dealId": "demo:3",
+    "direction": "outbound",
+    "at": "2026-04-15T16:00:00Z",
+    "durationSec": null,
+    "title": "Cobalt pricing",
+    "body": "Dana Whitfield: We know the close is slow but nobody has put a number on it.\nDana Whitfield: We will probably compare a couple of options first.\nDana Whitfield: There is a process but I would have to check the steps.\nDana Whitfield: The close is painful, honestly.\nDana Whitfield: I think this could work for us.\nDana Whitfield: We are also talking to LedgerPro and the incumbent spreadsheet process is the real alternative.\nSam Okafor: Thanks, let me summarise what I heard and we can agree the next step.\nDana Whitfield: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Pricing email: competitor named, everything else unchanged.",
+    "participants": [
+      {
+        "name": "Dana Whitfield",
+        "email": "dana@cobalt.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Sam Okafor",
+        "email": "sam@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:sam@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  },
+  {
+    "id": "demo:i3-3",
+    "source": "demo",
+    "type": "call",
+    "dealId": "demo:3",
+    "direction": "outbound",
+    "at": "2026-05-20T11:30:00Z",
+    "durationSec": 1800,
+    "title": "Cobalt decision call",
+    "body": "Dana Whitfield: There is a process but I would have to check the steps.\nDana Whitfield: I think this could work for us.\nDana Whitfield: We are also talking to LedgerPro and the incumbent spreadsheet process is the real alternative.\nSam Okafor: Thanks, let me summarise what I heard and we can agree the next step.\nDana Whitfield: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Decision call: the rep asked for the budget holder and did not get a name; the deal went to the incumbent.",
+    "participants": [
+      {
+        "name": "Dana Whitfield",
+        "email": "dana@cobalt.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Sam Okafor",
+        "email": "sam@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:sam@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  }
+]

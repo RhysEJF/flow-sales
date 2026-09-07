@@ -1,0 +1,19 @@
+{
+  "token": "REDACTED",
+  "user": "sam@vendor.com",
+  "hub_domain": "vendor-test.hubspot.com",
+  "userId": 1,
+  "hubId": 12345678,
+  "appId": 4242,
+  "expiresIn": null,
+  "scopes": [
+    "oauth",
+    "crm.objects.deals.read",
+    "crm.objects.contacts.read",
+    "crm.objects.companies.read",
+    "crm.objects.owners.read",
+    "crm.schemas.deals.read",
+    "sales-email-read",
+    "crm.schemas.contacts.read"
+  ]
+}

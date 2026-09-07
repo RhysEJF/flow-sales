@@ -1,0 +1,20 @@
+[
+  {
+    "id": "7001",
+    "properties": {
+      "hs_timestamp": "2026-05-05T15:00:00Z",
+      "hs_meeting_title": "Acme executive review",
+      "hs_meeting_body": "<p>Agenda: pricing, rollout plan, security review.</p>",
+      "hs_internal_meeting_notes": "Tom is sceptical about the timeline; bring the implementation lead next time.",
+      "hs_meeting_start_time": "2026-05-05T15:00:00Z",
+      "hs_meeting_end_time": "2026-05-05T15:45:00Z",
+      "hs_meeting_outcome": "COMPLETED",
+      "hubspot_owner_id": "41629779",
+      "hs_lastmodifieddate": "2026-05-05T16:00:00Z",
+      "hs_object_id": "7001"
+    },
+    "createdAt": "2026-05-05T15:00:00Z",
+    "updatedAt": "2026-05-05T16:00:00Z",
+    "archived": false
+  }
+]

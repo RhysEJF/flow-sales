@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "framework": "meddpicc",
+  "window": {
+    "from": "2026-03-01",
+    "to": "2026-09-07"
+  },
+  "sources": {
+    "hubspot": {
+      "enabled": false
+    },
+    "granola": {
+      "enabled": true,
+      "mode": "local-cache",
+      "cachePath": null,
+      "exportDir": null
+    },
+    "transcripts": {
+      "enabled": false,
+      "folder": null
+    },
+    "csv": {
+      "enabled": false,
+      "dealsFile": null,
+      "interactionsFile": null
+    },
+    "demo": {
+      "enabled": true
+    }
+  },
+  "stagePhases": {
+    "appointmentscheduled": "discovery",
+    "qualifiedtobuy": "evaluation",
+    "presentationscheduled": "proposal",
+    "contractsent": "commit",
+    "closedwon": "won",
+    "closedlost": "lost"
+  },
+  "org": {
+    "name": "Northwind Analytics",
+    "internalDomains": [
+      "northwind.example"
+    ]
+  },
+  "reps": "all",
+  "trainingDate": "2026-06-01",
+  "content": {
+    "emailBodies": true,
+    "callTranscripts": true,
+    "internalNotes": true
+  },
+  "anonymize": false,
+  "attribution": {
+    "influencedMinBehaviours": 3,
+    "influencedMinInteractions": 2,
+    "decayDays": 45
+  },
+  "judge": {
+    "model": "sonnet",
+    "parallel": 5,
+    "maxInteractionChars": 60000
+  },
+  "linking": {
+    "autoAcceptConfidence": 0.9,
+    "timeGraceDays": 14
+  },
+  "createdAt": "2026-09-01T10:00:00Z",
+  "updatedAt": "2026-09-07T10:00:00Z"
+}

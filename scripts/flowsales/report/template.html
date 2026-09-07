@@ -1,0 +1,988 @@
+<!--
+  FlowSales report template. One self-contained file: inline CSS and JS, no external requests.
+  Palette validated with the dataviz skill validator (node scripts/validate_palette.js) on 2026-09-07:
+    categorical light  #2a78d6,#eb6834,#1baf7a,#eda100,#e87ba4,#008300,#4a3aa7,#e34948  --mode light --surface #fcfcfb : ALL CHECKS PASS
+                       (worst adjacent CVD dE 9.1, normal-vision 19.6; contrast relief on #1baf7a/#eda100/#e87ba4 met by legend, direct labels and the table view)
+    categorical dark   #3987e5,#d95926,#199e70,#c98500,#d55181,#008300,#9085e9,#e66767  --mode dark --surface #1a1a19  : ALL CHECKS PASS
+                       (worst adjacent CVD dE 8.4, normal-vision 19.3, all slots >= 3:1)
+    level ramp light   #86b6ef,#3987e5,#1c5cab,#0d366b  --ordinal --mode light : ALL CHECKS PASS (monotone, dL >= 0.06, light end 2.06:1, one hue)
+    level ramp dark    #184f95,#2a78d6,#6da7ec,#b7d3f6  --ordinal --mode dark  : ALL CHECKS PASS (light end 2.15:1)
+    before/after pair  light #86b6ef,#1c5cab and dark #256abf,#9ec5f4 --ordinal : ALL CHECKS PASS
+    status (gate chips, always icon plus label): good #0ca30c, warning #fab219, serious #ec835a, critical #d03b3b; never used for a series.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__FS_TITLE__</title>
+<style>
+:root {
+  color-scheme: light;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10); --good-text: #006300; --bad-text: #b32d2d;
+  --s0: #898781; --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s7: #4a3aa7; --s8: #e34948;
+  --lv0: #86b6ef; --lv1: #3987e5; --lv2: #1c5cab; --lv3: #0d366b;
+  --lv0-ink: #0b0b0b; --lv1-ink: #0b0b0b; --lv2-ink: #ffffff; --lv3-ink: #ffffff;
+  --ba-before: #86b6ef; --ba-after: #1c5cab;
+  --st-good: #0ca30c; --st-warn: #fab219; --st-serious: #ec835a; --st-critical: #d03b3b;
+  --accent: #2a78d6; --ink2: #52514e; --none: #e1e0d9;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.12); --good-text: #0ca30c; --bad-text: #e66767;
+  --s0: #898781; --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  --lv0: #184f95; --lv1: #2a78d6; --lv2: #6da7ec; --lv3: #b7d3f6;
+  --lv0-ink: #ffffff; --lv1-ink: #ffffff; --lv2-ink: #0b0b0b; --lv3-ink: #0b0b0b;
+  --ba-before: #256abf; --ba-after: #9ec5f4;
+  --accent: #3987e5; --ink2: #c3c2b7; --none: #2c2c2a;
+}
+* { box-sizing: border-box; }
+html { background: var(--page); }
+body { margin: 0; font: 14px/1.5 var(--font); color: var(--ink); background: var(--page); }
+a { color: var(--accent); }
+h1 { font-size: 18px; margin: 0; font-weight: 650; }
+h2 { font-size: 17px; margin: 28px 0 10px; font-weight: 650; }
+h3 { font-size: 15px; margin: 18px 0 8px; font-weight: 650; }
+h4 { font-size: 13px; margin: 14px 0 6px; font-weight: 650; color: var(--ink-2); text-transform: uppercase; letter-spacing: .03em; }
+p { margin: 6px 0; }
+.muted { color: var(--muted); }
+.small { font-size: 12px; }
+.mono { font-family: var(--mono); font-size: 12px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 24px; background: var(--surface); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 14px; }
+.mark svg { display: block; height: 16px; width: auto; color: var(--ink); }
+.meta { margin: 2px 0 0; color: var(--ink-2); font-size: 12px; }
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn { font: inherit; font-size: 12px; padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--ink); cursor: pointer; }
+.btn:hover { border-color: var(--axis); }
+.btn:focus-visible, .tab:focus-visible, .deal-row:focus-visible, .viz .hit:focus-visible, .viz .hitarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.btn-sm { padding: 3px 8px; font-size: 11px; }
+.tabs { display: flex; gap: 2px; padding: 0 24px; background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; }
+.tab { font: inherit; font-size: 13px; padding: 10px 14px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--ink-2); cursor: pointer; white-space: nowrap; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+main { max-width: 1240px; margin: 0 auto; padding: 8px 24px 40px; }
+.tabpanel[hidden] { display: none; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 12px 0; }
+.tile { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.tile-label { font-size: 12px; color: var(--ink-2); }
+.tile-value { font-size: 28px; font-weight: 600; line-height: 1.2; margin-top: 2px; }
+.tile-delta { font-size: 12px; margin-top: 2px; }
+.delta-good { color: var(--good-text); } .delta-bad { color: var(--bad-text); } .delta-neutral { color: var(--ink-2); }
+.tile-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.tile-note { font-size: 12px; color: var(--ink-2); margin-top: 8px; border-top: 1px solid var(--border); padding-top: 8px; }
+.tile-spark { margin-top: 6px; }
+.tile-table { font-size: 12px; margin-top: 4px; }
+.tile-table summary { color: var(--muted); cursor: pointer; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; align-items: start; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin: 12px 0; min-width: 0; }
+.fig { margin: 12px 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.fig-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; }
+.fig-title { font-weight: 600; font-size: 13px; }
+.fig-chart { overflow-x: auto; }
+.fig-note { font-size: 12px; color: var(--muted); margin: 6px 0 0; }
+.fig-table { overflow-x: auto; margin-top: 4px; }
+.empty { color: var(--muted); font-size: 13px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; font-size: 12px; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+caption { text-align: left; color: var(--muted); font-size: 12px; padding: 4px 0; caption-side: top; }
+.viz-table { font-size: 12px; }
+.deals-toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 10px 0; }
+.deals-toolbar input, .deals-toolbar select { font: inherit; font-size: 13px; padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--ink); }
+.deals-table th button { font: inherit; font-size: 12px; font-weight: 600; color: var(--ink-2); background: none; border: 0; padding: 0; cursor: pointer; }
+.deals-table th button[aria-sort="ascending"]::after { content: " \2191"; }
+.deals-table th button[aria-sort="descending"]::after { content: " \2193"; }
+.deal-row { cursor: pointer; }
+.deal-row:hover { background: color-mix(in srgb, var(--accent) 7%, transparent); }
+.deal-row td.name { font-weight: 600; }
+.chip { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px 1px 6px; border-radius: 999px; border: 1px solid var(--border); font-size: 12px; white-space: nowrap; color: var(--ink-2); background: var(--surface); }
+.chip-icon { font-weight: 700; font-size: 12px; line-height: 1; }
+.gate-good .chip-icon { color: var(--st-good); } .gate-good { border-color: var(--st-good); }
+.gate-warn .chip-icon { color: var(--st-warn); } .gate-warn { border-color: var(--st-warn); }
+.gate-critical .chip-icon { color: var(--st-critical); } .gate-critical { border-color: var(--st-critical); }
+.gate-neutral .chip-icon { color: var(--muted); }
+.chip.tag { font-family: var(--mono); font-size: 11px; padding: 0 6px; }
+.lv { display: inline-block; min-width: 22px; height: 22px; line-height: 22px; text-align: center; border-radius: 4px; font-weight: 600; font-size: 12px; }
+.lv-0 { background: var(--lv0); color: var(--lv0-ink); } .lv-1 { background: var(--lv1); color: var(--lv1-ink); }
+.lv-2 { background: var(--lv2); color: var(--lv2-ink); } .lv-3 { background: var(--lv3); color: var(--lv3-ink); }
+.lv-na { background: var(--none); color: var(--muted); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px 16px; margin: 8px 0 4px; }
+.facts div { min-width: 0; }
+.facts dt { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+.facts dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.timeline { list-style: none; padding: 0; margin: 0; }
+.tl-item { border-left: 2px solid var(--grid); padding: 4px 0 14px 16px; margin-left: 6px; position: relative; }
+.tl-item::before { content: ""; position: absolute; left: -6px; top: 10px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--surface); }
+.tl-head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.tl-date { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tl-type { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-2); border: 1px solid var(--border); border-radius: 4px; padding: 0 5px; }
+.tl-title { font-weight: 600; }
+.estrip { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
+.ecell { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 34px; }
+.ecode { font-size: 10px; color: var(--muted); font-weight: 600; }
+.beh { font-size: 10px; color: var(--muted); }
+.beh.on { color: var(--ink); }
+details.quotes { margin-top: 4px; }
+details.quotes summary { cursor: pointer; color: var(--accent); font-size: 13px; }
+.qrow { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; padding: 8px 0; border-top: 1px solid var(--grid); }
+.qscore { display: flex; flex-direction: column; gap: 3px; align-items: flex-start; }
+.qcode { font-weight: 600; font-size: 12px; }
+blockquote { margin: 0 0 4px; padding: 6px 10px; border-left: 3px solid var(--lv1); background: color-mix(in srgb, var(--accent) 6%, transparent); border-radius: 0 6px 6px 0; }
+blockquote cite { display: block; font-style: normal; font-size: 12px; color: var(--muted); margin-top: 2px; }
+.why { font-size: 13px; color: var(--ink-2); }
+.why b { color: var(--ink); font-weight: 600; }
+.taglist { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+.rep-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin: 14px 0; }
+.rep-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rep-head h3 { margin: 0; }
+.swatch { display: inline-block; width: 12px; height: 12px; border-radius: 3px; }
+.rep-card .fig, .rep-card .tile, .rep-card .card { background: var(--page); }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0; }
+.rec { margin: 0; padding-left: 20px; }
+.rec li { margin: 8px 0; }
+.rec .deal-cite { margin: 4px 0 0 0; padding-left: 16px; font-size: 13px; }
+.badge { font-size: 11px; color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 0 5px; }
+.foot { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 16px 24px; border-top: 1px solid var(--border); color: var(--ink-2); font-size: 12px; background: var(--surface); }
+.foot .powered { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--ink); }
+.foot .lic { color: var(--muted); }
+.tip { position: fixed; z-index: 50; background: var(--ink); color: var(--surface); padding: 8px 10px; border-radius: 6px; font-size: 12px; pointer-events: none; max-width: 300px; box-shadow: 0 4px 16px rgba(0,0,0,.2); }
+.tip-title { font-weight: 600; margin-bottom: 3px; color: var(--surface); opacity: .95; }
+.tip-row { display: flex; align-items: center; gap: 6px; line-height: 1.5; }
+.tip-row strong { font-weight: 700; }
+.tip-label { opacity: .8; }
+.tip-key { display: inline-block; width: 12px; height: 3px; border-radius: 2px; }
+.noscript { padding: 24px; }
+.warn-box { background: var(--surface); border: 1px solid var(--st-warn); border-radius: 8px; padding: 8px 12px; margin: 8px 0; font-size: 13px; }
+ul.plain { padding-left: 20px; margin: 4px 0; }
+.kv { display: grid; grid-template-columns: 200px 1fr; gap: 4px 12px; font-size: 13px; }
+.kv dt { color: var(--ink-2); } .kv dd { margin: 0; overflow-wrap: anywhere; }
+/* chart marks: colour comes from tokens so light and dark swap in one place */
+.viz { max-width: 100%; height: auto; display: block; overflow: visible; }
+.viz text { font-family: var(--font); font-size: 11px; fill: var(--ink-2); }
+.viz .ax { fill: var(--muted); }
+.viz .ax.cat { fill: var(--ink-2); }
+.viz .dl { fill: var(--ink-2); font-weight: 600; }
+.viz .dl.sm { font-size: 10px; }
+.viz .lg { fill: var(--ink-2); }
+.viz .pt-title { fill: var(--ink); font-weight: 600; font-size: 12px; }
+.viz .cell-num { font-size: 15px; font-weight: 600; }
+.viz .code { font-weight: 600; }
+.viz .grid { stroke: var(--grid); stroke-width: 1; }
+.viz .axis { stroke: var(--axis); stroke-width: 1; }
+.viz .line { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.viz .lkey { stroke-width: 2; stroke-linecap: round; }
+.viz .pt { stroke: var(--surface); stroke-width: 2; }
+.viz .spark { fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.viz .hitarea { fill: transparent; }
+.viz .hit:hover .mark, .viz .hit:focus .mark, .viz .hit:hover .cell, .viz .hit:focus .cell { filter: brightness(1.12); }
+.viz .hit:focus { outline: none; }
+.viz .xhair, .viz .vmark { stroke: var(--ink-2); stroke-width: 1; }
+.viz .vlab { fill: var(--ink-2); }
+.viz .decay { fill: var(--ink-2); }
+.viz .fill-none { fill: var(--none); } .viz .ink-none { fill: var(--muted); }
+.viz .fill-ink { fill: var(--ink); } .viz .stroke-ink { stroke: var(--ink); }
+.viz .fill-ink2 { fill: var(--ink-2); } .viz .stroke-ink2 { stroke: var(--ink-2); }
+.viz .fill-muted { fill: var(--muted); } .viz .stroke-muted { stroke: var(--muted); }
+.viz .fill-s0 { fill: var(--s0); } .viz .stroke-s0 { stroke: var(--s0); }
+.viz .fill-s1 { fill: var(--s1); } .viz .stroke-s1 { stroke: var(--s1); }
+.viz .fill-s2 { fill: var(--s2); } .viz .stroke-s2 { stroke: var(--s2); }
+.viz .fill-s3 { fill: var(--s3); } .viz .stroke-s3 { stroke: var(--s3); }
+.viz .fill-s4 { fill: var(--s4); } .viz .stroke-s4 { stroke: var(--s4); }
+.viz .fill-s5 { fill: var(--s5); } .viz .stroke-s5 { stroke: var(--s5); }
+.viz .fill-s6 { fill: var(--s6); } .viz .stroke-s6 { stroke: var(--s6); }
+.viz .fill-s7 { fill: var(--s7); } .viz .stroke-s7 { stroke: var(--s7); }
+.viz .fill-s8 { fill: var(--s8); } .viz .stroke-s8 { stroke: var(--s8); }
+.viz .fill-lv0 { fill: var(--lv0); } .viz .fill-lv1 { fill: var(--lv1); } .viz .fill-lv2 { fill: var(--lv2); } .viz .fill-lv3 { fill: var(--lv3); }
+.viz .ink-lv0 { fill: var(--lv0-ink); } .viz .ink-lv1 { fill: var(--lv1-ink); } .viz .ink-lv2 { fill: var(--lv2-ink); } .viz .ink-lv3 { fill: var(--lv3-ink); }
+.viz .fill-ba-before { fill: var(--ba-before); } .viz .fill-ba-after { fill: var(--ba-after); }
+.viz .stroke-ba-before { stroke: var(--ba-before); } .viz .stroke-ba-after { stroke: var(--ba-after); }
+.swatch.s0 { background: var(--s0); } .swatch.s1 { background: var(--s1); } .swatch.s2 { background: var(--s2); } .swatch.s3 { background: var(--s3); }
+.swatch.s4 { background: var(--s4); } .swatch.s5 { background: var(--s5); } .swatch.s6 { background: var(--s6); } .swatch.s7 { background: var(--s7); } .swatch.s8 { background: var(--s8); }
+/* texture: opt-in backup channel for categorical marks (accessibility setting, print, forced-colors) */
+.texture .viz .mark.s1, .texture .viz .mark.s5 { fill: url(#pat-a1); }
+.texture .viz .mark.s2, .texture .viz .mark.s6 { fill: url(#pat-b2); }
+.texture .viz .mark.s3, .texture .viz .mark.s7 { fill: url(#pat-a3); }
+.texture .viz .mark.s4, .texture .viz .mark.s8 { fill: url(#pat-b4); }
+.texture .viz .mark.s5 { fill: url(#pat-a5); } .texture .viz .mark.s6 { fill: url(#pat-b6); }
+.texture .viz .mark.s7 { fill: url(#pat-a7); } .texture .viz .mark.s8 { fill: url(#pat-b8); }
+.texture .viz .mark.ba-before { fill: url(#pat-ba-before); } .texture .viz .mark.ba-after { fill: url(#pat-ba-after); }
+@media (forced-colors: active) { .viz .mark.s1 { fill: url(#pat-a1); } .viz .mark.s2 { fill: url(#pat-b2); } }
+@media print {
+  html, body { background: #fff; }
+  .toolbar, .tabs, .fig-toggle, .deals-toolbar, .tip, .back { display: none !important; }
+  .tabpanel:not(.active) { display: none !important; }
+  .tabpanel.active { display: block !important; }
+  .fig, .tile, .card, .rep-card, .tl-item { break-inside: avoid; }
+  .fig-chart { overflow: visible; }
+  .viz .mark.s1 { fill: url(#pat-a1); } .viz .mark.s2 { fill: url(#pat-b2); } .viz .mark.s3 { fill: url(#pat-a3); } .viz .mark.s4 { fill: url(#pat-b4); }
+  .viz .mark.s5 { fill: url(#pat-a5); } .viz .mark.s6 { fill: url(#pat-b6); } .viz .mark.s7 { fill: url(#pat-a7); } .viz .mark.s8 { fill: url(#pat-b8); }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="pat-a1" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--s1)" opacity="0.35"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--s1)" stroke-width="2"/></pattern>
+    <pattern id="pat-b2" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(135)"><rect width="6" height="6" fill="var(--s2)" opacity="0.35"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--s2)" stroke-width="2"/></pattern>
+    <pattern id="pat-a3" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--s3)" opacity="0.35"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--s3)" stroke-width="2"/></pattern>
+    <pattern id="pat-b4" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(135)"><rect width="6" height="6" fill="var(--s4)" opacity="0.35"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--s4)" stroke-width="2"/></pattern>
+    <pattern id="pat-a5" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--s5)" opacity="0.35"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--s5)" stroke-width="2"/></pattern>
+    <pattern id="pat-b6" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(135)"><rect width="6" height="6" fill="var(--s6)" opacity="0.35"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--s6)" stroke-width="2"/></pattern>
+    <pattern id="pat-a7" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--s7)" opacity="0.35"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--s7)" stroke-width="2"/></pattern>
+    <pattern id="pat-b8" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(135)"><rect width="6" height="6" fill="var(--s8)" opacity="0.35"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--s8)" stroke-width="2"/></pattern>
+    <pattern id="pat-ba-before" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--ba-before)" opacity="0.35"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--ba-before)" stroke-width="2"/></pattern>
+    <pattern id="pat-ba-after" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(135)"><rect width="6" height="6" fill="var(--ba-after)" opacity="0.35"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--ba-after)" stroke-width="2"/></pattern>
+  </defs>
+</svg>
+<header class="top">
+  <div class="brand">
+    <span class="mark">__FS_MARK__</span>
+    <div>
+      <h1>__FS_TITLE__</h1>
+      <p class="meta">Window __FS_WINDOW__ &middot; generated __FS_GENERATED__</p>
+    </div>
+  </div>
+  <div class="toolbar">
+    <button type="button" class="btn" id="theme-toggle" aria-pressed="false">Dark theme</button>
+    <button type="button" class="btn" id="texture-toggle" aria-pressed="false" title="Textured fills for colour-blind readers and print">Texture</button>
+    <button type="button" class="btn" id="print-btn">Print</button>
+  </div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Report sections">
+  <button class="tab" role="tab" id="tab-btn-overview" aria-controls="tab-overview" aria-selected="true" tabindex="0">Overview</button>
+  <button class="tab" role="tab" id="tab-btn-deals" aria-controls="tab-deals" aria-selected="false" tabindex="-1">Deals</button>
+  <button class="tab" role="tab" id="tab-btn-reps" aria-controls="tab-reps" aria-selected="false" tabindex="-1">Reps</button>
+  <button class="tab" role="tab" id="tab-btn-elements" aria-controls="tab-elements" aria-selected="false" tabindex="-1">Elements</button>
+  <button class="tab" role="tab" id="tab-btn-impact" aria-controls="tab-impact" aria-selected="false" tabindex="-1">Impact</button>
+  <button class="tab" role="tab" id="tab-btn-method" aria-controls="tab-method" aria-selected="false" tabindex="-1">Method</button>
+</nav>
+<main>
+  <section id="tab-overview" class="tabpanel active" role="tabpanel" aria-labelledby="tab-btn-overview"></section>
+  <section id="tab-deals" class="tabpanel" role="tabpanel" aria-labelledby="tab-btn-deals" hidden></section>
+  <section id="tab-reps" class="tabpanel" role="tabpanel" aria-labelledby="tab-btn-reps" hidden></section>
+  <section id="tab-elements" class="tabpanel" role="tabpanel" aria-labelledby="tab-btn-elements" hidden></section>
+  <section id="tab-impact" class="tabpanel" role="tabpanel" aria-labelledby="tab-btn-impact" hidden></section>
+  <section id="tab-method" class="tabpanel" role="tabpanel" aria-labelledby="tab-btn-method" hidden></section>
+  <noscript><p class="noscript">This report renders its tabs with JavaScript from the data embedded in the file. Enable JavaScript to view it; nothing is fetched from the network.</p></noscript>
+</main>
+<footer class="foot">
+  <span class="powered"><span class="mark">__FS_MARK__</span> Powered by FlowSales</span>
+  <span class="lic">FlowSales is source-available under the FlowSales Source-Available License 1.0. This report is your Output and is yours to share; the FlowSales name, mark and this notice stay where they are, as a condition of the licence.</span>
+</footer>
+<div id="tip" class="tip" role="tooltip" hidden></div>
+<script id="fs-data" type="application/json">__FS_DATA__</script>
+<script>
+(function () {
+  'use strict';
+  var DATA;
+  try { DATA = JSON.parse(document.getElementById('fs-data').textContent); } catch (e) { DATA = {}; }
+  var META = DATA.meta || {};
+  var CHARTS = DATA.charts || {};
+  var ELEMENTS = META.elements || [];
+  var REPS = DATA.reps || [];
+  var DEALS = DATA.deals || [];
+  var STATES = DATA.dealStates || [];
+  var ASSESS = DATA.assessments || {};
+  var INTER = DATA.interactions || {};
+  var FW = DATA.framework || null;
+  var repById = {}, dealById = {}, stateById = {}, metricsById = {};
+  REPS.forEach(function (r) { repById[r.id] = r; });
+  DEALS.forEach(function (d) { dealById[d.id] = d; });
+  STATES.forEach(function (s) { stateById[s.dealId] = s; });
+  (DATA.repMetrics || []).forEach(function (m) { var id = m.repId || m.id || m.ownerId || m.rep; if (id) metricsById[id] = m; });
+  var MAX_LEVEL = (META.framework && META.framework.maxLevel) || 3;
+  var MAX_TOTAL = (STATES[0] && STATES[0].maxTotal) || ELEMENTS.length * MAX_LEVEL || 24;
+
+  // ---------- helpers
+  function h(tag, attrs) {
+    var el = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      var v = attrs[k];
+      if (v == null || v === false) return;
+      if (k === 'class') el.className = v;
+      else if (k === 'html') el.innerHTML = v; // only for chart strings rendered by charts.py
+      else if (k.indexOf('on') === 0) el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v === true ? '' : v);
+    });
+    for (var i = 2; i < arguments.length; i++) append(el, arguments[i]);
+    return el;
+  }
+  function append(el, c) {
+    if (c == null || c === false) return;
+    if (Array.isArray(c)) { c.forEach(function (x) { append(el, x); }); return; }
+    el.appendChild(c.nodeType ? c : document.createTextNode(String(c)));
+  }
+  function isNum(v) { return typeof v === 'number' && !isNaN(v); }
+  var fmt = {
+    pct: function (v, d) { return isNum(v) ? (v * 100).toFixed(d || 0) + '%' : 'n/a'; },
+    num: function (v) { return isNum(v) ? v.toLocaleString('en-GB') : (v == null ? 'n/a' : String(v)); },
+    level: function (v) { return isNum(v) ? v.toFixed(1) : 'n/a'; },
+    money: function (v, cur) {
+      if (!isNum(v)) return 'n/a';
+      var sym = { GBP: '£', USD: '$', EUR: '€' }[(cur || '').toUpperCase()];
+      var body = Math.round(v).toLocaleString('en-GB');
+      return sym ? sym + body : body + (cur ? ' ' + cur : '');
+    },
+    date: function (v) {
+      if (!v) return 'n/a';
+      var d = new Date(v); if (isNaN(d)) return String(v);
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+    },
+    datetime: function (v) {
+      if (!v) return 'n/a';
+      var d = new Date(v); if (isNaN(d)) return String(v);
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }) + ', ' +
+        d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) + ' UTC';
+    }
+  };
+  function elName(code) { for (var i = 0; i < ELEMENTS.length; i++) if (ELEMENTS[i].code === code) return ELEMENTS[i].name || code; return code; }
+  function fwElement(code) { if (!FW || !FW.elements) return null; for (var i = 0; i < FW.elements.length; i++) if (FW.elements[i].code === code) return FW.elements[i]; return null; }
+  function repName(id) { return (repById[id] && repById[id].name) || id || 'unassigned'; }
+  function repSlot(id) { return (repById[id] && repById[id].slot) || 0; }
+  function dealName(id) { return (dealById[id] && dealById[id].name) || id; }
+  function safeId(s) { return String(s).replace(/[^A-Za-z0-9_.-]/g, '_'); }
+  function normCodes(list) {
+    return (list || []).map(function (x) { return typeof x === 'string' ? x : (x && (x.element || x.code)) || ''; }).filter(Boolean);
+  }
+  function lastActivity(dealId) {
+    var its = INTER[dealId] || [], m = '';
+    its.forEach(function (i) { if (i.at && i.at > m) m = i.at; });
+    return m || null;
+  }
+  function interactionRep(dealId, interactionId) {
+    var its = INTER[dealId] || [];
+    for (var i = 0; i < its.length; i++) if (its[i].id === interactionId && its[i].repId) return its[i].repId;
+    return dealById[dealId] ? dealById[dealId].ownerId : null;
+  }
+  var GATES = {
+    'commit-eligible': ['good', '✓', 'Commit eligible'],
+    'upside': ['warn', '↗', 'Upside'],
+    'pipeline': ['neutral', '○', 'Pipeline'],
+    'qualify-out': ['critical', '✕', 'Qualify out']
+  };
+  function gateChip(g) {
+    var spec = GATES[g] || ['neutral', '○', g || 'not assessed'];
+    return h('span', { class: 'chip gate-' + spec[0], title: 'Gate: ' + spec[2] }, h('span', { class: 'chip-icon', 'aria-hidden': 'true' }, spec[1]), spec[2]);
+  }
+  function levelCell(level, title) {
+    if (level == null) return h('span', { class: 'lv lv-na', title: title || 'not applicable' }, '–');
+    var n = Math.max(0, Math.min(MAX_LEVEL, Math.round(level)));
+    return h('span', { class: 'lv lv-' + n, title: title || ('level ' + level + ' of ' + MAX_LEVEL) }, String(level));
+  }
+  function tile(label, value, sub, note, opts) {
+    opts = opts || {};
+    var t = h('div', { class: 'tile' }, h('div', { class: 'tile-label' }, label), h('div', { class: 'tile-value' }, value));
+    if (opts.delta) t.appendChild(h('div', { class: 'tile-delta ' + (opts.deltaGood === true ? 'delta-good' : opts.deltaGood === false ? 'delta-bad' : 'delta-neutral') }, opts.delta));
+    if (sub) t.appendChild(h('div', { class: 'tile-sub' }, sub));
+    if (note) t.appendChild(h('div', { class: 'tile-note' }, note));
+    return t;
+  }
+  function figure(chart, title, note, opts) {
+    opts = opts || {};
+    var fig = h('figure', { class: 'fig' });
+    var head = h('figcaption', { class: 'fig-head' }, h('span', { class: 'fig-title' }, title));
+    fig.appendChild(head);
+    if (!chart || !chart.svg) { fig.appendChild(h('p', { class: 'empty' }, note || 'No data for this chart yet.')); return fig; }
+    var chartEl = h('div', { class: 'fig-chart', html: chart.svg });
+    var tableEl = h('div', { class: 'fig-table', html: chart.table || '' });
+    if (opts.tableBeneath) {
+      head.appendChild(h('span', { class: 'badge' }, 'chart and table'));
+    } else {
+      var btn = h('button', { type: 'button', class: 'btn btn-sm fig-toggle', 'aria-pressed': opts.tableOpen ? 'true' : 'false' }, 'Table');
+      head.appendChild(btn);
+      if (opts.tableOpen) chartEl.hidden = true; else tableEl.hidden = true;
+    }
+    fig.appendChild(chartEl); fig.appendChild(tableEl);
+    if (note) fig.appendChild(h('p', { class: 'fig-note' }, note));
+    return fig;
+  }
+  function htmlBlock(str, cls) { return h('div', { class: cls || '', html: str || '' }); }
+  function kv(pairs) {
+    var dl = h('dl', { class: 'kv' });
+    pairs.forEach(function (p) { dl.appendChild(h('dt', null, p[0])); dl.appendChild(h('dd', null, p[1])); });
+    return dl;
+  }
+
+  // ---------- overview
+  function renderOverview(root) {
+    var tm = DATA.teamMetrics || {}, tot = tm.totals || {}, cov = tm.dataCoverage || {};
+    var tiles = CHARTS.tiles || {};
+    root.appendChild(h('h2', null, 'Overview'));
+    root.appendChild(htmlBlock((tiles.overview || []).join(''), 'tiles'));
+    var windowNote = META.window ? 'Window ' + fmt.date(META.window.from) + ' to ' + fmt.date(META.window.to) + '.' : '';
+    var tNote = META.trainingDate ? ' Training date ' + fmt.date(META.trainingDate) + ' marked.' : ' No training date set (config.trainingDate).';
+    root.appendChild(figure(CHARTS.adoptionOverTime, 'Adoption over time, weekly', 'Share of interactions in each ISO week where the rep applied at least one framework behaviour; one line per rep, team dashed. Weeks with no interactions are skipped.' + tNote));
+    var grid = h('div', { class: 'grid-2' });
+    grid.appendChild(figure(CHARTS.winRateByTertile, 'Win rate by adoption tertile', 'Assessed deals split into thirds by deal adoption (applied interactions over all interactions). n on each bar is deals in the tertile; win rate uses the closed ones.'));
+    if (CHARTS.beforeAfterByRep) {
+      grid.appendChild(figure(CHARTS.beforeAfterByRep, 'Before vs after training, adoption by rep', 'Interactions before and after ' + fmt.date(META.trainingDate) + '. Labels show the adoption rate and n.', { tableBeneath: true }));
+    } else {
+      grid.appendChild(figure(null, 'Before vs after training', 'Set config.trainingDate and run rollup to see adoption before and after the training.'));
+    }
+    root.appendChild(grid);
+    if (DATA.impact) {
+      var im = DATA.impact;
+      root.appendChild(h('div', { class: 'tiles' },
+        tile('Deals influenced in ' + (im.quarter || 'the quarter'), fmt.num(im.influencedCount), fmt.money(im.influencedAmount, META.currency) + ' across ' + fmt.num(im.influencedCount) + ' of ' + fmt.num(im.wonCount) + ' won deals in the quarter', im.rule || '')));
+    }
+    root.appendChild(h('h3', null, 'Data coverage'));
+    root.appendChild(h('p', { class: 'muted small' }, 'What the numbers above rest on. Gaps are listed here rather than hidden.'));
+    var cgrid = h('div', { class: 'grid-2' });
+    cgrid.appendChild(figure(CHARTS.interactionsByType, 'Interactions by type', 'Linked interactions in the store, by source type.'));
+    var ctiles = h('div', { class: 'tiles' });
+    ctiles.appendChild(tile('Deals without interactions', fmt.num(cov.dealsWithoutInteractions), 'of ' + fmt.num(tot.deals != null ? tot.deals : DEALS.length) + ' deals in window; not assessed'));
+    ctiles.appendChild(tile('Unlinked interactions', fmt.num(cov.unlinkedInteractions != null ? cov.unlinkedInteractions : META.counts && META.counts.unlinked), 'no accepted deal link; excluded from every number'));
+    ctiles.appendChild(tile('Deals with transcripts', fmt.num(cov.dealsWithTranscripts), (cov.transcriptsPresent != null ? fmt.num(cov.transcriptsPresent) + ' transcripts present. ' : '') + 'Transcripts give the judge verbatim buyer quotes'));
+    ctiles.appendChild(tile('Interactions linked', fmt.num(cov.interactionsLinked != null ? cov.interactionsLinked : META.counts && META.counts.interactions), 'read by the judge'));
+    cgrid.appendChild(ctiles);
+    root.appendChild(cgrid);
+    if (DATA.warnings && DATA.warnings.length) {
+      root.appendChild(h('div', { class: 'warn-box' }, h('b', null, 'Report builder notes: '), DATA.warnings.join(' ')));
+    }
+  }
+
+  // ---------- deals
+  var dealSort = { key: 'amount', dir: -1 };
+  var dealFilter = { text: '', outcome: 'all' };
+  var COLS = [
+    { key: 'name', label: 'Deal', get: function (r) { return r.d.name || r.d.id; } },
+    { key: 'owner', label: 'Owner', get: function (r) { return repName(r.d.ownerId); } },
+    { key: 'amount', label: 'Amount', num: true, get: function (r) { return r.d.amount; }, show: function (r) { return fmt.money(r.d.amount, r.d.currency); } },
+    { key: 'outcome', label: 'Outcome', get: function (r) { return r.d.outcome || ''; } },
+    { key: 'stage', label: 'Stage', get: function (r) { return r.d.stageLabel || r.d.stage || ''; } },
+    { key: 'total', label: 'Total /' + MAX_TOTAL, num: true, get: function (r) { return r.s ? r.s.total : null; }, show: function (r) { return r.s ? fmt.num(r.s.total) : 'n/a'; } },
+    { key: 'coverage2', label: 'Elements ≥ 2', num: true, get: function (r) { return r.s ? r.s.coverage2 : null; }, show: function (r) { return r.s ? fmt.num(r.s.coverage2) : 'n/a'; } },
+    { key: 'gate', label: 'Gate', get: function (r) { return r.s ? r.s.gate : ''; }, show: function (r) { return r.s ? gateChip(r.s.gate) : h('span', { class: 'muted' }, 'not assessed'); } },
+    { key: 'dealAdoption', label: 'Adoption', num: true, get: function (r) { return r.s ? r.s.dealAdoption : null; }, show: function (r) { return r.s ? fmt.pct(r.s.dealAdoption) + ' (' + fmt.num(r.s.appliedInteractions) + '/' + fmt.num(r.s.interactions) + ')' : 'n/a'; } },
+    { key: 'eqi', label: 'Evidence quality', num: true, get: function (r) { return r.s ? r.s.evidenceQualityIndex : null; }, show: function (r) { return r.s ? fmt.pct(r.s.evidenceQualityIndex) : 'n/a'; } },
+    { key: 'last', label: 'Last activity', get: function (r) { return r.last || ''; }, show: function (r) { return r.last ? fmt.date(r.last) : h('span', { class: 'muted' }, 'none'); } }
+  ];
+  function dealRows() {
+    var rows = DEALS.map(function (d) { return { d: d, s: stateById[d.id] || null, last: lastActivity(d.id) }; });
+    STATES.forEach(function (s) { if (!dealById[s.dealId]) rows.push({ d: { id: s.dealId, name: s.dealId, ownerId: s.ownerId, amount: s.amount, outcome: s.outcome }, s: s, last: lastActivity(s.dealId) }); });
+    var q = dealFilter.text.trim().toLowerCase();
+    if (q) rows = rows.filter(function (r) { return [r.d.name, repName(r.d.ownerId), r.d.stageLabel, r.d.stage, r.d.outcome, r.s && r.s.gate].join(' ').toLowerCase().indexOf(q) >= 0; });
+    if (dealFilter.outcome !== 'all') rows = rows.filter(function (r) { return (r.d.outcome || 'open') === dealFilter.outcome; });
+    var col = COLS.filter(function (c) { return c.key === dealSort.key; })[0] || COLS[0];
+    rows.sort(function (a, b) {
+      var va = col.get(a), vb = col.get(b);
+      if (va == null && vb == null) return 0; if (va == null) return 1; if (vb == null) return -1;
+      if (col.num) return (va - vb) * dealSort.dir;
+      return String(va).localeCompare(String(vb)) * dealSort.dir;
+    });
+    return rows;
+  }
+  function renderDealList(root) {
+    root.replaceChildren();
+    root.appendChild(h('h2', null, 'Deals'));
+    var input = h('input', { type: 'search', placeholder: 'Filter by deal, owner, stage, gate', value: dealFilter.text, 'aria-label': 'Filter deals' });
+    var sel = h('select', { 'aria-label': 'Outcome filter' }, ['all', 'won', 'lost', 'open'].map(function (o) { var op = h('option', { value: o }, o === 'all' ? 'All outcomes' : o); if (o === dealFilter.outcome) op.selected = true; return op; }));
+    var count = h('span', { class: 'muted small' });
+    input.addEventListener('input', function () { dealFilter.text = input.value; drawBody(); });
+    sel.addEventListener('change', function () { dealFilter.outcome = sel.value; drawBody(); });
+    root.appendChild(h('div', { class: 'deals-toolbar' }, input, sel, count));
+    var table = h('table', { class: 'deals-table' });
+    var thead = h('thead'), tr = h('tr');
+    COLS.forEach(function (c) {
+      var b = h('button', { type: 'button', 'aria-sort': dealSort.key === c.key ? (dealSort.dir > 0 ? 'ascending' : 'descending') : null }, c.label);
+      b.addEventListener('click', function () {
+        if (dealSort.key === c.key) dealSort.dir = -dealSort.dir; else { dealSort.key = c.key; dealSort.dir = c.num ? -1 : 1; }
+        tr.querySelectorAll('button').forEach(function (x) { x.removeAttribute('aria-sort'); });
+        b.setAttribute('aria-sort', dealSort.dir > 0 ? 'ascending' : 'descending');
+        drawBody();
+      });
+      tr.appendChild(h('th', { scope: 'col', class: c.num ? 'num' : null }, b));
+    });
+    thead.appendChild(tr); table.appendChild(thead);
+    var tbody = h('tbody'); table.appendChild(tbody);
+    function drawBody() {
+      tbody.replaceChildren();
+      var rows = dealRows();
+      count.textContent = rows.length + ' deal' + (rows.length === 1 ? '' : 's');
+      rows.forEach(function (r) {
+        var trr = h('tr', { class: 'deal-row', tabindex: '0', role: 'link', 'aria-label': 'Open ' + (r.d.name || r.d.id) });
+        COLS.forEach(function (c) {
+          var v = c.show ? c.show(r) : c.get(r);
+          trr.appendChild(h('td', { class: (c.num ? 'num ' : '') + (c.key === 'name' ? 'name' : '') }, v == null ? 'n/a' : v));
+        });
+        function open() { location.hash = '#deals/' + r.d.id; }
+        trr.addEventListener('click', open);
+        trr.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+        tbody.appendChild(trr);
+      });
+      if (!rows.length) tbody.appendChild(h('tr', null, h('td', { colspan: String(COLS.length), class: 'muted' }, 'No deals match.')));
+    }
+    drawBody();
+    root.appendChild(h('div', { class: 'card', style: 'padding:0 8px' }, h('div', { style: 'overflow-x:auto' }, table)));
+    root.appendChild(h('p', { class: 'muted small' }, 'Click a row (or press Enter on it) to open the deal page with the evidence behind every score.'));
+  }
+  function renderDeal(root, dealId) {
+    root.replaceChildren();
+    var d = dealById[dealId] || { id: dealId, name: dealId };
+    var s = stateById[dealId] || null;
+    var a = ASSESS[dealId] || null;
+    var its = (INTER[dealId] || []).slice().sort(function (x, y) { return (x.at || '').localeCompare(y.at || ''); });
+    root.appendChild(h('p', { class: 'back' }, h('a', { href: '#deals' }, '← All deals')));
+    var head = h('div', { class: 'rep-head' }, h('h2', { style: 'margin:0' }, d.name || dealId));
+    if (s) head.appendChild(gateChip(s.gate));
+    root.appendChild(head);
+    var facts = h('dl', { class: 'facts' });
+    function fact(k, v) { facts.appendChild(h('div', null, h('dt', null, k), h('dd', null, v == null ? 'n/a' : v))); }
+    fact('Owner', repName(d.ownerId));
+    fact('Amount', fmt.money(d.amount, d.currency));
+    fact('Outcome', d.outcome || 'open');
+    fact('Stage', (d.stageLabel || d.stage || 'n/a') + (d.phase ? ' (' + d.phase + ')' : ''));
+    fact('Created', fmt.date(d.createdAt));
+    fact('Closed', d.closedAt ? fmt.date(d.closedAt) : 'open');
+    if (s) {
+      fact('Cycle days', s.cycleDays != null ? fmt.num(s.cycleDays) : 'open');
+      fact('Total', fmt.num(s.total) + ' / ' + fmt.num(s.maxTotal || MAX_TOTAL));
+      fact('Elements at 2 or more', fmt.num(s.coverage2) + ' of ' + ELEMENTS.length);
+      fact('Deal adoption', fmt.pct(s.dealAdoption) + ' (' + fmt.num(s.appliedInteractions) + ' of ' + fmt.num(s.interactions) + ' interactions)');
+      fact('Evidence quality', fmt.pct(s.evidenceQualityIndex) + ' of scores at 2+ from buyer quotes');
+      fact('Behaviours', fmt.num(s.behaviours));
+    }
+    root.appendChild(facts);
+    if (!s) {
+      root.appendChild(h('p', { class: 'warn-box' }, 'This deal has no assessment' + (its.length ? '.' : ' because it has no linked interactions.') + ' Nothing here is scored.'));
+    } else {
+      var dc = (CHARTS.deals || {})[dealId] || {};
+      root.appendChild(figure(dc.elements, 'Element levels (max verified evidence, after decay)', 'Fill is the level, 0 to ' + MAX_LEVEL + '; the number is always printed. A corner marker means the level decayed by one because the last supporting evidence is older than the decay window. Hover or focus a cell for first and last evidence dates.'));
+      if (s.influenced && s.influenced.isInfluenced) {
+        root.appendChild(h('p', { class: 'small' }, h('b', null, 'Influenced: '), s.influenced.rule || ''));
+      }
+      var gaps = s.stageGaps || [];
+      root.appendChild(h('h3', null, 'Stage gaps'));
+      if (!gaps.length) root.appendChild(h('p', { class: 'muted' }, 'No gaps against the stage expectations.'));
+      else {
+        var gt = h('table', null, h('thead', null, h('tr', null, h('th', null, 'Phase'), h('th', null, 'Element'), h('th', { class: 'num' }, 'Expected'), h('th', { class: 'num' }, 'Actual'))));
+        var gb = h('tbody');
+        gaps.forEach(function (g) { gb.appendChild(h('tr', null, h('td', null, g.phase), h('td', null, g.element + ' ' + elName(g.element)), h('td', { class: 'num' }, fmt.num(g.expected)), h('td', { class: 'num' }, fmt.num(g.actual)))); });
+        gt.appendChild(gb);
+        root.appendChild(h('div', { class: 'card' }, gt));
+      }
+    }
+    root.appendChild(h('h3', null, 'Interaction timeline'));
+    var judged = {};
+    if (a) (a.interactions || []).forEach(function (ai) { judged[ai.interactionId] = ai; });
+    var known = {};
+    its.forEach(function (i) { known[i.id] = true; });
+    if (a) (a.interactions || []).forEach(function (ai) { if (!known[ai.interactionId]) its.push({ id: ai.interactionId, at: ai.at, type: 'scored', title: ai.interactionId, summary: null }); });
+    its.sort(function (x, y) { return (x.at || '').localeCompare(y.at || ''); });
+    if (!its.length) root.appendChild(h('p', { class: 'muted' }, 'No linked interactions.'));
+    var ol = h('ol', { class: 'timeline' });
+    its.forEach(function (it) {
+      var ai = judged[it.id] || null;
+      var li = h('li', { class: 'tl-item' });
+      li.appendChild(h('div', { class: 'tl-head' }, h('span', { class: 'tl-date' }, fmt.datetime(it.at)), h('span', { class: 'tl-type' }, it.type || 'n/a'), h('span', { class: 'tl-title' }, it.title || it.id),
+        it.hasTranscript ? h('span', { class: 'badge' }, 'transcript') : null,
+        it.repId && it.repId !== d.ownerId ? h('span', { class: 'badge' }, repName(it.repId)) : null));
+      if (it.participants && it.participants.length) li.appendChild(h('div', { class: 'muted small' }, it.participants.map(function (p) { return (p.name || p.email || '?') + (p.role ? ' (' + p.role + ')' : ''); }).join(', ')));
+      var summary = (ai && ai.summary) || it.summary;
+      if (summary) li.appendChild(h('p', null, summary));
+      if (!ai) { li.appendChild(h('p', { class: 'muted small' }, it.bodyChars === 0 ? 'Empty body, skipped by the judge.' : 'Not scored.')); ol.appendChild(li); return; }
+      var strip = h('div', { class: 'estrip' });
+      var quoteRows = [];
+      ELEMENTS.forEach(function (e) {
+        var ent = (ai.elements || {})[e.code];
+        var app = !ai.applicable || ai.applicable.indexOf(e.code) >= 0;
+        var cell = h('div', { class: 'ecell' }, h('span', { class: 'ecode' }, e.code));
+        if (!ent || !app) {
+          var reason = ai.notApplicableReason && ai.notApplicableReason[e.code];
+          cell.appendChild(levelCell(null, e.name + ': not applicable' + (reason ? ' (' + reason + ')' : '')));
+          cell.appendChild(h('span', { class: 'beh' }, '·'));
+        } else {
+          cell.appendChild(levelCell(ent.evidence, e.name + ': evidence ' + ent.evidence + ' of ' + MAX_LEVEL));
+          cell.appendChild(h('span', { class: 'beh' + (ent.behaviour ? ' on' : ''), title: ent.behaviour ? 'behaviour applied: ' + (ent.behaviourTags || []).join(', ') : 'no behaviour' }, ent.behaviour ? '●' : '○'));
+          quoteRows.push([e, ent]);
+        }
+        strip.appendChild(cell);
+      });
+      li.appendChild(strip);
+      li.appendChild(h('div', { class: 'muted small' }, 'Cell: evidence level. Dot: filled when the rep applied the framework for that element in this interaction.'));
+      if (ai.hygiene) {
+        var hg = ai.hygiene, bits = [];
+        if (hg.pitchBeforePain != null) bits.push('pitch before pain: ' + (hg.pitchBeforePain ? 'yes' : 'no'));
+        if (hg.mutualNextStep != null) bits.push('mutual next step: ' + (hg.mutualNextStep ? 'yes' : 'no'));
+        if (isNum(hg.repTalkRatio)) bits.push('rep talk ratio ' + fmt.pct(hg.repTalkRatio));
+        if (bits.length) li.appendChild(h('div', { class: 'muted small' }, 'Hygiene: ' + bits.join('; ')));
+      }
+      var det = h('details', { class: 'quotes' }, h('summary', null, 'Scores, quotes and next questions (' + quoteRows.length + ' elements)'));
+      quoteRows.forEach(function (pair) {
+        var e = pair[0], ent = pair[1];
+        var left = h('div', { class: 'qscore' }, h('span', { class: 'qcode' }, e.code + ' ' + e.name), levelCell(ent.evidence, 'evidence ' + ent.evidence + ' of ' + MAX_LEVEL),
+          h('span', { class: 'muted small' }, 'evidence ' + fmt.num(ent.evidence) + '/' + MAX_LEVEL + (ent.confidence ? ' · ' + ent.confidence : '')));
+        var right = h('div');
+        if (ent.quote) {
+          right.appendChild(h('blockquote', null, '“' + ent.quote + '”', h('cite', null, (ent.speaker || 'unknown speaker') + (ent.verified === false ? ' · quote not verified in the source, score capped at 1' : ' · verified in the source'))));
+        } else {
+          right.appendChild(h('p', { class: 'muted small' }, 'No quote' + (ent.evidence > 0 ? '' : ': nothing on record for this element in this interaction.')));
+        }
+        if (ent.whyNotHigher) right.appendChild(h('p', { class: 'why' }, h('b', null, 'Why not higher: '), ent.whyNotHigher));
+        if (ent.nextQuestion) right.appendChild(h('p', { class: 'why' }, h('b', null, 'Next question: '), ent.nextQuestion));
+        if (ent.behaviourTags && ent.behaviourTags.length) right.appendChild(h('div', { class: 'taglist' }, ent.behaviourTags.map(function (t) { return h('span', { class: 'chip tag' }, t); })));
+        if (ent.flags && ent.flags.length) right.appendChild(h('div', { class: 'muted small' }, 'Flags: ' + ent.flags.join(', ')));
+        det.appendChild(h('div', { class: 'qrow' }, left, right));
+      });
+      li.appendChild(det);
+      ol.appendChild(li);
+    });
+    root.appendChild(ol);
+    root.appendChild(h('h3', null, 'Deal notes'));
+    root.appendChild(h('div', { class: 'card' }, (a && a.dealNotes) ? h('p', null, a.dealNotes) : h('p', { class: 'muted' }, 'No notes from the judge.')));
+    if (a) root.appendChild(h('p', { class: 'muted small' }, 'Judged ' + fmt.datetime(a.judgedAt) + (a.model ? ' with ' + a.model : '') + (a.rubricHash ? ' · rubric ' + String(a.rubricHash).slice(0, 19) : '') + '.'));
+  }
+
+  // ---------- reps
+  function elementAppliedCounts(repId, code) {
+    var app = 0, done = 0;
+    Object.keys(ASSESS).forEach(function (dealId) {
+      var owner = dealById[dealId] ? dealById[dealId].ownerId : null;
+      (ASSESS[dealId].interactions || []).forEach(function (ai) {
+        var rid = interactionRep(dealId, ai.interactionId) || owner;
+        if (rid !== repId) return;
+        var ent = (ai.elements || {})[code];
+        if (!ent) return;
+        app += 1; if (ent.behaviour) done += 1;
+      });
+    });
+    return { applicable: app, applied: done };
+  }
+  function recommendationsFor(rep, rm) {
+    var weak = normCodes(rm.weakestElements).slice(0, 3);
+    return weak.map(function (code) {
+      var fe = fwElement(code);
+      var cands = [];
+      STATES.filter(function (s) { return s.ownerId === rep.id; }).forEach(function (s) {
+        var a = ASSESS[s.dealId]; if (!a) return;
+        var why = null, at = null, ev = null;
+        (a.interactions || []).forEach(function (ai) {
+          var ent = (ai.elements || {})[code];
+          if (ent && (ent.evidence == null || ent.evidence <= 1) && ent.whyNotHigher) { if (!at || (ai.at || '') > at) { at = ai.at || ''; why = ent.whyNotHigher; ev = ent.evidence; } }
+        });
+        if (why) cands.push({ s: s, why: why, at: at, ev: ev, level: (s.elements && s.elements[code] && s.elements[code].level) });
+      });
+      cands.sort(function (x, y) { return ((x.level == null ? 0 : x.level) - (y.level == null ? 0 : y.level)) || ((y.s.amount || 0) - (x.s.amount || 0)); });
+      var counts = elementAppliedCounts(rep.id, code);
+      return { code: code, rate: rm.adoptionByElement ? rm.adoptionByElement[code] : null, counts: counts,
+        nextQuestion: fe ? fe.nextQuestionAt1 : null, example: fe && fe.exampleQuotes ? (fe.exampleQuotes['2'] || fe.exampleQuotes['3'] || fe.exampleQuotes['1']) : null, deals: cands.slice(0, 2) };
+    });
+  }
+  function renderReps(root) {
+    root.appendChild(h('h2', null, 'Reps'));
+    root.appendChild(h('p', { class: 'muted small' }, 'Every number on a rep card is a count or a rate from the analytics; every recommendation cites the framework and a quote or judge note from a real interaction.'));
+    var reps = REPS.slice().sort(function (a, b) { return (a.slot || 99) - (b.slot || 99) || String(a.name).localeCompare(String(b.name)); });
+    if (!reps.length) root.appendChild(h('p', { class: 'muted' }, 'No reps in the store.'));
+    reps.forEach(function (rep) {
+      var rm = metricsById[rep.id] || {};
+      var rc = (CHARTS.reps || {})[rep.id] || {};
+      var card = h('section', { class: 'rep-card', id: 'rep-' + safeId(rep.id) });
+      card.appendChild(h('div', { class: 'rep-head' }, h('span', { class: 'swatch s' + (rep.slot || 0), 'aria-hidden': 'true' }), h('h3', null, rep.name || rep.id), rep.email ? h('span', { class: 'muted small' }, rep.email) : null));
+      var tiles = h('div', { class: 'tiles' });
+      if (rc.adoptionTile) tiles.appendChild(htmlBlock(rc.adoptionTile, 'tile-wrap')); else tiles.appendChild(tile('Adoption rate', fmt.pct(rm.adoptionRate), 'n = ' + fmt.num(rm.interactions) + ' interactions'));
+      tiles.appendChild(tile('Interactions', fmt.num(rm.interactions), fmt.num(rm.appliedInteractions) + ' with a framework behaviour'));
+      var closed = (rm.dealsWon || 0) + (rm.dealsLost || 0);
+      tiles.appendChild(tile('Win rate', fmt.pct(rm.winRate), fmt.num(rm.dealsWon) + ' won, ' + fmt.num(rm.dealsLost) + ' lost, ' + fmt.num(rm.dealsOpen) + ' open (n = ' + closed + ' closed)'));
+      tiles.appendChild(tile('Evidence quality', fmt.pct(rm.evidenceQualityIndex), 'share of scores at 2+ backed by a buyer quote'));
+      card.appendChild(tiles);
+      var grid = h('div', { class: 'grid-2' });
+      grid.appendChild(figure(rc.byElement, 'Adoption by element', 'Interactions where the rep applied the framework for the element, over interactions where it was applicable.'));
+      var side = h('div');
+      var weak = normCodes(rm.weakestElements).slice(0, 3), strong = normCodes(rm.strongestElements).slice(0, 3);
+      function chipList(codes) { return h('div', { class: 'chips' }, codes.length ? codes.map(function (c) { return h('span', { class: 'chip' }, c + ' ' + elName(c) + ' · ' + fmt.pct(rm.adoptionByElement ? rm.adoptionByElement[c] : null)); }) : h('span', { class: 'muted' }, 'n/a')); }
+      side.appendChild(h('h4', null, 'Weakest three')); side.appendChild(chipList(weak));
+      side.appendChild(h('h4', null, 'Strongest three')); side.appendChild(chipList(strong));
+      var bt = rm.beforeTraining || {}, at = rm.afterTraining || {};
+      if (rc.beforeAfter) {
+        var liftText = isNum(rm.adoptionLift) ? (rm.adoptionLift >= 0 ? '+' : '') + (rm.adoptionLift * 100).toFixed(0) + ' pts lift' : 'lift n/a';
+        side.appendChild(figure(rc.beforeAfter, 'Before and after training: ' + liftText, 'Before n = ' + fmt.num(bt.n) + ', after n = ' + fmt.num(at.n) + ' interactions.'));
+      } else {
+        side.appendChild(h('h4', null, 'Before and after training')); side.appendChild(h('p', { class: 'muted small' }, 'No training date set.'));
+      }
+      var acc = rm.avgCoverageAtClose || {};
+      side.appendChild(h('h4', null, 'At close'));
+      side.appendChild(kv([['Avg elements at 2+, won deals', acc.won != null ? fmt.level(acc.won) : 'n/a'], ['Avg elements at 2+, lost deals', acc.lost != null ? fmt.level(acc.lost) : 'n/a'], ['Avg total, won', rm.avgTotalWon != null ? fmt.level(rm.avgTotalWon) : 'n/a'], ['Avg total, lost', rm.avgTotalLost != null ? fmt.level(rm.avgTotalLost) : 'n/a']]));
+      grid.appendChild(side);
+      card.appendChild(grid);
+      card.appendChild(h('h4', null, 'Recommendations'));
+      var recs = recommendationsFor(rep, rm);
+      if (!recs.length) card.appendChild(h('p', { class: 'muted small' }, 'No weak elements recorded in rep_metrics.'));
+      var ol = h('ol', { class: 'rec' });
+      recs.forEach(function (r) {
+        var li = h('li');
+        li.appendChild(h('div', null, h('b', null, r.code + ' ' + elName(r.code)), ' · applied in ' + fmt.num(r.counts.applied) + ' of ' + fmt.num(r.counts.applicable) + ' applicable interactions (' + fmt.pct(r.rate) + ').'));
+        if (r.nextQuestion) li.appendChild(h('p', { class: 'why' }, h('b', null, 'Ask next: '), '“' + r.nextQuestion + '”'));
+        if (r.example) li.appendChild(h('p', { class: 'why' }, h('b', null, 'What a level-2 answer sounds like: '), '“' + r.example + '”', h('span', { class: 'muted' }, ' (framework example)')));
+        if (!r.nextQuestion && !r.example) li.appendChild(h('p', { class: 'muted small' }, 'Framework file not found, so no suggested question.'));
+        if (r.deals.length) {
+          var ul = h('ul', { class: 'deal-cite' });
+          r.deals.forEach(function (c) { ul.appendChild(h('li', null, h('a', { href: '#deals/' + c.s.dealId }, dealName(c.s.dealId)), ' (level ' + (c.level == null ? 'n/a' : c.level) + ', ' + fmt.date(c.at) + '): ', h('span', { class: 'muted' }, c.why))); });
+          li.appendChild(h('div', null, h('b', { class: 'small' }, 'Where the gap shows'), ul));
+        } else {
+          li.appendChild(h('p', { class: 'muted small' }, 'No interaction with a judge note on this element for this rep.'));
+        }
+        ol.appendChild(li);
+      });
+      card.appendChild(ol);
+      root.appendChild(card);
+    });
+  }
+
+  // ---------- elements
+  function goodPractice(code) {
+    var out = [];
+    Object.keys(ASSESS).forEach(function (dealId) {
+      (ASSESS[dealId].interactions || []).forEach(function (ai) {
+        var ent = (ai.elements || {})[code];
+        if (!ent || !ent.quote || ent.speaker !== 'buyer' || ent.verified === false || !isNum(ent.evidence) || ent.evidence < 2) return;
+        out.push({ quote: ent.quote, evidence: ent.evidence, at: ai.at || '', dealId: dealId, repId: interactionRep(dealId, ai.interactionId), title: ai.interactionId });
+      });
+    });
+    out.sort(function (a, b) { return (b.evidence - a.evidence) || b.at.localeCompare(a.at); });
+    return out.slice(0, 3);
+  }
+  function renderElements(root) {
+    var tm = DATA.teamMetrics || {};
+    root.appendChild(h('h2', null, 'Elements, team view'));
+    var grid = h('div', { class: 'grid-2' });
+    grid.appendChild(figure(CHARTS.elementWonLost, 'Average level on won vs lost deals', 'Level after decay, averaged over closed deals. n = ' + fmt.num((tm.totals || {}).dealsWon) + ' won, ' + fmt.num((tm.totals || {}).dealsLost) + ' lost.'));
+    grid.appendChild(figure(CHARTS.elementAdoption, 'Adoption rate by element', 'Interactions where a rep applied the framework for the element, over interactions where it was applicable.'));
+    root.appendChild(grid);
+    var weakness = {};
+    (tm.elementWeakness || []).forEach(function (w) { weakness[w.element || w.code] = w; });
+    ELEMENTS.forEach(function (e) {
+      var w = weakness[e.code] || {};
+      var card = h('section', { class: 'card' });
+      card.appendChild(h('h3', { style: 'margin-top:0' }, e.code + ' ' + e.name));
+      var facts = h('dl', { class: 'facts' });
+      [['Avg level, won', fmt.level(w.avgLevelWon)], ['Avg level, lost', fmt.level(w.avgLevelLost)], ['Adoption rate', fmt.pct(w.adoptionRate)]].forEach(function (p) { facts.appendChild(h('div', null, h('dt', null, p[0]), h('dd', null, p[1]))); });
+      card.appendChild(facts);
+      var fe = fwElement(e.code);
+      if (fe && fe.definition) card.appendChild(h('p', { class: 'muted small' }, fe.definition));
+      card.appendChild(h('h4', null, 'Good practice from your own calls'));
+      var gp = goodPractice(e.code);
+      if (!gp.length) card.appendChild(h('p', { class: 'muted small' }, 'No verified buyer quote at level 2 or higher yet for this element.'));
+      gp.forEach(function (q) {
+        card.appendChild(h('blockquote', null, '“' + q.quote + '”', h('cite', null, repName(q.repId) + ' · ', h('a', { href: '#deals/' + q.dealId }, dealName(q.dealId)), ' · ' + fmt.date(q.at) + ' · evidence ' + q.evidence + '/' + MAX_LEVEL + ', buyer')));
+      });
+      root.appendChild(card);
+    });
+  }
+
+  // ---------- impact
+  function renderImpact(root) {
+    root.appendChild(h('h2', null, 'Impact'));
+    var im = DATA.impact;
+    if (!im) {
+      root.appendChild(h('div', { class: 'card' }, h('p', null, 'No impact.json in the store yet.'), h('p', null, 'Produce it with ', h('code', null, 'python3 scripts/fs.py impact --quarter YYYY-Qn'), ' (or the /flow-sales:impact skill), then run ', h('code', null, 'python3 scripts/fs.py report'), ' again. The quarter view shows adoption and win rate before and after the training date and the won deals that followed framework actions, with the rule printed next to every number.')));
+      return;
+    }
+    root.appendChild(h('p', { class: 'muted small' }, 'Quarter ' + (im.quarter || 'n/a') + (im.trainingDate ? ' · training date ' + fmt.date(im.trainingDate) : ' · no training date: influence counts framework actions inside the window')));
+    root.appendChild(htmlBlock(((CHARTS.tiles || {}).impact || []).join(''), 'tiles'));
+    root.appendChild(h('div', { class: 'card' }, h('h4', { style: 'margin-top:0' }, 'The rule'), h('p', null, im.rule || 'n/a')));
+    root.appendChild(h('h3', null, 'Influenced deals'));
+    var rows = im.influencedDeals || [];
+    if (!rows.length) root.appendChild(h('p', { class: 'muted' }, 'No deal met the rule this quarter.'));
+    else {
+      var t = h('table', null, h('thead', null, h('tr', null, h('th', null, 'Deal'), h('th', null, 'Owner'), h('th', { class: 'num' }, 'Amount'), h('th', null, 'Elements moved'), h('th', { class: 'num' }, 'Behaviours'), h('th', { class: 'num' }, 'Interactions'), h('th', null, 'Closed'))));
+      var tb = h('tbody');
+      rows.forEach(function (r) {
+        var deal = dealById[r.dealId] || {};
+        tb.appendChild(h('tr', null, h('td', null, h('a', { href: '#deals/' + r.dealId }, r.name || dealName(r.dealId))), h('td', null, repName(r.ownerId)), h('td', { class: 'num' }, fmt.money(r.amount, deal.currency || META.currency)),
+          h('td', null, (r.movedElements || []).join(', ') || 'n/a'), h('td', { class: 'num' }, fmt.num(r.behaviours)), h('td', { class: 'num' }, fmt.num(r.interactions)), h('td', null, fmt.date(r.closedAt || deal.closedAt))));
+      });
+      t.appendChild(tb);
+      root.appendChild(h('div', { class: 'card' }, t));
+    }
+    root.appendChild(figure(CHARTS.impactBeforeAfter, 'Adoption and win rate, before and after training', 'Adoption n = interactions (' + fmt.num(im.adoptionBeforeN) + ' before, ' + fmt.num(im.adoptionAfterN) + ' after); win rate n = closed deals (' + fmt.num(im.closedBefore) + ' before, ' + fmt.num(im.closedAfter) + ' after).'));
+    root.appendChild(h('h3', null, 'Caveats'));
+    var cav = im.caveats || [];
+    if (!cav.length) root.appendChild(h('p', { class: 'muted' }, 'None recorded.'));
+    else root.appendChild(h('ul', { class: 'plain' }, cav.map(function (c) { return h('li', null, c); })));
+  }
+
+  // ---------- method
+  function renderMethod(root) {
+    var fwm = META.framework || {}, cfg = META.config || {}, attr = cfg.attribution || {}, judge = cfg.judge || {};
+    var tm = DATA.teamMetrics || {}, cov = tm.dataCoverage || {}, counts = META.counts || {};
+    root.appendChild(h('h2', null, 'Method'));
+    var scoring = (FW && FW.scoring) || {};
+    var gate = scoring.commitGate || {}, qo = scoring.qualifyOut || {};
+    root.appendChild(h('div', { class: 'card' }, kv([
+      ['Framework', (fwm.name || fwm.slug || 'n/a') + (fwm.version ? ' v' + fwm.version : '') + (FW ? '' : ' (framework file not found; anchors and questions omitted)')],
+      ['Rubric hash', (META.rubricHashes || []).join(', ') || 'n/a'],
+      ['Model', (META.models || []).join(', ') || judge.model || 'n/a'],
+      ['Judged between', META.judgedAt && META.judgedAt.min ? fmt.datetime(META.judgedAt.min) + ' and ' + fmt.datetime(META.judgedAt.max) : 'n/a'],
+      ['Window', META.window ? fmt.date(META.window.from) + ' to ' + fmt.date(META.window.to) : 'n/a'],
+      ['Training date', META.trainingDate ? fmt.date(META.trainingDate) : 'not set'],
+      ['Decay', 'a level of 2 or more drops by one when its last supporting interaction is older than ' + fmt.num(attr.decayDays != null ? attr.decayDays : scoring.decayDays) + ' days before close (or before the window end for open deals)'],
+      ['Commit gate', 'all elements at ' + fmt.num(gate.all != null ? gate.all : 2) + ' or more, E at ' + fmt.num(gate.E != null ? gate.E : 3) + ', CH at ' + fmt.num(gate.CH != null ? gate.CH : 3) + ', PP at ' + fmt.num(gate.PP != null ? gate.PP : 2) + ' or more'],
+      ['Qualify out', 'total at most ' + fmt.num(qo.maxTotal != null ? qo.maxTotal : 9) + ' after ' + fmt.num(qo.minInteractions != null ? qo.minInteractions : 4) + ' or more interactions, or E or CH still 0 after the evaluation phase'],
+      ['Upside', 'six or more elements at level 2 or more; otherwise pipeline'],
+      ['Influenced', 'won deal with at least ' + fmt.num(attr.influencedMinBehaviours) + ' behaviours across at least ' + fmt.num(attr.influencedMinInteractions) + ' interactions after the training date (or inside the window), and one element moved from 0 or 1 to 2 or 3 in one of them'],
+      ['Quote rule', 'a score above ' + fmt.num(scoring.quoteRequiredAbove != null ? scoring.quoteRequiredAbove : 1) + ' needs a verbatim quote found in the source text; unverified quotes cap the score at 1 and are flagged'],
+      ['Generated', fmt.datetime(META.generatedAt)]
+    ])));
+    root.appendChild(h('h3', null, 'The 0 to ' + MAX_LEVEL + ' ladder'));
+    var ladder = (FW && FW.ladder) || { '0': 'No evidence: the element was not mentioned.', '1': 'Mentioned without specifics, or only by the rep.', '2': 'Specific and quoted from the buyer: a name, a number, a step or a date.', '3': 'Confirmed by the buyer with ownership or consequence, consistent across interactions.' };
+    var lt = h('table', null, h('thead', null, h('tr', null, h('th', null, 'Level'), h('th', null, 'Meaning'))));
+    var lb = h('tbody');
+    Object.keys(ladder).sort().forEach(function (k) { lb.appendChild(h('tr', null, h('td', null, levelCell(Number(k))), h('td', null, ladder[k]))); });
+    lt.appendChild(lb);
+    root.appendChild(h('div', { class: 'card' }, lt));
+    if (FW && FW.elements) {
+      root.appendChild(h('h3', null, 'Element anchors'));
+      var at = h('table', null, h('thead', null, h('tr', null, h('th', null, 'Element'), h('th', null, '0'), h('th', null, '1'), h('th', null, '2'), h('th', null, '3'))));
+      var ab = h('tbody');
+      FW.elements.forEach(function (e) { var an = e.anchors || {}; ab.appendChild(h('tr', null, h('td', null, h('b', null, e.code + ' ' + e.name)), h('td', null, an['0'] || ''), h('td', null, an['1'] || ''), h('td', null, an['2'] || ''), h('td', null, an['3'] || ''))); });
+      at.appendChild(ab);
+      root.appendChild(h('div', { class: 'card', style: 'overflow-x:auto' }, at));
+    }
+    root.appendChild(h('h3', null, 'Behaviour tags'));
+    var tags = [];
+    if (FW && FW.elements) { FW.elements.forEach(function (e) { (e.behaviourTags || []).forEach(function (t) { tags.push([e.code, t]); }); }); (FW.generalBehaviourTags || []).forEach(function (t) { tags.push(['any', t]); }); }
+    else {
+      var seen = {};
+      Object.keys(ASSESS).forEach(function (id) { (ASSESS[id].interactions || []).forEach(function (ai) { Object.keys(ai.elements || {}).forEach(function (c) { ((ai.elements[c] || {}).behaviourTags || []).forEach(function (t) { if (!seen[t]) { seen[t] = 1; tags.push([c, t]); } }); }); }); });
+    }
+    root.appendChild(h('div', { class: 'card' }, tags.length ? h('div', { class: 'chips' }, tags.map(function (p) { return h('span', { class: 'chip tag', title: 'element ' + p[0] }, p[0] + ': ' + p[1]); })) : h('p', { class: 'muted' }, 'n/a')));
+    root.appendChild(h('h3', null, 'Data coverage'));
+    var byType = cov.interactionsByType || {};
+    root.appendChild(h('div', { class: 'card' }, kv([
+      ['Deals in window', fmt.num(counts.deals)], ['Deals assessed', fmt.num(counts.dealStates)], ['Deals without interactions', fmt.num(cov.dealsWithoutInteractions)],
+      ['Interactions linked', fmt.num(cov.interactionsLinked != null ? cov.interactionsLinked : counts.interactions)], ['Interactions by type', Object.keys(byType).map(function (k) { return k + ' ' + fmt.num(byType[k]); }).join(', ') || 'n/a'],
+      ['Unlinked interactions', fmt.num(cov.unlinkedInteractions != null ? cov.unlinkedInteractions : counts.unlinked)], ['Deals with transcripts', fmt.num(cov.dealsWithTranscripts)], ['Reps', fmt.num(counts.reps)],
+      ['Content read', cfg.content ? Object.keys(cfg.content).map(function (k) { return k + ': ' + (cfg.content[k] ? 'yes' : 'no'); }).join(', ') : 'n/a'],
+      ['Sources enabled', (META.sources || []).join(', ') || 'n/a']
+    ])));
+    root.appendChild(h('h3', null, 'How to read this report'));
+    root.appendChild(h('div', { class: 'card' }, h('p', null, 'Every score in this report is a level from 0 to ' + MAX_LEVEL + ' given by the judge to one element of the framework in one interaction, and every level above 1 sits next to the buyer or rep quote that earned it. Deal levels are the highest verified level across the deal’s interactions, reduced by one when the evidence has gone stale. Adoption counts what the rep did (a behaviour tag), not what the buyer said; evidence counts what the buyer said. Win rates are correlations over small samples: read them with the n printed beside them and the caveats in the Impact tab, and treat a gap on the deal page as a question to ask, not a verdict. Hover or focus any chart mark for the values, or press Table on any chart for the same numbers as text. Nothing in this file is fetched from the network.')));
+  }
+
+  // ---------- tabs and routing
+  var TABS = ['overview', 'deals', 'reps', 'elements', 'impact', 'method'];
+  var rendered = {};
+  var RENDER = { overview: renderOverview, reps: renderReps, elements: renderElements, impact: renderImpact, method: renderMethod };
+  function activate(name) {
+    TABS.forEach(function (t) {
+      var btn = document.getElementById('tab-btn-' + t), panel = document.getElementById('tab-' + t);
+      var on = t === name;
+      btn.setAttribute('aria-selected', on ? 'true' : 'false');
+      btn.setAttribute('tabindex', on ? '0' : '-1');
+      panel.hidden = !on;
+      panel.classList.toggle('active', on);
+    });
+    if (name !== 'deals' && !rendered[name]) { rendered[name] = true; try { RENDER[name](document.getElementById('tab-' + name)); } catch (e) { document.getElementById('tab-' + name).appendChild(h('p', { class: 'warn-box' }, 'This tab could not render: ' + e.message)); } }
+  }
+  function route() {
+    var hash = decodeURIComponent(location.hash.replace(/^#/, '')) || 'overview';
+    var idx = hash.indexOf('/');
+    var tab = idx >= 0 ? hash.slice(0, idx) : hash, rest = idx >= 0 ? hash.slice(idx + 1) : '';
+    if (TABS.indexOf(tab) < 0) { tab = 'overview'; rest = ''; }
+    activate(tab);
+    var panel = document.getElementById('tab-' + tab);
+    if (tab === 'deals') { try { if (rest) renderDeal(panel, rest); else renderDealList(panel); } catch (e) { panel.appendChild(h('p', { class: 'warn-box' }, 'Could not render: ' + e.message)); } window.scrollTo(0, 0); }
+    if (tab === 'reps' && rest) { var el = document.getElementById('rep-' + safeId(rest)); if (el) el.scrollIntoView(); }
+  }
+  document.querySelectorAll('.tab').forEach(function (btn, i, all) {
+    btn.addEventListener('click', function () { location.hash = '#' + btn.getAttribute('aria-controls').replace('tab-', ''); });
+    btn.addEventListener('keydown', function (e) {
+      var j = i;
+      if (e.key === 'ArrowRight') j = (i + 1) % all.length; else if (e.key === 'ArrowLeft') j = (i - 1 + all.length) % all.length;
+      else if (e.key === 'Home') j = 0; else if (e.key === 'End') j = all.length - 1; else return;
+      e.preventDefault(); all[j].focus(); all[j].click();
+    });
+  });
+  window.addEventListener('hashchange', route);
+
+  // ---------- tooltip and crosshair
+  var tipEl = document.getElementById('tip');
+  function showTip(target, x, y) {
+    var raw = target.getAttribute('data-tip'); if (!raw) return;
+    tipEl.replaceChildren();
+    var lines = raw.split('\n');
+    tipEl.appendChild(h('div', { class: 'tip-title' }, lines[0]));
+    lines.slice(1).forEach(function (ln) {
+      var parts = ln.split('|');
+      if (parts.length < 2) { tipEl.appendChild(h('div', { class: 'tip-row' }, ln)); return; }
+      var row = h('div', { class: 'tip-row' });
+      if (parts[2] && /^[a-z0-9-]+$/.test(parts[2])) row.appendChild(h('span', { class: 'tip-key', style: 'background: var(--' + parts[2] + ')' }));
+      row.appendChild(h('strong', null, parts[1])); row.appendChild(h('span', { class: 'tip-label' }, parts[0]));
+      tipEl.appendChild(row);
+    });
+    tipEl.hidden = false;
+    positionTip(x, y);
+  }
+  function positionTip(x, y) {
+    var w = tipEl.offsetWidth, hh = tipEl.offsetHeight;
+    var left = x + 14, top = y + 14;
+    if (left + w > window.innerWidth - 8) left = x - w - 10;
+    if (top + hh > window.innerHeight - 8) top = y - hh - 10;
+    tipEl.style.left = Math.max(4, left) + 'px'; tipEl.style.top = Math.max(4, top) + 'px';
+  }
+  function hideTip() { tipEl.hidden = true; }
+  function crosshair(target, on) {
+    var svg = target.closest('svg'); if (!svg) return;
+    var xh = svg.querySelector('.xhair'); if (!xh) return;
+    if (on && target.hasAttribute('data-x')) { xh.setAttribute('x1', target.getAttribute('data-x')); xh.setAttribute('x2', target.getAttribute('data-x')); xh.style.visibility = 'visible'; }
+    else xh.style.visibility = 'hidden';
+  }
+  document.addEventListener('pointerover', function (e) {
+    var t = e.target.closest ? e.target.closest('[data-tip]') : null;
+    if (!t) return;
+    showTip(t, e.clientX, e.clientY); crosshair(t, true);
+  });
+  document.addEventListener('pointermove', function (e) { if (!tipEl.hidden) positionTip(e.clientX, e.clientY); });
+  document.addEventListener('pointerout', function (e) {
+    var t = e.target.closest ? e.target.closest('[data-tip]') : null;
+    if (!t) return;
+    var to = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest('[data-tip]') : null;
+    if (to !== t) { hideTip(); crosshair(t, false); }
+  });
+  document.addEventListener('focusin', function (e) {
+    var t = e.target.closest ? e.target.closest('[data-tip]') : null;
+    if (!t) return;
+    var r = t.getBoundingClientRect();
+    showTip(t, r.left + r.width / 2, r.top + r.height / 2); crosshair(t, true);
+  });
+  document.addEventListener('focusout', function (e) { var t = e.target.closest ? e.target.closest('[data-tip]') : null; if (t) { hideTip(); crosshair(t, false); } });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hideTip(); });
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('.fig-toggle') : null;
+    if (!btn) return;
+    var fig = btn.closest('.fig'); if (!fig) return;
+    var c = fig.querySelector('.fig-chart'), t = fig.querySelector('.fig-table');
+    var showTable = btn.getAttribute('aria-pressed') !== 'true';
+    btn.setAttribute('aria-pressed', showTable ? 'true' : 'false');
+    if (c) c.hidden = showTable; if (t) t.hidden = !showTable;
+  });
+
+  // ---------- theme, texture, print
+  var themeBtn = document.getElementById('theme-toggle');
+  function setTheme(t) {
+    if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); else document.documentElement.removeAttribute('data-theme');
+    themeBtn.textContent = t === 'dark' ? 'Light theme' : 'Dark theme';
+    themeBtn.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+    try { localStorage.setItem('fs-theme', t); } catch (e) { /* storage unavailable, keep the choice for this page only */ }
+  }
+  var savedTheme = 'light';
+  try { savedTheme = localStorage.getItem('fs-theme') === 'dark' ? 'dark' : 'light'; } catch (e) { savedTheme = 'light'; }
+  setTheme(savedTheme);
+  themeBtn.addEventListener('click', function () { setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); });
+  var texBtn = document.getElementById('texture-toggle');
+  texBtn.addEventListener('click', function () { var on = document.body.classList.toggle('texture'); texBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+  document.getElementById('print-btn').addEventListener('click', function () { window.print(); });
+  window.addEventListener('beforeprint', function () { document.querySelectorAll('.tabpanel.active details').forEach(function (d) { d.setAttribute('data-was-open', d.open ? '1' : '0'); d.open = true; }); });
+  window.addEventListener('afterprint', function () { document.querySelectorAll('.tabpanel.active details[data-was-open]').forEach(function (d) { d.open = d.getAttribute('data-was-open') === '1'; d.removeAttribute('data-was-open'); }); });
+
+  route();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,760 @@
+[
+  {
+    "dealId": "demo:1",
+    "outcome": "won",
+    "ownerId": "rep:sam@northwind.example",
+    "amount": 42000.0,
+    "closedAt": "2026-06-20T00:00:00Z",
+    "cycleDays": 110,
+    "elements": {
+      "M": {
+        "level": 2,
+        "firstAt": "2026-03-04T14:00:00Z",
+        "lastAt": "2026-04-22T09:30:00Z",
+        "interactionId": "demo:i1-3",
+        "decayed": true
+      },
+      "E": {
+        "level": 3,
+        "firstAt": "2026-03-25T10:00:00Z",
+        "lastAt": "2026-06-05T15:00:00Z",
+        "interactionId": "demo:i1-4",
+        "decayed": false
+      },
+      "DC": {
+        "level": 2,
+        "firstAt": "2026-03-04T14:00:00Z",
+        "lastAt": "2026-04-22T09:30:00Z",
+        "interactionId": "demo:i1-3",
+        "decayed": true
+      },
+      "DP": {
+        "level": 3,
+        "firstAt": "2026-03-25T10:00:00Z",
+        "lastAt": "2026-06-05T15:00:00Z",
+        "interactionId": "demo:i1-4",
+        "decayed": false
+      },
+      "PP": {
+        "level": 3,
+        "firstAt": "2026-04-22T09:30:00Z",
+        "lastAt": "2026-06-05T15:00:00Z",
+        "interactionId": "demo:i1-4",
+        "decayed": false
+      },
+      "I": {
+        "level": 2,
+        "firstAt": "2026-03-04T14:00:00Z",
+        "lastAt": "2026-04-22T09:30:00Z",
+        "interactionId": "demo:i1-3",
+        "decayed": true
+      },
+      "CH": {
+        "level": 3,
+        "firstAt": "2026-03-04T14:00:00Z",
+        "lastAt": "2026-06-05T15:00:00Z",
+        "interactionId": "demo:i1-4",
+        "decayed": false
+      },
+      "CO": {
+        "level": 3,
+        "firstAt": "2026-03-04T14:00:00Z",
+        "lastAt": "2026-06-05T15:00:00Z",
+        "interactionId": "demo:i1-4",
+        "decayed": false
+      }
+    },
+    "total": 21,
+    "maxTotal": 24,
+    "coverage2": 8,
+    "coverage3": 5,
+    "gate": "commit-eligible",
+    "evidenceQualityIndex": 1.0,
+    "interactions": 4,
+    "behaviours": 16,
+    "appliedInteractions": 4,
+    "dealAdoption": 1.0,
+    "coverageAtPhaseEnd": {
+      "discovery": 2,
+      "evaluation": 7,
+      "proposal": 8,
+      "commit": 8
+    },
+    "stageGaps": [
+      {
+        "phase": "discovery",
+        "element": "E",
+        "expected": 1,
+        "actual": 0
+      }
+    ],
+    "influenced": {
+      "isInfluenced": false,
+      "rule": "2 behaviours across 1 interactions after 2026-06-01",
+      "behaviours": 2,
+      "interactions": 1,
+      "movedElements": []
+    }
+  },
+  {
+    "dealId": "demo:2",
+    "outcome": "won",
+    "ownerId": "rep:priya@northwind.example",
+    "amount": 68000.0,
+    "closedAt": "2026-08-14T00:00:00Z",
+    "cycleDays": 130,
+    "elements": {
+      "M": {
+        "level": 2,
+        "firstAt": "2026-04-08T11:00:00Z",
+        "lastAt": "2026-06-18T14:30:00Z",
+        "interactionId": "demo:i2-3",
+        "decayed": true
+      },
+      "E": {
+        "level": 3,
+        "firstAt": "2026-05-13T13:00:00Z",
+        "lastAt": "2026-08-05T09:00:00Z",
+        "interactionId": "demo:i2-4",
+        "decayed": false
+      },
+      "DC": {
+        "level": 2,
+        "firstAt": "2026-05-13T13:00:00Z",
+        "lastAt": "2026-06-18T14:30:00Z",
+        "interactionId": "demo:i2-3",
+        "decayed": true
+      },
+      "DP": {
+        "level": 3,
+        "firstAt": "2026-05-13T13:00:00Z",
+        "lastAt": "2026-08-05T09:00:00Z",
+        "interactionId": "demo:i2-4",
+        "decayed": false
+      },
+      "PP": {
+        "level": 3,
+        "firstAt": "2026-06-18T14:30:00Z",
+        "lastAt": "2026-08-05T09:00:00Z",
+        "interactionId": "demo:i2-4",
+        "decayed": false
+      },
+      "I": {
+        "level": 2,
+        "firstAt": "2026-04-08T11:00:00Z",
+        "lastAt": "2026-06-18T14:30:00Z",
+        "interactionId": "demo:i2-3",
+        "decayed": true
+      },
+      "CH": {
+        "level": 3,
+        "firstAt": "2026-04-08T11:00:00Z",
+        "lastAt": "2026-08-05T09:00:00Z",
+        "interactionId": "demo:i2-4",
+        "decayed": false
+      },
+      "CO": {
+        "level": 2,
+        "firstAt": "2026-05-13T13:00:00Z",
+        "lastAt": "2026-06-18T14:30:00Z",
+        "interactionId": "demo:i2-3",
+        "decayed": true
+      }
+    },
+    "total": 20,
+    "maxTotal": 24,
+    "coverage2": 8,
+    "coverage3": 4,
+    "gate": "commit-eligible",
+    "evidenceQualityIndex": 1.0,
+    "interactions": 4,
+    "behaviours": 17,
+    "appliedInteractions": 4,
+    "dealAdoption": 1.0,
+    "coverageAtPhaseEnd": {
+      "discovery": 1,
+      "evaluation": 5,
+      "proposal": 8,
+      "commit": 8
+    },
+    "stageGaps": [
+      {
+        "phase": "discovery",
+        "element": "M",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "discovery",
+        "element": "E",
+        "expected": 1,
+        "actual": 0
+      },
+      {
+        "phase": "discovery",
+        "element": "DC",
+        "expected": 1,
+        "actual": 0
+      },
+      {
+        "phase": "discovery",
+        "element": "CO",
+        "expected": 1,
+        "actual": 0
+      },
+      {
+        "phase": "evaluation",
+        "element": "E",
+        "expected": 2,
+        "actual": 1
+      }
+    ],
+    "influenced": {
+      "isInfluenced": true,
+      "rule": "11 behaviours across 2 interactions after 2026-06-01 and E moved to 2 or more",
+      "behaviours": 11,
+      "interactions": 2,
+      "movedElements": [
+        "E",
+        "DP",
+        "PP"
+      ]
+    }
+  },
+  {
+    "dealId": "demo:3",
+    "outcome": "lost",
+    "ownerId": "rep:sam@northwind.example",
+    "amount": 18500.0,
+    "closedAt": "2026-05-29T00:00:00Z",
+    "cycleDays": 74,
+    "elements": {
+      "M": {
+        "level": 1,
+        "firstAt": "2026-03-18T10:00:00Z",
+        "lastAt": "2026-04-15T16:00:00Z",
+        "interactionId": "demo:i3-2",
+        "decayed": false
+      },
+      "E": {
+        "level": 0,
+        "firstAt": null,
+        "lastAt": null,
+        "interactionId": null,
+        "decayed": false
+      },
+      "DC": {
+        "level": 1,
+        "firstAt": "2026-03-18T10:00:00Z",
+        "lastAt": "2026-04-15T16:00:00Z",
+        "interactionId": "demo:i3-2",
+        "decayed": false
+      },
+      "DP": {
+        "level": 1,
+        "firstAt": "2026-04-15T16:00:00Z",
+        "lastAt": "2026-05-20T11:30:00Z",
+        "interactionId": "demo:i3-3",
+        "decayed": false
+      },
+      "PP": {
+        "level": 0,
+        "firstAt": null,
+        "lastAt": null,
+        "interactionId": null,
+        "decayed": false
+      },
+      "I": {
+        "level": 1,
+        "firstAt": "2026-03-18T10:00:00Z",
+        "lastAt": "2026-04-15T16:00:00Z",
+        "interactionId": "demo:i3-2",
+        "decayed": false
+      },
+      "CH": {
+        "level": 1,
+        "firstAt": "2026-03-18T10:00:00Z",
+        "lastAt": "2026-05-20T11:30:00Z",
+        "interactionId": "demo:i3-3",
+        "decayed": false
+      },
+      "CO": {
+        "level": 2,
+        "firstAt": "2026-03-18T10:00:00Z",
+        "lastAt": "2026-05-20T11:30:00Z",
+        "interactionId": "demo:i3-3",
+        "decayed": false
+      }
+    },
+    "total": 7,
+    "maxTotal": 24,
+    "coverage2": 1,
+    "coverage3": 0,
+    "gate": "qualify-out",
+    "evidenceQualityIndex": 1.0,
+    "interactions": 3,
+    "behaviours": 2,
+    "appliedInteractions": 2,
+    "dealAdoption": 0.67,
+    "coverageAtPhaseEnd": {
+      "discovery": 0,
+      "proposal": 1,
+      "commit": 1
+    },
+    "stageGaps": [
+      {
+        "phase": "discovery",
+        "element": "M",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "discovery",
+        "element": "E",
+        "expected": 1,
+        "actual": 0
+      },
+      {
+        "phase": "discovery",
+        "element": "I",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "proposal",
+        "element": "M",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "proposal",
+        "element": "E",
+        "expected": 2,
+        "actual": 0
+      },
+      {
+        "phase": "proposal",
+        "element": "DC",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "proposal",
+        "element": "DP",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "proposal",
+        "element": "PP",
+        "expected": 1,
+        "actual": 0
+      },
+      {
+        "phase": "proposal",
+        "element": "I",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "proposal",
+        "element": "CH",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "commit",
+        "element": "M",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "commit",
+        "element": "E",
+        "expected": 3,
+        "actual": 0
+      },
+      {
+        "phase": "commit",
+        "element": "DC",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "commit",
+        "element": "DP",
+        "expected": 3,
+        "actual": 1
+      },
+      {
+        "phase": "commit",
+        "element": "PP",
+        "expected": 2,
+        "actual": 0
+      },
+      {
+        "phase": "commit",
+        "element": "I",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "commit",
+        "element": "CH",
+        "expected": 3,
+        "actual": 1
+      }
+    ],
+    "influenced": {
+      "isInfluenced": false,
+      "rule": "not a won deal",
+      "behaviours": 0,
+      "interactions": 0,
+      "movedElements": []
+    }
+  },
+  {
+    "dealId": "demo:4",
+    "outcome": "lost",
+    "ownerId": "rep:lena@northwind.example",
+    "amount": 24000.0,
+    "closedAt": "2026-07-31T00:00:00Z",
+    "cycleDays": 88,
+    "elements": {
+      "M": {
+        "level": 2,
+        "firstAt": "2026-05-06T09:00:00Z",
+        "lastAt": "2026-07-15T10:00:00Z",
+        "interactionId": "demo:i4-3",
+        "decayed": false
+      },
+      "E": {
+        "level": 2,
+        "firstAt": "2026-05-06T09:00:00Z",
+        "lastAt": "2026-07-15T10:00:00Z",
+        "interactionId": "demo:i4-3",
+        "decayed": false
+      },
+      "DC": {
+        "level": 2,
+        "firstAt": "2026-05-06T09:00:00Z",
+        "lastAt": "2026-07-15T10:00:00Z",
+        "interactionId": "demo:i4-3",
+        "decayed": false
+      },
+      "DP": {
+        "level": 1,
+        "firstAt": "2026-06-10T14:00:00Z",
+        "lastAt": "2026-07-15T10:00:00Z",
+        "interactionId": "demo:i4-3",
+        "decayed": false
+      },
+      "PP": {
+        "level": 1,
+        "firstAt": "2026-07-15T10:00:00Z",
+        "lastAt": "2026-07-15T10:00:00Z",
+        "interactionId": "demo:i4-3",
+        "decayed": false
+      },
+      "I": {
+        "level": 2,
+        "firstAt": "2026-05-06T09:00:00Z",
+        "lastAt": "2026-07-15T10:00:00Z",
+        "interactionId": "demo:i4-3",
+        "decayed": false
+      },
+      "CH": {
+        "level": 1,
+        "firstAt": "2026-05-06T09:00:00Z",
+        "lastAt": "2026-07-15T10:00:00Z",
+        "interactionId": "demo:i4-3",
+        "decayed": false
+      },
+      "CO": {
+        "level": 2,
+        "firstAt": "2026-05-06T09:00:00Z",
+        "lastAt": "2026-07-15T10:00:00Z",
+        "interactionId": "demo:i4-3",
+        "decayed": false
+      }
+    },
+    "total": 13,
+    "maxTotal": 24,
+    "coverage2": 5,
+    "coverage3": 0,
+    "gate": "pipeline",
+    "evidenceQualityIndex": 1.0,
+    "interactions": 3,
+    "behaviours": 7,
+    "appliedInteractions": 3,
+    "dealAdoption": 1.0,
+    "coverageAtPhaseEnd": {
+      "discovery": 2,
+      "evaluation": 5,
+      "proposal": 5
+    },
+    "stageGaps": [
+      {
+        "phase": "evaluation",
+        "element": "CH",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "proposal",
+        "element": "DP",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "proposal",
+        "element": "CH",
+        "expected": 2,
+        "actual": 1
+      }
+    ],
+    "influenced": {
+      "isInfluenced": false,
+      "rule": "not a won deal",
+      "behaviours": 5,
+      "interactions": 2,
+      "movedElements": []
+    }
+  },
+  {
+    "dealId": "demo:5",
+    "outcome": "open",
+    "ownerId": "rep:priya@northwind.example",
+    "amount": 95000.0,
+    "closedAt": null,
+    "cycleDays": null,
+    "elements": {
+      "M": {
+        "level": 3,
+        "firstAt": "2026-06-17T13:00:00Z",
+        "lastAt": "2026-08-26T10:30:00Z",
+        "interactionId": "demo:i5-3",
+        "decayed": false
+      },
+      "E": {
+        "level": 2,
+        "firstAt": "2026-06-17T13:00:00Z",
+        "lastAt": "2026-08-26T10:30:00Z",
+        "interactionId": "demo:i5-3",
+        "decayed": false
+      },
+      "DC": {
+        "level": 2,
+        "firstAt": "2026-06-17T13:00:00Z",
+        "lastAt": "2026-08-26T10:30:00Z",
+        "interactionId": "demo:i5-3",
+        "decayed": false
+      },
+      "DP": {
+        "level": 2,
+        "firstAt": "2026-07-22T15:00:00Z",
+        "lastAt": "2026-08-26T10:30:00Z",
+        "interactionId": "demo:i5-3",
+        "decayed": false
+      },
+      "PP": {
+        "level": 1,
+        "firstAt": "2026-08-26T10:30:00Z",
+        "lastAt": "2026-08-26T10:30:00Z",
+        "interactionId": "demo:i5-3",
+        "decayed": false
+      },
+      "I": {
+        "level": 3,
+        "firstAt": "2026-06-17T13:00:00Z",
+        "lastAt": "2026-08-26T10:30:00Z",
+        "interactionId": "demo:i5-3",
+        "decayed": false
+      },
+      "CH": {
+        "level": 2,
+        "firstAt": "2026-06-17T13:00:00Z",
+        "lastAt": "2026-08-26T10:30:00Z",
+        "interactionId": "demo:i5-3",
+        "decayed": false
+      },
+      "CO": {
+        "level": 2,
+        "firstAt": "2026-06-17T13:00:00Z",
+        "lastAt": "2026-08-26T10:30:00Z",
+        "interactionId": "demo:i5-3",
+        "decayed": false
+      }
+    },
+    "total": 17,
+    "maxTotal": 24,
+    "coverage2": 7,
+    "coverage3": 2,
+    "gate": "upside",
+    "evidenceQualityIndex": 1.0,
+    "interactions": 3,
+    "behaviours": 13,
+    "appliedInteractions": 3,
+    "dealAdoption": 1.0,
+    "coverageAtPhaseEnd": {
+      "discovery": 3,
+      "evaluation": 7
+    },
+    "stageGaps": [],
+    "influenced": {
+      "isInfluenced": false,
+      "rule": "not a won deal",
+      "behaviours": 13,
+      "interactions": 3,
+      "movedElements": []
+    }
+  },
+  {
+    "dealId": "demo:6",
+    "outcome": "open",
+    "ownerId": "rep:lena@northwind.example",
+    "amount": 31000.0,
+    "closedAt": null,
+    "cycleDays": null,
+    "elements": {
+      "M": {
+        "level": 2,
+        "firstAt": "2026-07-22T09:00:00Z",
+        "lastAt": "2026-08-19T14:00:00Z",
+        "interactionId": "demo:i6-2",
+        "decayed": false
+      },
+      "E": {
+        "level": 1,
+        "firstAt": "2026-08-19T14:00:00Z",
+        "lastAt": "2026-08-19T14:00:00Z",
+        "interactionId": "demo:i6-2",
+        "decayed": false
+      },
+      "DC": {
+        "level": 1,
+        "firstAt": "2026-08-19T14:00:00Z",
+        "lastAt": "2026-08-19T14:00:00Z",
+        "interactionId": "demo:i6-2",
+        "decayed": false
+      },
+      "DP": {
+        "level": 0,
+        "firstAt": null,
+        "lastAt": null,
+        "interactionId": null,
+        "decayed": false
+      },
+      "PP": {
+        "level": 0,
+        "firstAt": null,
+        "lastAt": null,
+        "interactionId": null,
+        "decayed": false
+      },
+      "I": {
+        "level": 2,
+        "firstAt": "2026-07-22T09:00:00Z",
+        "lastAt": "2026-08-19T14:00:00Z",
+        "interactionId": "demo:i6-2",
+        "decayed": false
+      },
+      "CH": {
+        "level": 1,
+        "firstAt": "2026-07-22T09:00:00Z",
+        "lastAt": "2026-08-19T14:00:00Z",
+        "interactionId": "demo:i6-2",
+        "decayed": false
+      },
+      "CO": {
+        "level": 1,
+        "firstAt": "2026-08-19T14:00:00Z",
+        "lastAt": "2026-08-19T14:00:00Z",
+        "interactionId": "demo:i6-2",
+        "decayed": false
+      }
+    },
+    "total": 8,
+    "maxTotal": 24,
+    "coverage2": 2,
+    "coverage3": 0,
+    "gate": "pipeline",
+    "evidenceQualityIndex": 1.0,
+    "interactions": 2,
+    "behaviours": 3,
+    "appliedInteractions": 1,
+    "dealAdoption": 0.5,
+    "coverageAtPhaseEnd": {
+      "discovery": 0
+    },
+    "stageGaps": [
+      {
+        "phase": "discovery",
+        "element": "M",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "discovery",
+        "element": "E",
+        "expected": 1,
+        "actual": 0
+      },
+      {
+        "phase": "discovery",
+        "element": "DC",
+        "expected": 1,
+        "actual": 0
+      },
+      {
+        "phase": "discovery",
+        "element": "I",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "discovery",
+        "element": "CO",
+        "expected": 1,
+        "actual": 0
+      },
+      {
+        "phase": "evaluation",
+        "element": "E",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "evaluation",
+        "element": "DC",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "evaluation",
+        "element": "DP",
+        "expected": 1,
+        "actual": 0
+      },
+      {
+        "phase": "evaluation",
+        "element": "CH",
+        "expected": 2,
+        "actual": 1
+      },
+      {
+        "phase": "evaluation",
+        "element": "CO",
+        "expected": 2,
+        "actual": 1
+      }
+    ],
+    "influenced": {
+      "isInfluenced": false,
+      "rule": "not a won deal",
+      "behaviours": 3,
+      "interactions": 2,
+      "movedElements": []
+    }
+  }
+]

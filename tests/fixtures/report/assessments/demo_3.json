@@ -1,0 +1,297 @@
+{
+  "dealId": "demo:3",
+  "framework": "meddpicc",
+  "rubricHash": "sha256:a2ea57131ad8412fa0210a3384c6438640335e08b5e2979967c7aee32c56a3f9",
+  "judgedAt": "2026-09-07T11:00:00Z",
+  "model": "sonnet",
+  "interactions": [
+    {
+      "interactionId": "demo:i3-1",
+      "at": "2026-03-18T10:00:00Z",
+      "phaseAtTime": "discovery",
+      "applicable": [
+        "M",
+        "E",
+        "DC",
+        "I",
+        "CH",
+        "CO"
+      ],
+      "notApplicableReason": {
+        "DP": "discovery call, process not yet in play",
+        "PP": "paper process not in play before proposal"
+      },
+      "elements": {
+        "M": {
+          "evidence": 1,
+          "quote": "We know the close is slow but nobody has put a number on it.",
+          "speaker": "buyer",
+          "whyNotHigher": "The pain is acknowledged but not quantified.",
+          "nextQuestion": "How many days does the close take today, and who tracks it?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "E": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "Nobody with budget authority was named.",
+          "nextQuestion": "Who signs a purchase of this size?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        },
+        "DC": {
+          "evidence": 1,
+          "quote": "We will probably compare a couple of options first.",
+          "speaker": "buyer",
+          "whyNotHigher": "Criteria exist but were not listed.",
+          "nextQuestion": "What are the three things a solution must do for you to pick it?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "I": {
+          "evidence": 1,
+          "quote": "The close is painful, honestly.",
+          "speaker": "buyer",
+          "whyNotHigher": "Pain stated in general terms only.",
+          "nextQuestion": "Where exactly does the time go during the close?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CH": {
+          "evidence": 1,
+          "quote": "I think this could work for us.",
+          "speaker": "buyer",
+          "whyNotHigher": "Supportive contact, no evidence of selling internally.",
+          "nextQuestion": "Would you be willing to bring this to your leadership team?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CO": {
+          "evidence": 1,
+          "quote": "We have looked at a couple of other tools.",
+          "speaker": "buyer",
+          "whyNotHigher": "Alternatives exist but are unnamed.",
+          "nextQuestion": "Which other tools are you looking at, and what do you like about them?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": false,
+        "repTalkRatio": null
+      },
+      "summary": "Renewal check-in: general pain, nothing quantified, no budget holder."
+    },
+    {
+      "interactionId": "demo:i3-2",
+      "at": "2026-04-15T16:00:00Z",
+      "phaseAtTime": "proposal",
+      "applicable": [
+        "M",
+        "E",
+        "DC",
+        "DP",
+        "PP",
+        "I",
+        "CH",
+        "CO"
+      ],
+      "notApplicableReason": {},
+      "elements": {
+        "M": {
+          "evidence": 1,
+          "quote": "We know the close is slow but nobody has put a number on it.",
+          "speaker": "buyer",
+          "whyNotHigher": "The pain is acknowledged but not quantified.",
+          "nextQuestion": "How many days does the close take today, and who tracks it?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "E": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "Nobody with budget authority was named.",
+          "nextQuestion": "Who signs a purchase of this size?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        },
+        "DC": {
+          "evidence": 1,
+          "quote": "We will probably compare a couple of options first.",
+          "speaker": "buyer",
+          "whyNotHigher": "Criteria exist but were not listed.",
+          "nextQuestion": "What are the three things a solution must do for you to pick it?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "DP": {
+          "evidence": 1,
+          "quote": "There is a process but I would have to check the steps.",
+          "speaker": "buyer",
+          "whyNotHigher": "Process exists, steps unknown.",
+          "nextQuestion": "Can you walk me through the steps from here to a signed order?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "PP": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "The paper process was not raised.",
+          "nextQuestion": "What does legal need to see, and how long do they usually take?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        },
+        "I": {
+          "evidence": 1,
+          "quote": "The close is painful, honestly.",
+          "speaker": "buyer",
+          "whyNotHigher": "Pain stated in general terms only.",
+          "nextQuestion": "Where exactly does the time go during the close?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CH": {
+          "evidence": 1,
+          "quote": "I think this could work for us.",
+          "speaker": "buyer",
+          "whyNotHigher": "Supportive contact, no evidence of selling internally.",
+          "nextQuestion": "Would you be willing to bring this to your leadership team?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CO": {
+          "evidence": 2,
+          "quote": "We are also talking to LedgerPro and the incumbent spreadsheet process is the real alternative.",
+          "speaker": "buyer",
+          "whyNotHigher": "Named, but our differentiation was not tested.",
+          "nextQuestion": "What would make LedgerPro the safer choice for you?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "named-competition"
+          ],
+          "verified": true
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": false,
+        "repTalkRatio": null
+      },
+      "summary": "Pricing email: competitor named, everything else unchanged."
+    },
+    {
+      "interactionId": "demo:i3-3",
+      "at": "2026-05-20T11:30:00Z",
+      "phaseAtTime": "commit",
+      "applicable": [
+        "E",
+        "DP",
+        "PP",
+        "CH",
+        "CO"
+      ],
+      "notApplicableReason": {
+        "M": "paper process not in play before proposal",
+        "DC": "paper process not in play before proposal",
+        "I": "paper process not in play before proposal"
+      },
+      "elements": {
+        "E": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "Nobody with budget authority was named.",
+          "nextQuestion": "Who signs a purchase of this size?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "asked-eb-access"
+          ],
+          "verified": false
+        },
+        "DP": {
+          "evidence": 1,
+          "quote": "There is a process but I would have to check the steps.",
+          "speaker": "buyer",
+          "whyNotHigher": "Process exists, steps unknown.",
+          "nextQuestion": "Can you walk me through the steps from here to a signed order?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "PP": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "The paper process was not raised.",
+          "nextQuestion": "What does legal need to see, and how long do they usually take?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        },
+        "CH": {
+          "evidence": 1,
+          "quote": "I think this could work for us.",
+          "speaker": "buyer",
+          "whyNotHigher": "Supportive contact, no evidence of selling internally.",
+          "nextQuestion": "Would you be willing to bring this to your leadership team?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CO": {
+          "evidence": 2,
+          "quote": "We are also talking to LedgerPro and the incumbent spreadsheet process is the real alternative.",
+          "speaker": "buyer",
+          "whyNotHigher": "Named, but our differentiation was not tested.",
+          "nextQuestion": "What would make LedgerPro the safer choice for you?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": false,
+        "repTalkRatio": null
+      },
+      "summary": "Decision call: the rep asked for the budget holder and did not get a name; the deal went to the incumbent."
+    }
+  ],
+  "dealNotes": "Never got past the champion; the budget holder was never named and the incumbent kept the account."
+}

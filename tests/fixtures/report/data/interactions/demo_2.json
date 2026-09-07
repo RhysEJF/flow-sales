@@ -1,0 +1,177 @@
+[
+  {
+    "id": "demo:i2-1",
+    "source": "demo",
+    "type": "call",
+    "dealId": "demo:2",
+    "direction": "outbound",
+    "at": "2026-04-08T11:00:00Z",
+    "durationSec": 1800,
+    "title": "Borealis intro",
+    "body": "Marcus Lindqvist: We know the close is slow but nobody has put a number on it.\nMarcus Lindqvist: Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it.\nMarcus Lindqvist: I think this could work for us.\nPriya Natarajan: Thanks, let me summarise what I heard and we can agree the next step.\nMarcus Lindqvist: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Intro call: pain surfaced, little else established.",
+    "participants": [
+      {
+        "name": "Marcus Lindqvist",
+        "email": "marcus@borealis.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Priya Natarajan",
+        "email": "priya@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:priya@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  },
+  {
+    "id": "demo:i2-2",
+    "source": "demo",
+    "type": "meeting",
+    "dealId": "demo:2",
+    "direction": "outbound",
+    "at": "2026-05-13T13:00:00Z",
+    "durationSec": 1800,
+    "title": "Borealis discovery workshop",
+    "body": "Marcus Lindqvist: Month-end close takes us 11 days; we need it under 5 by the next audit.\nPriya Natarajan: Do you know who would sign for a purchase of this size?\nMarcus Lindqvist: The must-haves are audit trail, SSO and a two-week rollout.\nMarcus Lindqvist: There is a process but I would have to check the steps.\nMarcus Lindqvist: Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it.\nMarcus Lindqvist: I have already told my director we should do this and I can set up the meeting.\nMarcus Lindqvist: We are also talking to LedgerPro and the incumbent spreadsheet process is the real alternative.\nPriya Natarajan: Thanks, let me summarise what I heard and we can agree the next step.\nMarcus Lindqvist: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Workshop: metric quantified, criteria listed, competition named; the buyer would not name the budget holder yet.",
+    "participants": [
+      {
+        "name": "Marcus Lindqvist",
+        "email": "marcus@borealis.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Priya Natarajan",
+        "email": "priya@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:priya@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  },
+  {
+    "id": "demo:i2-3",
+    "source": "demo",
+    "type": "transcript",
+    "dealId": "demo:2",
+    "direction": "outbound",
+    "at": "2026-06-18T14:30:00Z",
+    "durationSec": 1800,
+    "title": "Borealis exec briefing",
+    "body": "Marcus Lindqvist: Our CFO signed off the target: close in 5 days by Q4, which she values at about 200k a year in audit and overtime.\nMarcus Lindqvist: Marcus has told the board this is his priority for Q3 and he wants to be on the next call.\nMarcus Lindqvist: The scoring sheet is agreed: audit trail 40 percent, rollout speed 30, price 30, and we weighted rollout after your demo.\nMarcus Lindqvist: Security review first, then a steering committee vote in July, then procurement.\nMarcus Lindqvist: Procurement uses a standard MSA and legal turnaround is about ten working days.\nMarcus Lindqvist: If we miss the audit deadline again we lose the clean opinion, and that is a covenant issue with the bank.\nMarcus Lindqvist: I presented the business case to the exec team on Tuesday and they asked me to bring you in.\nMarcus Lindqvist: LedgerPro could not do the audit trail in the demo, so you are the preferred option now.\nPriya Natarajan: Thanks, let me summarise what I heard and we can agree the next step.\nMarcus Lindqvist: Sounds good.",
+    "transcript": [
+      {
+        "speaker": "Marcus Lindqvist",
+        "t": 0.0,
+        "text": "Our CFO signed off the target: close in 5 days by Q4, which she values at about 200k a year in audit and overtime."
+      },
+      {
+        "speaker": "Marcus Lindqvist",
+        "t": 42.5,
+        "text": "Marcus has told the board this is his priority for Q3 and he wants to be on the next call."
+      },
+      {
+        "speaker": "Marcus Lindqvist",
+        "t": 85.0,
+        "text": "The scoring sheet is agreed: audit trail 40 percent, rollout speed 30, price 30, and we weighted rollout after your demo."
+      },
+      {
+        "speaker": "Marcus Lindqvist",
+        "t": 127.5,
+        "text": "Security review first, then a steering committee vote in July, then procurement."
+      },
+      {
+        "speaker": "Marcus Lindqvist",
+        "t": 170.0,
+        "text": "Procurement uses a standard MSA and legal turnaround is about ten working days."
+      },
+      {
+        "speaker": "Marcus Lindqvist",
+        "t": 212.5,
+        "text": "If we miss the audit deadline again we lose the clean opinion, and that is a covenant issue with the bank."
+      },
+      {
+        "speaker": "Marcus Lindqvist",
+        "t": 255.0,
+        "text": "I presented the business case to the exec team on Tuesday and they asked me to bring you in."
+      },
+      {
+        "speaker": "Marcus Lindqvist",
+        "t": 297.5,
+        "text": "LedgerPro could not do the audit trail in the demo, so you are the preferred option now."
+      },
+      {
+        "speaker": "Priya Natarajan",
+        "t": 340.0,
+        "text": "Thanks, let me summarise what I heard and we can agree the next step."
+      },
+      {
+        "speaker": "Marcus Lindqvist",
+        "t": 382.5,
+        "text": "Sounds good."
+      }
+    ],
+    "notes": null,
+    "summary": "Exec briefing: the CFO joined, the scoring sheet was agreed and the consequence of missing the audit was stated by the buyer.",
+    "participants": [
+      {
+        "name": "Marcus Lindqvist",
+        "email": "marcus@borealis.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Priya Natarajan",
+        "email": "priya@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:priya@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": true
+    }
+  },
+  {
+    "id": "demo:i2-4",
+    "source": "demo",
+    "type": "email",
+    "dealId": "demo:2",
+    "direction": "outbound",
+    "at": "2026-08-05T09:00:00Z",
+    "durationSec": null,
+    "title": "Borealis contract",
+    "body": "Marcus Lindqvist: Marcus has told the board this is his priority for Q3 and he wants to be on the next call.\nMarcus Lindqvist: Security review is booked for the 8th with Dana, the committee votes on the 22nd and procurement has a two week SLA after that.\nMarcus Lindqvist: Ravi in legal has the MSA now and has committed to redlines by Friday.\nMarcus Lindqvist: I presented the business case to the exec team on Tuesday and they asked me to bring you in.\nPriya Natarajan: Thanks, let me summarise what I heard and we can agree the next step.\nMarcus Lindqvist: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Contract email: legal owner and redline date confirmed.",
+    "participants": [
+      {
+        "name": "Marcus Lindqvist",
+        "email": "marcus@borealis.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Priya Natarajan",
+        "email": "priya@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:priya@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  }
+]

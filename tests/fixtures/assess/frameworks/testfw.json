@@ -1,0 +1,44 @@
+{
+  "slug": "testfw",
+  "name": "Test framework (two elements)",
+  "version": "0.1.0",
+  "maxLevel": 3,
+  "elements": [
+    {
+      "code": "M",
+      "name": "Metrics",
+      "definition": "Quantified business outcomes the buyer expects from the change.",
+      "questions": ["What is this costing you today?", "Who reports that number?"],
+      "evidenceSignals": ["a number tied to an owner", "a deadline attached to the number"],
+      "anchors": {"0": "No metric mentioned.", "1": "A vague benefit.", "2": "A quantified outcome.", "3": "A quantified outcome with an owner and a deadline."},
+      "exampleQuotes": {"1": "We lose a lot of time on this.", "2": "Month-end close takes us 11 days.", "3": "The CFO reports the 11 day close to the board every quarter."},
+      "nextQuestionAt1": "What would you measure to know this worked?",
+      "behaviourTags": ["asked-metrics", "quantified-impact"],
+      "failureModes": ["Rep supplies the number instead of the buyer."],
+      "stageExpectations": {"discovery": 2, "evaluation": 2, "proposal": 2, "commit": 2},
+      "applicableFrom": "discovery"
+    },
+    {
+      "code": "E",
+      "name": "Economic Buyer",
+      "definition": "The person with the budget authority to approve the purchase.",
+      "questions": ["Who signs a purchase of this size?"],
+      "evidenceSignals": ["a named budget holder", "direct contact with the budget holder"],
+      "anchors": {"0": "Nobody with budget authority named.", "1": "A role guessed.", "2": "A named budget holder.", "3": "The budget holder engaged directly."},
+      "exampleQuotes": {"1": "Probably finance signs that.", "2": "Dana holds the budget for this.", "3": "Dana joined the call and confirmed the budget."},
+      "nextQuestionAt1": "Who signs a purchase of this size?",
+      "behaviourTags": ["identified-eb", "asked-eb-access", "engaged-eb"],
+      "failureModes": ["Assuming the champion is the buyer."],
+      "stageExpectations": {"discovery": 1, "evaluation": 2, "proposal": 2, "commit": 3},
+      "applicableFrom": "discovery"
+    }
+  ],
+  "generalBehaviourTags": ["secured-next-step", "multi-threaded", "summarised-and-confirmed"],
+  "scoring": {
+    "quoteRequiredAbove": 1,
+    "decayDays": 45,
+    "commitGate": {"all": 2, "E": 3},
+    "qualifyOut": {"maxTotal": 3, "minInteractions": 4}
+  },
+  "sources": ["test fixture"]
+}

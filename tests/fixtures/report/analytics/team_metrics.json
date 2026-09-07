@@ -1,0 +1,179 @@
+{
+  "totals": {
+    "deals": 7,
+    "dealsAssessed": 6,
+    "dealsWon": 2,
+    "dealsLost": 2,
+    "dealsOpen": 3,
+    "reps": 3,
+    "interactions": 19,
+    "appliedInteractions": 17,
+    "adoptionRate": 0.89,
+    "behaviours": 58,
+    "amountWon": 110000.0
+  },
+  "winRate": 0.5,
+  "winRateByAdoptionTertile": [
+    {
+      "tertile": "low",
+      "n": 2,
+      "closed": 1,
+      "winRate": 0.0,
+      "medianCycleDays": 74,
+      "avgAmount": 24750.0,
+      "adoptionRange": [
+        0.5,
+        0.67
+      ]
+    },
+    {
+      "tertile": "mid",
+      "n": 2,
+      "closed": 2,
+      "winRate": 1.0,
+      "medianCycleDays": 130,
+      "avgAmount": 55000.0,
+      "adoptionRange": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "tertile": "high",
+      "n": 2,
+      "closed": 1,
+      "winRate": 0.0,
+      "medianCycleDays": 88,
+      "avgAmount": 59500.0,
+      "adoptionRange": [
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "winRateByCoverageAtPhaseEnd": {
+    "discovery": [
+      {
+        "coverageBand": "0-2",
+        "n": 4,
+        "winRate": 0.5
+      },
+      {
+        "coverageBand": "3-4",
+        "n": 0,
+        "winRate": null
+      },
+      {
+        "coverageBand": "5-8",
+        "n": 0,
+        "winRate": null
+      }
+    ],
+    "evaluation": [
+      {
+        "coverageBand": "0-2",
+        "n": 0,
+        "winRate": null
+      },
+      {
+        "coverageBand": "3-4",
+        "n": 0,
+        "winRate": null
+      },
+      {
+        "coverageBand": "5-8",
+        "n": 3,
+        "winRate": 0.67
+      }
+    ]
+  },
+  "elementWeakness": [
+    {
+      "element": "M",
+      "name": "Metrics",
+      "avgLevelWon": 2.0,
+      "avgLevelLost": 1.5,
+      "adoptionRate": 0.56
+    },
+    {
+      "element": "E",
+      "name": "Economic Buyer",
+      "avgLevelWon": 3.0,
+      "avgLevelLost": 1.0,
+      "adoptionRate": 0.47
+    },
+    {
+      "element": "DC",
+      "name": "Decision Criteria",
+      "avgLevelWon": 2.0,
+      "avgLevelLost": 1.5,
+      "adoptionRate": 0.44
+    },
+    {
+      "element": "DP",
+      "name": "Decision Process",
+      "avgLevelWon": 3.0,
+      "avgLevelLost": 1.0,
+      "adoptionRate": 0.38
+    },
+    {
+      "element": "PP",
+      "name": "Paper Process",
+      "avgLevelWon": 3.0,
+      "avgLevelLost": 0.5,
+      "adoptionRate": 0.62
+    },
+    {
+      "element": "I",
+      "name": "Pain",
+      "avgLevelWon": 2.0,
+      "avgLevelLost": 1.5,
+      "adoptionRate": 0.5
+    },
+    {
+      "element": "CH",
+      "name": "Champion",
+      "avgLevelWon": 3.0,
+      "avgLevelLost": 1.0,
+      "adoptionRate": 0.37
+    },
+    {
+      "element": "CO",
+      "name": "Competition",
+      "avgLevelWon": 2.5,
+      "avgLevelLost": 2.0,
+      "adoptionRate": 0.44
+    }
+  ],
+  "beforeAfter": {
+    "trainingDate": "2026-06-01",
+    "before": {
+      "adoptionRate": 0.89,
+      "n": 9,
+      "dealsClosed": 1,
+      "winRate": 0.0
+    },
+    "after": {
+      "adoptionRate": 0.9,
+      "n": 10,
+      "dealsClosed": 3,
+      "winRate": 0.67
+    }
+  },
+  "dataCoverage": {
+    "interactionsByType": {
+      "call": 7,
+      "email": 5,
+      "meeting": 7,
+      "transcript": 2
+    },
+    "interactionsLinked": 19,
+    "dealsWithTranscripts": 4,
+    "dealsWithoutInteractions": 1,
+    "dealsWithoutInteractionIds": [
+      "demo:7"
+    ],
+    "unlinkedInteractions": 2,
+    "transcriptsPresent": 4
+  }
+}

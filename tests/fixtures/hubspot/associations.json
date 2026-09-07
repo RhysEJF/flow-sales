@@ -1,0 +1,247 @@
+{
+  "deals->contacts": {
+    "1001": [
+      {
+        "toObjectId": 2001,
+        "typeIds": [
+          3
+        ]
+      },
+      {
+        "toObjectId": 2002,
+        "typeIds": [
+          3
+        ]
+      }
+    ],
+    "1002": [
+      {
+        "toObjectId": 2003,
+        "typeIds": [
+          3
+        ]
+      }
+    ],
+    "1003": [
+      {
+        "toObjectId": 2001,
+        "typeIds": [
+          3
+        ]
+      }
+    ],
+    "1005": [
+      {
+        "toObjectId": 2003,
+        "typeIds": [
+          3
+        ]
+      }
+    ]
+  },
+  "deals->companies": {
+    "1001": [
+      {
+        "toObjectId": 3001,
+        "typeIds": [
+          341,
+          5
+        ]
+      }
+    ],
+    "1002": [
+      {
+        "toObjectId": 3002,
+        "typeIds": [
+          341,
+          5
+        ]
+      }
+    ],
+    "1003": [
+      {
+        "toObjectId": 3001,
+        "typeIds": [
+          341,
+          5
+        ]
+      }
+    ],
+    "1005": [
+      {
+        "toObjectId": 3002,
+        "typeIds": [
+          341,
+          5
+        ]
+      }
+    ]
+  },
+  "deals->calls": {
+    "1001": [
+      {
+        "toObjectId": 5001,
+        "typeIds": [
+          205
+        ]
+      }
+    ],
+    "1002": [
+      {
+        "toObjectId": 5002,
+        "typeIds": [
+          205
+        ]
+      }
+    ]
+  },
+  "deals->emails": {
+    "1001": [
+      {
+        "toObjectId": 6001,
+        "typeIds": [
+          209
+        ]
+      },
+      {
+        "toObjectId": 6002,
+        "typeIds": [
+          209
+        ]
+      }
+    ],
+    "1003": [
+      {
+        "toObjectId": 6003,
+        "typeIds": [
+          209
+        ]
+      }
+    ]
+  },
+  "deals->meetings": {
+    "1001": [
+      {
+        "toObjectId": 7001,
+        "typeIds": [
+          211
+        ]
+      }
+    ]
+  },
+  "deals->notes": {
+    "1001": [
+      {
+        "toObjectId": 8001,
+        "typeIds": [
+          213
+        ]
+      }
+    ]
+  },
+  "calls->contacts": {
+    "5001": [
+      {
+        "toObjectId": 2001,
+        "typeIds": [
+          194
+        ]
+      }
+    ],
+    "5002": [
+      {
+        "toObjectId": 2003,
+        "typeIds": [
+          194
+        ]
+      }
+    ]
+  },
+  "emails->contacts": {
+    "6001": [
+      {
+        "toObjectId": 2001,
+        "typeIds": [
+          198
+        ]
+      },
+      {
+        "toObjectId": 2002,
+        "typeIds": [
+          198
+        ]
+      }
+    ],
+    "6002": [
+      {
+        "toObjectId": 2001,
+        "typeIds": [
+          198
+        ]
+      }
+    ],
+    "6003": [
+      {
+        "toObjectId": 2001,
+        "typeIds": [
+          198
+        ]
+      }
+    ]
+  },
+  "meetings->contacts": {
+    "7001": [
+      {
+        "toObjectId": 2001,
+        "typeIds": [
+          200
+        ]
+      },
+      {
+        "toObjectId": 2002,
+        "typeIds": [
+          200
+        ]
+      }
+    ]
+  },
+  "notes->contacts": {
+    "8001": [
+      {
+        "toObjectId": 2001,
+        "typeIds": [
+          202
+        ]
+      }
+    ]
+  },
+  "contacts->companies": {
+    "2001": [
+      {
+        "toObjectId": 3001,
+        "typeIds": [
+          279,
+          1
+        ]
+      }
+    ],
+    "2002": [
+      {
+        "toObjectId": 3001,
+        "typeIds": [
+          279,
+          1
+        ]
+      }
+    ],
+    "2003": [
+      {
+        "toObjectId": 3002,
+        "typeIds": [
+          279,
+          1
+        ]
+      }
+    ]
+  }
+}

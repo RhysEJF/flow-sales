@@ -1,0 +1,55 @@
+[
+  {
+    "id": "granola:unl-1",
+    "source": "granola",
+    "type": "meeting",
+    "dealId": null,
+    "direction": "unknown",
+    "at": "2026-07-30T12:00:00Z",
+    "durationSec": 1500,
+    "title": "Weekly pipeline sync",
+    "body": "Sam Okafor: Let us go through the pipeline.\nLena Fischer: Fjord is moving.",
+    "transcript": [],
+    "notes": null,
+    "summary": "Internal pipeline review.",
+    "participants": [
+      {
+        "name": "Sam Okafor",
+        "email": "sam@northwind.example",
+        "role": "rep"
+      },
+      {
+        "name": "Lena Fischer",
+        "email": "lena@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:sam@northwind.example",
+    "recordingUrl": null,
+    "meta": {}
+  },
+  {
+    "id": "demo:unl-2",
+    "source": "demo",
+    "type": "email",
+    "dealId": null,
+    "direction": "inbound",
+    "at": "2026-08-03T08:15:00Z",
+    "durationSec": null,
+    "title": "Re: partnership question",
+    "body": "Hi, we met at the conference and wanted to ask about pricing.",
+    "transcript": null,
+    "notes": null,
+    "summary": null,
+    "participants": [
+      {
+        "name": "Unknown sender",
+        "email": "hello@meridian.example",
+        "role": "buyer"
+      }
+    ],
+    "repId": null,
+    "recordingUrl": null,
+    "meta": {}
+  }
+]

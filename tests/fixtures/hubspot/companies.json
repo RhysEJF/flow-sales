@@ -1,0 +1,26 @@
+[
+  {
+    "id": "3001",
+    "properties": {
+      "name": "Acme",
+      "domain": "acme.com",
+      "hs_lastmodifieddate": "2026-06-01T00:00:00Z",
+      "hs_object_id": "3001"
+    },
+    "createdAt": "2026-02-01T00:00:00Z",
+    "updatedAt": "2026-06-01T00:00:00Z",
+    "archived": false
+  },
+  {
+    "id": "3002",
+    "properties": {
+      "name": "Globex",
+      "domain": "globex.com",
+      "hs_lastmodifieddate": "2026-05-01T00:00:00Z",
+      "hs_object_id": "3002"
+    },
+    "createdAt": "2026-02-01T00:00:00Z",
+    "updatedAt": "2026-05-01T00:00:00Z",
+    "archived": false
+  }
+]

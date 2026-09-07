@@ -1,0 +1,162 @@
+[
+  {
+    "id": "demo:i1-1",
+    "source": "demo",
+    "type": "meeting",
+    "dealId": "demo:1",
+    "direction": "outbound",
+    "at": "2026-03-04T14:00:00Z",
+    "durationSec": 1800,
+    "title": "Acme discovery",
+    "body": "Priya Shah: Month-end close takes us 11 days; we need it under 5 by the next audit.\nPriya Shah: We will probably compare a couple of options first.\nPriya Shah: Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it.\nPriya Shah: I think this could work for us.\nPriya Shah: We have looked at a couple of other tools.\nSam Okafor: Thanks, let me summarise what I heard and we can agree the next step.\nPriya Shah: Sounds good.",
+    "transcript": [
+      {
+        "speaker": "Priya Shah",
+        "t": 0.0,
+        "text": "Month-end close takes us 11 days; we need it under 5 by the next audit."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 42.5,
+        "text": "We will probably compare a couple of options first."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 85.0,
+        "text": "Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 127.5,
+        "text": "I think this could work for us."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 170.0,
+        "text": "We have looked at a couple of other tools."
+      },
+      {
+        "speaker": "Sam Okafor",
+        "t": 212.5,
+        "text": "Thanks, let me summarise what I heard and we can agree the next step."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 255.0,
+        "text": "Sounds good."
+      }
+    ],
+    "notes": null,
+    "summary": "Discovery call: pain and a first metric established, no Economic Buyer named.",
+    "participants": [
+      {
+        "name": "Priya Shah",
+        "email": "priya.shah@acme.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Sam Okafor",
+        "email": "sam@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:sam@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": true
+    }
+  },
+  {
+    "id": "demo:i1-2",
+    "source": "demo",
+    "type": "call",
+    "dealId": "demo:1",
+    "direction": "outbound",
+    "at": "2026-03-25T10:00:00Z",
+    "durationSec": 1800,
+    "title": "Acme technical review",
+    "body": "Priya Shah: Month-end close takes us 11 days; we need it under 5 by the next audit.\nPriya Shah: Budget sits with Marcus, our CFO; I can get you thirty minutes with him next week.\nPriya Shah: The must-haves are audit trail, SSO and a two-week rollout.\nPriya Shah: Security review first, then a steering committee vote in July, then procurement.\nPriya Shah: Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it.\nPriya Shah: I have already told my director we should do this and I can set up the meeting.\nPriya Shah: We are also talking to LedgerPro and the incumbent spreadsheet process is the real alternative.\nSam Okafor: Thanks, let me summarise what I heard and we can agree the next step.\nPriya Shah: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Technical review: criteria and process mapped, CFO named as the budget holder.",
+    "participants": [
+      {
+        "name": "Priya Shah",
+        "email": "priya.shah@acme.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Sam Okafor",
+        "email": "sam@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:sam@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  },
+  {
+    "id": "demo:i1-3",
+    "source": "demo",
+    "type": "email",
+    "dealId": "demo:1",
+    "direction": "outbound",
+    "at": "2026-04-22T09:30:00Z",
+    "durationSec": null,
+    "title": "Proposal follow-up",
+    "body": "Priya Shah: Our CFO signed off the target: close in 5 days by Q4, which she values at about 200k a year in audit and overtime.\nPriya Shah: Marcus has told the board this is his priority for Q3 and he wants to be on the next call.\nPriya Shah: The scoring sheet is agreed: audit trail 40 percent, rollout speed 30, price 30, and we weighted rollout after your demo.\nPriya Shah: Security review first, then a steering committee vote in July, then procurement.\nPriya Shah: Procurement uses a standard MSA and legal turnaround is about ten working days.\nPriya Shah: If we miss the audit deadline again we lose the clean opinion, and that is a covenant issue with the bank.\nPriya Shah: I presented the business case to the exec team on Tuesday and they asked me to bring you in.\nPriya Shah: LedgerPro could not do the audit trail in the demo, so you are the preferred option now.\nSam Okafor: Thanks, let me summarise what I heard and we can agree the next step.\nPriya Shah: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Proposal follow-up: the CFO confirmed the target and the champion took the business case to the exec team.",
+    "participants": [
+      {
+        "name": "Priya Shah",
+        "email": "priya.shah@acme.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Sam Okafor",
+        "email": "sam@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:sam@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  },
+  {
+    "id": "demo:i1-4",
+    "source": "demo",
+    "type": "meeting",
+    "dealId": "demo:1",
+    "direction": "outbound",
+    "at": "2026-06-05T15:00:00Z",
+    "durationSec": 1800,
+    "title": "Acme commercial call",
+    "body": "Priya Shah: Marcus has told the board this is his priority for Q3 and he wants to be on the next call.\nPriya Shah: Security review is booked for the 8th with Dana, the committee votes on the 22nd and procurement has a two week SLA after that.\nPriya Shah: Ravi in legal has the MSA now and has committed to redlines by Friday.\nPriya Shah: I presented the business case to the exec team on Tuesday and they asked me to bring you in.\nPriya Shah: LedgerPro could not do the audit trail in the demo, so you are the preferred option now.\nSam Okafor: Thanks, let me summarise what I heard and we can agree the next step.\nPriya Shah: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Commercial call: mutual plan agreed with dates, legal owner named.",
+    "participants": [
+      {
+        "name": "Priya Shah",
+        "email": "priya.shah@acme.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Sam Okafor",
+        "email": "sam@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:sam@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  }
+]

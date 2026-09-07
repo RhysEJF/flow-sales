@@ -1,0 +1,141 @@
+[
+  {
+    "id": "demo:i5-1",
+    "source": "demo",
+    "type": "meeting",
+    "dealId": "demo:5",
+    "direction": "outbound",
+    "at": "2026-06-17T13:00:00Z",
+    "durationSec": 1800,
+    "title": "Evergreen discovery",
+    "body": "Aisha Bello: Month-end close takes us 11 days; we need it under 5 by the next audit.\nAisha Bello: Budget sits with Marcus, our CFO; I can get you thirty minutes with him next week.\nAisha Bello: We will probably compare a couple of options first.\nAisha Bello: Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it.\nAisha Bello: I think this could work for us.\nAisha Bello: We have looked at a couple of other tools.\nPriya Natarajan: Thanks, let me summarise what I heard and we can agree the next step.\nAisha Bello: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Discovery: metric, pain and budget holder named in the first meeting.",
+    "participants": [
+      {
+        "name": "Aisha Bello",
+        "email": "aisha@evergreen.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Priya Natarajan",
+        "email": "priya@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:priya@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  },
+  {
+    "id": "demo:i5-2",
+    "source": "demo",
+    "type": "transcript",
+    "dealId": "demo:5",
+    "direction": "outbound",
+    "at": "2026-07-22T15:00:00Z",
+    "durationSec": 1800,
+    "title": "Evergreen solution workshop",
+    "body": "Aisha Bello: Our CFO signed off the target: close in 5 days by Q4, which she values at about 200k a year in audit and overtime.\nAisha Bello: Budget sits with Marcus, our CFO; I can get you thirty minutes with him next week.\nAisha Bello: The must-haves are audit trail, SSO and a two-week rollout.\nAisha Bello: Security review first, then a steering committee vote in July, then procurement.\nAisha Bello: If we miss the audit deadline again we lose the clean opinion, and that is a covenant issue with the bank.\nAisha Bello: I have already told my director we should do this and I can set up the meeting.\nAisha Bello: We are also talking to LedgerPro and the incumbent spreadsheet process is the real alternative.\nPriya Natarajan: Thanks, let me summarise what I heard and we can agree the next step.\nAisha Bello: Sounds good.",
+    "transcript": [
+      {
+        "speaker": "Aisha Bello",
+        "t": 0.0,
+        "text": "Our CFO signed off the target: close in 5 days by Q4, which she values at about 200k a year in audit and overtime."
+      },
+      {
+        "speaker": "Aisha Bello",
+        "t": 42.5,
+        "text": "Budget sits with Marcus, our CFO; I can get you thirty minutes with him next week."
+      },
+      {
+        "speaker": "Aisha Bello",
+        "t": 85.0,
+        "text": "The must-haves are audit trail, SSO and a two-week rollout."
+      },
+      {
+        "speaker": "Aisha Bello",
+        "t": 127.5,
+        "text": "Security review first, then a steering committee vote in July, then procurement."
+      },
+      {
+        "speaker": "Aisha Bello",
+        "t": 170.0,
+        "text": "If we miss the audit deadline again we lose the clean opinion, and that is a covenant issue with the bank."
+      },
+      {
+        "speaker": "Aisha Bello",
+        "t": 212.5,
+        "text": "I have already told my director we should do this and I can set up the meeting."
+      },
+      {
+        "speaker": "Aisha Bello",
+        "t": 255.0,
+        "text": "We are also talking to LedgerPro and the incumbent spreadsheet process is the real alternative."
+      },
+      {
+        "speaker": "Priya Natarajan",
+        "t": 297.5,
+        "text": "Thanks, let me summarise what I heard and we can agree the next step."
+      },
+      {
+        "speaker": "Aisha Bello",
+        "t": 340.0,
+        "text": "Sounds good."
+      }
+    ],
+    "notes": null,
+    "summary": "Workshop: the CFO target and the audit consequence are on record; process steps mapped.",
+    "participants": [
+      {
+        "name": "Aisha Bello",
+        "email": "aisha@evergreen.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Priya Natarajan",
+        "email": "priya@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:priya@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": true
+    }
+  },
+  {
+    "id": "demo:i5-3",
+    "source": "demo",
+    "type": "call",
+    "dealId": "demo:5",
+    "direction": "outbound",
+    "at": "2026-08-26T10:30:00Z",
+    "durationSec": 1800,
+    "title": "Evergreen proposal walkthrough",
+    "body": "Aisha Bello: Our CFO signed off the target: close in 5 days by Q4, which she values at about 200k a year in audit and overtime.\nAisha Bello: Budget sits with Marcus, our CFO; I can get you thirty minutes with him next week.\nAisha Bello: The must-haves are audit trail, SSO and a two-week rollout.\nAisha Bello: Security review first, then a steering committee vote in July, then procurement.\nAisha Bello: Legal will need to look at the contract at some point.\nAisha Bello: If we miss the audit deadline again we lose the clean opinion, and that is a covenant issue with the bank.\nAisha Bello: I have already told my director we should do this and I can set up the meeting.\nAisha Bello: We are also talking to LedgerPro and the incumbent spreadsheet process is the real alternative.\nPriya Natarajan: Thanks, let me summarise what I heard and we can agree the next step.\nAisha Bello: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Proposal walkthrough: paper process raised for the first time, CFO meeting requested.",
+    "participants": [
+      {
+        "name": "Aisha Bello",
+        "email": "aisha@evergreen.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Priya Natarajan",
+        "email": "priya@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:priya@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  }
+]

@@ -1,0 +1,1899 @@
+{
+  "weeks": [
+    "2026-W09",
+    "2026-W10",
+    "2026-W11",
+    "2026-W12",
+    "2026-W13",
+    "2026-W14",
+    "2026-W15",
+    "2026-W16",
+    "2026-W17",
+    "2026-W18",
+    "2026-W19",
+    "2026-W20",
+    "2026-W21",
+    "2026-W22",
+    "2026-W23",
+    "2026-W24",
+    "2026-W25",
+    "2026-W26",
+    "2026-W27",
+    "2026-W28",
+    "2026-W29",
+    "2026-W30",
+    "2026-W31",
+    "2026-W32",
+    "2026-W33",
+    "2026-W34",
+    "2026-W35",
+    "2026-W36",
+    "2026-W37"
+  ],
+  "team": [
+    {
+      "week": "2026-W09",
+      "interactions": 0,
+      "applied": 0,
+      "adoptionRate": null,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W10",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 1,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 1,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W11",
+      "interactions": 0,
+      "applied": 0,
+      "adoptionRate": null,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W12",
+      "interactions": 1,
+      "applied": 0,
+      "adoptionRate": 0.0,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W13",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 0,
+        "E": 1,
+        "DC": 1,
+        "DP": 1,
+        "PP": 0,
+        "I": 0,
+        "CH": 1,
+        "CO": 1
+      }
+    },
+    {
+      "week": "2026-W14",
+      "interactions": 0,
+      "applied": 0,
+      "adoptionRate": null,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W15",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 1,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W16",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 1
+      }
+    },
+    {
+      "week": "2026-W17",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 1,
+        "E": 1,
+        "DC": 1,
+        "DP": 0,
+        "PP": 1,
+        "I": 1,
+        "CH": 1,
+        "CO": 1
+      }
+    },
+    {
+      "week": "2026-W18",
+      "interactions": 0,
+      "applied": 0,
+      "adoptionRate": null,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W19",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 1,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 1,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W20",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 1,
+        "E": 1,
+        "DC": 1,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 1,
+        "CO": 1
+      }
+    },
+    {
+      "week": "2026-W21",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 0,
+        "E": 1,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W22",
+      "interactions": 0,
+      "applied": 0,
+      "adoptionRate": null,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W23",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 1,
+        "PP": 1,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W24",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 1,
+        "E": 1,
+        "DC": 1,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 1
+      }
+    },
+    {
+      "week": "2026-W25",
+      "interactions": 2,
+      "applied": 2,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 2,
+        "E": 2,
+        "DC": 2,
+        "DP": 1,
+        "PP": 1,
+        "I": 2,
+        "CH": 1,
+        "CO": 2
+      }
+    },
+    {
+      "week": "2026-W26",
+      "interactions": 0,
+      "applied": 0,
+      "adoptionRate": null,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W27",
+      "interactions": 0,
+      "applied": 0,
+      "adoptionRate": null,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W28",
+      "interactions": 0,
+      "applied": 0,
+      "adoptionRate": null,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W29",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 1,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W30",
+      "interactions": 2,
+      "applied": 1,
+      "adoptionRate": 0.5,
+      "byElement": {
+        "M": 1,
+        "E": 0,
+        "DC": 1,
+        "DP": 1,
+        "PP": 0,
+        "I": 1,
+        "CH": 1,
+        "CO": 1
+      }
+    },
+    {
+      "week": "2026-W31",
+      "interactions": 0,
+      "applied": 0,
+      "adoptionRate": null,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W32",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 1,
+        "PP": 1,
+        "I": 0,
+        "CH": 1,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W33",
+      "interactions": 0,
+      "applied": 0,
+      "adoptionRate": null,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W34",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 1,
+        "E": 1,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 1,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W35",
+      "interactions": 1,
+      "applied": 1,
+      "adoptionRate": 1.0,
+      "byElement": {
+        "M": 0,
+        "E": 1,
+        "DC": 0,
+        "DP": 0,
+        "PP": 1,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W36",
+      "interactions": 0,
+      "applied": 0,
+      "adoptionRate": null,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    },
+    {
+      "week": "2026-W37",
+      "interactions": 0,
+      "applied": 0,
+      "adoptionRate": null,
+      "byElement": {
+        "M": 0,
+        "E": 0,
+        "DC": 0,
+        "DP": 0,
+        "PP": 0,
+        "I": 0,
+        "CH": 0,
+        "CO": 0
+      }
+    }
+  ],
+  "reps": {
+    "rep:sam@northwind.example": [
+      {
+        "week": "2026-W09",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W10",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 1,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 1,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W11",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W12",
+        "interactions": 1,
+        "applied": 0,
+        "adoptionRate": 0.0,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W13",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 0,
+          "E": 1,
+          "DC": 1,
+          "DP": 1,
+          "PP": 0,
+          "I": 0,
+          "CH": 1,
+          "CO": 1
+        }
+      },
+      {
+        "week": "2026-W14",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W15",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W16",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 1
+        }
+      },
+      {
+        "week": "2026-W17",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 1,
+          "E": 1,
+          "DC": 1,
+          "DP": 0,
+          "PP": 1,
+          "I": 1,
+          "CH": 1,
+          "CO": 1
+        }
+      },
+      {
+        "week": "2026-W18",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W19",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W20",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W21",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 0,
+          "E": 1,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W22",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W23",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 1,
+          "PP": 1,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W24",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W25",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W26",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W27",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W28",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W29",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W30",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W31",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W32",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W33",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W34",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W35",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W36",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W37",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      }
+    ],
+    "rep:priya@northwind.example": [
+      {
+        "week": "2026-W09",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W10",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W11",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W12",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W13",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W14",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W15",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 1,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W16",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W17",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W18",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W19",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W20",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 1,
+          "E": 1,
+          "DC": 1,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 1,
+          "CO": 1
+        }
+      },
+      {
+        "week": "2026-W21",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W22",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W23",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W24",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W25",
+        "interactions": 2,
+        "applied": 2,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 2,
+          "E": 2,
+          "DC": 2,
+          "DP": 1,
+          "PP": 1,
+          "I": 2,
+          "CH": 1,
+          "CO": 2
+        }
+      },
+      {
+        "week": "2026-W26",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W27",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W28",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W29",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W30",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 1,
+          "E": 0,
+          "DC": 1,
+          "DP": 1,
+          "PP": 0,
+          "I": 1,
+          "CH": 1,
+          "CO": 1
+        }
+      },
+      {
+        "week": "2026-W31",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W32",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 1,
+          "PP": 1,
+          "I": 0,
+          "CH": 1,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W33",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W34",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W35",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 0,
+          "E": 1,
+          "DC": 0,
+          "DP": 0,
+          "PP": 1,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W36",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W37",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      }
+    ],
+    "rep:lena@northwind.example": [
+      {
+        "week": "2026-W09",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W10",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W11",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W12",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W13",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W14",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W15",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W16",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W17",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W18",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W19",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 1,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 1,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W20",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W21",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W22",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W23",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W24",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 1,
+          "E": 1,
+          "DC": 1,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 1
+        }
+      },
+      {
+        "week": "2026-W25",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W26",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W27",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W28",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W29",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 1,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W30",
+        "interactions": 1,
+        "applied": 0,
+        "adoptionRate": 0.0,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W31",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W32",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W33",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W34",
+        "interactions": 1,
+        "applied": 1,
+        "adoptionRate": 1.0,
+        "byElement": {
+          "M": 1,
+          "E": 1,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 1,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W35",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W36",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      },
+      {
+        "week": "2026-W37",
+        "interactions": 0,
+        "applied": 0,
+        "adoptionRate": null,
+        "byElement": {
+          "M": 0,
+          "E": 0,
+          "DC": 0,
+          "DP": 0,
+          "PP": 0,
+          "I": 0,
+          "CH": 0,
+          "CO": 0
+        }
+      }
+    ]
+  }
+}

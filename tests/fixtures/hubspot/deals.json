@@ -1,0 +1,348 @@
+[
+  {
+    "id": "1001",
+    "properties": {
+      "dealname": "Acme expansion",
+      "amount": "42000",
+      "deal_currency_code": "GBP",
+      "pipeline": "default",
+      "dealstage": "closedwon",
+      "hs_is_closed_won": "true",
+      "hs_is_closed": "true",
+      "closedate": "2026-06-14T00:00:00Z",
+      "createdate": "2026-03-01T10:00:00Z",
+      "hubspot_owner_id": "41629779",
+      "hs_lastmodifieddate": "2026-06-14T12:00:00.000Z",
+      "hs_object_id": "1001"
+    },
+    "propertiesWithHistory": {
+      "dealstage": [
+        {
+          "value": "closedwon",
+          "timestamp": "2026-06-14T09:30:00.000Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        },
+        {
+          "value": "contractsent",
+          "timestamp": "2026-05-20T16:00:00.000Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        },
+        {
+          "value": "presentationscheduled",
+          "timestamp": "2026-04-10T11:00:00.000Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        },
+        {
+          "value": "appointmentscheduled",
+          "timestamp": "2026-03-01T10:00:00.000Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "closedate": [
+        {
+          "value": "2026-06-14T00:00:00Z",
+          "timestamp": "2026-06-14T12:00:00.000Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "amount": [
+        {
+          "value": "42000",
+          "timestamp": "2026-04-10T11:05:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        },
+        {
+          "value": "30000",
+          "timestamp": "2026-03-01T10:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "hubspot_owner_id": [
+        {
+          "value": "41629779",
+          "timestamp": "2026-03-01T10:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ]
+    },
+    "createdAt": "2026-03-01T10:00:00Z",
+    "updatedAt": "2026-06-14T12:00:00.000Z",
+    "archived": false
+  },
+  {
+    "id": "1002",
+    "properties": {
+      "dealname": "Globex pilot",
+      "amount": "12000",
+      "deal_currency_code": "GBP",
+      "pipeline": "default",
+      "dealstage": "closedlost",
+      "hs_is_closed_won": "false",
+      "hs_is_closed": "true",
+      "closedate": "2026-05-02T00:00:00Z",
+      "createdate": "2026-02-10T09:00:00Z",
+      "hubspot_owner_id": "555",
+      "hs_lastmodifieddate": "2026-05-02T10:00:00Z",
+      "hs_object_id": "1002"
+    },
+    "propertiesWithHistory": {
+      "dealstage": [
+        {
+          "value": "closedlost",
+          "timestamp": "2026-05-02T09:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        },
+        {
+          "value": "qualifiedtobuy",
+          "timestamp": "2026-03-15T09:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        },
+        {
+          "value": "appointmentscheduled",
+          "timestamp": "2026-02-10T09:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "closedate": [
+        {
+          "value": "2026-05-02T00:00:00Z",
+          "timestamp": "2026-05-02T10:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "amount": [
+        {
+          "value": "12000",
+          "timestamp": "2026-02-10T09:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "hubspot_owner_id": [
+        {
+          "value": "555",
+          "timestamp": "2026-02-10T09:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ]
+    },
+    "createdAt": "2026-02-10T09:00:00Z",
+    "updatedAt": "2026-05-02T10:00:00Z",
+    "archived": false
+  },
+  {
+    "id": "1003",
+    "properties": {
+      "dealname": "Acme renewal",
+      "amount": "18000",
+      "deal_currency_code": "GBP",
+      "pipeline": "default",
+      "dealstage": "qualifiedtobuy",
+      "hs_is_closed_won": "false",
+      "hs_is_closed": "false",
+      "closedate": "2026-10-30T00:00:00Z",
+      "createdate": "2026-07-01T08:00:00Z",
+      "hubspot_owner_id": "41629779",
+      "hs_lastmodifieddate": "2026-08-20T08:00:00Z",
+      "hs_object_id": "1003"
+    },
+    "propertiesWithHistory": {
+      "dealstage": [
+        {
+          "value": "qualifiedtobuy",
+          "timestamp": "2026-07-20T08:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        },
+        {
+          "value": "appointmentscheduled",
+          "timestamp": "2026-07-01T08:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "closedate": [
+        {
+          "value": "2026-10-30T00:00:00Z",
+          "timestamp": "2026-08-20T08:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "amount": [
+        {
+          "value": "18000",
+          "timestamp": "2026-07-01T08:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "hubspot_owner_id": [
+        {
+          "value": "41629779",
+          "timestamp": "2026-07-01T08:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ]
+    },
+    "createdAt": "2026-07-01T08:00:00Z",
+    "updatedAt": "2026-08-20T08:00:00Z",
+    "archived": false
+  },
+  {
+    "id": "1004",
+    "properties": {
+      "dealname": "Old deal",
+      "amount": "9000",
+      "deal_currency_code": "GBP",
+      "pipeline": "default",
+      "dealstage": "closedwon",
+      "hs_is_closed_won": "true",
+      "hs_is_closed": "true",
+      "closedate": "2025-06-01T00:00:00Z",
+      "createdate": "2025-03-01T10:00:00Z",
+      "hubspot_owner_id": "41629779",
+      "hs_lastmodifieddate": "2025-06-01T10:00:00Z",
+      "hs_object_id": "1004"
+    },
+    "propertiesWithHistory": {
+      "dealstage": [
+        {
+          "value": "closedwon",
+          "timestamp": "2025-06-01T09:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        },
+        {
+          "value": "appointmentscheduled",
+          "timestamp": "2025-03-01T10:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "closedate": [
+        {
+          "value": "2025-06-01T00:00:00Z",
+          "timestamp": "2025-06-01T10:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "amount": [
+        {
+          "value": "9000",
+          "timestamp": "2025-03-01T10:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "hubspot_owner_id": [
+        {
+          "value": "41629779",
+          "timestamp": "2025-03-01T10:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ]
+    },
+    "createdAt": "2025-03-01T10:00:00Z",
+    "updatedAt": "2025-06-01T10:00:00Z",
+    "archived": false
+  },
+  {
+    "id": "1005",
+    "properties": {
+      "dealname": "Globex partner deal",
+      "amount": "5000",
+      "deal_currency_code": "GBP",
+      "pipeline": "12345",
+      "dealstage": "900001",
+      "hs_is_closed_won": "false",
+      "hs_is_closed": "false",
+      "closedate": "2026-12-01T00:00:00Z",
+      "createdate": "2026-05-05T10:00:00Z",
+      "hubspot_owner_id": "555",
+      "hs_lastmodifieddate": "2026-05-06T10:00:00Z",
+      "hs_object_id": "1005"
+    },
+    "propertiesWithHistory": {
+      "dealstage": [
+        {
+          "value": "900001",
+          "timestamp": "2026-05-05T10:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "closedate": [
+        {
+          "value": "2026-12-01T00:00:00Z",
+          "timestamp": "2026-05-06T10:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "amount": [
+        {
+          "value": "5000",
+          "timestamp": "2026-05-05T10:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ],
+      "hubspot_owner_id": [
+        {
+          "value": "555",
+          "timestamp": "2026-05-05T10:00:00Z",
+          "sourceType": "CRM_UI",
+          "sourceId": "userId:1",
+          "updatedByUserId": 1
+        }
+      ]
+    },
+    "createdAt": "2026-05-05T10:00:00Z",
+    "updatedAt": "2026-05-06T10:00:00Z",
+    "archived": false
+  }
+]

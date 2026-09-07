@@ -1,0 +1,136 @@
+[
+  {
+    "id": "demo:i4-1",
+    "source": "demo",
+    "type": "meeting",
+    "dealId": "demo:4",
+    "direction": "outbound",
+    "at": "2026-05-06T09:00:00Z",
+    "durationSec": 1800,
+    "title": "Delta pilot kickoff",
+    "body": "Tomas Reyes: Month-end close takes us 11 days; we need it under 5 by the next audit.\nLena Fischer: Do you know who would sign for a purchase of this size?\nTomas Reyes: We will probably compare a couple of options first.\nTomas Reyes: Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it.\nTomas Reyes: I think this could work for us.\nTomas Reyes: We have looked at a couple of other tools.\nLena Fischer: Thanks, let me summarise what I heard and we can agree the next step.\nTomas Reyes: Sounds good.",
+    "transcript": [
+      {
+        "speaker": "Tomas Reyes",
+        "t": 0.0,
+        "text": "Month-end close takes us 11 days; we need it under 5 by the next audit."
+      },
+      {
+        "speaker": "Lena Fischer",
+        "t": 42.5,
+        "text": "Do you know who would sign for a purchase of this size?"
+      },
+      {
+        "speaker": "Tomas Reyes",
+        "t": 85.0,
+        "text": "We will probably compare a couple of options first."
+      },
+      {
+        "speaker": "Tomas Reyes",
+        "t": 127.5,
+        "text": "Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it."
+      },
+      {
+        "speaker": "Tomas Reyes",
+        "t": 170.0,
+        "text": "I think this could work for us."
+      },
+      {
+        "speaker": "Tomas Reyes",
+        "t": 212.5,
+        "text": "We have looked at a couple of other tools."
+      },
+      {
+        "speaker": "Lena Fischer",
+        "t": 255.0,
+        "text": "Thanks, let me summarise what I heard and we can agree the next step."
+      },
+      {
+        "speaker": "Tomas Reyes",
+        "t": 297.5,
+        "text": "Sounds good."
+      }
+    ],
+    "notes": null,
+    "summary": "Pilot kickoff: metric and pain established, the champion is unproven.",
+    "participants": [
+      {
+        "name": "Tomas Reyes",
+        "email": "tomas@delta.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Lena Fischer",
+        "email": "lena@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:lena@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": true
+    }
+  },
+  {
+    "id": "demo:i4-2",
+    "source": "demo",
+    "type": "call",
+    "dealId": "demo:4",
+    "direction": "outbound",
+    "at": "2026-06-10T14:00:00Z",
+    "durationSec": 1800,
+    "title": "Delta pilot review",
+    "body": "Tomas Reyes: Month-end close takes us 11 days; we need it under 5 by the next audit.\nTomas Reyes: Budget sits with Marcus, our CFO; I can get you thirty minutes with him next week.\nTomas Reyes: The must-haves are audit trail, SSO and a two-week rollout.\nTomas Reyes: There is a process but I would have to check the steps.\nTomas Reyes: Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it.\nTomas Reyes: I think this could work for us.\nTomas Reyes: We are also talking to LedgerPro and the incumbent spreadsheet process is the real alternative.\nLena Fischer: Thanks, let me summarise what I heard and we can agree the next step.\nTomas Reyes: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Pilot review: CFO named, criteria listed, champion still untested.",
+    "participants": [
+      {
+        "name": "Tomas Reyes",
+        "email": "tomas@delta.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Lena Fischer",
+        "email": "lena@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:lena@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  },
+  {
+    "id": "demo:i4-3",
+    "source": "demo",
+    "type": "email",
+    "dealId": "demo:4",
+    "direction": "outbound",
+    "at": "2026-07-15T10:00:00Z",
+    "durationSec": null,
+    "title": "Delta proposal",
+    "body": "Tomas Reyes: Month-end close takes us 11 days; we need it under 5 by the next audit.\nTomas Reyes: Budget sits with Marcus, our CFO; I can get you thirty minutes with him next week.\nTomas Reyes: The must-haves are audit trail, SSO and a two-week rollout.\nTomas Reyes: There is a process but I would have to check the steps.\nTomas Reyes: Legal will need to look at the contract at some point.\nTomas Reyes: Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it.\nTomas Reyes: I think this could work for us.\nTomas Reyes: We are also talking to LedgerPro and the incumbent spreadsheet process is the real alternative.\nLena Fischer: Thanks, let me summarise what I heard and we can agree the next step.\nTomas Reyes: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Proposal email: the champion was asked to take it upward and did not commit.",
+    "participants": [
+      {
+        "name": "Tomas Reyes",
+        "email": "tomas@delta.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Lena Fischer",
+        "email": "lena@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:lena@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  }
+]

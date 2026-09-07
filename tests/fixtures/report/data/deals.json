@@ -1,0 +1,307 @@
+[
+  {
+    "id": "demo:1",
+    "source": "demo",
+    "name": "Acme expansion",
+    "amount": 42000.0,
+    "currency": "GBP",
+    "pipeline": "default",
+    "stage": "closedwon",
+    "stageLabel": "Closed Won",
+    "phase": "won",
+    "stageHistory": [
+      {
+        "stage": "appointmentscheduled",
+        "label": "Appointment Scheduled",
+        "phase": "discovery",
+        "at": "2026-03-02T00:00:00Z"
+      },
+      {
+        "stage": "qualifiedtobuy",
+        "label": "Qualified To Buy",
+        "phase": "evaluation",
+        "at": "2026-03-20T00:00:00Z"
+      },
+      {
+        "stage": "presentationscheduled",
+        "label": "Presentation Scheduled",
+        "phase": "proposal",
+        "at": "2026-04-18T00:00:00Z"
+      },
+      {
+        "stage": "contractsent",
+        "label": "Contract Sent",
+        "phase": "commit",
+        "at": "2026-05-28T00:00:00Z"
+      },
+      {
+        "stage": "closedwon",
+        "label": "Closed Won",
+        "phase": "won",
+        "at": "2026-06-20T00:00:00Z"
+      }
+    ],
+    "outcome": "won",
+    "createdAt": "2026-03-02T00:00:00Z",
+    "closedAt": "2026-06-20T00:00:00Z",
+    "ownerId": "rep:sam@northwind.example",
+    "contactIds": [
+      "c:1"
+    ],
+    "companyId": "co:1",
+    "companyDomain": "acme.example",
+    "meta": {}
+  },
+  {
+    "id": "demo:2",
+    "source": "demo",
+    "name": "Borealis platform",
+    "amount": 68000.0,
+    "currency": "GBP",
+    "pipeline": "default",
+    "stage": "closedwon",
+    "stageLabel": "Closed Won",
+    "phase": "won",
+    "stageHistory": [
+      {
+        "stage": "appointmentscheduled",
+        "label": "Appointment Scheduled",
+        "phase": "discovery",
+        "at": "2026-04-06T00:00:00Z"
+      },
+      {
+        "stage": "qualifiedtobuy",
+        "label": "Qualified To Buy",
+        "phase": "evaluation",
+        "at": "2026-05-08T00:00:00Z"
+      },
+      {
+        "stage": "presentationscheduled",
+        "label": "Presentation Scheduled",
+        "phase": "proposal",
+        "at": "2026-06-12T00:00:00Z"
+      },
+      {
+        "stage": "contractsent",
+        "label": "Contract Sent",
+        "phase": "commit",
+        "at": "2026-07-24T00:00:00Z"
+      },
+      {
+        "stage": "closedwon",
+        "label": "Closed Won",
+        "phase": "won",
+        "at": "2026-08-14T00:00:00Z"
+      }
+    ],
+    "outcome": "won",
+    "createdAt": "2026-04-06T00:00:00Z",
+    "closedAt": "2026-08-14T00:00:00Z",
+    "ownerId": "rep:priya@northwind.example",
+    "contactIds": [
+      "c:2"
+    ],
+    "companyId": "co:2",
+    "companyDomain": "borealis.example",
+    "meta": {}
+  },
+  {
+    "id": "demo:3",
+    "source": "demo",
+    "name": "Cobalt renewal",
+    "amount": 18500.0,
+    "currency": "GBP",
+    "pipeline": "default",
+    "stage": "closedlost",
+    "stageLabel": "Closed Lost",
+    "phase": "lost",
+    "stageHistory": [
+      {
+        "stage": "appointmentscheduled",
+        "label": "Appointment Scheduled",
+        "phase": "discovery",
+        "at": "2026-03-16T00:00:00Z"
+      },
+      {
+        "stage": "presentationscheduled",
+        "label": "Presentation Scheduled",
+        "phase": "proposal",
+        "at": "2026-04-10T00:00:00Z"
+      },
+      {
+        "stage": "contractsent",
+        "label": "Contract Sent",
+        "phase": "commit",
+        "at": "2026-05-12T00:00:00Z"
+      },
+      {
+        "stage": "closedlost",
+        "label": "Closed Lost",
+        "phase": "lost",
+        "at": "2026-05-29T00:00:00Z"
+      }
+    ],
+    "outcome": "lost",
+    "createdAt": "2026-03-16T00:00:00Z",
+    "closedAt": "2026-05-29T00:00:00Z",
+    "ownerId": "rep:sam@northwind.example",
+    "contactIds": [
+      "c:3"
+    ],
+    "companyId": "co:3",
+    "companyDomain": "cobalt.example",
+    "meta": {}
+  },
+  {
+    "id": "demo:4",
+    "source": "demo",
+    "name": "Delta pilot",
+    "amount": 24000.0,
+    "currency": "GBP",
+    "pipeline": "default",
+    "stage": "closedlost",
+    "stageLabel": "Closed Lost",
+    "phase": "lost",
+    "stageHistory": [
+      {
+        "stage": "appointmentscheduled",
+        "label": "Appointment Scheduled",
+        "phase": "discovery",
+        "at": "2026-05-04T00:00:00Z"
+      },
+      {
+        "stage": "qualifiedtobuy",
+        "label": "Qualified To Buy",
+        "phase": "evaluation",
+        "at": "2026-06-02T00:00:00Z"
+      },
+      {
+        "stage": "presentationscheduled",
+        "label": "Presentation Scheduled",
+        "phase": "proposal",
+        "at": "2026-07-08T00:00:00Z"
+      },
+      {
+        "stage": "closedlost",
+        "label": "Closed Lost",
+        "phase": "lost",
+        "at": "2026-07-31T00:00:00Z"
+      }
+    ],
+    "outcome": "lost",
+    "createdAt": "2026-05-04T00:00:00Z",
+    "closedAt": "2026-07-31T00:00:00Z",
+    "ownerId": "rep:lena@northwind.example",
+    "contactIds": [
+      "c:4"
+    ],
+    "companyId": "co:4",
+    "companyDomain": "delta.example",
+    "meta": {}
+  },
+  {
+    "id": "demo:5",
+    "source": "demo",
+    "name": "Evergreen rollout",
+    "amount": 95000.0,
+    "currency": "GBP",
+    "pipeline": "default",
+    "stage": "presentationscheduled",
+    "stageLabel": "Presentation Scheduled",
+    "phase": "proposal",
+    "stageHistory": [
+      {
+        "stage": "appointmentscheduled",
+        "label": "Appointment Scheduled",
+        "phase": "discovery",
+        "at": "2026-06-15T00:00:00Z"
+      },
+      {
+        "stage": "qualifiedtobuy",
+        "label": "Qualified To Buy",
+        "phase": "evaluation",
+        "at": "2026-07-14T00:00:00Z"
+      },
+      {
+        "stage": "presentationscheduled",
+        "label": "Presentation Scheduled",
+        "phase": "proposal",
+        "at": "2026-08-20T00:00:00Z"
+      }
+    ],
+    "outcome": "open",
+    "createdAt": "2026-06-15T00:00:00Z",
+    "closedAt": null,
+    "ownerId": "rep:priya@northwind.example",
+    "contactIds": [
+      "c:5"
+    ],
+    "companyId": "co:5",
+    "companyDomain": "evergreen.example",
+    "meta": {}
+  },
+  {
+    "id": "demo:6",
+    "source": "demo",
+    "name": "Fjord analytics",
+    "amount": 31000.0,
+    "currency": "GBP",
+    "pipeline": "default",
+    "stage": "qualifiedtobuy",
+    "stageLabel": "Qualified To Buy",
+    "phase": "evaluation",
+    "stageHistory": [
+      {
+        "stage": "appointmentscheduled",
+        "label": "Appointment Scheduled",
+        "phase": "discovery",
+        "at": "2026-07-20T00:00:00Z"
+      },
+      {
+        "stage": "qualifiedtobuy",
+        "label": "Qualified To Buy",
+        "phase": "evaluation",
+        "at": "2026-08-12T00:00:00Z"
+      }
+    ],
+    "outcome": "open",
+    "createdAt": "2026-07-20T00:00:00Z",
+    "closedAt": null,
+    "ownerId": "rep:lena@northwind.example",
+    "contactIds": [
+      "c:6"
+    ],
+    "companyId": "co:6",
+    "companyDomain": "fjord.example",
+    "meta": {}
+  },
+  {
+    "id": "demo:7",
+    "source": "demo",
+    "name": "Granite upgrade",
+    "amount": 12000.0,
+    "currency": "GBP",
+    "pipeline": "default",
+    "stage": "appointmentscheduled",
+    "stageLabel": "Appointment Scheduled",
+    "phase": "discovery",
+    "stageHistory": [
+      {
+        "stage": "appointmentscheduled",
+        "label": "Appointment Scheduled",
+        "phase": "discovery",
+        "at": "2026-08-28T00:00:00Z"
+      }
+    ],
+    "outcome": "open",
+    "createdAt": "2026-08-28T00:00:00Z",
+    "closedAt": null,
+    "ownerId": "rep:lena@northwind.example",
+    "contactIds": [
+      "c:7"
+    ],
+    "companyId": "co:7",
+    "companyDomain": "granite.example",
+    "meta": {}
+  }
+]

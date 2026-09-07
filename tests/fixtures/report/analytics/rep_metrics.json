@@ -1,0 +1,193 @@
+[
+  {
+    "repId": "rep:sam@northwind.example",
+    "name": "Sam Okafor",
+    "interactions": 7,
+    "appliedInteractions": 6,
+    "adoptionRate": 0.86,
+    "adoptionByElement": {
+      "M": 0.4,
+      "E": 0.43,
+      "DC": 0.4,
+      "DP": 0.4,
+      "PP": 0.5,
+      "I": 0.4,
+      "CH": 0.29,
+      "CO": 0.43
+    },
+    "behaviourTagCounts": {
+      "agreed-mutual-plan": 1,
+      "asked-eb-access": 1,
+      "asked-metrics": 1,
+      "asked-paper-process": 2,
+      "developed-champion": 1,
+      "engaged-eb": 1,
+      "identified-eb": 1,
+      "identified-pain": 1,
+      "implicated-pain": 1,
+      "mapped-decision-criteria": 1,
+      "mapped-decision-process": 1,
+      "named-competition": 2,
+      "positioned-differentiation": 1,
+      "quantified-impact": 1,
+      "secured-next-step": 1,
+      "shaped-decision-criteria": 1,
+      "summarised-and-confirmed": 1,
+      "tested-champion": 1
+    },
+    "dealsWon": 1,
+    "dealsLost": 1,
+    "dealsOpen": 0,
+    "winRate": 0.5,
+    "avgCoverageAtClose": {
+      "won": 8.0,
+      "lost": 1.0
+    },
+    "avgTotalWon": 21.0,
+    "avgTotalLost": 7.0,
+    "beforeTraining": {
+      "adoptionRate": 0.83,
+      "n": 6
+    },
+    "afterTraining": {
+      "adoptionRate": 1.0,
+      "n": 1
+    },
+    "adoptionLift": 0.17,
+    "weakestElements": [
+      "CH",
+      "M",
+      "DC"
+    ],
+    "strongestElements": [
+      "PP",
+      "CO",
+      "E"
+    ],
+    "evidenceQualityIndex": 1.0
+  },
+  {
+    "repId": "rep:priya@northwind.example",
+    "name": "Priya Natarajan",
+    "interactions": 7,
+    "appliedInteractions": 7,
+    "adoptionRate": 1.0,
+    "adoptionByElement": {
+      "M": 0.67,
+      "E": 0.57,
+      "DC": 0.67,
+      "DP": 0.6,
+      "PP": 1.0,
+      "I": 0.67,
+      "CH": 0.57,
+      "CO": 0.67
+    },
+    "behaviourTagCounts": {
+      "agreed-mutual-plan": 1,
+      "asked-eb-access": 2,
+      "asked-metrics": 2,
+      "asked-paper-process": 3,
+      "developed-champion": 1,
+      "engaged-eb": 1,
+      "identified-eb": 1,
+      "identified-pain": 2,
+      "implicated-pain": 2,
+      "mapped-decision-criteria": 3,
+      "mapped-decision-process": 2,
+      "multi-threaded": 1,
+      "named-competition": 2,
+      "positioned-differentiation": 1,
+      "quantified-impact": 2,
+      "secured-next-step": 1,
+      "shaped-decision-criteria": 1,
+      "tested-champion": 2,
+      "tested-status-quo": 1
+    },
+    "dealsWon": 1,
+    "dealsLost": 0,
+    "dealsOpen": 1,
+    "winRate": 1.0,
+    "avgCoverageAtClose": {
+      "won": 8.0,
+      "lost": null
+    },
+    "avgTotalWon": 20.0,
+    "avgTotalLost": null,
+    "beforeTraining": {
+      "adoptionRate": 1.0,
+      "n": 2
+    },
+    "afterTraining": {
+      "adoptionRate": 1.0,
+      "n": 5
+    },
+    "adoptionLift": 0.0,
+    "weakestElements": [
+      "E",
+      "CH",
+      "DP"
+    ],
+    "strongestElements": [
+      "PP",
+      "CO",
+      "I"
+    ],
+    "evidenceQualityIndex": 1.0
+  },
+  {
+    "repId": "rep:lena@northwind.example",
+    "name": "Lena Fischer",
+    "interactions": 5,
+    "appliedInteractions": 4,
+    "adoptionRate": 0.8,
+    "adoptionByElement": {
+      "M": 0.6,
+      "E": 0.4,
+      "DC": 0.2,
+      "DP": 0.0,
+      "PP": 0.0,
+      "I": 0.4,
+      "CH": 0.2,
+      "CO": 0.2
+    },
+    "behaviourTagCounts": {
+      "asked-eb-access": 1,
+      "asked-metrics": 3,
+      "identified-eb": 1,
+      "identified-pain": 2,
+      "mapped-decision-criteria": 1,
+      "named-competition": 1,
+      "tested-champion": 1
+    },
+    "dealsWon": 0,
+    "dealsLost": 1,
+    "dealsOpen": 2,
+    "winRate": 0.0,
+    "avgCoverageAtClose": {
+      "won": null,
+      "lost": 5.0
+    },
+    "avgTotalWon": null,
+    "avgTotalLost": 13.0,
+    "beforeTraining": {
+      "adoptionRate": 1.0,
+      "n": 1
+    },
+    "afterTraining": {
+      "adoptionRate": 0.75,
+      "n": 4
+    },
+    "adoptionLift": -0.25,
+    "weakestElements": [
+      "DP",
+      "PP",
+      "DC"
+    ],
+    "strongestElements": [
+      "M",
+      "I",
+      "E"
+    ],
+    "evidenceQualityIndex": 1.0
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "5001",
+    "properties": {
+      "hs_timestamp": "2026-03-04T14:00:00Z",
+      "hs_call_title": "Acme discovery call",
+      "hs_call_body": "<p>Priya said month-end close takes 11 days; they need it under 5 by the next audit.</p><p>Champion confirmed budget owner is CFO.</p>",
+      "hs_call_duration": "1860000",
+      "hs_call_direction": "OUTBOUND",
+      "hs_call_disposition": "f240bbac-87c9-4f6e-bf70-924b57d47db7",
+      "hs_call_status": "COMPLETED",
+      "hs_call_recording_url": "https://example.com/rec/5001.mp3",
+      "hs_call_summary": "Priya owns the budget and wants a decision before the audit.",
+      "hubspot_owner_id": "41629779",
+      "hs_lastmodifieddate": "2026-03-04T15:00:00Z",
+      "hs_object_id": "5001"
+    },
+    "createdAt": "2026-03-04T14:00:00Z",
+    "updatedAt": "2026-03-04T15:00:00Z",
+    "archived": false
+  },
+  {
+    "id": "5002",
+    "properties": {
+      "hs_timestamp": "1773306000000",
+      "hs_call_title": "Lena called back",
+      "hs_call_body": "Lena asked for the pilot pricing.",
+      "hs_call_duration": "600000",
+      "hs_call_direction": "INBOUND",
+      "hs_call_disposition": null,
+      "hs_call_status": "COMPLETED",
+      "hs_call_recording_url": null,
+      "hs_call_summary": null,
+      "hubspot_owner_id": "555",
+      "hs_lastmodifieddate": "2026-03-12T10:00:00Z",
+      "hs_object_id": "5002"
+    },
+    "createdAt": "2026-03-12T09:00:00Z",
+    "updatedAt": "2026-03-12T10:00:00Z",
+    "archived": false
+  }
+]

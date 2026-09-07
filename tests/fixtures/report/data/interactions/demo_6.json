@@ -1,0 +1,64 @@
+[
+  {
+    "id": "demo:i6-1",
+    "source": "demo",
+    "type": "call",
+    "dealId": "demo:6",
+    "direction": "outbound",
+    "at": "2026-07-22T09:00:00Z",
+    "durationSec": 1800,
+    "title": "Fjord intro call",
+    "body": "Ola Nygaard: We know the close is slow but nobody has put a number on it.\nOla Nygaard: The close is painful, honestly.\nOla Nygaard: I think this could work for us.\nLena Fischer: Thanks, let me summarise what I heard and we can agree the next step.\nOla Nygaard: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Intro call: general interest, nothing specific yet.",
+    "participants": [
+      {
+        "name": "Ola Nygaard",
+        "email": "ola@fjord.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Lena Fischer",
+        "email": "lena@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:lena@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  },
+  {
+    "id": "demo:i6-2",
+    "source": "demo",
+    "type": "meeting",
+    "dealId": "demo:6",
+    "direction": "outbound",
+    "at": "2026-08-19T14:00:00Z",
+    "durationSec": 1800,
+    "title": "Fjord discovery",
+    "body": "Ola Nygaard: Month-end close takes us 11 days; we need it under 5 by the next audit.\nLena Fischer: Do you know who would sign for a purchase of this size?\nOla Nygaard: We will probably compare a couple of options first.\nOla Nygaard: Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it.\nOla Nygaard: I think this could work for us.\nOla Nygaard: We have looked at a couple of other tools.\nLena Fischer: Thanks, let me summarise what I heard and we can agree the next step.\nOla Nygaard: Sounds good.",
+    "transcript": null,
+    "notes": null,
+    "summary": "Discovery: metric and pain quantified; the budget holder question went unanswered.",
+    "participants": [
+      {
+        "name": "Ola Nygaard",
+        "email": "ola@fjord.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Lena Fischer",
+        "email": "lena@northwind.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:lena@northwind.example",
+    "recordingUrl": null,
+    "meta": {
+      "hasTranscript": false
+    }
+  }
+]

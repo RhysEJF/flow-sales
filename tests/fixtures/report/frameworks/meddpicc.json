@@ -1,0 +1,373 @@
+{
+  "slug": "meddpicc",
+  "name": "MEDDPICC",
+  "version": "0.1.0",
+  "maxLevel": 3,
+  "elements": [
+    {
+      "code": "M",
+      "name": "Metrics",
+      "definition": "Metrics: what the buyer has said, on the record, about this part of the decision.",
+      "questions": [
+        "What does this problem cost you today, in days or money?",
+        "How many days does the close take today, and who tracks it?",
+        "Who reports the close time to the board, and what is it costing you now?"
+      ],
+      "evidenceSignals": [
+        "A named person",
+        "A number or a date",
+        "A consequence stated by the buyer"
+      ],
+      "anchors": {
+        "0": "Not mentioned in any interaction.",
+        "1": "Mentioned in general terms, nothing specific, or only the rep talking.",
+        "2": "Specific and quoted from the buyer: a name, a number, a step or a date.",
+        "3": "Confirmed by the buyer with ownership or consequence, and consistent across interactions."
+      },
+      "exampleQuotes": {
+        "1": "We know the close is slow but nobody has put a number on it.",
+        "2": "Month-end close takes us 11 days; we need it under 5 by the next audit.",
+        "3": "Our CFO signed off the target: close in 5 days by Q4, which she values at about 200k a year in audit and overtime."
+      },
+      "nextQuestionAt1": "How many days does the close take today, and who tracks it?",
+      "behaviourTags": [
+        "asked-metrics",
+        "quantified-impact"
+      ],
+      "failureModes": [
+        "Rep asserts it instead of the buyer saying it",
+        "Single mention never revisited"
+      ],
+      "stageExpectations": {
+        "discovery": 2,
+        "evaluation": 2,
+        "proposal": 2,
+        "commit": 2
+      },
+      "applicableFrom": "discovery"
+    },
+    {
+      "code": "E",
+      "name": "Economic Buyer",
+      "definition": "Economic Buyer: what the buyer has said, on the record, about this part of the decision.",
+      "questions": [
+        "Who signs a purchase of this size?",
+        "Who signs a purchase of this size?",
+        "What does Marcus need to see to say yes?"
+      ],
+      "evidenceSignals": [
+        "A named person",
+        "A number or a date",
+        "A consequence stated by the buyer"
+      ],
+      "anchors": {
+        "0": "Not mentioned in any interaction.",
+        "1": "Mentioned in general terms, nothing specific, or only the rep talking.",
+        "2": "Specific and quoted from the buyer: a name, a number, a step or a date.",
+        "3": "Confirmed by the buyer with ownership or consequence, and consistent across interactions."
+      },
+      "exampleQuotes": {
+        "1": "Do you know who would sign for a purchase of this size?",
+        "2": "Budget sits with Marcus, our CFO; I can get you thirty minutes with him next week.",
+        "3": "Marcus has told the board this is his priority for Q3 and he wants to be on the next call."
+      },
+      "nextQuestionAt1": "Who signs a purchase of this size?",
+      "behaviourTags": [
+        "identified-eb",
+        "asked-eb-access",
+        "engaged-eb"
+      ],
+      "failureModes": [
+        "Rep asserts it instead of the buyer saying it",
+        "Single mention never revisited"
+      ],
+      "stageExpectations": {
+        "discovery": 1,
+        "evaluation": 2,
+        "proposal": 2,
+        "commit": 3
+      },
+      "applicableFrom": "discovery"
+    },
+    {
+      "code": "DC",
+      "name": "Decision Criteria",
+      "definition": "Decision Criteria: what the buyer has said, on the record, about this part of the decision.",
+      "questions": [
+        "What are the three things a solution must do for you to pick it?",
+        "What are the three things a solution must do for you to pick it?",
+        "Who else has to agree with that list?"
+      ],
+      "evidenceSignals": [
+        "A named person",
+        "A number or a date",
+        "A consequence stated by the buyer"
+      ],
+      "anchors": {
+        "0": "Not mentioned in any interaction.",
+        "1": "Mentioned in general terms, nothing specific, or only the rep talking.",
+        "2": "Specific and quoted from the buyer: a name, a number, a step or a date.",
+        "3": "Confirmed by the buyer with ownership or consequence, and consistent across interactions."
+      },
+      "exampleQuotes": {
+        "1": "We will probably compare a couple of options first.",
+        "2": "The must-haves are audit trail, SSO and a two-week rollout.",
+        "3": "The scoring sheet is agreed: audit trail 40 percent, rollout speed 30, price 30, and we weighted rollout after your demo."
+      },
+      "nextQuestionAt1": "What are the three things a solution must do for you to pick it?",
+      "behaviourTags": [
+        "mapped-decision-criteria",
+        "shaped-decision-criteria"
+      ],
+      "failureModes": [
+        "Rep asserts it instead of the buyer saying it",
+        "Single mention never revisited"
+      ],
+      "stageExpectations": {
+        "discovery": 1,
+        "evaluation": 2,
+        "proposal": 2,
+        "commit": 2
+      },
+      "applicableFrom": "discovery"
+    },
+    {
+      "code": "DP",
+      "name": "Decision Process",
+      "definition": "Decision Process: what the buyer has said, on the record, about this part of the decision.",
+      "questions": [
+        "Can you walk me through the steps from here to a signed order?",
+        "Can you walk me through the steps from here to a signed order?",
+        "Who owns each step and when does the committee meet?"
+      ],
+      "evidenceSignals": [
+        "A named person",
+        "A number or a date",
+        "A consequence stated by the buyer"
+      ],
+      "anchors": {
+        "0": "Not mentioned in any interaction.",
+        "1": "Mentioned in general terms, nothing specific, or only the rep talking.",
+        "2": "Specific and quoted from the buyer: a name, a number, a step or a date.",
+        "3": "Confirmed by the buyer with ownership or consequence, and consistent across interactions."
+      },
+      "exampleQuotes": {
+        "1": "There is a process but I would have to check the steps.",
+        "2": "Security review first, then a steering committee vote in July, then procurement.",
+        "3": "Security review is booked for the 8th with Dana, the committee votes on the 22nd and procurement has a two week SLA after that."
+      },
+      "nextQuestionAt1": "Can you walk me through the steps from here to a signed order?",
+      "behaviourTags": [
+        "mapped-decision-process",
+        "agreed-mutual-plan"
+      ],
+      "failureModes": [
+        "Rep asserts it instead of the buyer saying it",
+        "Single mention never revisited"
+      ],
+      "stageExpectations": {
+        "discovery": 0,
+        "evaluation": 1,
+        "proposal": 2,
+        "commit": 3
+      },
+      "applicableFrom": "evaluation"
+    },
+    {
+      "code": "PP",
+      "name": "Paper Process",
+      "definition": "Paper Process: what the buyer has said, on the record, about this part of the decision.",
+      "questions": [
+        "What does legal need to see, and how long do they usually take?",
+        "What does legal need to see, and how long do they usually take?",
+        "Who in legal picks this up?"
+      ],
+      "evidenceSignals": [
+        "A named person",
+        "A number or a date",
+        "A consequence stated by the buyer"
+      ],
+      "anchors": {
+        "0": "Not mentioned in any interaction.",
+        "1": "Mentioned in general terms, nothing specific, or only the rep talking.",
+        "2": "Specific and quoted from the buyer: a name, a number, a step or a date.",
+        "3": "Confirmed by the buyer with ownership or consequence, and consistent across interactions."
+      },
+      "exampleQuotes": {
+        "1": "Legal will need to look at the contract at some point.",
+        "2": "Procurement uses a standard MSA and legal turnaround is about ten working days.",
+        "3": "Ravi in legal has the MSA now and has committed to redlines by Friday."
+      },
+      "nextQuestionAt1": "What does legal need to see, and how long do they usually take?",
+      "behaviourTags": [
+        "asked-paper-process"
+      ],
+      "failureModes": [
+        "Rep asserts it instead of the buyer saying it",
+        "Single mention never revisited"
+      ],
+      "stageExpectations": {
+        "discovery": 0,
+        "evaluation": 0,
+        "proposal": 1,
+        "commit": 2
+      },
+      "applicableFrom": "proposal"
+    },
+    {
+      "code": "I",
+      "name": "Pain",
+      "definition": "Pain: what the buyer has said, on the record, about this part of the decision.",
+      "questions": [
+        "What is the hardest part of your month today?",
+        "Where exactly does the time go during the close?",
+        "What happens if this is still the case at the next audit?"
+      ],
+      "evidenceSignals": [
+        "A named person",
+        "A number or a date",
+        "A consequence stated by the buyer"
+      ],
+      "anchors": {
+        "0": "Not mentioned in any interaction.",
+        "1": "Mentioned in general terms, nothing specific, or only the rep talking.",
+        "2": "Specific and quoted from the buyer: a name, a number, a step or a date.",
+        "3": "Confirmed by the buyer with ownership or consequence, and consistent across interactions."
+      },
+      "exampleQuotes": {
+        "1": "The close is painful, honestly.",
+        "2": "Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it.",
+        "3": "If we miss the audit deadline again we lose the clean opinion, and that is a covenant issue with the bank."
+      },
+      "nextQuestionAt1": "Where exactly does the time go during the close?",
+      "behaviourTags": [
+        "identified-pain",
+        "implicated-pain"
+      ],
+      "failureModes": [
+        "Rep asserts it instead of the buyer saying it",
+        "Single mention never revisited"
+      ],
+      "stageExpectations": {
+        "discovery": 2,
+        "evaluation": 2,
+        "proposal": 2,
+        "commit": 2
+      },
+      "applicableFrom": "discovery"
+    },
+    {
+      "code": "CH",
+      "name": "Champion",
+      "definition": "Champion: what the buyer has said, on the record, about this part of the decision.",
+      "questions": [
+        "Who inside the company wants this to happen?",
+        "Would you be willing to bring this to your leadership team?",
+        "What would your director push back on?"
+      ],
+      "evidenceSignals": [
+        "A named person",
+        "A number or a date",
+        "A consequence stated by the buyer"
+      ],
+      "anchors": {
+        "0": "Not mentioned in any interaction.",
+        "1": "Mentioned in general terms, nothing specific, or only the rep talking.",
+        "2": "Specific and quoted from the buyer: a name, a number, a step or a date.",
+        "3": "Confirmed by the buyer with ownership or consequence, and consistent across interactions."
+      },
+      "exampleQuotes": {
+        "1": "I think this could work for us.",
+        "2": "I have already told my director we should do this and I can set up the meeting.",
+        "3": "I presented the business case to the exec team on Tuesday and they asked me to bring you in."
+      },
+      "nextQuestionAt1": "Would you be willing to bring this to your leadership team?",
+      "behaviourTags": [
+        "tested-champion",
+        "developed-champion"
+      ],
+      "failureModes": [
+        "Rep asserts it instead of the buyer saying it",
+        "Single mention never revisited"
+      ],
+      "stageExpectations": {
+        "discovery": 1,
+        "evaluation": 2,
+        "proposal": 2,
+        "commit": 3
+      },
+      "applicableFrom": "discovery"
+    },
+    {
+      "code": "CO",
+      "name": "Competition",
+      "definition": "Competition: what the buyer has said, on the record, about this part of the decision.",
+      "questions": [
+        "What happens if you do nothing?",
+        "Which other tools are you looking at, and what do you like about them?",
+        "What would make LedgerPro the safer choice for you?"
+      ],
+      "evidenceSignals": [
+        "A named person",
+        "A number or a date",
+        "A consequence stated by the buyer"
+      ],
+      "anchors": {
+        "0": "Not mentioned in any interaction.",
+        "1": "Mentioned in general terms, nothing specific, or only the rep talking.",
+        "2": "Specific and quoted from the buyer: a name, a number, a step or a date.",
+        "3": "Confirmed by the buyer with ownership or consequence, and consistent across interactions."
+      },
+      "exampleQuotes": {
+        "1": "We have looked at a couple of other tools.",
+        "2": "We are also talking to LedgerPro and the incumbent spreadsheet process is the real alternative.",
+        "3": "LedgerPro could not do the audit trail in the demo, so you are the preferred option now."
+      },
+      "nextQuestionAt1": "Which other tools are you looking at, and what do you like about them?",
+      "behaviourTags": [
+        "named-competition",
+        "tested-status-quo",
+        "positioned-differentiation"
+      ],
+      "failureModes": [
+        "Rep asserts it instead of the buyer saying it",
+        "Single mention never revisited"
+      ],
+      "stageExpectations": {
+        "discovery": 1,
+        "evaluation": 2,
+        "proposal": 2,
+        "commit": 2
+      },
+      "applicableFrom": "discovery"
+    }
+  ],
+  "ladder": {
+    "0": "No evidence: the element was not mentioned.",
+    "1": "Mentioned without specifics, or only by the rep.",
+    "2": "Specific and quoted: a name, a number, a step or a date, from the buyer.",
+    "3": "Confirmed: the buyer owns it and states the consequence; consistent across interactions."
+  },
+  "generalBehaviourTags": [
+    "secured-next-step",
+    "multi-threaded",
+    "summarised-and-confirmed"
+  ],
+  "scoring": {
+    "quoteRequiredAbove": 1,
+    "decayDays": 45,
+    "commitGate": {
+      "all": 2,
+      "E": 3,
+      "CH": 3,
+      "PP": 2
+    },
+    "qualifyOut": {
+      "maxTotal": 9,
+      "minInteractions": 4
+    }
+  },
+  "sources": [
+    "MEDDPICC as taught in the Northwind sales training, June 2026"
+  ]
+}

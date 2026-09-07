@@ -26,8 +26,8 @@ def parse_iso(value: Optional[str]) -> Optional[_dt.datetime]:
     try:
         d = _dt.datetime.fromisoformat(s)
     except ValueError:
-        # epoch milliseconds as string
-        if re.fullmatch(r"\d{11,14}", s):
+        # epoch milliseconds as a digit string (HubSpot timestamps and BETWEEN filter values)
+        if re.fullmatch(r"\d+", s):
             return _dt.datetime.fromtimestamp(int(s) / 1000.0, tz=_dt.timezone.utc)
         return None
     if d.tzinfo is None:

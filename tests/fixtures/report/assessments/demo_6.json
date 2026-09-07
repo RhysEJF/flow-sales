@@ -1,0 +1,209 @@
+{
+  "dealId": "demo:6",
+  "framework": "meddpicc",
+  "rubricHash": "sha256:a2ea57131ad8412fa0210a3384c6438640335e08b5e2979967c7aee32c56a3f9",
+  "judgedAt": "2026-09-07T11:00:00Z",
+  "model": "sonnet",
+  "interactions": [
+    {
+      "interactionId": "demo:i6-1",
+      "at": "2026-07-22T09:00:00Z",
+      "phaseAtTime": "discovery",
+      "applicable": [
+        "M",
+        "E",
+        "DC",
+        "I",
+        "CH",
+        "CO"
+      ],
+      "notApplicableReason": {
+        "DP": "discovery call, process not yet in play",
+        "PP": "paper process not in play before proposal"
+      },
+      "elements": {
+        "M": {
+          "evidence": 1,
+          "quote": "We know the close is slow but nobody has put a number on it.",
+          "speaker": "buyer",
+          "whyNotHigher": "The pain is acknowledged but not quantified.",
+          "nextQuestion": "How many days does the close take today, and who tracks it?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "E": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "Nobody with budget authority was named.",
+          "nextQuestion": "Who signs a purchase of this size?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        },
+        "DC": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "No criteria were surfaced.",
+          "nextQuestion": "What are the three things a solution must do for you to pick it?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        },
+        "I": {
+          "evidence": 1,
+          "quote": "The close is painful, honestly.",
+          "speaker": "buyer",
+          "whyNotHigher": "Pain stated in general terms only.",
+          "nextQuestion": "Where exactly does the time go during the close?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CH": {
+          "evidence": 1,
+          "quote": "I think this could work for us.",
+          "speaker": "buyer",
+          "whyNotHigher": "Supportive contact, no evidence of selling internally.",
+          "nextQuestion": "Would you be willing to bring this to your leadership team?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CO": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "Alternatives were not discussed.",
+          "nextQuestion": "What happens if you do nothing?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": false,
+        "repTalkRatio": null
+      },
+      "summary": "Intro call: general interest, nothing specific yet."
+    },
+    {
+      "interactionId": "demo:i6-2",
+      "at": "2026-08-19T14:00:00Z",
+      "phaseAtTime": "evaluation",
+      "applicable": [
+        "M",
+        "E",
+        "DC",
+        "DP",
+        "I",
+        "CH",
+        "CO"
+      ],
+      "notApplicableReason": {
+        "PP": "paper process not in play before proposal"
+      },
+      "elements": {
+        "M": {
+          "evidence": 2,
+          "quote": "Month-end close takes us 11 days; we need it under 5 by the next audit.",
+          "speaker": "buyer",
+          "whyNotHigher": "Single source, not tied to a KPI owner.",
+          "nextQuestion": "Who reports the close time to the board, and what is it costing you now?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "asked-metrics"
+          ],
+          "verified": true
+        },
+        "E": {
+          "evidence": 1,
+          "quote": "Do you know who would sign for a purchase of this size?",
+          "speaker": "rep",
+          "whyNotHigher": "The question was asked, no name came back.",
+          "nextQuestion": "Who signs a purchase of this size?",
+          "confidence": "medium",
+          "behaviour": 1,
+          "behaviourTags": [
+            "asked-eb-access"
+          ],
+          "verified": true
+        },
+        "DC": {
+          "evidence": 1,
+          "quote": "We will probably compare a couple of options first.",
+          "speaker": "buyer",
+          "whyNotHigher": "Criteria exist but were not listed.",
+          "nextQuestion": "What are the three things a solution must do for you to pick it?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "DP": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "The decision process was not discussed.",
+          "nextQuestion": "Can you walk me through the steps from here to a signed order?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it.",
+          "speaker": "buyer",
+          "whyNotHigher": "Pain is specific but the consequence of not fixing it is not stated.",
+          "nextQuestion": "What happens if this is still the case at the next audit?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "identified-pain"
+          ],
+          "verified": true
+        },
+        "CH": {
+          "evidence": 1,
+          "quote": "I think this could work for us.",
+          "speaker": "buyer",
+          "whyNotHigher": "Supportive contact, no evidence of selling internally.",
+          "nextQuestion": "Would you be willing to bring this to your leadership team?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CO": {
+          "evidence": 1,
+          "quote": "We have looked at a couple of other tools.",
+          "speaker": "buyer",
+          "whyNotHigher": "Alternatives exist but are unnamed.",
+          "nextQuestion": "Which other tools are you looking at, and what do you like about them?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": false,
+        "repTalkRatio": null
+      },
+      "summary": "Discovery: metric and pain quantified; the budget holder question went unanswered."
+    }
+  ],
+  "dealNotes": "Early: pain and metric quantified in the second meeting, Economic Buyer still unknown."
+}

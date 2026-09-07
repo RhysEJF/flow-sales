@@ -1,0 +1,38 @@
+{
+  "quarter": "2026-Q3",
+  "trainingDate": "2026-06-01",
+  "rule": "A won deal closed in 2026-Q3 counts as influenced when it shows at least 3 framework behaviours across at least 2 interactions after 2026-06-01, and at least one element moved from 0 or 1 to 2 or 3 in one of those interactions.",
+  "influencedDeals": [
+    {
+      "dealId": "demo:2",
+      "name": "Borealis platform",
+      "amount": 68000.0,
+      "ownerId": "rep:priya@northwind.example",
+      "movedElements": [
+        "E",
+        "DP",
+        "PP"
+      ],
+      "behaviours": 11,
+      "interactions": 2,
+      "closedAt": "2026-08-14T00:00:00Z"
+    }
+  ],
+  "influencedCount": 1,
+  "influencedAmount": 68000.0,
+  "wonCount": 1,
+  "wonAmount": 68000.0,
+  "adoptionBefore": 0.89,
+  "adoptionAfter": 0.9,
+  "adoptionBeforeN": 9,
+  "adoptionAfterN": 10,
+  "winRateBefore": 0.0,
+  "winRateAfter": 0.67,
+  "closedBefore": 1,
+  "closedAfter": 3,
+  "caveats": [
+    "Six assessed deals and four closed ones are too few for the win-rate comparison to carry weight on its own.",
+    "Attribution is correlational: adoption after the training date may reflect deal stage as much as the training.",
+    "One deal (Granite upgrade) has no linked interactions and two interactions are unlinked; they are excluded from every number here."
+  ]
+}

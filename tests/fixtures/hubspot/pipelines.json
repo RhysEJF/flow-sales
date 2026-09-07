@@ -1,0 +1,114 @@
+{
+  "results": [
+    {
+      "id": "default",
+      "label": "Sales Pipeline",
+      "displayOrder": 0,
+      "createdAt": "2025-01-01T00:00:00Z",
+      "updatedAt": "2025-01-01T00:00:00Z",
+      "archived": false,
+      "stages": [
+        {
+          "id": "appointmentscheduled",
+          "label": "Appointment Scheduled",
+          "displayOrder": 0,
+          "metadata": {
+            "probability": "0.2",
+            "isClosed": "false"
+          }
+        },
+        {
+          "id": "qualifiedtobuy",
+          "label": "Qualified To Buy",
+          "displayOrder": 1,
+          "metadata": {
+            "probability": "0.4",
+            "isClosed": "false"
+          }
+        },
+        {
+          "id": "presentationscheduled",
+          "label": "Presentation Scheduled",
+          "displayOrder": 2,
+          "metadata": {
+            "probability": "0.6",
+            "isClosed": "false"
+          }
+        },
+        {
+          "id": "decisionmakerboughtin",
+          "label": "Decision Maker Bought-In",
+          "displayOrder": 3,
+          "metadata": {
+            "probability": "0.8",
+            "isClosed": "false"
+          }
+        },
+        {
+          "id": "contractsent",
+          "label": "Contract Sent",
+          "displayOrder": 4,
+          "metadata": {
+            "probability": "0.9",
+            "isClosed": "false"
+          }
+        },
+        {
+          "id": "closedwon",
+          "label": "Closed Won",
+          "displayOrder": 5,
+          "metadata": {
+            "probability": "1.0",
+            "isClosed": "true"
+          }
+        },
+        {
+          "id": "closedlost",
+          "label": "Closed Lost",
+          "displayOrder": 6,
+          "metadata": {
+            "probability": "0.0",
+            "isClosed": "true"
+          }
+        }
+      ]
+    },
+    {
+      "id": "12345",
+      "label": "Partner Pipeline",
+      "displayOrder": 1,
+      "createdAt": "2025-06-01T00:00:00Z",
+      "updatedAt": "2025-06-01T00:00:00Z",
+      "archived": false,
+      "stages": [
+        {
+          "id": "900001",
+          "label": "Partner Intro",
+          "displayOrder": 0,
+          "metadata": {
+            "probability": "0.1",
+            "isClosed": "false"
+          }
+        },
+        {
+          "id": "900002",
+          "label": "Joint Pitch",
+          "displayOrder": 1,
+          "metadata": {
+            "probability": "0.5",
+            "isClosed": "false"
+          }
+        },
+        {
+          "id": "900003",
+          "label": "Signed",
+          "displayOrder": 2,
+          "metadata": {
+            "probability": "1.0",
+            "isClosed": "true"
+          }
+        }
+      ]
+    }
+  ]
+}

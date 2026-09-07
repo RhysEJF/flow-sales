@@ -1,0 +1,56 @@
+[
+  {
+    "id": "6001",
+    "properties": {
+      "hs_timestamp": "2026-04-12T09:00:00Z",
+      "hs_email_subject": "Proposal follow-up",
+      "hs_email_text": "Hi Priya, attached is the proposal we discussed. The board pack has the ROI table.",
+      "hs_email_html": "<p>Hi Priya, attached is the proposal we discussed.</p><p>The board pack has the ROI table.</p>",
+      "hs_email_direction": "EMAIL",
+      "hs_email_headers": "{\"from\": {\"email\": \"sam@vendor.com\", \"firstName\": \"Sam\", \"lastName\": \"Rep\"}, \"to\": [{\"email\": \"priya@acme.com\", \"firstName\": \"Priya\", \"lastName\": \"Shah\"}], \"cc\": [{\"email\": \"tom@acme.com\", \"firstName\": \"Tom\", \"lastName\": \"Ng\"}], \"bcc\": []}",
+      "hs_email_status": "SENT",
+      "hubspot_owner_id": "41629779",
+      "hs_lastmodifieddate": "2026-04-12T09:00:00Z",
+      "hs_object_id": "6001"
+    },
+    "createdAt": "2026-04-12T09:00:00Z",
+    "updatedAt": "2026-04-12T09:00:00Z",
+    "archived": false
+  },
+  {
+    "id": "6002",
+    "properties": {
+      "hs_timestamp": "2026-04-13T16:20:00Z",
+      "hs_email_subject": "Re: Proposal follow-up",
+      "hs_email_text": null,
+      "hs_email_html": "<div>Thanks Sam, the board meets on the 20th.<br>Priya</div>",
+      "hs_email_direction": "INCOMING_EMAIL",
+      "hs_email_headers": "{\"from\": {\"email\": \"priya@acme.com\", \"firstName\": \"Priya\", \"lastName\": \"Shah\"}, \"to\": [{\"email\": \"sam@vendor.com\", \"firstName\": \"Sam\", \"lastName\": \"Rep\"}], \"cc\": [], \"bcc\": []}",
+      "hs_email_status": null,
+      "hubspot_owner_id": null,
+      "hs_lastmodifieddate": "2026-04-13T16:20:00Z",
+      "hs_object_id": "6002"
+    },
+    "createdAt": "2026-04-13T16:20:00Z",
+    "updatedAt": "2026-04-13T16:20:00Z",
+    "archived": false
+  },
+  {
+    "id": "6003",
+    "properties": {
+      "hs_timestamp": "2026-07-03T10:00:00Z",
+      "hs_email_subject": "FW: Renewal terms",
+      "hs_email_text": "Forwarding the renewal terms.",
+      "hs_email_html": null,
+      "hs_email_direction": "FORWARDED_EMAIL",
+      "hs_email_headers": "{\"from\": {\"email\": \"sam@vendor.com\", \"firstName\": \"Sam\", \"lastName\": \"Rep\"}, \"to\": [{\"email\": \"priya@acme.com\", \"firstName\": \"Priya\", \"lastName\": \"Shah\"}]}",
+      "hs_email_status": "SENT",
+      "hubspot_owner_id": "41629779",
+      "hs_lastmodifieddate": "2026-07-03T10:00:00Z",
+      "hs_object_id": "6003"
+    },
+    "createdAt": "2026-07-03T10:00:00Z",
+    "updatedAt": "2026-07-03T10:00:00Z",
+    "archived": false
+  }
+]

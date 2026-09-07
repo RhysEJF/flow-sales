@@ -1,0 +1,419 @@
+{
+  "dealId": "demo:2",
+  "framework": "meddpicc",
+  "rubricHash": "sha256:a2ea57131ad8412fa0210a3384c6438640335e08b5e2979967c7aee32c56a3f9",
+  "judgedAt": "2026-09-07T11:00:00Z",
+  "model": "sonnet",
+  "interactions": [
+    {
+      "interactionId": "demo:i2-1",
+      "at": "2026-04-08T11:00:00Z",
+      "phaseAtTime": "discovery",
+      "applicable": [
+        "M",
+        "E",
+        "DC",
+        "I",
+        "CH",
+        "CO"
+      ],
+      "notApplicableReason": {
+        "DP": "discovery call, process not yet in play",
+        "PP": "paper process not in play before proposal"
+      },
+      "elements": {
+        "M": {
+          "evidence": 1,
+          "quote": "We know the close is slow but nobody has put a number on it.",
+          "speaker": "buyer",
+          "whyNotHigher": "The pain is acknowledged but not quantified.",
+          "nextQuestion": "How many days does the close take today, and who tracks it?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "E": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "Nobody with budget authority was named.",
+          "nextQuestion": "Who signs a purchase of this size?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        },
+        "DC": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "No criteria were surfaced.",
+          "nextQuestion": "What are the three things a solution must do for you to pick it?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it.",
+          "speaker": "buyer",
+          "whyNotHigher": "Pain is specific but the consequence of not fixing it is not stated.",
+          "nextQuestion": "What happens if this is still the case at the next audit?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "identified-pain"
+          ],
+          "verified": true
+        },
+        "CH": {
+          "evidence": 1,
+          "quote": "I think this could work for us.",
+          "speaker": "buyer",
+          "whyNotHigher": "Supportive contact, no evidence of selling internally.",
+          "nextQuestion": "Would you be willing to bring this to your leadership team?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CO": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "Alternatives were not discussed.",
+          "nextQuestion": "What happens if you do nothing?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": false,
+        "repTalkRatio": null
+      },
+      "summary": "Intro call: pain surfaced, little else established."
+    },
+    {
+      "interactionId": "demo:i2-2",
+      "at": "2026-05-13T13:00:00Z",
+      "phaseAtTime": "evaluation",
+      "applicable": [
+        "M",
+        "E",
+        "DC",
+        "DP",
+        "I",
+        "CH",
+        "CO"
+      ],
+      "notApplicableReason": {
+        "PP": "paper process not in play before proposal"
+      },
+      "elements": {
+        "M": {
+          "evidence": 2,
+          "quote": "Month-end close takes us 11 days; we need it under 5 by the next audit.",
+          "speaker": "buyer",
+          "whyNotHigher": "Single source, not tied to a KPI owner.",
+          "nextQuestion": "Who reports the close time to the board, and what is it costing you now?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "asked-metrics"
+          ],
+          "verified": true
+        },
+        "E": {
+          "evidence": 1,
+          "quote": "Do you know who would sign for a purchase of this size?",
+          "speaker": "rep",
+          "whyNotHigher": "The question was asked, no name came back.",
+          "nextQuestion": "Who signs a purchase of this size?",
+          "confidence": "medium",
+          "behaviour": 1,
+          "behaviourTags": [
+            "asked-eb-access"
+          ],
+          "verified": true
+        },
+        "DC": {
+          "evidence": 2,
+          "quote": "The must-haves are audit trail, SSO and a two-week rollout.",
+          "speaker": "buyer",
+          "whyNotHigher": "Criteria listed by the champion, not confirmed by the buyer group.",
+          "nextQuestion": "Who else has to agree with that list?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "mapped-decision-criteria"
+          ],
+          "verified": true
+        },
+        "DP": {
+          "evidence": 1,
+          "quote": "There is a process but I would have to check the steps.",
+          "speaker": "buyer",
+          "whyNotHigher": "Process exists, steps unknown.",
+          "nextQuestion": "Can you walk me through the steps from here to a signed order?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "Every month the finance team loses a week reconciling spreadsheets by hand and the auditors keep flagging it.",
+          "speaker": "buyer",
+          "whyNotHigher": "Pain is specific but the consequence of not fixing it is not stated.",
+          "nextQuestion": "What happens if this is still the case at the next audit?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CH": {
+          "evidence": 2,
+          "quote": "I have already told my director we should do this and I can set up the meeting.",
+          "speaker": "buyer",
+          "whyNotHigher": "Champion is selling internally but has not been tested for influence.",
+          "nextQuestion": "What would your director push back on?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "tested-champion"
+          ],
+          "verified": true
+        },
+        "CO": {
+          "evidence": 2,
+          "quote": "We are also talking to LedgerPro and the incumbent spreadsheet process is the real alternative.",
+          "speaker": "buyer",
+          "whyNotHigher": "Named, but our differentiation was not tested.",
+          "nextQuestion": "What would make LedgerPro the safer choice for you?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "named-competition"
+          ],
+          "verified": true
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": false,
+        "repTalkRatio": null
+      },
+      "summary": "Workshop: metric quantified, criteria listed, competition named; the buyer would not name the budget holder yet."
+    },
+    {
+      "interactionId": "demo:i2-3",
+      "at": "2026-06-18T14:30:00Z",
+      "phaseAtTime": "proposal",
+      "applicable": [
+        "M",
+        "E",
+        "DC",
+        "DP",
+        "PP",
+        "I",
+        "CH",
+        "CO"
+      ],
+      "notApplicableReason": {},
+      "elements": {
+        "M": {
+          "evidence": 3,
+          "quote": "Our CFO signed off the target: close in 5 days by Q4, which she values at about 200k a year in audit and overtime.",
+          "speaker": "buyer",
+          "whyNotHigher": "",
+          "nextQuestion": "",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "quantified-impact"
+          ],
+          "verified": true
+        },
+        "E": {
+          "evidence": 3,
+          "quote": "Marcus has told the board this is his priority for Q3 and he wants to be on the next call.",
+          "speaker": "buyer",
+          "whyNotHigher": "",
+          "nextQuestion": "",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "engaged-eb",
+            "multi-threaded"
+          ],
+          "verified": true
+        },
+        "DC": {
+          "evidence": 3,
+          "quote": "The scoring sheet is agreed: audit trail 40 percent, rollout speed 30, price 30, and we weighted rollout after your demo.",
+          "speaker": "buyer",
+          "whyNotHigher": "",
+          "nextQuestion": "",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "shaped-decision-criteria"
+          ],
+          "verified": true
+        },
+        "DP": {
+          "evidence": 2,
+          "quote": "Security review first, then a steering committee vote in July, then procurement.",
+          "speaker": "buyer",
+          "whyNotHigher": "Steps known, dates and owners missing.",
+          "nextQuestion": "Who owns each step and when does the committee meet?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "mapped-decision-process"
+          ],
+          "verified": true
+        },
+        "PP": {
+          "evidence": 2,
+          "quote": "Procurement uses a standard MSA and legal turnaround is about ten working days.",
+          "speaker": "buyer",
+          "whyNotHigher": "Timeline known, no named owner in legal.",
+          "nextQuestion": "Who in legal picks this up?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "asked-paper-process"
+          ],
+          "verified": true
+        },
+        "I": {
+          "evidence": 3,
+          "quote": "If we miss the audit deadline again we lose the clean opinion, and that is a covenant issue with the bank.",
+          "speaker": "buyer",
+          "whyNotHigher": "",
+          "nextQuestion": "",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "implicated-pain"
+          ],
+          "verified": true
+        },
+        "CH": {
+          "evidence": 3,
+          "quote": "I presented the business case to the exec team on Tuesday and they asked me to bring you in.",
+          "speaker": "buyer",
+          "whyNotHigher": "",
+          "nextQuestion": "",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "developed-champion"
+          ],
+          "verified": true
+        },
+        "CO": {
+          "evidence": 3,
+          "quote": "LedgerPro could not do the audit trail in the demo, so you are the preferred option now.",
+          "speaker": "buyer",
+          "whyNotHigher": "",
+          "nextQuestion": "",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "positioned-differentiation"
+          ],
+          "verified": true
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": false,
+        "repTalkRatio": 0.42
+      },
+      "summary": "Exec briefing: the CFO joined, the scoring sheet was agreed and the consequence of missing the audit was stated by the buyer."
+    },
+    {
+      "interactionId": "demo:i2-4",
+      "at": "2026-08-05T09:00:00Z",
+      "phaseAtTime": "commit",
+      "applicable": [
+        "E",
+        "DP",
+        "PP",
+        "CH"
+      ],
+      "notApplicableReason": {
+        "M": "paper process not in play before proposal",
+        "DC": "paper process not in play before proposal",
+        "I": "paper process not in play before proposal",
+        "CO": "paper process not in play before proposal"
+      },
+      "elements": {
+        "E": {
+          "evidence": 3,
+          "quote": "Marcus has told the board this is his priority for Q3 and he wants to be on the next call.",
+          "speaker": "buyer",
+          "whyNotHigher": "",
+          "nextQuestion": "",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "DP": {
+          "evidence": 3,
+          "quote": "Security review is booked for the 8th with Dana, the committee votes on the 22nd and procurement has a two week SLA after that.",
+          "speaker": "buyer",
+          "whyNotHigher": "",
+          "nextQuestion": "",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "agreed-mutual-plan"
+          ],
+          "verified": true
+        },
+        "PP": {
+          "evidence": 3,
+          "quote": "Ravi in legal has the MSA now and has committed to redlines by Friday.",
+          "speaker": "buyer",
+          "whyNotHigher": "",
+          "nextQuestion": "",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "asked-paper-process"
+          ],
+          "verified": true
+        },
+        "CH": {
+          "evidence": 3,
+          "quote": "I presented the business case to the exec team on Tuesday and they asked me to bring you in.",
+          "speaker": "buyer",
+          "whyNotHigher": "",
+          "nextQuestion": "",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "secured-next-step"
+          ],
+          "verified": true
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": true,
+        "repTalkRatio": null
+      },
+      "summary": "Contract email: legal owner and redline date confirmed."
+    }
+  ],
+  "dealNotes": "Slow start, then the exec briefing after the June training moved four elements in one meeting."
+}

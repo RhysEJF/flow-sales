@@ -1,0 +1,20 @@
+[
+  {
+    "id": "rep:sam@northwind.example",
+    "name": "Sam Okafor",
+    "email": "sam@northwind.example",
+    "source": "demo"
+  },
+  {
+    "id": "rep:priya@northwind.example",
+    "name": "Priya Natarajan",
+    "email": "priya@northwind.example",
+    "source": "demo"
+  },
+  {
+    "id": "rep:lena@northwind.example",
+    "name": "Lena Fischer",
+    "email": "lena@northwind.example",
+    "source": "demo"
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "2001",
+    "properties": {
+      "email": "priya@acme.com",
+      "firstname": "Priya",
+      "lastname": "Shah",
+      "jobtitle": "CFO",
+      "hs_buying_role": "DECISION_MAKER",
+      "hs_lastmodifieddate": "2026-06-01T00:00:00Z",
+      "hs_object_id": "2001"
+    },
+    "createdAt": "2026-02-01T00:00:00Z",
+    "updatedAt": "2026-06-01T00:00:00Z",
+    "archived": false
+  },
+  {
+    "id": "2002",
+    "properties": {
+      "email": "tom@acme.com",
+      "firstname": "Tom",
+      "lastname": "Ng",
+      "jobtitle": "Head of Finance",
+      "hs_buying_role": null,
+      "hs_lastmodifieddate": "2026-06-01T00:00:00Z",
+      "hs_object_id": "2002"
+    },
+    "createdAt": "2026-02-01T00:00:00Z",
+    "updatedAt": "2026-06-01T00:00:00Z",
+    "archived": false
+  },
+  {
+    "id": "2003",
+    "properties": {
+      "email": "lena@globex.com",
+      "firstname": "Lena",
+      "lastname": "Ortiz",
+      "jobtitle": "VP Operations",
+      "hs_buying_role": "CHAMPION",
+      "hs_lastmodifieddate": "2026-05-01T00:00:00Z",
+      "hs_object_id": "2003"
+    },
+    "createdAt": "2026-02-01T00:00:00Z",
+    "updatedAt": "2026-05-01T00:00:00Z",
+    "archived": false
+  }
+]
