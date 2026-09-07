@@ -1,0 +1,270 @@
+[
+  {
+    "id": "demo:i1-1",
+    "source": "demo",
+    "type": "meeting",
+    "dealId": "demo:1",
+    "direction": "outbound",
+    "at": "2026-03-04T14:00:00Z",
+    "durationSec": 1800,
+    "title": "Acme expansion discovery meeting",
+    "body": "Priya Shah: Month-end close takes us 11 days; we need it under 5 by the next audit.\nPriya Shah: We will probably compare a couple of options first.\nPriya Shah: Every month the finance team loses a week reconciling spreadsheets by hand.\nPriya Shah: I think this could work for us.\nPriya Shah: We have looked at a couple of other tools.\nAna Ruiz: Thanks, let us pick this up next time.",
+    "transcript": [
+      {
+        "speaker": "Priya Shah",
+        "t": 0.0,
+        "text": "Month-end close takes us 11 days; we need it under 5 by the next audit."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 30.0,
+        "text": "We will probably compare a couple of options first."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 60.0,
+        "text": "Every month the finance team loses a week reconciling spreadsheets by hand."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 90.0,
+        "text": "I think this could work for us."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 120.0,
+        "text": "We have looked at a couple of other tools."
+      },
+      {
+        "speaker": "Ana Ruiz",
+        "t": 150.0,
+        "text": "Thanks, let us pick this up next time."
+      }
+    ],
+    "notes": null,
+    "summary": "Discovery meeting with Priya Shah.",
+    "participants": [
+      {
+        "name": "Priya Shah",
+        "email": "priya@acme.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ana Ruiz",
+        "email": "ana@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ana@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  },
+  {
+    "id": "demo:i1-2",
+    "source": "demo",
+    "type": "call",
+    "dealId": "demo:1",
+    "direction": "outbound",
+    "at": "2026-03-25T10:00:00Z",
+    "durationSec": 1800,
+    "title": "Acme expansion evaluation call",
+    "body": "Ana Ruiz: We know the close is slow but nobody has put a number on it.\nPriya Shah: I think finance would need to sign this off.\nPriya Shah: It has to integrate with NetSuite, close in under five days and pass security review.\nPriya Shah: There is some kind of review process, I would have to check.\nPriya Shah: Every month the finance team loses a week reconciling spreadsheets by hand.\nPriya Shah: I have already put this on the agenda for our ops review next week.\nPriya Shah: We have looked at a couple of other tools.\nAna Ruiz: Thanks, let us pick this up next time.",
+    "transcript": [],
+    "notes": null,
+    "summary": "Evaluation call with Priya Shah.",
+    "participants": [
+      {
+        "name": "Priya Shah",
+        "email": "priya@acme.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ana Ruiz",
+        "email": "ana@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ana@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  },
+  {
+    "id": "demo:i1-3",
+    "source": "demo",
+    "type": "meeting",
+    "dealId": "demo:1",
+    "direction": "outbound",
+    "at": "2026-04-22T09:30:00Z",
+    "durationSec": 1800,
+    "title": "Acme expansion proposal meeting",
+    "body": "Ana Ruiz: We know the close is slow but nobody has put a number on it.\nPriya Shah: I think finance would need to sign this off.\nPriya Shah: It has to integrate with NetSuite, close in under five days and pass security review.\nPriya Shah: Finance reviews in week one, then IT signs off, then it goes to Dana for approval.\nPriya Shah: Legal will want to look at the contract at some point.\nPriya Shah: Every month the finance team loses a week reconciling spreadsheets by hand.\nPriya Shah: I have already put this on the agenda for our ops review next week.\nPriya Shah: We are also looking at BlackLine, mainly because our auditors already know it.\nAna Ruiz: Thanks, let us pick this up next time.",
+    "transcript": [
+      {
+        "speaker": "Ana Ruiz",
+        "t": 0.0,
+        "text": "We know the close is slow but nobody has put a number on it."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 30.0,
+        "text": "I think finance would need to sign this off."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 60.0,
+        "text": "It has to integrate with NetSuite, close in under five days and pass security review."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 90.0,
+        "text": "Finance reviews in week one, then IT signs off, then it goes to Dana for approval."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 120.0,
+        "text": "Legal will want to look at the contract at some point."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 150.0,
+        "text": "Every month the finance team loses a week reconciling spreadsheets by hand."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 180.0,
+        "text": "I have already put this on the agenda for our ops review next week."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 210.0,
+        "text": "We are also looking at BlackLine, mainly because our auditors already know it."
+      },
+      {
+        "speaker": "Ana Ruiz",
+        "t": 240.0,
+        "text": "Thanks, let us pick this up next time."
+      }
+    ],
+    "notes": null,
+    "summary": "Proposal meeting with Priya Shah.",
+    "participants": [
+      {
+        "name": "Priya Shah",
+        "email": "priya@acme.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ana Ruiz",
+        "email": "ana@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ana@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  },
+  {
+    "id": "demo:i1-4",
+    "source": "demo",
+    "type": "meeting",
+    "dealId": "demo:1",
+    "direction": "outbound",
+    "at": "2026-06-05T15:00:00Z",
+    "durationSec": 1800,
+    "title": "Acme expansion commit meeting",
+    "body": "Ana Ruiz: We know the close is slow but nobody has put a number on it.\nPriya Shah: Dana told me she has budget for this quarter and wants it live before the audit.\nPriya Shah: It has to integrate with NetSuite, close in under five days and pass security review.\nPriya Shah: Finance reviews in week one, then IT signs off, then it goes to Dana for approval.\nPriya Shah: Legal needs two weeks for any new vendor agreement and procurement raises the PO after.\nPriya Shah: Every month the finance team loses a week reconciling spreadsheets by hand.\nPriya Shah: I presented the case to Dana myself and she asked me to run the rollout.\nPriya Shah: We are also looking at BlackLine, mainly because our auditors already know it.\nAna Ruiz: Thanks, let us pick this up next time.",
+    "transcript": [
+      {
+        "speaker": "Ana Ruiz",
+        "t": 0.0,
+        "text": "We know the close is slow but nobody has put a number on it."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 30.0,
+        "text": "Dana told me she has budget for this quarter and wants it live before the audit."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 60.0,
+        "text": "It has to integrate with NetSuite, close in under five days and pass security review."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 90.0,
+        "text": "Finance reviews in week one, then IT signs off, then it goes to Dana for approval."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 120.0,
+        "text": "Legal needs two weeks for any new vendor agreement and procurement raises the PO after."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 150.0,
+        "text": "Every month the finance team loses a week reconciling spreadsheets by hand."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 180.0,
+        "text": "I presented the case to Dana myself and she asked me to run the rollout."
+      },
+      {
+        "speaker": "Priya Shah",
+        "t": 210.0,
+        "text": "We are also looking at BlackLine, mainly because our auditors already know it."
+      },
+      {
+        "speaker": "Ana Ruiz",
+        "t": 240.0,
+        "text": "Thanks, let us pick this up next time."
+      }
+    ],
+    "notes": null,
+    "summary": "Commit meeting with Priya Shah.",
+    "participants": [
+      {
+        "name": "Priya Shah",
+        "email": "priya@acme.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ana Ruiz",
+        "email": "ana@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ana@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  },
+  {
+    "id": "demo:i1-5",
+    "source": "demo",
+    "type": "call",
+    "dealId": "demo:1",
+    "direction": "outbound",
+    "at": "2026-06-12T11:00:00Z",
+    "durationSec": 1800,
+    "title": "Acme expansion commit call",
+    "body": "Ana Ruiz: We know the close is slow but nobody has put a number on it.\nPriya Shah: Dana told me she has budget for this quarter and wants it live before the audit.\nPriya Shah: It has to integrate with NetSuite, close in under five days and pass security review.\nPriya Shah: Finance reviews in week one, then IT signs off, then it goes to Dana for approval.\nPriya Shah: Legal needs two weeks for any new vendor agreement and procurement raises the PO after.\nPriya Shah: Every month the finance team loses a week reconciling spreadsheets by hand.\nPriya Shah: I presented the case to Dana myself and she asked me to run the rollout.\nPriya Shah: We are also looking at BlackLine, mainly because our auditors already know it.\nAna Ruiz: Thanks, let us pick this up next time.",
+    "transcript": [],
+    "notes": null,
+    "summary": "Commit call with Priya Shah.",
+    "participants": [
+      {
+        "name": "Priya Shah",
+        "email": "priya@acme.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ana Ruiz",
+        "email": "ana@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ana@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  }
+]

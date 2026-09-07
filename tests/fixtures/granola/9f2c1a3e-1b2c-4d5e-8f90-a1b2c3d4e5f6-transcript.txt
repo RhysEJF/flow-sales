@@ -1,0 +1,6 @@
+<transcript meeting_id="9f2c1a3e-1b2c-4d5e-8f90-a1b2c3d4e5f6">
+[00:00:15] Sam Rep: Thanks for making time today, Priya.
+[00:00:21] Priya Shah: Of course. We are under pressure to replace the old CRM before Q4.
+[00:00:40] Dev Patel: The technical evaluation is mine, and I need the security questionnaire back first.
+[00:31:02] Sam Rep: I will send the questionnaire and a pricing proposal tomorrow.
+</transcript>

@@ -1,0 +1,42 @@
+id,deal_id,type,direction,at,duration_sec,title,body,participants,rep_email
+I-1,D-1042,call,outbound,2026-03-04T14:00:00Z,1860,Acme discovery call,"Sam Rep: Thanks for the time, Priya. Before I show anything, what does month-end look like today in numbers?
+Priya Shah: Month-end close takes us 11 days. The board wants it under 5 by the next audit, and every late day is a day the depot managers work off stale numbers.
+Sam Rep: Who owns that number at board level, and what is it costing you while it sits at 11?
+Priya Shah: Our CFO, Anita Rao. She put the cost of expedited freight at about 140k last year, and she has tied the 5-day target to a 30k saving in the March plan.
+Sam Rep: And who signs a spend of this size? Anita, or someone above?
+Priya Shah: Anita signs anything over 25k. Nothing moves without her.
+Sam Rep: Can I get thirty minutes with Anita next week? I will bring the business case and you can shape it first.
+Priya Shah: I can do that. She is in on Thursday.
+Sam Rep: Who else are you looking at? Lumen BI, an internal build, keeping the spreadsheet?
+Priya Shah: Lumen demoed last month. Nice dashboards, but they need a consultancy for the Sage connector, and Anita has ruled out another consultancy project.
+Sam Rep: Then let me play back what I heard: 11 days to close, target 5, Anita signs, decision before the end of April, Lumen in the mix. Anything wrong?
+Priya Shah: That is right. Send me the summary and I will book Anita for Thursday.",Priya Shah <priya@acme.example>;Sam Rep <sam@vendor.example>,sam@vendor.example
+I-2,D-1042,email,outbound,2026-03-04T17:20:00Z,,Recap and next steps,"Hi Priya,
+
+Thanks for the time today. Writing down what I heard so you can correct me: month-end close takes 11 days against a target of 5, Anita owns the number and put expedited freight at about 140k last year, and Anita signs anything over 25k. Lumen BI is in the mix but needs a consultancy for the Sage connector.
+
+Next steps: I send the one-page summary tomorrow, you book thirty minutes with Anita for Thursday, and we agree evaluation dates on that call so you can decide before the end of April.
+
+Best,
+Sam",Priya Shah <priya@acme.example>;Sam Rep <sam@vendor.example>,sam@vendor.example
+I-3,D-1042,meeting,outbound,2026-03-12T10:00:00Z,2700,Business case review with Anita Rao,"Sam Rep: Anita, thanks for joining. Priya has walked you through the numbers, so I would rather hear your priorities than repeat them.
+Anita Rao: Two conditions. No consultancy on the connector, and a payback I can show the board in June. Otherwise we stay on the spreadsheet.
+Sam Rep: Understood. If we hit a 5-day close by September, what does that let you do that you cannot do today?
+Anita Rao: Stop paying for freight we did not need. That is the 140k. Show me a third of it inside a year and I will sign.
+Priya Shah: The evaluation can run from the 20th if IT approves the service account this week.",Priya Shah <priya@acme.example>;Anita Rao <anita@acme.example>;Sam Rep <sam@vendor.example>,sam@vendor.example
+I-4,D-1043,note,internal,2026-07-11T08:45:00Z,,Notes after the intro call,"Intro call with Lotte. Pain: the monthly margin report is built by hand from NetSuite exports, three people, about two days each. No metric yet, Lotte to dig out last quarter's figures. Economic buyer probably the COO, not confirmed. Next: demo on the 22nd, ask Lotte to bring the finance systems lead.",Sam Rep <sam@vendor.example>,sam@vendor.example
+I-5,D-1044,email,inbound,2026-05-19T16:05:00Z,,Re: Cobalt Care proposal,"Hi Jo,
+
+I wanted to let you know directly rather than go quiet. We have decided to go with Lumen BI. The price difference was too big to justify to our finance director, and IT were comfortable with their partner building the connector.
+
+Thanks for the time you put in. If Lumen does not work out I will be in touch.
+
+Regards,
+Mark Doyle",Mark Doyle <mark@cobaltcare.example>;Jo Seller <jo@vendor.example>,jo@vendor.example
+I-6,,meeting,outbound,2026-07-22T13:00:00Z,2400,Beacon Foods connector questions,"Sam Rep: Lotte, thanks for bringing Bram along. Bram, what does the NetSuite side look like from your seat?
+Bram Visser: Two instances, one per warehouse group. The margin report merges them by hand, which is where the errors come from.
+Sam Rep: How many hours a month does that merge take, and who notices when it is wrong?
+Lotte de Vries: About 30 hours across three people, and the COO notices, usually in the meeting.",Lotte de Vries <lotte@beaconfoods.example>;Bram Visser <bram@beaconfoods.example>;Sam Rep <sam@vendor.example>,sam@vendor.example
+I-7,,call,outbound,2026-04-02T11:00:00Z,900,Quick call with Dev Patel,"Sam Rep: Dev, quick one. Priya said you would be running the evaluation on the Sage side. Anything you need from us before the 20th?
+Dev Patel: The service account details and the firewall rule. And a straight answer on whether the nightly load can run at two rather than midnight.
+Sam Rep: Two is fine. I will send both today.",Dev Patel <dev@acme.example>;Sam Rep <sam@vendor.example>,sam@vendor.example

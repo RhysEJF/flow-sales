@@ -1,0 +1,575 @@
+{
+  "dealId": "demo:2",
+  "framework": "meddpicc",
+  "rubricHash": "sha256:fixture",
+  "judgedAt": "2026-09-07T11:00:00Z",
+  "model": "sonnet",
+  "interactions": [
+    {
+      "interactionId": "demo:i2-1",
+      "at": "2026-04-08T11:00:00Z",
+      "phaseAtTime": "discovery",
+      "applicable": [
+        "M",
+        "E",
+        "DC",
+        "I",
+        "CH",
+        "CO"
+      ],
+      "notApplicableReason": {
+        "DP": "discovery call, process not yet in play",
+        "PP": "paper process not in play before proposal"
+      },
+      "elements": {
+        "M": {
+          "evidence": 2,
+          "quote": "Month-end close takes us 11 days; we need it under 5 by the next audit.",
+          "speaker": "buyer",
+          "whyNotHigher": "Metrics at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move metrics forward?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "asked-metrics"
+          ],
+          "verified": true
+        },
+        "E": {
+          "evidence": 1,
+          "quote": "I think finance would need to sign this off.",
+          "speaker": "buyer",
+          "whyNotHigher": "Economic Buyer at level 1; the next level needs buyer ownership.",
+          "nextQuestion": "What would move economic buyer forward?",
+          "confidence": "medium",
+          "behaviour": 1,
+          "behaviourTags": [
+            "identified-eb"
+          ],
+          "verified": true
+        },
+        "DC": {
+          "evidence": 1,
+          "quote": "We will probably compare a couple of options first.",
+          "speaker": "buyer",
+          "whyNotHigher": "Decision Criteria at level 1; the next level needs buyer ownership.",
+          "nextQuestion": "What would move decision criteria forward?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "Every month the finance team loses a week reconciling spreadsheets by hand.",
+          "speaker": "buyer",
+          "whyNotHigher": "Pain at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move pain forward?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "identified-pain"
+          ],
+          "verified": true
+        },
+        "CH": {
+          "evidence": 1,
+          "quote": "I think this could work for us.",
+          "speaker": "buyer",
+          "whyNotHigher": "Champion at level 1; the next level needs buyer ownership.",
+          "nextQuestion": "What would move champion forward?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CO": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "Competition not mentioned.",
+          "nextQuestion": "Ask about competition.",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": true,
+        "repTalkRatio": null
+      },
+      "summary": "Discovery meeting: 3 framework behaviours."
+    },
+    {
+      "interactionId": "demo:i2-2",
+      "at": "2026-05-02T10:00:00Z",
+      "phaseAtTime": "evaluation",
+      "applicable": [
+        "M",
+        "E",
+        "DC",
+        "DP",
+        "PP",
+        "I",
+        "CH",
+        "CO"
+      ],
+      "notApplicableReason": {},
+      "elements": {
+        "M": {
+          "evidence": 2,
+          "quote": "Month-end close takes us 11 days; we need it under 5 by the next audit.",
+          "speaker": "buyer",
+          "whyNotHigher": "Metrics at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move metrics forward?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "quantified-impact"
+          ],
+          "verified": true
+        },
+        "E": {
+          "evidence": 1,
+          "quote": "I think finance would need to sign this off.",
+          "speaker": "buyer",
+          "whyNotHigher": "Economic Buyer at level 1; the next level needs buyer ownership.",
+          "nextQuestion": "What would move economic buyer forward?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "DC": {
+          "evidence": 2,
+          "quote": "It has to integrate with NetSuite, close in under five days and pass security review.",
+          "speaker": "buyer",
+          "whyNotHigher": "Decision Criteria at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move decision criteria forward?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "mapped-decision-criteria"
+          ],
+          "verified": true
+        },
+        "DP": {
+          "evidence": 1,
+          "quote": "There is some kind of review process, I would have to check.",
+          "speaker": "buyer",
+          "whyNotHigher": "Decision Process at level 1; the next level needs buyer ownership.",
+          "nextQuestion": "What would move decision process forward?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "PP": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "Paper Process not mentioned.",
+          "nextQuestion": "Ask about paper process.",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        },
+        "I": {
+          "evidence": 2,
+          "quote": "Every month the finance team loses a week reconciling spreadsheets by hand.",
+          "speaker": "buyer",
+          "whyNotHigher": "Pain at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move pain forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CH": {
+          "evidence": 2,
+          "quote": "I have already put this on the agenda for our ops review next week.",
+          "speaker": "buyer",
+          "whyNotHigher": "Champion at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move champion forward?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "tested-champion"
+          ],
+          "verified": true
+        },
+        "CO": {
+          "evidence": 1,
+          "quote": "We have looked at a couple of other tools.",
+          "speaker": "buyer",
+          "whyNotHigher": "Competition at level 1; the next level needs buyer ownership.",
+          "nextQuestion": "What would move competition forward?",
+          "confidence": "medium",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": true,
+        "repTalkRatio": null
+      },
+      "summary": "Evaluation call: 3 framework behaviours."
+    },
+    {
+      "interactionId": "demo:i2-3",
+      "at": "2026-06-18T14:30:00Z",
+      "phaseAtTime": "proposal",
+      "applicable": [
+        "M",
+        "E",
+        "DC",
+        "DP",
+        "PP",
+        "I",
+        "CH",
+        "CO"
+      ],
+      "notApplicableReason": {},
+      "elements": {
+        "M": {
+          "evidence": 2,
+          "quote": "Month-end close takes us 11 days; we need it under 5 by the next audit.",
+          "speaker": "buyer",
+          "whyNotHigher": "Metrics at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move metrics forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "E": {
+          "evidence": 3,
+          "quote": "Dana told me she has budget for this quarter and wants it live before the audit.",
+          "speaker": "buyer",
+          "whyNotHigher": "Economic Buyer at level 3; the next level needs buyer ownership.",
+          "nextQuestion": "What would move economic buyer forward?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "engaged-eb"
+          ],
+          "verified": true
+        },
+        "DC": {
+          "evidence": 2,
+          "quote": "It has to integrate with NetSuite, close in under five days and pass security review.",
+          "speaker": "buyer",
+          "whyNotHigher": "Decision Criteria at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move decision criteria forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "DP": {
+          "evidence": 2,
+          "quote": "Finance reviews in week one, then IT signs off, then it goes to Dana for approval.",
+          "speaker": "buyer",
+          "whyNotHigher": "Decision Process at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move decision process forward?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "mapped-decision-process"
+          ],
+          "verified": true
+        },
+        "PP": {
+          "evidence": 0,
+          "quote": null,
+          "speaker": null,
+          "whyNotHigher": "Paper Process not mentioned.",
+          "nextQuestion": "Ask about paper process.",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": false
+        },
+        "I": {
+          "evidence": 3,
+          "quote": "If this is still manual at the next audit we fail the control and the CFO takes the hit.",
+          "speaker": "buyer",
+          "whyNotHigher": "Pain at level 3; the next level needs buyer ownership.",
+          "nextQuestion": "What would move pain forward?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "implicated-pain"
+          ],
+          "verified": true
+        },
+        "CH": {
+          "evidence": 2,
+          "quote": "I have already put this on the agenda for our ops review next week.",
+          "speaker": "buyer",
+          "whyNotHigher": "Champion at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move champion forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CO": {
+          "evidence": 2,
+          "quote": "We are also looking at BlackLine, mainly because our auditors already know it.",
+          "speaker": "buyer",
+          "whyNotHigher": "Competition at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move competition forward?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "named-competition"
+          ],
+          "verified": true
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": true,
+        "repTalkRatio": null
+      },
+      "summary": "Proposal meeting: 4 framework behaviours."
+    },
+    {
+      "interactionId": "demo:i2-4",
+      "at": "2026-07-20T09:00:00Z",
+      "phaseAtTime": "commit",
+      "applicable": [
+        "M",
+        "E",
+        "DC",
+        "DP",
+        "PP",
+        "I",
+        "CH",
+        "CO"
+      ],
+      "notApplicableReason": {},
+      "elements": {
+        "M": {
+          "evidence": 2,
+          "quote": "Month-end close takes us 11 days; we need it under 5 by the next audit.",
+          "speaker": "buyer",
+          "whyNotHigher": "Metrics at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move metrics forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "E": {
+          "evidence": 3,
+          "quote": "Dana told me she has budget for this quarter and wants it live before the audit.",
+          "speaker": "buyer",
+          "whyNotHigher": "Economic Buyer at level 3; the next level needs buyer ownership.",
+          "nextQuestion": "What would move economic buyer forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "DC": {
+          "evidence": 2,
+          "quote": "It has to integrate with NetSuite, close in under five days and pass security review.",
+          "speaker": "buyer",
+          "whyNotHigher": "Decision Criteria at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move decision criteria forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "DP": {
+          "evidence": 2,
+          "quote": "Finance reviews in week one, then IT signs off, then it goes to Dana for approval.",
+          "speaker": "buyer",
+          "whyNotHigher": "Decision Process at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move decision process forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "PP": {
+          "evidence": 2,
+          "quote": "Legal needs two weeks for any new vendor agreement and procurement raises the PO after.",
+          "speaker": "buyer",
+          "whyNotHigher": "Paper Process at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move paper process forward?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "asked-paper-process"
+          ],
+          "verified": true
+        },
+        "I": {
+          "evidence": 3,
+          "quote": "If this is still manual at the next audit we fail the control and the CFO takes the hit.",
+          "speaker": "buyer",
+          "whyNotHigher": "Pain at level 3; the next level needs buyer ownership.",
+          "nextQuestion": "What would move pain forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CH": {
+          "evidence": 3,
+          "quote": "I presented the case to Dana myself and she asked me to run the rollout.",
+          "speaker": "buyer",
+          "whyNotHigher": "Champion at level 3; the next level needs buyer ownership.",
+          "nextQuestion": "What would move champion forward?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "developed-champion"
+          ],
+          "verified": true
+        },
+        "CO": {
+          "evidence": 2,
+          "quote": "We are also looking at BlackLine, mainly because our auditors already know it.",
+          "speaker": "buyer",
+          "whyNotHigher": "Competition at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move competition forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": true,
+        "repTalkRatio": null
+      },
+      "summary": "Commit meeting: 2 framework behaviours."
+    },
+    {
+      "interactionId": "demo:i2-5",
+      "at": "2026-08-05T16:00:00Z",
+      "phaseAtTime": "commit",
+      "applicable": [
+        "M",
+        "E",
+        "DC",
+        "DP",
+        "PP",
+        "I",
+        "CH",
+        "CO"
+      ],
+      "notApplicableReason": {},
+      "elements": {
+        "M": {
+          "evidence": 2,
+          "quote": "Month-end close takes us 11 days; we need it under 5 by the next audit.",
+          "speaker": "buyer",
+          "whyNotHigher": "Metrics at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move metrics forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "E": {
+          "evidence": 3,
+          "quote": "Dana told me she has budget for this quarter and wants it live before the audit.",
+          "speaker": "buyer",
+          "whyNotHigher": "Economic Buyer at level 3; the next level needs buyer ownership.",
+          "nextQuestion": "What would move economic buyer forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "DC": {
+          "evidence": 2,
+          "quote": "It has to integrate with NetSuite, close in under five days and pass security review.",
+          "speaker": "buyer",
+          "whyNotHigher": "Decision Criteria at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move decision criteria forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "DP": {
+          "evidence": 2,
+          "quote": "Finance reviews in week one, then IT signs off, then it goes to Dana for approval.",
+          "speaker": "buyer",
+          "whyNotHigher": "Decision Process at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move decision process forward?",
+          "confidence": "high",
+          "behaviour": 1,
+          "behaviourTags": [
+            "secured-next-step"
+          ],
+          "verified": true
+        },
+        "PP": {
+          "evidence": 2,
+          "quote": "Legal needs two weeks for any new vendor agreement and procurement raises the PO after.",
+          "speaker": "buyer",
+          "whyNotHigher": "Paper Process at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move paper process forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "I": {
+          "evidence": 3,
+          "quote": "If this is still manual at the next audit we fail the control and the CFO takes the hit.",
+          "speaker": "buyer",
+          "whyNotHigher": "Pain at level 3; the next level needs buyer ownership.",
+          "nextQuestion": "What would move pain forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CH": {
+          "evidence": 3,
+          "quote": "I presented the case to Dana myself and she asked me to run the rollout.",
+          "speaker": "buyer",
+          "whyNotHigher": "Champion at level 3; the next level needs buyer ownership.",
+          "nextQuestion": "What would move champion forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        },
+        "CO": {
+          "evidence": 2,
+          "quote": "We are also looking at BlackLine, mainly because our auditors already know it.",
+          "speaker": "buyer",
+          "whyNotHigher": "Competition at level 2; the next level needs buyer ownership.",
+          "nextQuestion": "What would move competition forward?",
+          "confidence": "high",
+          "behaviour": 0,
+          "behaviourTags": [],
+          "verified": true
+        }
+      },
+      "hygiene": {
+        "pitchBeforePain": false,
+        "mutualNextStep": true,
+        "repTalkRatio": null
+      },
+      "summary": "Commit call: 1 framework behaviours."
+    }
+  ],
+  "dealNotes": "Fixture assessment for Borealis platform."
+}

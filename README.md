@@ -70,6 +70,16 @@ Open Claude Code in an empty directory and run:
 
 The demo is 32 fictional deals, 4 reps with different adoption profiles and a training date halfway through the window. The audit scores about 160 interactions (a few minutes with five judges in parallel) and opens a report. Then try `/flow-sales:standup Tom Ellis` and `/flow-sales:impact`.
 
+## What the report looks like
+
+Overview: adoption over time with the training date marked, win rate by adoption tertile, before and after training per rep, deals influenced with the rule beside the number, and the data coverage the numbers rest on.
+
+<p align="center"><img src="./docs/screenshots/report-overview.png" alt="FlowSales report overview tab" width="900"></p>
+
+Every deal has a page: the eight element levels, stage gaps, and the interaction timeline with the evidence level and the behaviour mark per element, expandable to the quotes, the "why not higher" and the next question.
+
+<p align="center"><img src="./docs/screenshots/report-deal-page.png" alt="FlowSales deal page with the interaction timeline" width="900"></p>
+
 ## Your data
 
 - **HubSpot**: a private app with six read scopes; see [docs/hubspot.md](docs/hubspot.md). Deals, stage history, contacts, companies, calls, emails, meetings and notes come through the REST API. HubSpot does not expose call transcripts reliably through its API, so pair it with Granola or a transcripts folder for the calls themselves.

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "c:1",
+    "name": "Priya Shah",
+    "email": "priya@acme.example",
+    "title": "Finance lead",
+    "companyId": "co:1",
+    "buyingRole": null
+  },
+  {
+    "id": "c:2",
+    "name": "Wei Chen",
+    "email": "wei@borealis.example",
+    "title": "Finance lead",
+    "companyId": "co:2",
+    "buyingRole": null
+  },
+  {
+    "id": "c:3",
+    "name": "Omar Haddad",
+    "email": "omar@cobalt.example",
+    "title": "Finance lead",
+    "companyId": "co:3",
+    "buyingRole": null
+  },
+  {
+    "id": "c:4",
+    "name": "Lucy Grant",
+    "email": "lucy@delta.example",
+    "title": "Finance lead",
+    "companyId": "co:4",
+    "buyingRole": null
+  },
+  {
+    "id": "c:5",
+    "name": "Maria Costa",
+    "email": "maria@echo.example",
+    "title": "Finance lead",
+    "companyId": "co:5",
+    "buyingRole": null
+  },
+  {
+    "id": "c:6",
+    "name": "Tom Berg",
+    "email": "tom@fjord.example",
+    "title": "Finance lead",
+    "companyId": "co:6",
+    "buyingRole": null
+  }
+]

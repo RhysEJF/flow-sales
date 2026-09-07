@@ -1,0 +1,19 @@
+<meetings_data count="1">
+<meeting id="9f2c1a3e-1b2c-4d5e-8f90-a1b2c3d4e5f6" title="Acme discovery" date="Aug 4, 2026 2:00 PM">
+<known_participants>
+Sam Rep (note creator) from Northwind <sam@northwind.example>
+Priya Shah (attendee) from Acme <priya@acme.example>
+Dev Patel (attendee) from Acme <dev@acme.example>
+</known_participants>
+<summary>
+## Acme discovery
+
+- Acme is replacing its legacy CRM before Q4.
+- Priya owns the budget; Dev runs the technical evaluation.
+- Next step: security questionnaire and a pricing proposal.
+</summary>
+<private_notes>
+Ask about their procurement timeline.
+</private_notes>
+</meeting>
+</meetings_data>

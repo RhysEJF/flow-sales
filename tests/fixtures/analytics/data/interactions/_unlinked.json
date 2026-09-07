@@ -1,0 +1,31 @@
+[
+  {
+    "id": "granola:unl-1",
+    "source": "granola",
+    "type": "meeting",
+    "dealId": null,
+    "direction": "unknown",
+    "at": "2026-08-25T12:00:00Z",
+    "durationSec": 1500,
+    "title": "Rollout planning",
+    "body": "Ana Ruiz: Let us plan the rollout.\nMaria Costa: Sounds good.",
+    "transcript": [],
+    "notes": null,
+    "summary": "Planning call.",
+    "participants": [
+      {
+        "name": "Ana Ruiz",
+        "email": "ana@vendor.example",
+        "role": "rep"
+      },
+      {
+        "name": "Maria Costa",
+        "email": "maria@echo.example",
+        "role": "buyer"
+      }
+    ],
+    "repId": "rep:ana@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  }
+]

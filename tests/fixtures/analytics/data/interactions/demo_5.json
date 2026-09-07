@@ -1,0 +1,190 @@
+[
+  {
+    "id": "demo:i5-1",
+    "source": "demo",
+    "type": "meeting",
+    "dealId": "demo:5",
+    "direction": "outbound",
+    "at": "2026-06-12T10:00:00Z",
+    "durationSec": 1800,
+    "title": "Echo rollout discovery meeting",
+    "body": "Maria Costa: Month-end close takes us 11 days; we need it under 5 by the next audit.\nMaria Costa: I think finance would need to sign this off.\nMaria Costa: We will probably compare a couple of options first.\nMaria Costa: If this is still manual at the next audit we fail the control and the CFO takes the hit.\nMaria Costa: I think this could work for us.\nMaria Costa: We have looked at a couple of other tools.\nAna Ruiz: Thanks, let us pick this up next time.",
+    "transcript": [
+      {
+        "speaker": "Maria Costa",
+        "t": 0.0,
+        "text": "Month-end close takes us 11 days; we need it under 5 by the next audit."
+      },
+      {
+        "speaker": "Maria Costa",
+        "t": 30.0,
+        "text": "I think finance would need to sign this off."
+      },
+      {
+        "speaker": "Maria Costa",
+        "t": 60.0,
+        "text": "We will probably compare a couple of options first."
+      },
+      {
+        "speaker": "Maria Costa",
+        "t": 90.0,
+        "text": "If this is still manual at the next audit we fail the control and the CFO takes the hit."
+      },
+      {
+        "speaker": "Maria Costa",
+        "t": 120.0,
+        "text": "I think this could work for us."
+      },
+      {
+        "speaker": "Maria Costa",
+        "t": 150.0,
+        "text": "We have looked at a couple of other tools."
+      },
+      {
+        "speaker": "Ana Ruiz",
+        "t": 180.0,
+        "text": "Thanks, let us pick this up next time."
+      }
+    ],
+    "notes": null,
+    "summary": "Discovery meeting with Maria Costa.",
+    "participants": [
+      {
+        "name": "Maria Costa",
+        "email": "maria@echo.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ana Ruiz",
+        "email": "ana@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ana@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  },
+  {
+    "id": "demo:i5-2",
+    "source": "demo",
+    "type": "call",
+    "dealId": "demo:5",
+    "direction": "outbound",
+    "at": "2026-07-02T11:00:00Z",
+    "durationSec": 1800,
+    "title": "Echo rollout evaluation call",
+    "body": "Maria Costa: Month-end close takes us 11 days; we need it under 5 by the next audit.\nMaria Costa: Dana, our CFO, signs anything over 25k and wants to see it first.\nMaria Costa: It has to integrate with NetSuite, close in under five days and pass security review.\nMaria Costa: There is some kind of review process, I would have to check.\nMaria Costa: If this is still manual at the next audit we fail the control and the CFO takes the hit.\nMaria Costa: I have already put this on the agenda for our ops review next week.\nMaria Costa: We are also looking at BlackLine, mainly because our auditors already know it.\nAna Ruiz: Thanks, let us pick this up next time.",
+    "transcript": [],
+    "notes": null,
+    "summary": "Evaluation call with Maria Costa.",
+    "participants": [
+      {
+        "name": "Maria Costa",
+        "email": "maria@echo.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ana Ruiz",
+        "email": "ana@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ana@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  },
+  {
+    "id": "demo:i5-3",
+    "source": "demo",
+    "type": "meeting",
+    "dealId": "demo:5",
+    "direction": "outbound",
+    "at": "2026-07-28T14:00:00Z",
+    "durationSec": 1800,
+    "title": "Echo rollout proposal meeting",
+    "body": "Maria Costa: Month-end close takes us 11 days; we need it under 5 by the next audit.\nMaria Costa: Dana, our CFO, signs anything over 25k and wants to see it first.\nMaria Costa: It has to integrate with NetSuite, close in under five days and pass security review.\nMaria Costa: There is some kind of review process, I would have to check.\nMaria Costa: If this is still manual at the next audit we fail the control and the CFO takes the hit.\nMaria Costa: I have already put this on the agenda for our ops review next week.\nMaria Costa: We are also looking at BlackLine, mainly because our auditors already know it.\nAna Ruiz: Thanks, let us pick this up next time.",
+    "transcript": [
+      {
+        "speaker": "Maria Costa",
+        "t": 0.0,
+        "text": "Month-end close takes us 11 days; we need it under 5 by the next audit."
+      },
+      {
+        "speaker": "Maria Costa",
+        "t": 30.0,
+        "text": "Dana, our CFO, signs anything over 25k and wants to see it first."
+      },
+      {
+        "speaker": "Maria Costa",
+        "t": 60.0,
+        "text": "It has to integrate with NetSuite, close in under five days and pass security review."
+      },
+      {
+        "speaker": "Maria Costa",
+        "t": 90.0,
+        "text": "There is some kind of review process, I would have to check."
+      },
+      {
+        "speaker": "Maria Costa",
+        "t": 120.0,
+        "text": "If this is still manual at the next audit we fail the control and the CFO takes the hit."
+      },
+      {
+        "speaker": "Maria Costa",
+        "t": 150.0,
+        "text": "I have already put this on the agenda for our ops review next week."
+      },
+      {
+        "speaker": "Maria Costa",
+        "t": 180.0,
+        "text": "We are also looking at BlackLine, mainly because our auditors already know it."
+      },
+      {
+        "speaker": "Ana Ruiz",
+        "t": 210.0,
+        "text": "Thanks, let us pick this up next time."
+      }
+    ],
+    "notes": null,
+    "summary": "Proposal meeting with Maria Costa.",
+    "participants": [
+      {
+        "name": "Maria Costa",
+        "email": "maria@echo.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ana Ruiz",
+        "email": "ana@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ana@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  },
+  {
+    "id": "demo:i5-4",
+    "source": "demo",
+    "type": "email",
+    "dealId": "demo:5",
+    "direction": "outbound",
+    "at": "2026-08-20T09:00:00Z",
+    "durationSec": null,
+    "title": "Echo rollout follow-up",
+    "body": "",
+    "transcript": [],
+    "notes": null,
+    "summary": null,
+    "participants": [
+      {
+        "name": "Maria Costa",
+        "email": "maria@echo.example",
+        "role": "buyer"
+      }
+    ],
+    "repId": "rep:ana@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  }
+]

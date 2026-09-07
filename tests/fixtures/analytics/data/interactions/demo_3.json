@@ -1,0 +1,89 @@
+[
+  {
+    "id": "demo:i3-1",
+    "source": "demo",
+    "type": "call",
+    "dealId": "demo:3",
+    "direction": "outbound",
+    "at": "2026-03-12T10:00:00Z",
+    "durationSec": 1800,
+    "title": "Cobalt renewal discovery call",
+    "body": "Ana Ruiz: Month-end close takes us 11 days; we need it under 5 by the next audit.\nOmar Haddad: Every month the finance team loses a week reconciling spreadsheets by hand.\nOmar Haddad: I think this could work for us.\nAna Ruiz: Thanks, let us pick this up next time.",
+    "transcript": [],
+    "notes": null,
+    "summary": "Discovery call with Omar Haddad.",
+    "participants": [
+      {
+        "name": "Omar Haddad",
+        "email": "omar@cobalt.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ana Ruiz",
+        "email": "ana@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ana@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  },
+  {
+    "id": "demo:i3-2",
+    "source": "demo",
+    "type": "meeting",
+    "dealId": "demo:3",
+    "direction": "outbound",
+    "at": "2026-04-10T14:00:00Z",
+    "durationSec": 1800,
+    "title": "Cobalt renewal evaluation meeting",
+    "body": "Omar Haddad: Month-end close takes us 11 days; we need it under 5 by the next audit.\nOmar Haddad: Dana, our CFO, signs anything over 25k and wants to see it first.\nOmar Haddad: It has to integrate with NetSuite, close in under five days and pass security review.\nOmar Haddad: There is some kind of review process, I would have to check.\nOmar Haddad: Every month the finance team loses a week reconciling spreadsheets by hand.\nOmar Haddad: I have already put this on the agenda for our ops review next week.\nOmar Haddad: We have looked at a couple of other tools.\nAna Ruiz: Thanks, let us pick this up next time.",
+    "transcript": [],
+    "notes": null,
+    "summary": "Evaluation meeting with Omar Haddad.",
+    "participants": [
+      {
+        "name": "Omar Haddad",
+        "email": "omar@cobalt.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ana Ruiz",
+        "email": "ana@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ana@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  },
+  {
+    "id": "demo:i3-3",
+    "source": "demo",
+    "type": "email",
+    "dealId": "demo:3",
+    "direction": "outbound",
+    "at": "2026-05-01T09:00:00Z",
+    "durationSec": null,
+    "title": "Cobalt renewal proposal email",
+    "body": "Ana Ruiz: We know the close is slow but nobody has put a number on it.\nOmar Haddad: Dana, our CFO, signs anything over 25k and wants to see it first.\nOmar Haddad: It has to integrate with NetSuite, close in under five days and pass security review.\nOmar Haddad: Finance reviews in week one, then IT signs off, then it goes to Dana for approval.\nOmar Haddad: Legal will want to look at the contract at some point.\nOmar Haddad: Every month the finance team loses a week reconciling spreadsheets by hand.\nOmar Haddad: I have already put this on the agenda for our ops review next week.\nOmar Haddad: We have looked at a couple of other tools.\nAna Ruiz: Thanks, let us pick this up next time.",
+    "transcript": [],
+    "notes": null,
+    "summary": "Proposal email with Omar Haddad.",
+    "participants": [
+      {
+        "name": "Omar Haddad",
+        "email": "omar@cobalt.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ana Ruiz",
+        "email": "ana@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ana@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  }
+]

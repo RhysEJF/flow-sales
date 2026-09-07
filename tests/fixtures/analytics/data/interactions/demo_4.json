@@ -1,0 +1,118 @@
+[
+  {
+    "id": "demo:i4-1",
+    "source": "demo",
+    "type": "meeting",
+    "dealId": "demo:4",
+    "direction": "outbound",
+    "at": "2026-03-18T10:00:00Z",
+    "durationSec": 1800,
+    "title": "Delta pilot discovery meeting",
+    "body": "Lucy Grant: Month-end close takes us 11 days; we need it under 5 by the next audit.\nLucy Grant: Every month the finance team loses a week reconciling spreadsheets by hand.\nLucy Grant: I think this could work for us.\nLucy Grant: We have looked at a couple of other tools.\nBen Cole: Thanks, let us pick this up next time.",
+    "transcript": [],
+    "notes": null,
+    "summary": "Discovery meeting with Lucy Grant.",
+    "participants": [
+      {
+        "name": "Lucy Grant",
+        "email": "lucy@delta.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ben Cole",
+        "email": "ben@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ben@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  },
+  {
+    "id": "demo:i4-2",
+    "source": "demo",
+    "type": "call",
+    "dealId": "demo:4",
+    "direction": "outbound",
+    "at": "2026-04-12T11:00:00Z",
+    "durationSec": 1800,
+    "title": "Delta pilot evaluation call",
+    "body": "Lucy Grant: Month-end close takes us 11 days; we need it under 5 by the next audit.\nLucy Grant: It has to integrate with NetSuite, close in under five days and pass security review.\nLucy Grant: There is some kind of review process, I would have to check.\nLucy Grant: Every month the finance team loses a week reconciling spreadsheets by hand.\nLucy Grant: I think this could work for us.\nLucy Grant: We have looked at a couple of other tools.\nBen Cole: Thanks, let us pick this up next time.",
+    "transcript": [],
+    "notes": null,
+    "summary": "Evaluation call with Lucy Grant.",
+    "participants": [
+      {
+        "name": "Lucy Grant",
+        "email": "lucy@delta.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ben Cole",
+        "email": "ben@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ben@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  },
+  {
+    "id": "demo:i4-3",
+    "source": "demo",
+    "type": "email",
+    "dealId": "demo:4",
+    "direction": "outbound",
+    "at": "2026-05-06T09:00:00Z",
+    "durationSec": null,
+    "title": "Delta pilot evaluation email",
+    "body": "Ben Cole: We know the close is slow but nobody has put a number on it.\nLucy Grant: The scorecard is agreed: integration, close time and security, weighted in that order.\nLucy Grant: There is some kind of review process, I would have to check.\nLucy Grant: Reporting is a bit painful for the team.\nLucy Grant: I think this could work for us.\nLucy Grant: We have looked at a couple of other tools.\nBen Cole: Thanks, let us pick this up next time.",
+    "transcript": [],
+    "notes": null,
+    "summary": "Evaluation email with Lucy Grant.",
+    "participants": [
+      {
+        "name": "Lucy Grant",
+        "email": "lucy@delta.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ben Cole",
+        "email": "ben@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ben@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  },
+  {
+    "id": "demo:i4-4",
+    "source": "demo",
+    "type": "call",
+    "dealId": "demo:4",
+    "direction": "outbound",
+    "at": "2026-06-20T15:00:00Z",
+    "durationSec": 1800,
+    "title": "Delta pilot evaluation call",
+    "body": "Lucy Grant: Month-end close takes us 11 days; we need it under 5 by the next audit.\nLucy Grant: We will probably compare a couple of options first.\nLucy Grant: There is some kind of review process, I would have to check.\nLucy Grant: Every month the finance team loses a week reconciling spreadsheets by hand.\nLucy Grant: I think this could work for us.\nLucy Grant: We have looked at a couple of other tools.\nBen Cole: Thanks, let us pick this up next time.",
+    "transcript": [],
+    "notes": null,
+    "summary": "Evaluation call with Lucy Grant.",
+    "participants": [
+      {
+        "name": "Lucy Grant",
+        "email": "lucy@delta.example",
+        "role": "buyer"
+      },
+      {
+        "name": "Ben Cole",
+        "email": "ben@vendor.example",
+        "role": "rep"
+      }
+    ],
+    "repId": "rep:ben@vendor.example",
+    "recordingUrl": null,
+    "meta": {}
+  }
+]

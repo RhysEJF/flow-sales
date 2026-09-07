@@ -1,0 +1,272 @@
+[
+  {
+    "id": "demo:1",
+    "source": "demo",
+    "name": "Acme expansion",
+    "amount": 40000.0,
+    "currency": "GBP",
+    "pipeline": "default",
+    "stage": "closedwon",
+    "stageLabel": "Closed Won",
+    "phase": "won",
+    "stageHistory": [
+      {
+        "stage": "appointmentscheduled",
+        "label": "Appointment Scheduled",
+        "phase": "discovery",
+        "at": "2026-03-02T00:00:00Z"
+      },
+      {
+        "stage": "qualifiedtobuy",
+        "label": "Qualified To Buy",
+        "phase": "evaluation",
+        "at": "2026-03-20T00:00:00Z"
+      },
+      {
+        "stage": "presentationscheduled",
+        "label": "Presentation Scheduled",
+        "phase": "proposal",
+        "at": "2026-04-18T00:00:00Z"
+      },
+      {
+        "stage": "contractsent",
+        "label": "Contract Sent",
+        "phase": "commit",
+        "at": "2026-05-28T00:00:00Z"
+      },
+      {
+        "stage": "closedwon",
+        "label": "Closed Won",
+        "phase": "won",
+        "at": "2026-06-20T00:00:00Z"
+      }
+    ],
+    "outcome": "won",
+    "createdAt": "2026-03-02T00:00:00Z",
+    "closedAt": "2026-06-20T00:00:00Z",
+    "ownerId": "rep:ana@vendor.example",
+    "contactIds": [
+      "c:1"
+    ],
+    "companyId": "co:1",
+    "companyDomain": "acme.example",
+    "meta": {}
+  },
+  {
+    "id": "demo:2",
+    "source": "demo",
+    "name": "Borealis platform",
+    "amount": 65000.0,
+    "currency": "GBP",
+    "pipeline": "default",
+    "stage": "closedwon",
+    "stageLabel": "Closed Won",
+    "phase": "won",
+    "stageHistory": [
+      {
+        "stage": "appointmentscheduled",
+        "label": "Appointment Scheduled",
+        "phase": "discovery",
+        "at": "2026-04-06T00:00:00Z"
+      },
+      {
+        "stage": "qualifiedtobuy",
+        "label": "Qualified To Buy",
+        "phase": "evaluation",
+        "at": "2026-04-24T00:00:00Z"
+      },
+      {
+        "stage": "presentationscheduled",
+        "label": "Presentation Scheduled",
+        "phase": "proposal",
+        "at": "2026-05-20T00:00:00Z"
+      },
+      {
+        "stage": "contractsent",
+        "label": "Contract Sent",
+        "phase": "commit",
+        "at": "2026-07-01T00:00:00Z"
+      },
+      {
+        "stage": "closedwon",
+        "label": "Closed Won",
+        "phase": "won",
+        "at": "2026-08-14T00:00:00Z"
+      }
+    ],
+    "outcome": "won",
+    "createdAt": "2026-04-06T00:00:00Z",
+    "closedAt": "2026-08-14T00:00:00Z",
+    "ownerId": "rep:ben@vendor.example",
+    "contactIds": [
+      "c:2"
+    ],
+    "companyId": "co:2",
+    "companyDomain": "borealis.example",
+    "meta": {}
+  },
+  {
+    "id": "demo:3",
+    "source": "demo",
+    "name": "Cobalt renewal",
+    "amount": 18000.0,
+    "currency": "GBP",
+    "pipeline": "default",
+    "stage": "closedwon",
+    "stageLabel": "Closed Won",
+    "phase": "won",
+    "stageHistory": [
+      {
+        "stage": "appointmentscheduled",
+        "label": "Appointment Scheduled",
+        "phase": "discovery",
+        "at": "2026-03-10T00:00:00Z"
+      },
+      {
+        "stage": "qualifiedtobuy",
+        "label": "Qualified To Buy",
+        "phase": "evaluation",
+        "at": "2026-04-01T00:00:00Z"
+      },
+      {
+        "stage": "presentationscheduled",
+        "label": "Presentation Scheduled",
+        "phase": "proposal",
+        "at": "2026-04-25T00:00:00Z"
+      },
+      {
+        "stage": "closedwon",
+        "label": "Closed Won",
+        "phase": "won",
+        "at": "2026-05-15T00:00:00Z"
+      }
+    ],
+    "outcome": "won",
+    "createdAt": "2026-03-10T00:00:00Z",
+    "closedAt": "2026-05-15T00:00:00Z",
+    "ownerId": "rep:ana@vendor.example",
+    "contactIds": [
+      "c:3"
+    ],
+    "companyId": "co:3",
+    "companyDomain": "cobalt.example",
+    "meta": {}
+  },
+  {
+    "id": "demo:4",
+    "source": "demo",
+    "name": "Delta pilot",
+    "amount": 30000.0,
+    "currency": "GBP",
+    "pipeline": "default",
+    "stage": "closedlost",
+    "stageLabel": "Closed Lost",
+    "phase": "lost",
+    "stageHistory": [
+      {
+        "stage": "appointmentscheduled",
+        "label": "Appointment Scheduled",
+        "phase": "discovery",
+        "at": "2026-03-15T00:00:00Z"
+      },
+      {
+        "stage": "qualifiedtobuy",
+        "label": "Qualified To Buy",
+        "phase": "evaluation",
+        "at": "2026-04-05T00:00:00Z"
+      },
+      {
+        "stage": "closedlost",
+        "label": "Closed Lost",
+        "phase": "lost",
+        "at": "2026-07-10T00:00:00Z"
+      }
+    ],
+    "outcome": "lost",
+    "createdAt": "2026-03-15T00:00:00Z",
+    "closedAt": "2026-07-10T00:00:00Z",
+    "ownerId": "rep:ben@vendor.example",
+    "contactIds": [
+      "c:4"
+    ],
+    "companyId": "co:4",
+    "companyDomain": "delta.example",
+    "meta": {}
+  },
+  {
+    "id": "demo:5",
+    "source": "demo",
+    "name": "Echo rollout",
+    "amount": 52000.0,
+    "currency": "GBP",
+    "pipeline": "default",
+    "stage": "presentationscheduled",
+    "stageLabel": "Presentation Scheduled",
+    "phase": "proposal",
+    "stageHistory": [
+      {
+        "stage": "appointmentscheduled",
+        "label": "Appointment Scheduled",
+        "phase": "discovery",
+        "at": "2026-06-10T00:00:00Z"
+      },
+      {
+        "stage": "qualifiedtobuy",
+        "label": "Qualified To Buy",
+        "phase": "evaluation",
+        "at": "2026-06-28T00:00:00Z"
+      },
+      {
+        "stage": "presentationscheduled",
+        "label": "Presentation Scheduled",
+        "phase": "proposal",
+        "at": "2026-07-25T00:00:00Z"
+      }
+    ],
+    "outcome": "open",
+    "createdAt": "2026-06-10T00:00:00Z",
+    "closedAt": null,
+    "ownerId": "rep:ana@vendor.example",
+    "contactIds": [
+      "c:5"
+    ],
+    "companyId": "co:5",
+    "companyDomain": "echo.example",
+    "meta": {}
+  },
+  {
+    "id": "demo:6",
+    "source": "demo",
+    "name": "Fjord analytics",
+    "amount": 12000.0,
+    "currency": "GBP",
+    "pipeline": "default",
+    "stage": "qualifiedtobuy",
+    "stageLabel": "Qualified To Buy",
+    "phase": "evaluation",
+    "stageHistory": [
+      {
+        "stage": "appointmentscheduled",
+        "label": "Appointment Scheduled",
+        "phase": "discovery",
+        "at": "2026-05-05T00:00:00Z"
+      },
+      {
+        "stage": "qualifiedtobuy",
+        "label": "Qualified To Buy",
+        "phase": "evaluation",
+        "at": "2026-05-26T00:00:00Z"
+      }
+    ],
+    "outcome": "open",
+    "createdAt": "2026-05-05T00:00:00Z",
+    "closedAt": null,
+    "ownerId": "rep:ben@vendor.example",
+    "contactIds": [
+      "c:6"
+    ],
+    "companyId": "co:6",
+    "companyDomain": "fjord.example",
+    "meta": {}
+  }
+]

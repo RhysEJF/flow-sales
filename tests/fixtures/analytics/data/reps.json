@@ -1,0 +1,14 @@
+[
+  {
+    "id": "rep:ana@vendor.example",
+    "name": "Ana Ruiz",
+    "email": "ana@vendor.example",
+    "source": "demo"
+  },
+  {
+    "id": "rep:ben@vendor.example",
+    "name": "Ben Cole",
+    "email": "ben@vendor.example",
+    "source": "demo"
+  }
+]

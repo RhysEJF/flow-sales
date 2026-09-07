@@ -1,0 +1,32 @@
+[
+  {
+    "id": "co:1",
+    "name": "Acme",
+    "domain": "acme.example"
+  },
+  {
+    "id": "co:2",
+    "name": "Borealis",
+    "domain": "borealis.example"
+  },
+  {
+    "id": "co:3",
+    "name": "Cobalt",
+    "domain": "cobalt.example"
+  },
+  {
+    "id": "co:4",
+    "name": "Delta",
+    "domain": "delta.example"
+  },
+  {
+    "id": "co:5",
+    "name": "Echo Ltd",
+    "domain": "echo.example"
+  },
+  {
+    "id": "co:6",
+    "name": "Fjord",
+    "domain": "fjord.example"
+  }
+]

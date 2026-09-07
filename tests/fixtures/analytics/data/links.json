@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "links": [
+    {
+      "interactionId": "granola:unl-1",
+      "dealId": null,
+      "method": "domain-match",
+      "confidence": 0.7,
+      "status": "pending",
+      "evidence": {
+        "matchedEmails": [],
+        "domain": "echo.example",
+        "matchedHubspotMeeting": null,
+        "titleHit": null
+      },
+      "candidates": [
+        {
+          "dealId": "demo:5",
+          "confidence": 0.7
+        },
+        {
+          "dealId": "demo:6",
+          "confidence": 0.7
+        }
+      ],
+      "at": "2026-08-25T12:30:00Z",
+      "by": "linker"
+    }
+  ]
+}
