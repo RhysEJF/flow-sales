@@ -46,12 +46,17 @@ def build_parser() -> argparse.ArgumentParser:
     common = argparse.ArgumentParser(add_help=False)
     common.add_argument("--home", help="store directory (default $FLOW_SALES_HOME or ./.flow-sales)")
     common.add_argument("--json", action="store_true", help="machine-readable output")
+    # Subcommands accept the same flags after their name. SUPPRESS keeps the subparser from
+    # overwriting a value that was already parsed before the subcommand name.
+    common_sub = argparse.ArgumentParser(add_help=False)
+    common_sub.add_argument("--home", default=argparse.SUPPRESS, help=argparse.SUPPRESS)
+    common_sub.add_argument("--json", action="store_true", default=argparse.SUPPRESS, help=argparse.SUPPRESS)
     p = argparse.ArgumentParser(prog="fs", description="FlowSales local toolkit", parents=[common])
     _sub = p.add_subparsers(dest="command", required=True)
 
     class _Sub:  # every subcommand also accepts --home and --json after its name
         def add_parser(self, name: str, **kw):
-            return _sub.add_parser(name, parents=[common], **kw)
+            return _sub.add_parser(name, parents=[common_sub], **kw)
 
     sub = _Sub()
 
