@@ -64,3 +64,19 @@ Ten synthetic personas (AskRally GenPop, sales roles) tested the report on 2026-
 10. On phones the adoption chart starts with the team line only; legend names now hide or show a line and no longer change the numbers (the Reps filter does that).
 11. The timeline strip fits on one row on a phone; the keyboard hint is hidden on phones.
 12. The Impact blurb and the Export button say what the export produces; the Total fact explains itself on hover.
+
+## Usability round two: what changed (branch `usability-fixes`)
+
+The same ten personas read the install page cold, answered setup's questions in character, reacted to ten real gotchas and rated the six commands. Analysis in the flow-os-rhys brain under `experiences/flow-sales/usability-2026-09-08/analysis-round2.md`. One of ten would have reached the demo report alone; nine stalled on the first line of the install page. Changes, in the order of the findings:
+
+1. **Install page rewritten around one paste.** The README and INSTALL.md open with who the page is for (whoever runs the CRM, twenty minutes, reps install nothing), then a three-line environment check the reader pastes and gets ok or a fix from (Claude Code present, Python 3.10 or newer, access to the private repo), then one install route, then the demo with what each command does and how long it takes, ending on the line the audit prints (`Report is ready at <path>`). The local checkout is a developer route in INSTALL.md.
+2. **Link folded into audit.** `/flow-sales:audit` applies the automatic links first and stops only for ambiguous ones, four at a time, with "skip the rest". Setup applies the automatic links and defers the ambiguous ones to audit. `/flow-sales:link` stays as the standalone repair command and is out of the loop diagram. Standup and retro point at the audit step.
+3. **Audit says what is happening.** One line before each step with the duration, a progress line per judged deal with time left, the cost in dollars before the volume gate, and a note that a rerun only judges changed deals.
+4. **Cost in dollars.** `plan-assessment` prints `estCostUsd` (a low-to-high range at list price, `judge.pricingUsdPerMTok` to change the prices) and has `--estimate-only`, which writes and clears nothing.
+5. **`/flow-sales:status`.** A read-only screen: environment, token and scopes, counts, ambiguous links, last run per command (new `lastRun` and `latestReport` in `fs.py status`), what the next audit would judge and cost, a to-do list with the fixing command.
+6. **Share-safe exports.** The Export menu gained "Impact slide, names hidden" (PDF and Markdown: every rep name, email and id replaced by Rep A, Rep B in report order, tooltips included, restored after printing) and "This rep's page" (PDF and Markdown of one rep card with nobody else on it). Rule boxes now reach the Markdown export.
+7. **Setup asks about consent first.** Before sources: have the reps been told, and who will see the report (recorded under `consent` in config). Email bodies and notes are an explicit question with the consequence stated, names-in-report likewise, and the evidence decay window is asked in days. Sources name Gong, Fireflies, Fathom and the Salesforce CSV route.
+8. **Names.** The Elements tab carries the framework's own name (MEDDPICC); Method is "How this is scored" (Scoring on phones). The header text starts at "Report for", since the wordmark already says FlowSales.
+
+Not done from the panel's list: a second training date (touches the analytics), a manager's week across all reps, the rep note-back on a score, alerts when a gate flips, and the Overview's two period controls (the chip row and the header select do the same thing; one should go).
+

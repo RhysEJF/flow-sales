@@ -281,7 +281,40 @@ def _args_dict(args: Any) -> dict:
     }
 
 
-def _summary_text(plan_doc: dict, plan_path: Path) -> str:
+OUTPUT_TOKENS_PER_INTERACTION = 800   # one scored interaction: eight elements with quote, speaker, reason, next question, tags
+TURNS_PER_BATCH_HIGH = 5              # the judge agent re-reads its batch on every turn; five turns is the high end seen in practice
+DEFAULT_PRICING = {"input": 3.0, "output": 15.0}   # USD per million tokens, Sonnet list price; override with judge.pricingUsdPerMTok
+
+
+def cost_estimate(totals: dict, cfg: Config) -> dict:
+    """A dollar range at list price for judging the planned batches. Low: one pass over the input plus the output.
+    High: the agent re-reading its context on every turn. On a Claude subscription the same tokens come out of the
+    plan's usage instead of a bill; the figure is still the honest size of the run."""
+    pricing = dict(DEFAULT_PRICING)
+    pricing.update({k: float(v) for k, v in (cfg.get("judge.pricingUsdPerMTok") or {}).items() if k in pricing})
+    inp = int(totals.get("estTokens") or 0)
+    out = int(totals.get("interactions") or 0) * OUTPUT_TOKENS_PER_INTERACTION
+    low = inp / 1e6 * pricing["input"] + out / 1e6 * pricing["output"]
+    high = inp * TURNS_PER_BATCH_HIGH / 1e6 * pricing["input"] + out * 1.5 / 1e6 * pricing["output"]
+    return {
+        "low": round(low, 2), "high": round(high, 2), "model": cfg.get("judge.model") or "sonnet",
+        "pricingUsdPerMTok": pricing, "estOutputTokens": out,
+        "basis": (f"{inp:,} input tokens once (low) or {TURNS_PER_BATCH_HIGH} times over the agent's turns (high), "
+                  f"plus about {OUTPUT_TOKENS_PER_INTERACTION} output tokens per interaction, at "
+                  f"${pricing['input']:g}/M input and ${pricing['output']:g}/M output; set judge.pricingUsdPerMTok for another model"),
+    }
+
+
+def cost_text(est: dict) -> str:
+    lo, hi = est["low"], est["high"]
+    if hi < 0.005:
+        return "Estimated cost: under a cent"
+    rng = f"${lo:,.2f} to ${hi:,.2f}" if hi < 10 else f"${lo:,.0f} to ${hi:,.0f}"
+    return (f"Estimated cost at list price ({est['model']}): {rng}. On a Claude subscription this comes out of "
+            f"the plan's usage instead of a bill.")
+
+
+def _summary_text(plan_doc: dict, plan_path: Optional[Path]) -> str:
     totals = plan_doc["totals"]
     skipped = plan_doc["skipped"]
     lines = []
@@ -290,6 +323,7 @@ def _summary_text(plan_doc: dict, plan_path: Path) -> str:
             f"Planned {totals['batches']} batches for {totals['deals']} deals: {totals['interactions']} interactions, "
             f"{totals['chars']:,} chars, ~{totals['estTokens']:,} tokens"
         )
+        lines.append(cost_text(plan_doc["estCostUsd"]))
     else:
         lines.append("Nothing to plan: every considered deal is unchanged or has no judgeable interactions")
     lines.append(
@@ -309,7 +343,10 @@ def _summary_text(plan_doc: dict, plan_path: Path) -> str:
                 f"  {b['batchId']:>3}  {b['dealId']}  {b['dealName'] or ''}  {b['interactions']} interactions  "
                 f"{b['chars']:,} chars  ~{b['estTokens']:,} tokens  part {b['part']}/{b['parts']}  {b['file']}"
             )
-    lines.append(f"Plan written to {plan_path}")
+    if plan_path is None:
+        lines.append("Estimate only: no batch files or plan written")
+    else:
+        lines.append(f"Plan written to {plan_path}")
     return "\n".join(lines)
 
 
@@ -360,8 +397,10 @@ def run(ctx: dict, args: Any) -> int:
         plans = random.Random(SAMPLE_SEED).sample(plans, int(sample))
         plans.sort(key=lambda p: p[0].get("id") or "")
 
-    store.ensure()
-    _clear_batches(store)
+    estimate_only = bool(getattr(args, "estimate_only", False))
+    if not estimate_only:
+        store.ensure()
+        _clear_batches(store)
     batches_meta: list[dict] = []
     wrote: list[str] = []
     batch_no = 0
@@ -380,8 +419,9 @@ def run(ctx: dict, args: Any) -> int:
                                 input_hash_value, store.assessment_path(deal.get("id")), cfg, timeline,
                                 part_no, len(parts), reason)
             batch["batchFile"] = str(path)
-            store.write_json(path, batch)
-            wrote.append(str(path))
+            if not estimate_only:
+                store.write_json(path, batch)
+                wrote.append(str(path))
             chars = sum(len(i["body"]) for i in batch["interactions"])
             batches_meta.append({
                 "batchId": batch_no, "dealId": deal.get("id"), "dealName": deal.get("name"), "file": str(path),
@@ -399,6 +439,8 @@ def run(ctx: dict, args: Any) -> int:
     }
     plan_doc = {
         "plannedAt": ctx.get("now"),
+        "estimateOnly": estimate_only,
+        "estCostUsd": cost_estimate(totals, cfg),
         "rubricHash": rubric_hash,
         "framework": cfg.framework,
         "frameworkFile": str(framework_file),
@@ -408,6 +450,11 @@ def run(ctx: dict, args: Any) -> int:
         "totals": totals,
         "skipped": {"unchanged": skipped_unchanged, "withoutInteractions": skipped_empty, "notFound": not_found},
     }
+    if estimate_only:
+        store.log_run("plan-assessment", _args_dict(args), True, ctx["started"], read=read,
+                      notes=f"estimate only: {totals['batches']} batches for {totals['deals']} deals, ~{totals['estTokens']} tokens")
+        _out(ctx, {"ok": True, "planFile": None, **plan_doc}, _summary_text(plan_doc, None))
+        return 0
     plan_path = store.write_json("work/plan.json", plan_doc)
     wrote.append(str(plan_path))
     store.log_run("plan-assessment", _args_dict(args), True, ctx["started"], read=read, wrote=wrote,

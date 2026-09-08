@@ -61,6 +61,8 @@ Each batch costs roughly 150k to 200k tokens on Sonnet across its turns (quality
 - Report builder (`scripts/flowsales/report/`): six tabs, inline SVG charts from the dataviz palette, light and dark, table views, licence footer. Screenshots from the real demo run in `docs/screenshots/`. Adoption over time is a trailing 4-week rate (weekly was unreadable at one to three interactions a week); money totals are split per currency, never summed across currencies.
 - Analytics (`scripts/flowsales/analytics/`): deal states, rep and team metrics, timeseries, impact, briefing and retro packs.
 
+Usability rounds (2026-09-08, branch `usability-fixes`): two synthetic-panel rounds and their fixes are recorded in `DESIGN-NOTES.md` (report round one, product round two: link folded into audit, install page around an environment check, `/flow-sales:status`, dollar estimate and `--estimate-only`, share-safe exports, consent questions in setup, tab renames). Skills count: setup, audit, standup, retro, impact, status, plus link as the standalone repair command.
+
 ## 5. What remains (in order)
 
 1. Done 2026-09-08: demo judge run finished (32 of 32), report rebuilt on real numbers, real-data screenshots, fixes for mixed currencies, rolling adoption chart, future judgedAt, batch files named by deal, validator fallback to stored interactions.

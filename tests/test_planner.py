@@ -47,7 +47,7 @@ def make_interaction(iid: str, at: str, body: str, **overrides) -> dict:
 
 
 def args(**overrides) -> SimpleNamespace:
-    base = {"force": False, "sample": None, "deal": None, "json": True, "home": None}
+    base = {"force": False, "sample": None, "deal": None, "json": True, "home": None, "estimate_only": False}
     base.update(overrides)
     return SimpleNamespace(**base)
 
@@ -311,3 +311,41 @@ class PlanRunTests(PlannerBase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EstimateOnlyTests(PlannerBase):
+    def test_estimate_only_writes_nothing_and_prices_the_run(self):
+        # A real plan first, so there is something on disk that an estimate must not disturb.
+        self.store.save_deals([make_deal()])
+        self.store.write_json(self.store.interactions_path("hs:1"), [make_interaction("granola:1", "2026-03-01T10:00:00Z", "A" * 400)])
+        code, out = self.plan()
+        self.assertEqual(code, 0)
+        batch_path = self.store.batches_dir / "hs_1.json"
+        before_batch = batch_path.read_text(encoding="utf-8")
+        before_plan = self.store.read_json("work/plan.json")
+        # Change the input so a new plan would be written, then only estimate.
+        self.store.write_json(self.store.interactions_path("hs:1"), [make_interaction("granola:1", "2026-03-01T10:00:00Z", "B" * 4000)])
+        code, out = self.plan(estimate_only=True, force=True)
+        self.assertEqual(code, 0)
+        self.assertTrue(out["estimateOnly"])
+        self.assertIsNone(out["planFile"])
+        self.assertEqual(out["totals"]["batches"], 1)
+        self.assertEqual(batch_path.read_text(encoding="utf-8"), before_batch, "estimate must not rewrite batch files")
+        self.assertEqual(self.store.read_json("work/plan.json"), before_plan, "estimate must not rewrite plan.json")
+        est = out["estCostUsd"]
+        self.assertGreater(est["high"], est["low"])
+        self.assertGreater(est["low"], 0)
+        self.assertEqual(est["model"], "sonnet")
+        self.assertIn("output tokens per interaction", est["basis"])
+        code, text = self.plan(estimate_only=True, force=True, json_out=False)
+        self.assertIn("Estimated cost at list price", text)
+        self.assertIn("Estimate only", text)
+
+    def test_pricing_override_changes_the_estimate(self):
+        self.store.save_deals([make_deal()])
+        self.store.write_json(self.store.interactions_path("hs:1"), [make_interaction("granola:1", "2026-03-01T10:00:00Z", "A" * 4000)])
+        code, base = self.plan(estimate_only=True)
+        self.store.config.set("judge.pricingUsdPerMTok", {"input": 30.0, "output": 150.0})
+        self.store.config.save()
+        code, dear = self.plan(estimate_only=True)
+        self.assertAlmostEqual(dear["estCostUsd"]["low"], base["estCostUsd"]["low"] * 10, places=1)

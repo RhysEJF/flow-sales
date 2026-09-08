@@ -99,6 +99,7 @@ a.mark:hover svg { color: var(--accent-ink); }
 .brand-text { min-width: 0; }
 .brand-text h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .t-short { display: none; }
+.tab .tl-short { display: none; }
 .toolbar { display: flex; gap: 6px; flex-shrink: 0; }
 .btn { font: inherit; font-size: 12px; line-height: 1; padding: 7px 10px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--surface); color: var(--ink); cursor: pointer; white-space: nowrap; }
 .btn:hover { background: var(--raised); }
@@ -139,6 +140,7 @@ main { max-width: 1180px; margin: 0 auto; padding: 24px 24px 56px; }
 .menu summary::after { content: " \25BE"; font-size: 10px; }
 .menu[open] summary { background: var(--raised); }
 .menu-list { position: absolute; right: 0; top: calc(100% + 6px); z-index: 45; display: grid; min-width: 200px; padding: 6px; background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 8px; box-shadow: 0 10px 28px rgba(0,0,0,.14); }
+.menu-sep { font-size: 11px; color: var(--muted); padding: 8px 10px 2px; margin-top: 4px; border-top: 1px solid var(--rule); letter-spacing: .01em; }
 .menu-list button { font: inherit; font-size: 13px; text-align: left; background: none; border: 0; padding: 8px 10px; border-radius: 6px; color: var(--ink); cursor: pointer; white-space: nowrap; }
 .menu-list button:hover { background: var(--tint); }
 .period-note { margin: 0 0 12px; padding: 8px 12px; font-size: 12.5px; color: var(--ink-2); background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--st-warn); border-radius: 6px; }
@@ -423,6 +425,8 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   .mark svg { height: 12px; }
   .t-long { display: none; }
   .t-short { display: inline; }
+  .tab .tl-long { display: none; }
+  .tab .tl-short { display: inline; }
   .toolbar .btn { padding: 7px 9px; }
   .toolbar { justify-content: flex-start; }
   .toolbar select.period { max-width: 160px; }
@@ -519,13 +523,13 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     <div class="brand">
       <a class="mark" href="https://github.com/RhysEJF/flow-sales" target="_blank" rel="noopener" aria-label="FlowSales on GitHub" title="FlowSales on GitHub">__FS_MARK__</a>
       <div class="brand-text">
-        <h1><span class="t-long">__FS_TITLE__</span><span class="t-short">__FS_ORG__</span></h1>
+        <h1><span class="t-long">__FS_HEADLINE__</span><span class="t-short">__FS_ORG__</span></h1>
       </div>
     </div>
     <div class="toolbar">
       <select id="period-select" class="period" aria-label="Period for the Overview and Reps tabs" title="Period for the Overview and Reps tabs"></select>
       <span class="daterange" id="date-range" hidden><input type="date" id="date-from" aria-label="From date"><span>to</span><input type="date" id="date-to" aria-label="To date"></span>
-      <details class="menu" id="export-menu"><summary class="btn" title="Save as PDF, or download or copy Markdown">Export</summary><div class="menu-list"><button type="button" id="export-pdf">Save as PDF</button><button type="button" id="export-md">Download Markdown</button><button type="button" id="export-md-copy">Copy Markdown</button></div></details>
+      <details class="menu" id="export-menu"><summary class="btn" title="Save as PDF, or download or copy Markdown">Export</summary><div class="menu-list"><button type="button" id="export-pdf">Save as PDF</button><button type="button" id="export-md">Download Markdown</button><button type="button" id="export-md-copy">Copy Markdown</button><div class="menu-sep">Safe to send outside the sales team</div><button type="button" id="export-impact-pdf" title="The Impact slide only, with every rep name replaced by Rep A, Rep B">Impact slide, names hidden (PDF)</button><button type="button" id="export-impact-md" title="The Impact slide only, with every rep name replaced by Rep A, Rep B">Impact slide, names hidden (Markdown)</button><div class="menu-sep">One rep, nobody else on the page</div><button type="button" id="export-rep-pdf" title="Pick one rep on the Reps tab first">This rep's page (PDF)</button><button type="button" id="export-rep-md" title="Pick one rep on the Reps tab first">This rep's page (Markdown)</button></div></details>
       <button type="button" class="btn" id="theme-toggle" aria-pressed="false">Dark theme</button>
     </div>
   </div>
@@ -533,9 +537,9 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     <button class="tab" role="tab" id="tab-btn-overview" aria-controls="tab-overview" aria-selected="true" tabindex="0"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 0h3v3H0z M5 0h3v3H5z M0 5h3v3H0z M5 5h3v3H5z"/></svg>Overview</button>
     <button class="tab" role="tab" id="tab-btn-deals" aria-controls="tab-deals" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 0h8v1H0z M0 7h8v1H0z M0 1h1v6H0z M7 1h1v6H7z M2 3h4v1H2z"/></svg>Deals</button>
     <button class="tab" role="tab" id="tab-btn-reps" aria-controls="tab-reps" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M3 0h2v2H3z M2 3h4v1H2z M1 4h6v4H1z"/></svg>Reps</button>
-    <button class="tab" role="tab" id="tab-btn-elements" aria-controls="tab-elements" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 2h2v4H0z M3 2h2v4H3z M6 2h2v4H6z"/></svg>Elements</button>
+    <button class="tab" role="tab" id="tab-btn-elements" aria-controls="tab-elements" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 2h2v4H0z M3 2h2v4H3z M6 2h2v4H6z"/></svg>__FS_FW__</button>
     <button class="tab" role="tab" id="tab-btn-impact" aria-controls="tab-impact" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 5h2v3H0z M3 3h2v5H3z M6 0h2v8H6z"/></svg>Impact</button>
-    <button class="tab" role="tab" id="tab-btn-method" aria-controls="tab-method" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 0h2v2H0z M3 0h5v2H3z M0 3h2v2H0z M3 3h5v2H3z M0 6h2v2H0z M3 6h5v2H3z"/></svg>Method</button>
+    <button class="tab" role="tab" id="tab-btn-method" aria-controls="tab-method" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 0h2v2H0z M3 0h5v2H3z M0 3h2v2H0z M3 3h5v2H3z M0 6h2v2H0z M3 6h5v2H3z"/></svg><span class="tl-long">How this is scored</span><span class="tl-short">Scoring</span></button>
     <span class="tab-ink" aria-hidden="true"></span>
   </nav>
 </header>
@@ -765,7 +769,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
       more.forEach(function (s, i) { if (i) p.appendChild(document.createTextNode(' ')); append(p, s); });
       box.appendChild(p);
     }
-    box.appendChild(h('p', { class: 'verdict-note' }, 'Every number here is a count or a rate from your own pipeline, with its n beside it. The rates are correlations over small samples; the Impact tab lists the caveats and the Method tab the rules.'));
+    box.appendChild(h('p', { class: 'verdict-note' }, 'Every number here is a count or a rate from your own pipeline, with its n beside it. The rates are correlations over small samples; the Impact tab lists the caveats and the rules are under "How this is scored".'));
     return box;
   }
 
@@ -1822,6 +1826,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
       if (tag === 'P') { var s = text(el); if (s) out.push('', s); return; }
       if (tag === 'LI') { var li = el.cloneNode(true); [].forEach.call(li.querySelectorAll('ul, ol, details'), function (x) { x.remove(); }); out.push('- ' + text(li)); [].forEach.call(el.querySelectorAll(':scope > div > ul > li, :scope > ul > li'), function (sub) { out.push('  - ' + text(sub)); }); return; }
       if (cls.contains('chips')) { out.push('', [].map.call(el.querySelectorAll('.chip'), text).join(', '), ''); return; }
+      if (cls.contains('rule-box') || cls.contains('warn-box') || cls.contains('callout')) { out.push('', text(el)); return; }
       if (cls.contains('verdict')) { [].forEach.call(el.querySelectorAll('.verdict-lead, .verdict-more'), function (p) { out.push('', text(p)); }); out.push(''); return; }
       if (cls.contains('strip') || cls.contains('estrip')) return;
       [].forEach.call(el.children, walk);
@@ -1845,7 +1850,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   function exportMarkdownNow() {
     var w = META.window || {};
     var L = ['# ' + (META.title || 'FlowSales report'), '', 'Window ' + (w.from ? fmt.date(w.from) + ' to ' + fmt.date(w.to) : 'not set') + ', generated ' + fmt.datetime(META.generatedAt) + '. ' + filterSummary()];
-    var names = { overview: 'Overview', deals: 'Deals', reps: 'Reps', elements: 'Elements', impact: 'Impact', method: 'Method' };
+    var names = { overview: 'Overview', deals: 'Deals', reps: 'Reps', elements: FW_NAME, impact: 'Impact', method: 'How this is scored' };
     TABS.forEach(function (t) {
       var panel = document.getElementById('tab-' + t);
       var lines = domToMd(panel);
@@ -1862,6 +1867,62 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
   }
   window.flowsalesExportMarkdown = exportMarkdown;
+
+  // ---------- share-safe exports: the Impact slide with rep names hidden, or one rep's page on its own
+  var NAME_MAP = (function () {
+    var m = [];
+    REPS_SORTED.forEach(function (r, i) {
+      var alias = 'Rep ' + String.fromCharCode(65 + (i % 26)) + (i >= 26 ? String(Math.floor(i / 26) + 1) : '');
+      if (r.name && String(r.name).trim()) m.push([String(r.name).trim(), alias]);
+      if (r.email) m.push([String(r.email), alias.toLowerCase().replace(/\s+/g, '-') + '@hidden']);
+      if (r.id && String(r.id) !== String(r.name)) m.push([String(r.id), alias]);
+    });
+    m.sort(function (a, b) { return b[0].length - a[0].length; });
+    return m;
+  })();
+  function hideNames(str) { NAME_MAP.forEach(function (p) { str = str.split(p[0]).join(p[1]); }); return str; }
+  function hideNamesIn(el) {
+    var touched = [];
+    (function walk(n) { if (n.nodeType === 3) { var t = n.textContent, u = hideNames(t); if (u !== t) { touched.push([n, t]); n.textContent = u; } } else [].forEach.call(n.childNodes, walk); })(el);
+    [].forEach.call(el.querySelectorAll('[data-tip], [title], [aria-label]'), function (x) {
+      ['data-tip', 'title', 'aria-label'].forEach(function (a) { var v = x.getAttribute(a); if (v != null) { var u = hideNames(v); if (u !== v) { touched.push([x, a, v]); x.setAttribute(a, u); } } });
+    });
+    return function () { touched.forEach(function (t) { if (t.length === 2) t[0].textContent = t[1]; else t[0].setAttribute(t[1], t[2]); }); };
+  }
+  function printOnly(tab, prep) {
+    activate(tab);
+    var restore = prep ? prep(document.getElementById('tab-' + tab)) : null, once = false;
+    var done = function () { if (once) return; once = true; window.removeEventListener('afterprint', done); if (restore) restore(); route(); };
+    window.addEventListener('afterprint', done);
+    window.print();
+    setTimeout(done, 4000);
+  }
+  function exportHeader(title, note) {
+    var w = META.window || {};
+    return ['# ' + title, '', 'Window ' + (w.from ? fmt.date(w.from) + ' to ' + fmt.date(w.to) : 'not set') + ', generated ' + fmt.datetime(META.generatedAt) + '. ' + note];
+  }
+  function exportFooter() { return ['', '---', '', 'Made by Rhys at The Cognitive Shift (https://thecognitiveshift.com/?utm_source=flowsales&utm_medium=markdown&utm_campaign=report-export). Generated with FlowSales; every score sits next to the quote that earned it in the HTML report.']; }
+  function exportImpactSafe() {
+    ensureRendered();
+    var lines = domToMd(document.getElementById('tab-impact'));
+    var L = exportHeader(hideNames(META.title || 'FlowSales report') + ': Impact', 'Rep names are hidden in this export (Rep A, Rep B, in the order of the report).').concat(lines, exportFooter());
+    return hideNames(L.join('\n')).replace(/\n{3,}/g, '\n\n') + '\n';
+  }
+  function currentRep() { return (repsBody && repSel && repSel !== 'all') ? REPS_SORTED.filter(function (r) { return r.id === repSel; })[0] : null; }
+  function exportRepMd(rep) {
+    var card = document.getElementById('rep-' + safeId(rep.id));
+    if (!card) return null;
+    var lines = domToMd(card);
+    var L = exportHeader((rep.name || rep.id) + ': ' + FW_NAME + ' adoption', 'One rep\'s page from the FlowSales report for ' + (META.orgName || 'the team') + (F.period !== 'all' ? ', period ' + periodLabel() : '') + (repElement ? ', ' + repElement + ' only' : '') + '. No other rep appears in this export.').concat(lines, exportFooter());
+    return L.join('\n').replace(/\n{3,}/g, '\n\n') + '\n';
+  }
+  function safeName(s) { return String(s || 'report').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+  document.getElementById('export-impact-pdf').addEventListener('click', function () { exportMenu.open = false; printOnly('impact', hideNamesIn); });
+  document.getElementById('export-impact-md').addEventListener('click', function () { var b = this; exportMenu.open = false; try { downloadText('flowsales-' + safeName(META.orgName) + '-impact-names-hidden-' + String(META.generatedAt || '').slice(0, 10) + '.md', exportImpactSafe()); flash(b, 'Downloaded'); } catch (e) { flash(b, 'Could not download'); } });
+  document.getElementById('export-rep-pdf').addEventListener('click', function () { var b = this, rep = currentRep(); if (!rep) { flash(b, 'Pick one rep on the Reps tab first'); return; } exportMenu.open = false; printOnly('reps'); });
+  document.getElementById('export-rep-md').addEventListener('click', function () { var b = this, rep = currentRep(); if (!rep) { flash(b, 'Pick one rep on the Reps tab first'); return; } exportMenu.open = false; try { var txt = exportRepMd(rep); if (!txt) throw new Error('no card'); downloadText('flowsales-' + safeName(rep.name || rep.id) + '-' + String(META.generatedAt || '').slice(0, 10) + '.md', txt); flash(b, 'Downloaded'); } catch (e) { flash(b, 'Could not download'); } });
+  window.flowsalesExportImpactSafe = exportImpactSafe;
+  window.flowsalesExportRep = function (id) { var rep = REPS_SORTED.filter(function (r) { return r.id === id; })[0]; if (!rep) return null; var keep = repSel; repSel = id; if (repsBody) drawReps(); try { return exportRepMd(rep); } finally { repSel = keep; if (repsBody) drawReps(); } };
   var exportMenu = document.getElementById('export-menu');
   function flash(btn, msg) { var old = btn.textContent; btn.textContent = msg; setTimeout(function () { btn.textContent = old; }, 1600); }
   document.getElementById('export-pdf').addEventListener('click', function () { exportMenu.open = false; window.print(); });
@@ -1892,7 +1953,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   }
   function renderElements(root) {
     var tm = DATA.teamMetrics || {};
-    root.appendChild(sectionHead('Elements, team view', 'Which parts of ' + FW_NAME + ' the team applies, which parts separate won deals from lost ones, and the buyer quotes that show what good looks like on your own calls.'));
+    root.appendChild(sectionHead(FW_NAME + ', team view', 'Which parts of ' + FW_NAME + ' the team applies, which parts separate won deals from lost ones, and the buyer quotes that show what good looks like on your own calls.'));
     var grid = h('div', { class: 'grid-2' });
     grid.appendChild(figure(CHARTS.elementWonLost, 'Average level on won and lost deals', 'Level after decay, averaged over closed deals. n = ' + fmt.num((tm.totals || {}).dealsWon) + ' won, ' + fmt.num((tm.totals || {}).dealsLost) + ' lost.'));
     grid.appendChild(figure(CHARTS.elementAdoption, 'Adoption rate by element', 'Interactions where a rep applied the framework for the element, over interactions where it was applicable.'));
@@ -1970,7 +2031,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   function renderMethod(root) {
     var fwm = META.framework || {}, cfg = META.config || {}, attr = cfg.attribution || {}, judge = cfg.judge || {};
     var tm = DATA.teamMetrics || {}, cov = tm.dataCoverage || {}, counts = META.counts || {};
-    root.appendChild(sectionHead('Method', 'The rubric, the rules and the data behind every number in this report. Change the framework file and the judge changes with it.'));
+    root.appendChild(sectionHead('How this is scored', 'The rubric, the rules and the data behind every number in this report. Change the framework file and the judge changes with it.'));
     var scoring = (FW && FW.scoring) || {};
     var gate = scoring.commitGate || {}, qo = scoring.qualifyOut || {};
     root.appendChild(h('div', { class: 'panel' }, kv([

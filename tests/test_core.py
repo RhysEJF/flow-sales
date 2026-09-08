@@ -59,6 +59,8 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(cfg.framework, "meddic")
         self.assertEqual(cfg.get("judge.parallel"), 5)
         self.assertIn("appointmentscheduled", cfg.data["stagePhases"])
+        self.assertEqual(cfg.get("consent"), {"repsInformed": None, "audience": None}, "setup records who was told and who sees the report")
+        self.assertEqual(cfg.get("attribution.decayDays"), 45)
 
     def test_phase_for_stage(self):
         cfg = Config(default_config(), Path("/tmp/x.json"))
@@ -141,6 +143,18 @@ class CliTests(unittest.TestCase):
             self.assertEqual(r.returncode, 0, r.stderr)
             last = json.loads((home / "runs.jsonl").read_text(encoding="utf-8").splitlines()[-1])
             self.assertEqual((last["command"], last["notes"], last["ok"]), ("standup", "Tom Ellis 2026-09-08", True))
+
+    def test_status_reports_last_run_per_command(self):
+        # The status skill prints "last audit ..." from runs.jsonl; skills log themselves with `fs.py log --command`.
+        with tempfile.TemporaryDirectory() as tmp:
+            home = Path(tmp) / ".flow-sales"
+            self.assertEqual(self.run_fs(home, "init").returncode, 0)
+            self.assertEqual(self.run_fs(home, "log", "--command", "audit", "--note", "benchmark").returncode, 0)
+            r = self.run_fs(home, "status", "--json")
+            payload = json.loads(r.stdout)
+            self.assertIn("audit", payload["lastRun"])
+            self.assertNotIn("report", payload["lastRun"])
+            self.assertIsNone(payload["latestReport"])
 
     def test_missing_store_status(self):
         with tempfile.TemporaryDirectory() as tmp:

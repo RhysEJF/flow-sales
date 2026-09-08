@@ -102,6 +102,7 @@ def build_parser() -> argparse.ArgumentParser:
     pa.add_argument("--force", action="store_true", help="re-plan every deal even if unchanged")
     pa.add_argument("--sample", type=int, default=None, help="only plan N deals (random, seeded)")
     pa.add_argument("--deal", action="append", help="only these deal ids")
+    pa.add_argument("--estimate-only", action="store_true", help="print the volume and cost estimate without writing or clearing any batch files")
 
     va = sub.add_parser("validate-assessment", help="validate and quote-verify a judge output file")
     va.add_argument("file")

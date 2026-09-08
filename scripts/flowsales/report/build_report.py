@@ -164,6 +164,7 @@ def collect(store: Store, plugin_root: Path, read: Optional[list] = None) -> dic
     window = cfg.get("window") or {}
     meta = {
         "title": f"FlowSales report for {org}",
+        "headline": f"Report for {org}",
         "orgName": org,
         "home": str(store.home),
         "generatedAt": now_iso(),
@@ -697,6 +698,8 @@ def render(payload: dict, plugin_root: Path) -> str:
     window_txt = f"{C.fmt_date(w.get('from'))} to {C.fmt_date(w.get('to'))}" if w.get("from") else "not set"
     html = (template
             .replace("__FS_TITLE__", escape(meta["title"]))
+            .replace("__FS_HEADLINE__", escape(meta.get("headline") or meta["title"]))
+            .replace("__FS_FW__", escape(str(((meta.get("framework") or {}).get("name")) or "Elements")))
             .replace("__FS_WINDOW__", escape(window_txt))
             .replace("__FS_ORG__", escape(str(meta.get("orgName") or "your team")))
             .replace("__FS_GENERATED__", escape(C.fmt_date(meta["generatedAt"]) + " " + meta["generatedAt"][11:16] + " UTC"))

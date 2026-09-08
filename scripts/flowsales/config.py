@@ -43,6 +43,7 @@ def default_config() -> dict:
         "trainingDate": None,
         "content": {"emailBodies": True, "callTranscripts": True, "internalNotes": True},
         "anonymize": False,
+        "consent": {"repsInformed": None, "audience": None},
         "attribution": {"influencedMinBehaviours": 3, "influencedMinInteractions": 2, "decayDays": 45},
         "judge": {"model": "sonnet", "parallel": 5, "maxInteractionChars": 60000},
         "linking": {"autoAcceptConfidence": 0.9, "timeGraceDays": 14},
