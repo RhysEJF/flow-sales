@@ -213,7 +213,7 @@ class ValidateFileTests(ValidateBase):
         path = self.write_assessment(assessment)
         code, report = self.validate(path)
         self.assertEqual(code, 0)
-        batch = self.store.read_json("work/batches/1.json")
+        batch = self.store.read_json("work/batches/hs_1.json")
         saved = self.read(path)
         self.assertEqual(saved["rubricHash"], batch["rubricHash"])
         self.assertEqual(saved["inputHash"], batch["inputHash"])
@@ -244,7 +244,7 @@ class ValidateFileTests(ValidateBase):
         self.assertTrue(any("could not be checked" in w for w in report["warnings"]))
 
     def test_batch_located_via_batch_file_when_plan_is_gone(self):
-        batch = self.store.read_json("work/batches/1.json")
+        batch = self.store.read_json("work/batches/hs_1.json")
         (self.store.work_dir / "plan.json").unlink()
         assessment = make_assessment(element(1, None))
         assessment["batchFile"] = batch["batchFile"]
@@ -259,11 +259,28 @@ class ValidateFileTests(ValidateBase):
         code, report = self.validate(path)
         self.assertEqual(code, 0, report)
 
-    def test_no_batch_is_an_error(self):
+    def test_no_batch_falls_back_to_stored_interactions(self):
+        # A re-plan after the deal was assessed removes its batch file; validation must still work (CONTRACTS 8.2).
         for p in self.store.batches_dir.glob("*.json"):
             p.unlink()
         (self.store.work_dir / "plan.json").unlink()
-        path = self.write_assessment(make_assessment(element(1, None)))
+        path = self.write_assessment(make_assessment(element(3, "month-end close takes us 11 days")))
+        code, report = self.validate(path)
+        self.assertEqual(code, 0, report)
+        self.assertTrue(any("stored interactions" in w for w in report["warnings"]))
+        self.assertEqual(report["verified"], 1)
+        self.assertTrue(report["wrote"])
+        saved = self.read(path)
+        self.assertNotIn("batchId", saved)
+        self.assertEqual(saved["interactions"][0]["elements"]["M"]["evidence"], 3)
+
+    def test_no_batch_and_unknown_deal_is_an_error(self):
+        for p in self.store.batches_dir.glob("*.json"):
+            p.unlink()
+        (self.store.work_dir / "plan.json").unlink()
+        assessment = make_assessment(element(1, None))
+        assessment["dealId"] = "hs:404"
+        path = self.write_assessment(assessment, "hs_404.json")
         code, report = self.validate(path)
         self.assertEqual(code, 1)
         self.assertTrue(any("no batch found" in e for e in report["errors"]))

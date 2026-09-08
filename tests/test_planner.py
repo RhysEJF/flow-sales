@@ -131,7 +131,7 @@ class PlanRunTests(PlannerBase):
         self.assertEqual(out["totals"]["batches"], 1)
         self.assertEqual(out["totals"]["interactions"], 2, "the empty-body interaction is skipped")
         batch_path = Path(out["batches"][0]["file"])
-        self.assertEqual(batch_path, self.store.batches_dir / "1.json")
+        self.assertEqual(batch_path, self.store.batches_dir / "hs_1.json")
         batch = json.loads(batch_path.read_text("utf-8"))
         self.assertEqual(batch["batchId"], 1)
         self.assertEqual(batch["dealId"], "hs:1")
@@ -167,7 +167,7 @@ class PlanRunTests(PlannerBase):
         code, out = self.plan(json_out=False)
         self.assertEqual(code, 0)
         self.assertIn("Planned 1 batches for 1 deals", out)
-        self.assertIn(str(self.store.batches_dir / "1.json"), out)
+        self.assertIn(str(self.store.batches_dir / "hs_1.json"), out)
         self.assertIn("tokens", out)
 
     def test_split_batches_with_prior_state(self):
@@ -216,7 +216,7 @@ class PlanRunTests(PlannerBase):
         self.assertEqual(code, 0)
         self.assertEqual(out["totals"]["batches"], 0)
         self.assertEqual(out["skipped"]["unchanged"], 1)
-        self.assertFalse((self.store.batches_dir / "1.json").exists(), "old batches are cleared even when nothing is planned")
+        self.assertFalse((self.store.batches_dir / "hs_1.json").exists(), "old batches are cleared even when nothing is planned")
         inters = self.store.load_interactions("hs:1")
         inters[0]["body"] = inters[0]["body"] + " Sam: and who reports it?"
         self.store.save_interactions("hs:1", inters)
@@ -297,7 +297,7 @@ class PlanRunTests(PlannerBase):
         self.store.write_json(stale, {"batchId": 99})
         code, out = self.plan()
         self.assertFalse(stale.exists())
-        self.assertEqual(sorted(p.name for p in self.store.batches_dir.glob("*.json")), ["1.json"])
+        self.assertEqual(sorted(p.name for p in self.store.batches_dir.glob("*.json")), ["hs_1.json"])
 
     def test_no_store_returns_1(self):
         empty = Store(Path(self._tmp.name) / "nowhere")

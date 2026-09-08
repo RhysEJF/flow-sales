@@ -18,7 +18,7 @@ from typing import Any, Iterable, Optional
 from ..config import Config
 from ..schema.validate import element_codes
 from ..store import Store
-from ..util import parse_iso, sha1_text, sha256_of
+from ..util import parse_iso, safe_id, sha1_text, sha256_of
 
 BATCH_OVERHEAD_TOKENS = 1500
 CHARS_PER_TOKEN = 4
@@ -258,6 +258,12 @@ def build_batch(batch_id: int, deal: dict, part: list[dict], prior: dict[str, in
     }
 
 
+def batch_file_name(deal_id: str, part_no: int = 1, parts: int = 1) -> str:
+    """Batch files are named by deal so a re-plan never redirects a judge that is already working (CONTRACTS 7)."""
+    base = safe_id(deal_id)
+    return f"{base}.json" if parts <= 1 else f"{base}-p{part_no}.json"
+
+
 def _clear_batches(store: Store) -> int:
     removed = 0
     if store.batches_dir.exists():
@@ -369,7 +375,7 @@ def run(ctx: dict, args: Any) -> int:
                 prior = element_levels(assessment, codes, earlier_ids)
             else:
                 prior = {code: 0 for code in codes}
-            path = store.batches_dir / f"{batch_no}.json"
+            path = store.batches_dir / batch_file_name(deal.get("id") or f"deal-{batch_no}", part_no, len(parts))
             batch = build_batch(batch_no, deal, part, prior, cfg.framework, framework_file, rubric_hash,
                                 input_hash_value, store.assessment_path(deal.get("id")), cfg, timeline,
                                 part_no, len(parts), reason)

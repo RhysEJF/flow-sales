@@ -42,9 +42,9 @@ cd ~/flow-sales-demo
 python3 ~/flow-sales/scripts/fs.py plan-assessment --json     # lists the remaining batch files
 ```
 
-Then, for each batch file, launch a general-purpose subagent on Sonnet with this prompt (change the batch number):
+Then, for each batch file, launch a general-purpose subagent on Sonnet with this prompt (change the batch file name):
 
-> You are the FlowSales deal-assessor. Read /Users/rhysfishernewairblack/flow-sales/agents/deal-assessor.md and /Users/rhysfishernewairblack/flow-sales/skills/methodology/SKILL.md once, then follow that procedure exactly for the batch file /Users/rhysfishernewairblack/flow-sales-demo/.flow-sales/work/batches/N.json. The plugin root is /Users/rhysfishernewairblack/flow-sales (validator: python3 /Users/rhysfishernewairblack/flow-sales/scripts/fs.py validate-assessment <outputFile>). Write the assessment to the outputFile named in the batch, validate, fix until ok is true, and reply with the three summary lines only.
+> You are the FlowSales deal-assessor. Read /Users/rhysfishernewairblack/flow-sales/agents/deal-assessor.md and /Users/rhysfishernewairblack/flow-sales/skills/methodology/SKILL.md once, then follow that procedure exactly for the batch file /Users/rhysfishernewairblack/flow-sales-demo/.flow-sales/work/batches/<dealIdSafe>.json. The plugin root is /Users/rhysfishernewairblack/flow-sales (validator: python3 /Users/rhysfishernewairblack/flow-sales/scripts/fs.py validate-assessment <outputFile>). Write the assessment to the outputFile named in the batch, validate, fix until ok is true, and reply with the three summary lines only.
 
 Each batch costs roughly 150k to 200k tokens on Sonnet across its turns (quality so far: 0 unverified quotes across 9 deals). After all batches: `bash ~/flow-sales/scripts/dev/finish_demo.sh ~/flow-sales-demo/.flow-sales` (validates, rolls up, computes the quarter's impact, builds the report).
 

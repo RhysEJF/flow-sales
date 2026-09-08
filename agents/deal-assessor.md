@@ -55,4 +55,5 @@ The plugin root is the directory two levels above `frameworkFile`. If `ok` is fa
 - A discovery call is not penalised for missing Paper Process. Use `applicable` honestly rather than scoring zeros.
 - Do not knock the rep for style. Behaviour is about applying the framework, not about being smooth.
 - Do not read other deals, other batches or previous assessments. `priorState` is context, not evidence.
+- The only command you run is `validate-assessment`. Never run `plan-assessment`, `rollup` or any other `fs.py` command: re-planning while other judges are working rewrites their batch files.
 - No em dashes in anything you write.

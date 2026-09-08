@@ -17,6 +17,7 @@ from typing import Any, Iterable, Optional
 from ..schema.validate import assessment_warnings, validate_assessment_shape
 from ..store import Store
 from ..util import normalize_text, now_iso
+from . import planner
 
 FUZZY_THRESHOLD = 0.85
 FLAG_UNVERIFIED = "quote-unverified"
@@ -153,6 +154,26 @@ def locate_batches(assessment: dict, store: Store) -> tuple[list[dict], Optional
         wanted = assessment.get("batchId")
         primary = next((b for b in batches if wanted is not None and b.get("batchId") == wanted), batches[0])
     return batches, primary
+
+
+def batch_from_store(deal_id: Optional[str], store: Store, plugin_root: Path | str) -> Optional[dict]:
+    """A batch-shaped view built from data/deals.json and data/interactions/<deal>.json (no batchId, no hashes)."""
+    if not deal_id:
+        return None
+    deal = next((d for d in store.load_deals() if d.get("id") == deal_id), None)
+    if deal is None:
+        return None
+    cfg = store.config
+    timeline = planner.stage_timeline(deal, cfg)
+    interactions = [
+        planner.batch_interaction(i, planner.phase_at_time(deal, planner.parse_iso(i.get("at")), cfg, timeline))
+        for i in store.load_interactions(deal_id) if (i.get("body") or "").strip()
+    ]
+    return {
+        "batchId": None, "dealId": deal_id, "framework": cfg.framework,
+        "frameworkFile": str(planner.framework_path(plugin_root, cfg.framework)),
+        "deal": {k: v for k, v in deal.items() if k != "meta"}, "interactions": interactions,
+    }
 
 
 def merge_batches(batches: list[dict], primary: dict) -> dict:
@@ -303,11 +324,15 @@ def validate_file(path: Path | str, store: Store, plugin_root: Path | str) -> di
     report["dealId"] = assessment.get("dealId")
     batches, primary = locate_batches(assessment, store)
     if not batches or primary is None:
-        report["errors"].append(
-            f"no batch found for dealId {assessment.get('dealId')!r}: run plan-assessment first, "
-            "or set 'batchFile' in the assessment"
-        )
-        return report
+        fallback = batch_from_store(assessment.get("dealId"), store, plugin_root)
+        if fallback is None:
+            report["errors"].append(
+                f"no batch found for dealId {assessment.get('dealId')!r} and the deal is not in the store: "
+                "run plan-assessment first, or set 'batchFile' in the assessment"
+            )
+            return report
+        batches, primary = [fallback], fallback
+        report["warnings"].append("no batch file for this deal; quotes verified against the stored interactions")
     report["batchId"] = primary.get("batchId")
     framework, problem = load_framework_for(primary, plugin_root, store)
     if framework is None:

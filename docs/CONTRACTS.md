@@ -36,7 +36,7 @@ Every module in FlowSales talks through the records, files and commands defined 
   data/interactions/<dealIdSafe>.json   Interaction[] linked to that deal (dealIdSafe replaces ':' with '_')
   data/interactions/_unlinked.json      Interaction[] with no accepted link
   data/links.json                  Link[]            (section 6)
-  work/batches/<n>.json            assessment batch manifests (section 7)
+  work/batches/<dealIdSafe>.json   assessment batch manifests (section 7); split deals add -p<part>
   assessments/<dealIdSafe>.json    Assessment        (section 8)
   analytics/deal_states.json       DealState[]       (section 9)
   analytics/rep_metrics.json
@@ -144,7 +144,7 @@ Linker rules (highest wins, evidence recorded):
 
 ## 7. Assessment batches (input to the judge)
 
-`fs.py plan-assessment` writes `work/batches/<n>.json`, one deal per batch unless a deal exceeds `judge.maxInteractionChars`, in which case its interactions are split across batches in time order:
+`fs.py plan-assessment` writes `work/batches/<dealIdSafe>.json`, one deal per batch unless a deal exceeds `judge.maxInteractionChars`, in which case its interactions are split across `<dealIdSafe>-p<part>.json` files in time order. Files are named by deal, not by sequence, so a re-plan while judges are running never changes what a running judge's batch file points at; `batchId` is still a running number inside `plan.json`:
 
 ```json
 { "batchId": 3, "dealId": "hs:12345", "framework": "meddpicc", "frameworkFile": "<abs path>/frameworks/meddpicc.json", "rubricHash": "sha256:...",
@@ -190,6 +190,7 @@ M: `asked-metrics`, `quantified-impact`. E: `identified-eb`, `asked-eb-access`, 
 ### 8.2 Validation (`fs.py validate-assessment <file>`)
 
 - Schema: every listed interaction exists in the batch, every applicable element has an entry, values in range, tags in vocabulary.
+- Source text: the validator reads the deal's batch file(s). When none exists (the plan was rebuilt after the deal was assessed), it verifies against the deal's stored interactions in `data/interactions/<dealIdSafe>.json` instead and adds a warning; it fails only when the deal itself is unknown to the store.
 - Quote verification: normalise whitespace and case; a quote is verified if it is a substring of the interaction `body`, else if `difflib.SequenceMatcher` finds a window with ratio at least 0.85. Unverified quotes: set `verified: false`, cap `evidence` at 1, add `"flags": ["quote-unverified"]` on the element. Verified quotes get `verified: true`.
 - The validator writes the corrected file in place and prints a JSON report `{ "ok": bool, "errors": [], "warnings": [], "capped": n }`. Exit code 1 on schema errors so the judge agent fixes and re-runs.
 
