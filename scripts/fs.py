@@ -39,6 +39,7 @@ COMMANDS: dict[str, tuple[str, str]] = {
     "report": ("flowsales.report.build_report", "run"),
     "briefing-data": ("flowsales.analytics.packs", "briefing"),
     "retro-data": ("flowsales.analytics.packs", "retro"),
+    "eval-golden": ("flowsales.evals.golden", "run"),
 }
 
 
@@ -120,7 +121,14 @@ def build_parser() -> argparse.ArgumentParser:
 
     rd = sub.add_parser("retro-data", help="JSON pack for the retro skill")
     rd.add_argument("--rep", required=True)
-    rd.add_argument("--week", default=None, help="ISO week YYYY-Www (default: current)")
+    rd.add_argument("--week", default=None, help="ISO week YYYY-Www (default: current, or last week on a Monday or Tuesday)")
+
+    eg = sub.add_parser("eval-golden", help="golden-set evaluation of the judge (evals/golden)")
+    eg.add_argument("action", choices=["build", "compare"])
+    eg.add_argument("--parts", type=int, default=None, help="build: number of batch files to split the snippets across (default 4)")
+    eg.add_argument("--model", default=None, help="compare: judge model name to record (default: from the assessments)")
+    eg.add_argument("--note", default=None, help="compare: free-text note for runs.jsonl")
+    eg.add_argument("--strict", action="store_true", help="compare: exit 1 when a target is missed")
 
     return p
 

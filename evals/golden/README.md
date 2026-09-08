@@ -35,7 +35,15 @@ Secondary checks reported alongside: applicability mismatches (an element scored
 4. Compare, one snippet at a time: for each snippet, look up the judge's interaction by `id`, then for each element in `expected` compare `evidence`, and for each element in `notApplicable` confirm it is absent from `applicable`. Collect the judge's tags across all elements of that interaction and compare with `expectedBehaviourTags`. Compute the three metrics above and the secondary checks, and print a per-element confusion table (expected level by judged level) so systematic drift (for example, inflating rep assertions to 2) is visible.
 5. Record the run in `runs.jsonl` next to this README with the rubric hash, model, date and the three metrics. A change to `frameworks/*.json`, the judge prompt or the model is accepted only if no target regresses.
 
-A comparison script is not yet part of `scripts/fs.py`; until it is, the steps above are small enough to run from a Python one-off that loads both files and follows section 4 literally.
+The steps are implemented by `fs.py eval-golden`:
+
+```bash
+python3 scripts/fs.py --home /tmp/fs-golden/.flow-sales eval-golden build          # writes 4 batch files and prints them
+# launch one deal-assessor agent per batch file (the audit skill's judge step, or the manual prompt in docs/HANDOFF.md)
+python3 scripts/fs.py --home /tmp/fs-golden/.flow-sales eval-golden compare --model claude-sonnet-5
+```
+
+`compare` validates the assessments first, prints the three metrics against the targets, the secondary checks and a per-element confusion table, appends the run to `runs.jsonl` here and writes the per-snippet detail to `results/`.
 
 ## Editing the set
 

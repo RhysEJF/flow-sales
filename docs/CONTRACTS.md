@@ -251,6 +251,8 @@ Definitions:
 | `briefing-data --rep <id> [--date <d>]` | JSON pack for the standup skill: active deals with state, last three interactions each, stage gaps, weakest elements, suggested next questions from the framework file (`focus`: up to three applicable elements below the top level, lowest first) |
 | `retro-data --rep <id> [--week <YYYY-Www>]` | JSON pack for the retro skill: this week vs last week vs benchmark, deals moved, wins and losses with element post-mortem inputs. Without `--week`: the current ISO week, or the previous one when run on a Monday or Tuesday |
 | `status` | counts of everything in the store |
+| `eval-golden build [--parts n]` | write the golden set (`evals/golden/snippets.json`) as batch files `work/batches/demo_golden-<n>.json` into the store at `--home` (a scratch store), with `work/plan.json`; prints the files to hand to the deal-assessor agent |
+| `eval-golden compare [--model m] [--note t] [--strict]` | validate `assessments/demo_golden-*.json` in that store, compare with the labels (section 13), print metrics, secondary checks and the confusion table, append to `evals/golden/runs.jsonl`, write detail to `evals/golden/results/`. `--strict` exits 1 when a target is missed or a snippet was not judged |
 
 ## 11. Framework file (`frameworks/meddpicc.json`)
 
@@ -274,3 +276,14 @@ The rubric hash is the sha256 of the file's canonical JSON (sorted keys, no whit
 ## 12. Runs log
 
 `runs.jsonl` is the kill-switch companion: it shows what every command read and wrote. Skills append their own lines through `fs.py log --command <name> --note "..."`.
+
+## 13. Golden-set evaluation (`evals/golden/`)
+
+`snippets.json` holds labelled interactions (`id`, `type`, `phase`, `kind`, `speakerRoles`, `body`, `expected`, `notApplicable`, `expectedBehaviourTags`, optional `reversal` and `hygiene`) and `targets`. `fs.py eval-golden build` turns them into batches shaped exactly like section 7 under deal ids `demo:golden-<n>`; the judge is run on them unchanged. `fs.py eval-golden compare` validates the output first (section 8.2, so unverified quotes are capped as in production) and computes:
+
+- `exactAgreement`: share of (snippet, expected element) pairs where judged `evidence` equals the label.
+- `withinOneLevel`: share of pairs with absolute difference at most 1.
+- `behaviourTagAgreement`: mean over snippets of the Jaccard overlap between the union of judged `behaviourTags` and `expectedBehaviourTags` (empty against empty counts 1.0).
+- Secondary checks: applicability mismatches, quote failures, rep-assertion snippets scored above 1, reversal snippets that used the earlier quote, pitch-monologue snippets with any tag or without `pitchBeforePain`, missing snippets.
+
+Each run appends `{at, rubricHash, framework, frameworkVersion, goldenVersion, model, note, metrics, passed, checks, store}` to `evals/golden/runs.jsonl` and writes the per-snippet detail and confusion tables to `evals/golden/results/<timestamp>-<model>.json`. A change to a framework file, the judge prompt or the model ships only if no target regresses against the last recorded run.

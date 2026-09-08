@@ -5,3 +5,4 @@ __pycache__/
 .env
 *.local.md
 evals/results/
+evals/golden/results/
