@@ -91,7 +91,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
 
 /* ---------- header and navigation */
 .top { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--rule); }
-.top-row { max-width: 1180px; margin: 0 auto; padding: 12px 24px 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.top-row { max-width: 1180px; margin: 0 auto; padding: 12px 24px 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .brand { display: flex; align-items: center; gap: 16px; min-width: 0; }
 .mark { display: inline-block; color: var(--ink); }
 a.mark:hover svg { color: var(--accent-ink); }
@@ -99,7 +99,6 @@ a.mark:hover svg { color: var(--accent-ink); }
 .brand-text { min-width: 0; }
 .brand-text h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .t-short { display: none; }
-.meta { margin: 1px 0 0; color: var(--muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .toolbar { display: flex; gap: 6px; flex-shrink: 0; }
 .btn { font: inherit; font-size: 12px; line-height: 1; padding: 7px 10px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--surface); color: var(--ink); cursor: pointer; white-space: nowrap; }
 .btn:hover { background: var(--raised); }
@@ -412,7 +411,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   .toolbar { flex: 1 1 100%; }
   .brand { gap: 12px; }
   .mark svg { height: 12px; }
-  .t-long, .meta-gen { display: none; }
+  .t-long { display: none; }
   .t-short { display: inline; }
   .toolbar .btn { padding: 7px 9px; }
   .toolbar { justify-content: flex-start; }
@@ -507,7 +506,6 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
       <a class="mark" href="https://github.com/RhysEJF/flow-sales" target="_blank" rel="noopener" aria-label="FlowSales on GitHub" title="FlowSales on GitHub">__FS_MARK__</a>
       <div class="brand-text">
         <h1><span class="t-long">__FS_TITLE__</span><span class="t-short">__FS_ORG__</span></h1>
-        <p class="meta"><span>Window __FS_WINDOW__</span><span class="meta-gen">, generated __FS_GENERATED__</span></p>
       </div>
     </div>
     <div class="toolbar">
