@@ -125,7 +125,6 @@ main { max-width: 1180px; margin: 0 auto; padding: 24px 24px 56px; }
 .verdict-more { font: 400 clamp(16px, 1.6vw, 19px)/1.5 var(--serif); color: var(--ink-2); margin: 14px 0 0; max-width: 72ch; }
 .verdict-more .v-num { color: var(--ink); font-weight: 700; }
 .verdict-note { margin: 10px 0 0; font-size: 12px; color: var(--muted); }
-.verdict.dimmed .verdict-lead, .verdict.dimmed .verdict-more, .verdict.dimmed .verdict-note { opacity: .5; }
 .v-badge { display: inline-block; margin: 0 0 10px; padding: 3px 10px; font-size: 12px; font-weight: 600; color: var(--ink-2); background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 999px; }
 .fchip-radio[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
 
@@ -726,51 +725,103 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   function pctPts(v) { var t = fmt.pct(v); return t === 'n/a' ? null : parseInt(t, 10); }
   function liftText_(before, after) { var x = pctPts(before), y = pctPts(after); if (x == null || y == null) return null; var d = y - x; return (d >= 0 ? '+' : '') + d + ' pts'; }
 
-  // ---------- the verdict: the sentences a sales leader repeats, built from the analytics with the n kept close
-  function verdict() {
-    var tm = DATA.teamMetrics || {}, tot = tm.totals || {}, ba = tm.beforeAfter || {};
-    var before = ba.before || {}, after = ba.after || {};
+  // ---------- the verdict: the sentences a sales leader repeats, recomputed from the records in view.
+  // The whole window reproduces the analytics files; a slice that spans the training date keeps the comparison
+  // shape; a slice on one side of it states the plain rate. The quarter sentence stays on the impact file.
+  var MIN_CLOSED = 5;      // fewer closed deals than this and a win rate is not worth a sentence
+  var MIN_REP_SIDE = 5;    // a rep needs this many interactions on each side of the training date to be named
+  function spansTraining() {
+    if (!TRAINING) return false;
+    var r = periodRange(); if (!r) return true;
+    return (!r[0] || r[0] < TRAINING) && (!r[1] || r[1] > TRAINING);
+  }
+  function verdictStats(recs) {
+    var dealMap = dealsInView(recs);
+    var n = recs.length, applied = recs.filter(isApplied).length;
+    var bn = 0, ba = 0, an = 0, aa = 0;
+    if (TRAINING) recs.forEach(function (r) { if (!r.at) return; if (r.at < TRAINING) { bn += 1; if (isApplied(r)) ba += 1; } else { an += 1; if (isApplied(r)) aa += 1; } });
+    var closed = closedIn(dealMap);
+    var wr = function (list) { return list.length ? list.filter(function (c) { return c.won; }).length / list.length : null; };
+    var bd = TRAINING ? closed.filter(function (c) { return c.at && c.at < TRAINING; }) : [];
+    var ad = TRAINING ? closed.filter(function (c) { return c.at && c.at >= TRAINING; }) : [];
+    return { n: n, applied: applied, rate: n ? applied / n : null,
+      before: { n: bn, rate: bn ? ba / bn : null, closed: bd.length, winRate: wr(bd) },
+      after: { n: an, rate: an ? aa / an : null, closed: ad.length, winRate: wr(ad) },
+      closed: closed.length, winRate: wr(closed), terts: tertileRows(dealMap), byRep: beforeAfterByRep(recs) };
+  }
+  function verdictSubject(capital) {
+    var s = F.reps && F.reps.length === 1 ? repName(F.reps[0]) : F.reps ? 'the selected reps' : 'the team';
+    return capital ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+  }
+  function verdictOpening() {
+    var d = META.trainingDate ? fmt.date(META.trainingDate) : null;
+    if (F.period === 'before' && d) return 'Before the training on ' + d + ', ';
+    if (F.period === 'after' && d) return 'Since the training on ' + d + ', ';
+    if (F.period === 'last12') return 'In the last 12 weeks, ';
+    if (F.period === 'last26') return 'In the last 26 weeks, ';
+    if (customOk()) return 'Between ' + fmt.date(F.from.toISOString()) + ' and ' + fmt.date(F.to.toISOString()) + ', ';
+    return '';
+  }
+  function verdict(recs) {
+    if (!recs) recs = inView().recs;
+    var v = verdictStats(recs), spans = spansTraining();
+    var what = F.element ? F.element + ' ' + elName(F.element) : FW_NAME;
+    var ofWhat = F.element ? ' of the interactions where it was applicable' : ' of interactions';
     var lead = null, more = [];
-    var pctR = function (v) { return Math.round(v * 100); };
-    if (META.trainingDate && isNum(before.adoptionRate) && isNum(after.adoptionRate)) {
-      var b = pctR(before.adoptionRate), a = pctR(after.adoptionRate);
+    if (!v.n) {
+      lead = ['No interactions match this view.'];
+    } else if (spans && v.before.n && v.after.n) {
+      var b = pctPts(v.before.rate), a = pctPts(v.after.rate);
       var tail = a > b + 1 ? ['up from ', N(b + '%'), ' before it.'] : a < b - 1 ? ['down from ', N(b + '%'), ' before it.'] : ['level with the ', N(b + '%'), ' before it.'];
-      lead = ['Since the training on ' + fmt.date(META.trainingDate) + ', the team applied ' + FW_NAME + ' in ', N(a + '%'), ' of interactions, '].concat(tail);
-      if (isNum(before.winRate) && isNum(after.winRate) && ((before.dealsClosed || 0) + (after.dealsClosed || 0)) > 0) {
-        more.push(['Deals closed after it won ', N(fmt.pct(after.winRate)), ' of the time, against ', N(fmt.pct(before.winRate)), ' before (' + fmt.num(after.dealsClosed) + ' and ' + fmt.num(before.dealsClosed) + ' closed deals).']);
+      lead = ['Since the training on ' + fmt.date(META.trainingDate) + ', ' + verdictSubject(false) + ' applied ' + what + ' in ', N(a + '%'), ofWhat + ', '].concat(tail);
+      if (!winRateMeaningful()) { /* an outcome filter makes every win rate 0% or 100% */ }
+      else if (v.before.closed >= MIN_CLOSED && v.after.closed >= MIN_CLOSED) {
+        more.push(['Deals closed after it won ', N(fmt.pct(v.after.winRate)), ' of the time, against ', N(fmt.pct(v.before.winRate)), ' before (' + fmt.num(v.after.closed) + ' and ' + fmt.num(v.before.closed) + ' closed deals).']);
+      } else if (v.after.closed >= MIN_CLOSED) {
+        more.push(['Deals closed after it won ', N(fmt.pct(v.after.winRate)), ' of the time (' + fmt.num(v.after.closed) + ' closed deals); only ' + fmt.num(v.before.closed) + ' closed before it, too few to compare.']);
+      } else if (v.before.closed >= MIN_CLOSED) {
+        more.push(['Deals closed before it won ', N(fmt.pct(v.before.winRate)), ' of the time (' + fmt.num(v.before.closed) + ' closed deals); only ' + fmt.num(v.after.closed) + ' have closed since, too few to compare.']);
+      } else if (v.closed) {
+        more.push(['Only ' + fmt.num(v.closed) + ' closed deal' + (v.closed === 1 ? '' : 's') + ' in this view, too few for a win rate.']);
       }
-    } else if (isNum(tot.adoptionRate) || isNum(tot.interactions)) {
-      lead = ['The team applied ' + FW_NAME + ' in ', N(fmt.pct(tot.adoptionRate)), ' of ', N(fmt.num(tot.interactions)), ' interactions' + (META.window && META.window.from ? ' between ' + fmt.date(META.window.from) + ' and ' + fmt.date(META.window.to) : '') + '.'];
-      if (isNum(tm.winRate)) more.push(['Win rate across the window was ', N(fmt.pct(tm.winRate)), ' on ' + fmt.num((tot.dealsWon || 0) + (tot.dealsLost || 0)) + ' closed deals.']);
+    } else {
+      var open = verdictOpening();
+      var subj = open ? verdictSubject(false) : verdictSubject(true);
+      var when = open ? '' : (META.window && META.window.from ? ' between ' + fmt.date(META.window.from) + ' and ' + fmt.date(META.window.to) : '');
+      lead = [open + subj + ' applied ' + what + ' in ', N(fmt.pct(v.rate)), ' of ', N(fmt.num(v.n)), (F.element ? ' interactions where it was applicable' : ' interactions') + when + '.'];
+      if (!winRateMeaningful()) { /* outcome filter */ }
+      else if (v.closed >= MIN_CLOSED) more.push(['Deals closed in this view won ', N(fmt.pct(v.winRate)), ' of the time (' + fmt.num(v.closed) + ' closed deals).']);
+      else if (v.closed) more.push(['Only ' + fmt.num(v.closed) + ' closed deal' + (v.closed === 1 ? '' : 's') + ' in this view, too few for a win rate.']);
     }
-    var movers = REPS.map(function (r) { return { r: r, m: metricsById[r.id] }; }).filter(function (x) { return x.m && isNum(x.m.adoptionLift) && x.m.beforeTraining && x.m.afterTraining; });
-    movers.sort(function (x, y) { return y.m.adoptionLift - x.m.adoptionLift; });
-    if (movers.length) {
-      var top = movers[0], bottom = movers[movers.length - 1];
-      var tl = pctPts(top.m.afterTraining.adoptionRate) - pctPts(top.m.beforeTraining.adoptionRate);
-      var bl = pctPts(bottom.m.afterTraining.adoptionRate) - pctPts(bottom.m.beforeTraining.adoptionRate);
-      var teamFlat = isNum(before.adoptionRate) && isNum(after.adoptionRate) && Math.abs(pctPts(after.adoptionRate) - pctPts(before.adoptionRate)) <= 2;
-      if (teamFlat && tl >= 5 && bl <= -5 && top.r.id !== bottom.r.id) more.push(['Behind the flat average, ' + top.r.name + ' rose ', N(tl + ' points'), ' while ' + bottom.r.name + ' fell ', N(Math.abs(bl) + ' points'), '.']);
-      else if (tl >= 5) more.push([top.r.name + ' moved most, from ', N(fmt.pct(top.m.beforeTraining.adoptionRate)), ' to ', N(fmt.pct(top.m.afterTraining.adoptionRate)), ' of interactions.']);
+    if (spans && v.before.n && v.after.n) {
+      var movers = REPS_SORTED.map(function (r) { var p = v.byRep[r.id]; return p && p.bn >= MIN_REP_SIDE && p.an >= MIN_REP_SIDE ? { r: r, b: p.ba / p.bn, a: p.aa / p.an } : null; }).filter(Boolean);
+      movers.forEach(function (m) { m.lift = pctPts(m.a) - pctPts(m.b); });
+      movers.sort(function (x, y) { return y.lift - x.lift; });
+      if (movers.length) {
+        var top = movers[0], bottom = movers[movers.length - 1];
+        var teamFlat = Math.abs(pctPts(v.after.rate) - pctPts(v.before.rate)) <= 2;
+        if (teamFlat && top.lift >= 5 && bottom.lift <= -5 && top.r.id !== bottom.r.id) more.push(['Behind the flat average, ' + top.r.name + ' rose ', N(top.lift + ' points'), ' while ' + bottom.r.name + ' fell ', N(Math.abs(bottom.lift) + ' points'), '.']);
+        else if (top.lift >= 5 && movers.length > 1) more.push([top.r.name + ' moved most, from ', N(fmt.pct(top.b)), ' to ', N(fmt.pct(top.a)), ofWhat + '.']);
+      }
     }
-    var terts = tm.winRateByAdoptionTertile || [], hi = null, lo = null;
-    terts.forEach(function (t) { if (t.tertile === 'high') hi = t; if (t.tertile === 'low') lo = t; });
-    if (hi && lo && isNum(hi.winRate) && isNum(lo.winRate)) {
+    var hi = null, lo = null;
+    v.terts.forEach(function (t) { if (t.tertile === 'high') hi = t; if (t.tertile === 'low') lo = t; });
+    if (winRateMeaningful() && hi && lo && hi.n >= 3 && lo.n >= 3 && isNum(hi.winRate) && isNum(lo.winRate)) {
       more.push(['Deals in the top third by adoption won ', N(fmt.pct(hi.winRate)), ' of the time; the bottom third won ', N(fmt.pct(lo.winRate)), '.']);
     }
     var im = DATA.impact;
     if (im && isNum(im.influencedCount) && isNum(im.wonCount) && im.wonCount > 0) {
-      more.push(['In ' + (im.quarter || 'the quarter') + ', ', N(fmt.num(im.influencedCount)), ' of the ' + fmt.num(im.wonCount) + ' won deals followed framework actions (' + fmt.moneyTotal(im.influencedAmount, im.influencedAmountByCurrency, META.currency) + ').']);
+      more.push(['In ' + (im.quarter || 'the quarter') + ', ', N(fmt.num(im.influencedCount)), ' of the ' + fmt.num(im.wonCount) + ' won deals followed framework actions (' + fmt.moneyTotal(im.influencedAmount, im.influencedAmountByCurrency, META.currency) + ')' + (fActive() ? ', whole quarter, not this view' : '') + '.']);
     }
-    if (!lead) return null;
     var box = h('div', { class: 'verdict' });
+    if (fActive()) box.appendChild(h('p', { class: 'v-badge' }, 'Verdict for: ' + sliceLabel() + '.'));
     box.appendChild(h('p', { class: 'verdict-lead' }, lead));
     if (more.length) {
       var p = h('p', { class: 'verdict-more' });
       more.forEach(function (s, i) { if (i) p.appendChild(document.createTextNode(' ')); append(p, s); });
       box.appendChild(p);
     }
-    box.appendChild(h('p', { class: 'verdict-note' }, 'Every number here is a count or a rate from your own pipeline, with its n beside it. The rates are correlations over small samples; the Impact tab lists the caveats and the rules are under "How this is scored".'));
+    box.appendChild(h('p', { class: 'verdict-note' }, 'Every number here is a count or a rate from your own pipeline, with its n beside it, and it follows the filters and the period. The rates are correlations over small samples; the Impact tab lists the caveats and the rules are under "How this is scored".'));
     return box;
   }
 
@@ -933,14 +984,25 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     return m;
   }
   function outcomeOf(id) { return (stateById[id] || {}).outcome || (dealById[id] || {}).outcome || 'open'; }
+  function closedAtOf(id) { var s = stateById[id] || {}, at = s.closedAt || (dealById[id] || {}).closedAt, t = at ? new Date(at) : null; return t && !isNaN(t) ? t : null; }
+  function closedIn(dealMap) {
+    var r = periodRange(), out = [];
+    Object.keys(dealMap).forEach(function (id) {
+      var oc = outcomeOf(id); if (oc !== 'won' && oc !== 'lost') return;
+      var at = closedAtOf(id);
+      if (r && at && !((!r[0] || at >= r[0]) && (!r[1] || at < r[1]))) return;
+      out.push({ id: id, won: oc === 'won', at: at });
+    });
+    return out;
+  }
+  function winRateMeaningful() { return !F.outcomes || (F.outcomes.indexOf('won') >= 0 && F.outcomes.indexOf('lost') >= 0); }
   function median(xs) { if (!xs.length) return null; var s = xs.slice().sort(function (a, b) { return a - b; }); var k = s.length; return k % 2 ? s[(k - 1) / 2] : (s[k / 2 - 1] + s[k / 2]) / 2; }
   function tertileRows(dealMap) {
     var closed = [];
-    Object.keys(dealMap).forEach(function (id) {
-      var oc = outcomeOf(id); if (oc !== 'won' && oc !== 'lost') return;
-      var v = dealMap[id]; if (!v.n) return;
+    closedIn(dealMap).forEach(function (c) {
+      var id = c.id, v = dealMap[id]; if (!v.n) return;
       var s = stateById[id] || {}, d = dealById[id] || {};
-      closed.push({ id: id, adoption: v.a / v.n, outcome: oc, cycle: s.cycleDays, amount: s.amount != null ? s.amount : d.amount });
+      closed.push({ id: id, adoption: v.a / v.n, outcome: c.won ? 'won' : 'lost', cycle: s.cycleDays, amount: s.amount != null ? s.amount : d.amount });
     });
     closed.sort(function (x, y) { return x.adoption - y.adoption; });
     var groups = { low: [], mid: [], high: [] };
@@ -1187,7 +1249,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     reset.addEventListener('click', function () { fReset(); refreshOverview(); });
     barSync.push(function () {
       var view = inView(), dm = dealsInView(view.recs);
-      status.replaceChildren(h('b', null, fmt.num(view.recs.length)), ' of ' + fmt.num(RECORDS.length) + ' interactions on ', h('b', null, fmt.num(Object.keys(dm).length)), ' deals in view.', localActive() || F.period !== 'all' ? ' ' + filterSummary() : ' Every chart below follows these filters and the period in the header; the verdict above does not.');
+      status.replaceChildren(h('b', null, fmt.num(view.recs.length)), ' of ' + fmt.num(RECORDS.length) + ' interactions on ', h('b', null, fmt.num(Object.keys(dm).length)), ' deals in view.', localActive() || F.period !== 'all' ? ' ' + filterSummary() : ' The verdict, the tiles and every chart on this tab follow these filters and the period in the header.');
       reset.disabled = !localActive();
     });
     body.appendChild(h('div', { class: 'f-status' }, status, reset));
@@ -1208,16 +1270,11 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     var dyn = ovDyn; dyn.replaceChildren();
     var view = inView(), recs = view.recs, weeks = view.weeks;
     var vEl = document.querySelector('#tab-overview .verdict');
-    if (vEl) {
-      var isActive = fActive(), badge = vEl.querySelector('.v-badge');
-      vEl.classList.toggle('dimmed', isActive);
-      if (isActive && !badge) vEl.insertBefore(h('p', { class: 'v-badge' }, 'Whole window. The tiles and charts below follow the filters.'), vEl.firstChild);
-      if (!isActive && badge) badge.remove();
-    }
+    if (vEl) { try { vEl.replaceWith(verdict(recs)); } catch (e) { /* keep the previous verdict */ } }
     var dealMap = dealsInView(recs), dealIds = Object.keys(dealMap);
     var tm = DATA.teamMetrics || {}, tot = tm.totals || {}, cov = tm.dataCoverage || {};
     var n = recs.length, applied = recs.filter(isApplied).length, won = 0, lost = 0;
-    dealIds.forEach(function (id) { var oc = outcomeOf(id); if (oc === 'won') won += 1; else if (oc === 'lost') lost += 1; });
+    closedIn(dealMap).forEach(function (c) { if (c.won) won += 1; else lost += 1; });
     var active = fActive(), elLabel = F.element ? F.element + ' ' + elName(F.element) : null;
     var w = META.window || {};
     var windowTxt = w.from ? fmt.date(w.from) + ' to ' + fmt.date(w.to) : 'window not set';
@@ -1225,7 +1282,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     tiles.appendChild(tile(active ? 'Deals in view' : 'Deals audited', fmt.num(active ? dealIds.length : (tot.deals != null ? tot.deals : dealIds.length)), active ? 'with at least one interaction in view, of ' + fmt.num(tot.deals != null ? tot.deals : DEALS.length) + ' audited' : 'of ' + fmt.num(META.counts && META.counts.deals != null ? META.counts.deals : DEALS.length) + ' deals in window, ' + windowTxt));
     tiles.appendChild(tile(active ? 'Interactions in view' : 'Interactions scored', fmt.num(n), fmt.num(applied) + (elLabel ? ' where the rep applied ' + elLabel : ' with at least one framework behaviour')));
     tiles.appendChild(tile(active ? 'Adoption: ' + sliceLabel() : 'Team adoption rate', fmt.pct(n ? applied / n : null), 'n = ' + fmt.num(n) + ' interactions' + (elLabel ? ' where it was applicable' : '')));
-    tiles.appendChild(tile('Win rate', fmt.pct(won + lost ? won / (won + lost) : null), 'n = ' + fmt.num(won + lost) + ' closed deals' + (active ? ' in view' : '') + ' (' + fmt.num(won) + ' won, ' + fmt.num(lost) + ' lost)'));
+    tiles.appendChild(tile('Win rate', fmt.pct(won + lost ? won / (won + lost) : null), 'n = ' + fmt.num(won + lost) + (F.period !== 'all' ? ' deals closed in the period' : active ? ' closed deals in view' : ' closed deals') + ' (' + fmt.num(won) + ' won, ' + fmt.num(lost) + ' lost)'));
     dyn.appendChild(tiles);
     if (!n) {
       dyn.appendChild(h('div', { class: 'panel' }, h('p', null, 'No interactions match these filters.'), h('p', { class: 'muted small' }, 'Widen the period, add a rep or an interaction type, or clear the filters to see the whole window.')));
@@ -1829,7 +1886,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
       if (tag === 'LI') { var li = el.cloneNode(true); [].forEach.call(li.querySelectorAll('ul, ol, details'), function (x) { x.remove(); }); out.push('- ' + text(li)); [].forEach.call(el.querySelectorAll(':scope > div > ul > li, :scope > ul > li'), function (sub) { out.push('  - ' + text(sub)); }); return; }
       if (cls.contains('chips')) { out.push('', [].map.call(el.querySelectorAll('.chip'), text).join(', '), ''); return; }
       if (cls.contains('rule-box') || cls.contains('warn-box') || cls.contains('callout')) { out.push('', text(el)); return; }
-      if (cls.contains('verdict')) { [].forEach.call(el.querySelectorAll('.verdict-lead, .verdict-more'), function (p) { out.push('', text(p)); }); out.push(''); return; }
+      if (cls.contains('verdict')) { [].forEach.call(el.querySelectorAll('.v-badge, .verdict-lead, .verdict-more'), function (p) { out.push('', text(p)); }); out.push(''); return; }
       if (cls.contains('strip') || cls.contains('estrip')) return;
       [].forEach.call(el.children, walk);
     }
