@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
 import sys
 import tempfile
 import unittest
@@ -21,9 +22,13 @@ FIXTURES = ROOT / "tests" / "fixtures" / "report"
 
 class ReportTests(unittest.TestCase):
     def render(self, out: Path) -> dict:
-        store = Store(FIXTURES)
-        ctx = {"store": store, "home": FIXTURES, "plugin_root": ROOT, "json": True, "started": 0.0, "now": "2026-09-07T20:00:00Z"}
-        args = argparse.Namespace(open=False, out=str(out), json=True, home=str(FIXTURES))
+        # Work on a copy so the build never logs into the checked-in fixture store.
+        home = out.parent / "store"
+        if not home.exists():
+            shutil.copytree(FIXTURES, home)
+        store = Store(home)
+        ctx = {"store": store, "home": home, "plugin_root": ROOT, "json": True, "started": 0.0, "now": "2026-09-07T20:00:00Z"}
+        args = argparse.Namespace(open=False, out=str(out), json=True, home=str(home))
         code = build_report.run(ctx, args)
         self.assertEqual(code, 0)
         return {"path": out}

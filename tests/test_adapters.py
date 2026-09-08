@@ -23,7 +23,7 @@ from flowsales.schema.validate import validate_records  # noqa: E402
 from flowsales.store import Store  # noqa: E402
 from flowsales.util import transcript_to_body  # noqa: E402
 
-TODAY = _dt.date(2026, 9, 7)
+TODAY = _dt.datetime.now(_dt.timezone.utc).date()  # the demo import anchors its story on the run date
 
 
 def run_cli(home: str, *argv: str) -> tuple[int, str]:
