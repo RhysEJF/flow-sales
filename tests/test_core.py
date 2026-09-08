@@ -132,6 +132,16 @@ class CliTests(unittest.TestCase):
             self.assertEqual(payload["deals"], 0)
             self.assertEqual(payload["framework"], "meddpicc")
 
+    def test_log_records_the_named_command(self):
+        # Skills log with `fs.py log --command standup`; the option must not collide with the subcommand slot.
+        with tempfile.TemporaryDirectory() as tmp:
+            home = Path(tmp) / ".flow-sales"
+            self.assertEqual(self.run_fs(home, "init").returncode, 0)
+            r = self.run_fs(home, "log", "--command", "standup", "--note", "Tom Ellis 2026-09-08")
+            self.assertEqual(r.returncode, 0, r.stderr)
+            last = json.loads((home / "runs.jsonl").read_text(encoding="utf-8").splitlines()[-1])
+            self.assertEqual((last["command"], last["notes"], last["ok"]), ("standup", "Tom Ellis 2026-09-08", True))
+
     def test_missing_store_status(self):
         with tempfile.TemporaryDirectory() as tmp:
             r = self.run_fs(Path(tmp) / "nope", "status")

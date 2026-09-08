@@ -110,6 +110,6 @@ def _count(items: list[dict], key: str) -> dict[str, int]:
 def cmd_log(ctx: dict, args: Any) -> int:
     store: Store = ctx["store"]
     store.ensure()
-    store.log_run(args.command, {}, True, ctx["started"], notes=args.note)
+    store.log_run(getattr(args, "log_command", None) or "log", {}, True, ctx["started"], notes=args.note)
     _out(ctx, {"ok": True}, "logged")
     return 0

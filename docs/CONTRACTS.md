@@ -248,8 +248,8 @@ Definitions:
 | `rollup` | section 9 |
 | `impact --quarter <YYYY-Qn>` | section 9 impact.json plus a markdown summary |
 | `report [--open]` | build the HTML report |
-| `briefing-data --rep <id> [--date <d>]` | JSON pack for the standup skill: active deals with state, last three interactions each, stage gaps, weakest elements, suggested next questions from the framework file |
-| `retro-data --rep <id> [--week <YYYY-Www>]` | JSON pack for the retro skill: this week vs last week vs benchmark, deals moved, wins and losses with element post-mortem inputs |
+| `briefing-data --rep <id> [--date <d>]` | JSON pack for the standup skill: active deals with state, last three interactions each, stage gaps, weakest elements, suggested next questions from the framework file (`focus`: up to three applicable elements below the top level, lowest first) |
+| `retro-data --rep <id> [--week <YYYY-Www>]` | JSON pack for the retro skill: this week vs last week vs benchmark, deals moved, wins and losses with element post-mortem inputs. Without `--week`: the current ISO week, or the previous one when run on a Monday or Tuesday |
 | `status` | counts of everything in the store |
 
 ## 11. Framework file (`frameworks/meddpicc.json`)

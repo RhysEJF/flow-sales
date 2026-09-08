@@ -70,7 +70,8 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("status", help="counts of everything in the store")
 
     lg = sub.add_parser("log", help="append a note to runs.jsonl")
-    lg.add_argument("--command", required=True)
+    # dest must not be "command": that is the subparser slot, and a collision sends main() looking for a subcommand named after the note
+    lg.add_argument("--command", dest="log_command", required=True, help="the skill or step being logged, e.g. standup")
     lg.add_argument("--note", default="")
 
     d = sub.add_parser("doctor", help="check python, tokens, sources")

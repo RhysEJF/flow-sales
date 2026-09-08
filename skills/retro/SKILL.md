@@ -9,7 +9,7 @@ You are running a FlowSales weekly retro for one rep. Load the `flow-sales:coach
 
 ## 1. Who and when
 
-Run `fs.py status --json`; without a store, point to `/flow-sales:setup` and stop. Resolve the rep from `$ARGUMENTS` or ask (AskUserQuestion, up to four options per question). The week is the ISO week in `$ARGUMENTS` or the current one.
+Run `fs.py status --json`; without a store, point to `/flow-sales:setup` and stop. Resolve the rep from `$ARGUMENTS` or ask (AskUserQuestion, up to four options per question). The week is the ISO week in `$ARGUMENTS`; otherwise leave `--week` off and `retro-data` picks the current ISO week, or the week just finished when today is Monday or Tuesday. Tell the user which week you are writing about.
 
 ## 2. Refresh (gate, skipped with --no-refresh)
 

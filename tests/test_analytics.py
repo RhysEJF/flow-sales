@@ -560,7 +560,11 @@ class PackTests(unittest.TestCase):
         self.assertGreaterEqual(pack["staleDeals"][0]["daysSinceLastInteraction"], 14)
         self.assertEqual(pack["staleDeals"][0]["lastInteractionAt"], "2026-05-30T11:00:00Z")
         code, pack = self.run_pack(packs.retro, rep=BEN)
-        self.assertEqual(pack["week"], "2026-W37")
+        # NOW is Monday 7 September 2026 (ISO week 37): a retro run on a Monday or Tuesday is about the week just finished.
+        self.assertEqual(pack["week"], "2026-W36")
+        import datetime as _dt
+        self.assertEqual(packs.default_retro_week(_dt.datetime(2026, 9, 9, 12, tzinfo=_dt.timezone.utc)), "2026-W37")
+        self.assertEqual(packs.default_retro_week(_dt.datetime(2026, 9, 8, 12, tzinfo=_dt.timezone.utc)), "2026-W36")
         code, pack = self.run_pack(packs.retro, rep=BEN, week="2026-W33")
         self.assertEqual([c["dealId"] for c in pack["dealsClosed"]], ["demo:2"])  # won 2026-08-14
         self.assertEqual(pack["dealsClosed"][0]["gate"], "commit-eligible")

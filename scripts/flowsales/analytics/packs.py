@@ -186,7 +186,10 @@ def briefing(ctx: dict, args: Any) -> int:
         phase_rank = rollup._phase_rank(phase)
         applicable = [c for c in codes if phase_rank < 0 or rollup._phase_rank((index.get(c) or {}).get("applicableFrom") or "discovery") <= phase_rank]
         focus = []
-        for code in sorted(applicable, key=lambda c: (elements[c]["level"], codes.index(c)))[:3]:
+        max_level = int((framework or {}).get("maxLevel", 3) or 3)
+        # Only elements with room to move: an element already at the top level is never the next question.
+        open_codes = [c for c in applicable if elements[c]["level"] < max_level]
+        for code in sorted(open_codes, key=lambda c: (elements[c]["level"], codes.index(c)))[:3]:
             el = index.get(code) or {}
             questions = el.get("questions") or []
             focus.append({"element": code, "name": el.get("name"), "level": elements[code]["level"],
@@ -241,8 +244,15 @@ def briefing(ctx: dict, args: Any) -> int:
 
 # ---------- retro-data ----------
 
+def default_retro_week(now: _dt.datetime) -> str:
+    """The current ISO week, or the previous one on a Monday or Tuesday, when a retro is about the week just finished."""
+    if now.weekday() <= 1:
+        return iso_week(now - _dt.timedelta(days=7))
+    return iso_week(now)
+
+
 def _parse_week(raw: Optional[str], now: _dt.datetime) -> Optional[_dt.datetime]:
-    text = str(raw or "").strip().upper() or iso_week(now)
+    text = str(raw or "").strip().upper() or default_retro_week(now)
     m = re.fullmatch(r"(\d{4})-W(\d{1,2})", text)
     if not m:
         return None
