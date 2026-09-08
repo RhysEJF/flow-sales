@@ -127,6 +127,8 @@ main { max-width: 1180px; margin: 0 auto; padding: 24px 24px 56px; }
 /* ---------- header controls: period, export menu, the note on tabs the period does not touch */
 .toolbar { flex-wrap: wrap; justify-content: flex-end; }
 .toolbar select.period { font: inherit; font-size: 12px; padding: 6px 26px 6px 10px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--surface); color: var(--ink); max-width: 220px; }
+.daterange { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-2); }
+.daterange input { font: inherit; font-size: 12px; padding: 5px 6px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--surface); color: var(--ink); min-height: 30px; }
 .menu { position: relative; }
 .menu summary { list-style: none; display: inline-block; }
 .menu summary::-webkit-details-marker { display: none; }
@@ -466,7 +468,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   @page { margin: 14mm; }
   html, body { background: #fff; }
   .top { position: static; border: 0; }
-  .toolbar, .tabs, .fig-toggle, .deals-toolbar, .tip, .back, .rep-nav, .verdict-note, .filters, .rep-switch, .period-note { display: none !important; }
+  .toolbar, .tabs, .fig-toggle, .deals-toolbar, .tip, .back, .rep-nav, .verdict-note, .filters, .rep-switch, .period-note, .daterange { display: none !important; }
   .filters-print { display: block; }
   main { padding: 0; max-width: none; }
   .tabpanel:not(.active) { display: none !important; }
@@ -509,6 +511,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     </div>
     <div class="toolbar">
       <select id="period-select" class="period" aria-label="Period for the Overview and Reps tabs" title="Period for the Overview and Reps tabs"></select>
+      <span class="daterange" id="date-range" hidden><input type="date" id="date-from" aria-label="From date"><span>to</span><input type="date" id="date-to" aria-label="To date"></span>
       <details class="menu" id="export-menu"><summary class="btn">Export</summary><div class="menu-list"><button type="button" id="export-pdf">Save as PDF</button><button type="button" id="export-md">Download Markdown</button><button type="button" id="export-md-copy">Copy Markdown</button></div></details>
       <button type="button" class="btn" id="theme-toggle" aria-pressed="false">Dark theme</button>
       <button type="button" class="btn" id="texture-toggle" aria-pressed="false" title="Textured fills for colour-blind readers and print">Texture</button>
@@ -810,7 +813,8 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   })();
 
   // ---------- filter state: null means "all"
-  var F = { reps: null, element: '', types: null, outcomes: null, period: 'all' };
+  var F = { reps: null, element: '', types: null, outcomes: null, period: 'all', from: null, to: null };
+  function customOk() { return F.period === 'custom' && F.from && F.to && !isNaN(F.from) && !isNaN(F.to) && F.from <= F.to; }
   function fActive() { return !!(F.reps || F.element || F.types || F.outcomes || F.period !== 'all'); }
   function fReset() { F.reps = null; F.element = ''; F.types = null; F.outcomes = null; }
   function localActive() { return !!(F.reps || F.element || F.types || F.outcomes); }
@@ -827,22 +831,23 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
       var i = w.indexOf(isoWeek(TRAINING)); if (i < 0) return w;
       return F.period === 'before' ? w.slice(0, i + 1) : w.slice(i);
     }
+    if (customOk()) {
+      var end = new Date(F.to.getTime() + 864e5);
+      var sub = w.filter(function (wk) { var m = weekMonday(wk); return m && m < end && new Date(m.getTime() + 7 * 864e5) > F.from; });
+      return sub.length ? sub : w;
+    }
     return w;
   }
   function isApplied(r) { return F.element ? !!r.els[F.element] : r.applied; }
   function inView() {
     var weeks = periodWeeks();
-    var from = weeks.length ? weekMonday(weeks[0]) : null;
-    var to = weeks.length ? new Date(weekMonday(weeks[weeks.length - 1]).getTime() + 7 * 864e5) : null;
-    var zoom = F.period === 'last12' || F.period === 'last26';
+    var range = periodRange();
     var recs = RECORDS.filter(function (r) {
       if (F.reps && F.reps.indexOf(r.repId) < 0) return false;
       if (F.types && F.types.indexOf(r.type) < 0) return false;
       if (F.outcomes && F.outcomes.indexOf(r.outcome) < 0) return false;
       if (F.element && r.applicable.indexOf(F.element) < 0) return false;
-      if (F.period === 'before' && TRAINING && !(r.at && r.at < TRAINING)) return false;
-      if (F.period === 'after' && TRAINING && !(r.at && r.at >= TRAINING)) return false;
-      if (zoom && !(r.at && from && r.at >= from && r.at < to)) return false;
+      if (range && !(r.at && (!range[0] || r.at >= range[0]) && (!range[1] || r.at < range[1]))) return false;
       return true;
     });
     return { recs: recs, weeks: weeks };
@@ -855,6 +860,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     if (F.outcomes) bits.push('outcome ' + F.outcomes.join(', '));
     if (F.period === 'before') bits.push('before training'); if (F.period === 'after') bits.push('after training');
     if (F.period === 'last12') bits.push('last 12 weeks'); if (F.period === 'last26') bits.push('last 26 weeks');
+    if (customOk()) bits.push(fmt.date(F.from.toISOString()) + ' to ' + fmt.date(F.to.toISOString()));
     return bits.length ? 'Filters: ' + bits.join('; ') + '.' : 'No filters: the whole window.';
   }
 
@@ -1506,10 +1512,12 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   function periodLabel() {
     if (F.period === 'before') return 'before training'; if (F.period === 'after') return 'after training';
     if (F.period === 'last12') return 'last 12 weeks'; if (F.period === 'last26') return 'last 26 weeks';
+    if (customOk()) return fmt.date(F.from.toISOString()) + ' to ' + fmt.date(F.to.toISOString());
     return 'whole window';
   }
   function periodRange() {
     if (F.period === 'all') return null;
+    if (F.period === 'custom') return customOk() ? [F.from, new Date(F.to.getTime() + 864e5)] : null;
     if (F.period === 'before' && TRAINING) return [null, TRAINING];
     if (F.period === 'after' && TRAINING) return [TRAINING, null];
     var weeks = periodWeeks(); if (!weeks.length) return null;
@@ -1655,14 +1663,29 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     if (TRAINING) per.push(['before', 'Before training (' + fmt.date(META.trainingDate) + ')'], ['after', 'After training (' + fmt.date(META.trainingDate) + ')']);
     if (WEEKS.length > 12) per.push(['last12', 'Last 12 weeks']);
     if (WEEKS.length > 26) per.push(['last26', 'Last 26 weeks']);
+    per.push(['custom', 'Custom dates']);
     per.forEach(function (p) { periodSelect.appendChild(h('option', { value: p[0] }, p[1])); });
     periodSelect.value = F.period;
+    var dr = document.getElementById('date-range'), dFrom = document.getElementById('date-from'), dTo = document.getElementById('date-to');
+    function isoDay(d) { return d ? d.toISOString().slice(0, 10) : ''; }
+    function applyPeriod() { refreshOverview(); if (repsBody) drawReps(); updatePeriodNote(); }
+    function readDates() {
+      var a = dFrom.value ? new Date(dFrom.value + 'T00:00:00Z') : null, b = dTo.value ? new Date(dTo.value + 'T00:00:00Z') : null;
+      if (a && b && a > b) { var x = a; a = b; b = x; dFrom.value = isoDay(a); dTo.value = isoDay(b); }
+      F.from = a; F.to = b;
+      applyPeriod();
+    }
     periodSelect.addEventListener('change', function () {
       F.period = periodSelect.value;
-      refreshOverview();
-      if (repsBody) drawReps();
-      updatePeriodNote();
+      dr.hidden = F.period !== 'custom';
+      if (F.period === 'custom') {
+        if (!dFrom.value) dFrom.value = isoDay(F.from) || (META.window && META.window.from ? String(META.window.from).slice(0, 10) : (WEEKS.length ? isoDay(weekMonday(WEEKS[0])) : ''));
+        if (!dTo.value) dTo.value = isoDay(F.to) || (META.window && META.window.to ? String(META.window.to).slice(0, 10) : (WEEKS.length ? isoDay(weekMonday(WEEKS[WEEKS.length - 1])) : ''));
+        readDates(); dFrom.focus();
+      } else applyPeriod();
     });
+    dFrom.addEventListener('change', readDates); dTo.addEventListener('change', readDates);
+    if (META.window) { if (META.window.from) { dFrom.min = String(META.window.from).slice(0, 10); dTo.min = dFrom.min; } if (META.window.to) { dTo.max = String(META.window.to).slice(0, 10); dFrom.max = dTo.max; } }
   })();
   function updatePeriodNote() {
     var tab = document.querySelector('.tabpanel.active'); var name = tab ? tab.id.replace('tab-', '') : 'overview';
