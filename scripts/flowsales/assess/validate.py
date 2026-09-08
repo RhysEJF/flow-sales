@@ -333,6 +333,12 @@ def validate_file(path: Path | str, store: Store, plugin_root: Path | str) -> di
 
 def run(ctx: dict, args: Any) -> int:
     store: Store = ctx["store"]
+    # A judge agent usually runs from another directory and passes an absolute file path.
+    # When no store exists at --home or cwd, use the store the assessment file belongs to,
+    # so the run is logged there instead of creating a stray .flow-sales/ elsewhere.
+    target = Path(args.file).expanduser().absolute()
+    if not store.exists() and target.parent.name == "assessments" and (target.parent.parent / "config.json").exists():
+        store = Store(target.parent.parent)
     report = validate_file(args.file, store, ctx["plugin_root"])
     store.log_run("validate-assessment", {"file": str(args.file)}, report["ok"], ctx["started"],
                   read=[report["file"]], wrote=[report["file"]] if report["wrote"] else [],
