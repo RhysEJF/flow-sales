@@ -8,20 +8,19 @@
 
 FlowSales is a Claude Code plugin that reads your own CRM and meeting transcripts, scores every call, email, meeting and note against MEDDPICC with the buyer's exact words as evidence, measures how much each rep actually applies the framework week by week, ties adoption to won and lost deals, and briefs every rep each morning. It runs inside your Claude Code, on your machine, read-only. Nothing leaves except the model calls your session already makes.
 
-Six commands. One loop. Source-available.
+Six commands. One loop. Source-available. Installed and running on the demo in about twenty minutes by whoever runs your CRM.
 
 ## The loop
 
 ```
-  /flow-sales:setup     connect HubSpot, Granola, a transcripts folder or a CSV export
-        |               pick the framework, the window, the reps, the training date
+  /flow-sales:setup     connect HubSpot, Granola, a folder of Gong or Fireflies or Fathom
+        |               transcripts, or a CSV export from Salesforce or any other CRM;
+        |               agree who sees the report and what may be read; pick the framework,
+        |               the window, the reps, the training date
         |
-  /flow-sales:link      build the record of which calls and meetings belong to which deal
-        |               (CRM associations, attendee emails, company domains, times, titles;
-        |               you resolve the ambiguous ones once, it remembers)
-        |
-  /flow-sales:audit     score every interaction on every deal in the window with quoted
-        |               evidence, roll up to deals, reps, elements and team, build the report
+  /flow-sales:audit     link every call and meeting to its deal (asks you only about the
+        |               ambiguous ones), score every interaction with quoted evidence, roll
+        |               up to deals, reps, elements and team, build the report
         |
   /flow-sales:standup   one rep, one morning: say where each live deal stands, then see the
         |               evidence, the next framework move per deal, one thing to practise
@@ -30,10 +29,13 @@ Six commands. One loop. Source-available.
         |               wins and losses explained by element, the focus for next week
         |
   /flow-sales:impact    one quarter: adoption before and after training, win rate by adoption,
-                        the won deals that followed framework actions, the rule beside each number
+        |               the won deals that followed framework actions, the rule beside each number
+        |
+  /flow-sales:status    is it working: token, data, what is ambiguous, when each step last ran,
+                        what the next audit would judge and cost. Reads, never writes.
 ```
 
-Run `audit` once for the historical benchmark, then `standup` daily and `retro` weekly. `impact` is the slide.
+Run `audit` once for the historical benchmark, then `standup` daily and `retro` weekly. `impact` is the slide. `status` is the thing to run when in doubt. A rerun of `audit` only judges deals whose interactions changed.
 
 ## Why
 
@@ -43,32 +45,62 @@ FlowSales does the boring part properly. The rubric is a file you can read and e
 
 ## Install
 
-**From the marketplace (private repo, needs GitHub access):**
+This page is for whoever runs your CRM or sales operations. It takes about twenty minutes, most of it watching the demo audit run. Reps install nothing; they get the report and their morning briefings.
+
+### 1. Check your machine (one paste)
+
+Open a terminal (Terminal on a Mac, any shell on Linux) and paste the whole block. Three lines come back, each saying ok or what to do next.
+
+```bash
+claude --version >/dev/null 2>&1 && echo "Claude Code: ok" || echo "Claude Code: not found. Install it first: https://docs.claude.com/en/docs/claude-code/quickstart"
+python3 -c 'import sys; v=sys.version_info; print("Python: ok" if v>=(3,10) else "Python: %d.%d found, need 3.10 or newer: https://www.python.org/downloads/" % v[:2])' 2>/dev/null || echo "Python: not found. Install 3.10 or newer: https://www.python.org/downloads/"
+git ls-remote -q https://github.com/RhysEJF/flow-sales.git HEAD >/dev/null 2>&1 && echo "GitHub access: ok" || echo "GitHub access: no. The repo is private: ask Rhys to add your GitHub account, then sign in in this terminal (gh auth login) and paste again"
+```
+
+Nothing else is needed. FlowSales is standard-library Python; there are no packages to install. macOS and Linux are tested. Windows is not tested yet: the same commands should work in PowerShell with `python` in place of `python3`, and if they do not, say so and it will be fixed.
+
+### 2. Install the plugin (inside Claude Code)
+
+Start Claude Code by typing `claude` in the terminal, then paste these two lines one at a time:
 
 ```
 /plugin marketplace add RhysEJF/flow-sales
 /plugin install flow-sales@flow-sales
 ```
 
-**From a local checkout (development):**
+Each one answers in a second or two. Then type `/flow-sales:` and the six commands appear in the list. That is the sign you are in.
+
+### 3. See it work on fictional data (about eight minutes)
+
+Make an empty folder for FlowSales to keep its files in and open Claude Code there:
 
 ```bash
-git clone https://github.com/RhysEJF/flow-sales.git ~/flow-sales
-claude --plugin-dir ~/flow-sales
+mkdir -p ~/flowsales-demo && cd ~/flowsales-demo && claude
 ```
 
-Requirements: Claude Code 2.1 or newer, Python 3.10 or newer (standard library only, no packages to install). macOS and Linux tested; Windows should work with `python3` on the path.
-
-## Two minutes with the demo dataset
-
-Open Claude Code in an empty directory and run:
+Then run, one after the other:
 
 ```
 /flow-sales:setup --demo
 /flow-sales:audit
 ```
 
-The demo is 32 fictional deals, 4 reps with different adoption profiles and a training date halfway through the window. The audit scores about 160 interactions (a few minutes with five judges in parallel) and opens a report. Then try `/flow-sales:standup Tom Ellis` and `/flow-sales:impact`.
+`setup --demo` takes a few seconds: it creates a `.flow-sales` folder in that directory and loads 32 fictional deals, 4 reps and a training date halfway through the window. It asks nothing.
+
+`audit` links the calls to the deals, tells you how many interactions it is about to score and roughly what that costs, and asks you once to confirm. Then five judges score about 160 interactions in parallel, printing a progress line as each deal finishes (about six to eight minutes on the demo), and it ends with `Report is ready at <path>` and offers to open it in your browser.
+
+After that: `/flow-sales:standup Tom Ellis` for one rep's morning, `/flow-sales:impact` for the quarter, `/flow-sales:status` to see the state of everything.
+
+### 4. Connect your own data
+
+Make a new folder for the real thing and run `/flow-sales:setup` without `--demo`. Before it connects anything it asks whether the reps have been told and who will see the report, then which sources to use. Have these to hand:
+
+- **HubSpot**: a private app with six read scopes, created by your HubSpot admin in about five minutes; [docs/hubspot.md](docs/hubspot.md) has the exact page and scopes. HubSpot does not hand over call transcripts, so pair it with one of the next two.
+- **Granola**: sign in from Claude Code with `/mcp` when setup asks; [docs/granola.md](docs/granola.md).
+- **A folder of call transcripts** exported from Gong, Fireflies, Fathom or Google Meet.
+- **Salesforce, Pipedrive or any other CRM**: a two-file CSV export; [docs/other-crms.md](docs/other-crms.md). The report is the same.
+
+Developers who want to work on the plugin itself: [INSTALL.md](INSTALL.md) covers the local checkout.
 
 ## What the report looks like
 
@@ -81,7 +113,7 @@ Every deal is a row with its eight element levels, its gate and the adoption beh
 <p align="center"><img src="./docs/screenshots/report-deals.png" alt="FlowSales deals table with the element strip per deal" width="900"></p>
 <p align="center"><img src="./docs/screenshots/report-deal-page.png" alt="FlowSales deal page with the interaction timeline" width="900"></p>
 
-The impact tab is the slide: one quarter, four numbers, the before and after chart and the rule beside them. Filters on the overview (reps, one element, interaction type, deal outcome) and a period control in the header recompute the charts from the interaction-level data in the file. The Export menu saves the report as PDF or Markdown. The whole report works on a phone, with charts rendered at phone width and the tabs as a bottom bar.
+The impact tab is the slide: one quarter, four numbers, the before and after chart and the rule beside them. Filters on the overview (reps, one element, interaction type, deal outcome) and a period control in the header recompute the charts from the interaction-level data in the file. The Export menu saves the report as PDF or Markdown, and has two exports that can leave the sales team: the Impact slide with rep names hidden, and one rep's own page on its own. The whole report works on a phone, with charts rendered at phone width and the tabs as a bottom bar.
 
 <p align="center"><img src="./docs/screenshots/report-impact.png" alt="FlowSales impact slide" width="900"></p>
 <p align="center"><img src="./docs/screenshots/report-phone.png" alt="FlowSales report on a phone" width="300"></p>
@@ -98,13 +130,17 @@ The impact tab is the slide: one quarter, four numbers, the before and after cha
 | Command | Reads | Writes |
 |---|---|---|
 | `/flow-sales:setup` | your answers, the sources you connect | `.flow-sales/config.json`, cached source data, canonical deals and interactions |
-| `/flow-sales:link` | interactions, deals, contacts, companies | `.flow-sales/data/links.json` and the per-deal interaction files |
-| `/flow-sales:audit` | every linked interaction in the window, the framework file | one assessment file per deal, the analytics files, `reports/flowsales-<date>.html` |
+| `/flow-sales:audit` | every interaction in the window, the framework file; links new ones to deals first and asks about the ambiguous ones | `.flow-sales/data/links.json`, one assessment file per deal, the analytics files, `reports/flowsales-<date>.html` |
 | `/flow-sales:standup` | the rep's active deals, their assessments, the rep's answers | `briefings/<rep>/<date>.md` |
 | `/flow-sales:retro` | the rep's week, their assessments | `retros/<rep>/<week>.md` and, if the rep chooses, a manager summary |
 | `/flow-sales:impact` | the analytics, the training date, the influence rule | `analytics/impact-<quarter>.json` and `.md` |
+| `/flow-sales:status` | everything above | nothing but a line in the runs log |
 
-Everything lives under `.flow-sales/` in the directory you run Claude Code in. Delete the folder and FlowSales forgets everything. Every command appends a line to `.flow-sales/runs.jsonl` saying what it read and wrote.
+`/flow-sales:link` still exists for fixing or re-checking which calls belong to which deal without scoring anything; audit runs the same step itself.
+
+Everything lives under `.flow-sales/` in the directory you run Claude Code in. Delete the folder and FlowSales forgets everything, so back it up like any other folder if the history matters. Every command appends a line to `.flow-sales/runs.jsonl` saying what it read and wrote.
+
+Cost: audit prints the token count and a dollar range at list price before it starts (the demo is about $3 to $5 on Sonnet), and a rerun only judges deals whose interactions changed. On a Claude subscription the tokens come out of the plan's usage rather than a bill.
 
 ## How scoring works
 
@@ -119,7 +155,7 @@ The framework lives in [frameworks/meddpicc.json](frameworks/meddpicc.json) (MED
 
 Above level 1 the judge must quote the exact words and name the speaker. A validator checks the quote against the source text; if it cannot find it, the score drops to 1 and the element is flagged. Separately, each element gets a behaviour flag: did the rep visibly apply the framework here (asked a metrics question, tested the champion, mapped the paper process). Adoption is measured on behaviour. Deal health is measured on evidence. They are different things and the report keeps them apart.
 
-Deal level: each element takes its best verified level, decaying one step when the last supporting evidence is older than 45 days. Coverage is the count of elements at level 2 or more. Gates (commit-eligible, upside, pipeline, qualify-out) follow published MEDDPICC practice and are stated in the report's Method tab.
+Deal level: each element takes its best verified level, decaying one step when the last supporting evidence is older than the decay window (45 days unless setup was told your sales cycle is longer). Coverage is the count of elements at level 2 or more. Gates (commit-eligible, upside, pipeline, qualify-out) follow published MEDDPICC practice and are stated in the report's "How this is scored" tab.
 
 The judge is the `deal-assessor` agent in [agents/deal-assessor.md](agents/deal-assessor.md); the rules it follows are in [skills/methodology/SKILL.md](skills/methodology/SKILL.md). Change the file, change the judge.
 

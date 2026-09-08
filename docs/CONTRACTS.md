@@ -243,14 +243,14 @@ Definitions:
 | `import transcripts --folder <dir>` | local transcripts adapter |
 | `link [--dry-run]` | run the linker; prints pending candidates as JSON |
 | `link confirm <interactionId> <dealId>` / `link reject <interactionId> [<dealId>]` | resolve pending links |
-| `plan-assessment [--force] [--sample <n>] [--deal <id>]` | write batches for deals whose interactions changed or whose rubric hash differs; prints the volume estimate |
+| `plan-assessment [--force] [--sample <n>] [--deal <id>] [--estimate-only]` | write batches for deals whose interactions changed or whose rubric hash differs; prints the volume estimate and `estCostUsd` (low to high at list price, prices from `judge.pricingUsdPerMTok`); `--estimate-only` computes the same totals without clearing or writing anything |
 | `validate-assessment <file>` | section 8.2 |
 | `rollup` | section 9 |
 | `impact --quarter <YYYY-Qn>` | section 9 impact.json plus a markdown summary |
 | `report [--open]` | build the HTML report |
 | `briefing-data --rep <id> [--date <d>]` | JSON pack for the standup skill: active deals with state, last three interactions each, stage gaps, weakest elements, suggested next questions from the framework file (`focus`: up to three applicable elements below the top level, lowest first) |
 | `retro-data --rep <id> [--week <YYYY-Www>]` | JSON pack for the retro skill: this week vs last week vs benchmark, deals moved, wins and losses with element post-mortem inputs. Without `--week`: the current ISO week, or the previous one when run on a Monday or Tuesday |
-| `status` | counts of everything in the store |
+| `status` | counts of everything in the store, `lastRun` (newest successful timestamp per command from runs.jsonl, including skills that log with `fs.py log --command`) and `latestReport` |
 | `eval-golden build [--parts n]` | write the golden set (`evals/golden/snippets.json`) as batch files `work/batches/demo_golden-<n>.json` into the store at `--home` (a scratch store), with `work/plan.json`; prints the files to hand to the deal-assessor agent |
 | `eval-golden compare [--model m] [--note t] [--strict]` | validate `assessments/demo_golden-*.json` in that store, compare with the labels (section 13), print metrics, secondary checks and the confusion table, append to `evals/golden/runs.jsonl`, write detail to `evals/golden/results/`. `--strict` exits 1 when a target is missed or a snippet was not judged |
 

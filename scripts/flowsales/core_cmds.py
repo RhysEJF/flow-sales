@@ -76,6 +76,7 @@ def cmd_status(ctx: dict, args: Any) -> int:
     pending = sum(1 for l in links if l.get("status") == "pending")
     analytics = sorted(p.name for p in store.analytics_dir.glob("*.json")) if store.analytics_dir.exists() else []
     reports = sorted(p.name for p in store.reports_dir.glob("*.html")) if store.reports_dir.exists() else []
+    last_run = _last_runs(store)
     payload = {
         "ok": True,
         "home": str(store.home),
@@ -94,10 +95,39 @@ def cmd_status(ctx: dict, args: Any) -> int:
         "assessments": assessments,
         "analytics": analytics,
         "reports": reports,
+        "latestReport": str(store.reports_dir / reports[-1]) if reports else None,
+        "lastRun": last_run,
     }
     text = "\n".join(f"{k}: {json.dumps(v) if not isinstance(v, str) else v}" for k, v in payload.items() if k != "ok")
     _out(ctx, payload, text)
     return 0
+
+
+LAST_RUN_COMMANDS = ("pull", "import", "link", "plan-assessment", "rollup", "impact", "report", "audit", "standup", "retro", "doctor", "status")
+
+
+def _last_runs(store: Store) -> dict[str, str]:
+    """Newest successful timestamp per command from runs.jsonl (skills log themselves with `fs.py log --command`)."""
+    out: dict[str, str] = {}
+    if not store.runs_path.exists():
+        return out
+    try:
+        with store.runs_path.open("r", encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    entry = json.loads(line)
+                except ValueError:
+                    continue
+                cmd = str(entry.get("command") or "").split(" ")[0]
+                if cmd in LAST_RUN_COMMANDS and entry.get("ok") and entry.get("at"):
+                    if entry["at"] >= out.get(cmd, ""):
+                        out[cmd] = entry["at"]
+    except OSError:
+        return out
+    return out
 
 
 def _count(items: list[dict], key: str) -> dict[str, int]:

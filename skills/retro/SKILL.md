@@ -13,7 +13,7 @@ Run `fs.py status --json`; without a store, point to `/flow-sales:setup` and sto
 
 ## 2. Refresh (gate, skipped with --no-refresh)
 
-Same as the stand-up: offer to pull and import the week's activity, link, plan, judge new batches with `flow-sales:deal-assessor` agents, and `fs.py rollup`. One line of progress.
+Same as the stand-up: offer to pull and import the week's activity, link (automatic, asking only about ambiguous ones), plan, judge new batches with `flow-sales:deal-assessor` agents, and `fs.py rollup`. One line of progress.
 
 ## 3. Pack
 

@@ -28,7 +28,7 @@
   --page: #f4f5f7; --surface: #ffffff; --raised: #f9fafb;
   --ink: #171a21; --ink-2: #4c5364; --muted: #7b8394; --display: #0d366b;
   --grid: #e6e8ec; --axis: #c9cdd5; --rule: #e1e4e9; --rule-strong: #b9bfc9;
-  --good-text: #0a6e0a; --bad-text: #b32d2d;
+  --good-text: #0a6e0a; --bad-text: #b32d2d; --won-bg: #eef8ef; --won-bg-hover: #e1f1e3; --lost-bg: #fdf0f0; --lost-bg-hover: #f8e2e2;
   --s0: #7b8394; --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s7: #4a3aa7; --s8: #e34948;
   --lv0: #86b6ef; --lv1: #3987e5; --lv2: #1c5cab; --lv3: #0d366b;
   --lv0-ink: #0d1b2e; --lv1-ink: #ffffff; --lv2-ink: #ffffff; --lv3-ink: #ffffff;
@@ -43,7 +43,7 @@
   --page: #0e1116; --surface: #161a21; --raised: #1c212a;
   --ink: #f3f4f6; --ink-2: #b8bec9; --muted: #808896; --display: #b7d3f6;
   --grid: #262b34; --axis: #363c47; --rule: #262b34; --rule-strong: #3a414d;
-  --good-text: #3fbf3f; --bad-text: #e66767;
+  --good-text: #3fbf3f; --bad-text: #e66767; --won-bg: #1b2a1f; --won-bg-hover: #223627; --lost-bg: #2e1d1f; --lost-bg-hover: #3b2528;
   --s0: #808896; --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
   --lv0: #184f95; --lv1: #2a78d6; --lv2: #6da7ec; --lv3: #b7d3f6;
   --lv0-ink: #ffffff; --lv1-ink: #ffffff; --lv2-ink: #0d1b2e; --lv3-ink: #0d1b2e;
@@ -58,7 +58,7 @@
   --page: #0e1116; --surface: #161a21; --raised: #1c212a;
   --ink: #f3f4f6; --ink-2: #b8bec9; --muted: #808896; --display: #b7d3f6;
   --grid: #262b34; --axis: #363c47; --rule: #262b34; --rule-strong: #3a414d;
-  --good-text: #3fbf3f; --bad-text: #e66767;
+  --good-text: #3fbf3f; --bad-text: #e66767; --won-bg: #1b2a1f; --won-bg-hover: #223627; --lost-bg: #2e1d1f; --lost-bg-hover: #3b2528;
   --s0: #808896; --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
   --lv0: #184f95; --lv1: #2a78d6; --lv2: #6da7ec; --lv3: #b7d3f6;
   --lv0-ink: #ffffff; --lv1-ink: #ffffff; --lv2-ink: #0d1b2e; --lv3-ink: #0d1b2e;
@@ -99,6 +99,7 @@ a.mark:hover svg { color: var(--accent-ink); }
 .brand-text { min-width: 0; }
 .brand-text h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .t-short { display: none; }
+.tab .tl-short { display: none; }
 .toolbar { display: flex; gap: 6px; flex-shrink: 0; }
 .btn { font: inherit; font-size: 12px; line-height: 1; padding: 7px 10px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--surface); color: var(--ink); cursor: pointer; white-space: nowrap; }
 .btn:hover { background: var(--raised); }
@@ -124,6 +125,8 @@ main { max-width: 1180px; margin: 0 auto; padding: 24px 24px 56px; }
 .verdict-more { font: 400 clamp(16px, 1.6vw, 19px)/1.5 var(--serif); color: var(--ink-2); margin: 14px 0 0; max-width: 72ch; }
 .verdict-more .v-num { color: var(--ink); font-weight: 700; }
 .verdict-note { margin: 10px 0 0; font-size: 12px; color: var(--muted); }
+.v-badge { display: inline-block; margin: 0 0 10px; padding: 3px 10px; font-size: 12px; font-weight: 600; color: var(--ink-2); background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 999px; }
+.fchip-radio[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
 
 /* ---------- header controls: period, export menu, the note on tabs the period does not touch */
 .toolbar { flex-wrap: wrap; justify-content: flex-end; }
@@ -136,6 +139,7 @@ main { max-width: 1180px; margin: 0 auto; padding: 24px 24px 56px; }
 .menu summary::after { content: " \25BE"; font-size: 10px; }
 .menu[open] summary { background: var(--raised); }
 .menu-list { position: absolute; right: 0; top: calc(100% + 6px); z-index: 45; display: grid; min-width: 200px; padding: 6px; background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 8px; box-shadow: 0 10px 28px rgba(0,0,0,.14); }
+.menu-sep { font-size: 11px; color: var(--muted); padding: 8px 10px 2px; margin-top: 4px; border-top: 1px solid var(--rule); letter-spacing: .01em; }
 .menu-list button { font: inherit; font-size: 13px; text-align: left; background: none; border: 0; padding: 8px 10px; border-radius: 6px; color: var(--ink); cursor: pointer; white-space: nowrap; }
 .menu-list button:hover { background: var(--tint); }
 .period-note { margin: 0 0 12px; padding: 8px 12px; font-size: 12.5px; color: var(--ink-2); background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--st-warn); border-radius: 6px; }
@@ -204,6 +208,13 @@ caption { text-align: left; color: var(--muted); font-size: 12px; padding: 4px 0
 .deals-toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 14px 0; }
 .deals-toolbar input, .deals-toolbar select { font: inherit; font-size: 13px; padding: 7px 10px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--surface); color: var(--ink); min-height: 36px; }
 .deals-toolbar input { flex: 1 1 220px; max-width: 360px; }
+.deals-key { display: grid; gap: 4px; margin: 0 0 12px; font-size: 12px; color: var(--ink-2); line-height: 1.7; }
+.deals-key .chip { font-size: 11px; padding: 0 7px 0 5px; margin: 0 2px; vertical-align: middle; }
+.fix-row { padding: 10px 0; border-top: 1px solid var(--rule); }
+.fix-row:first-child { padding-top: 0; border-top: 0; }
+.fix-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 4px; }
+.callout { border-left: 3px solid var(--st-warn); font-size: 13px; }
+.decay-panel { border-left: 3px solid var(--st-warn); }
 .deals-wrap { overflow-x: auto; }
 .deals-table th { position: sticky; top: 0; background: var(--surface); z-index: 1; }
 .deals-table th button { font: inherit; font-size: 12px; font-weight: 600; color: var(--ink-2); background: none; border: 0; padding: 0; cursor: pointer; white-space: nowrap; }
@@ -213,8 +224,8 @@ caption { text-align: left; color: var(--muted); font-size: 12px; padding: 4px 0
 .deal-row { cursor: pointer; }
 .deal-row:hover { background: var(--tint); }
 .deal-row td.name { font-weight: 600; }
-.deal-row td.name .outcome { display: inline-block; font-weight: 500; font-size: 11px; color: var(--muted); margin-left: 6px; }
-.deal-row td.name .outcome.won { color: var(--good-text); } .deal-row td.name .outcome.lost { color: var(--bad-text); }
+.deal-row.won { background: var(--won-bg); } .deal-row.won:hover { background: var(--won-bg-hover); }
+.deal-row.lost { background: var(--lost-bg); } .deal-row.lost:hover { background: var(--lost-bg-hover); }
 .deal-row td { padding-top: 9px; padding-bottom: 9px; }
 .strip-cell { white-space: nowrap; }
 .count { color: var(--ink-2); font-size: 12px; margin-left: 6px; }
@@ -413,12 +424,18 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   .mark svg { height: 12px; }
   .t-long { display: none; }
   .t-short { display: inline; }
+  .tab .tl-long { display: none; }
+  .tab .tl-short { display: inline; }
   .toolbar .btn { padding: 7px 9px; }
   .toolbar { justify-content: flex-start; }
   .toolbar select.period { max-width: 160px; }
   .rep-switch { top: 0; }
   .rep-switch select { min-width: 0; flex: 1 1 140px; }
   .rep-pos { flex-basis: 100%; }
+  .kbd-hint { display: none; }
+  .ecell { min-width: 30px; }
+  .estrip { gap: 4px; }
+  .rep-switch select[aria-label="Element for this rep"] { flex: 1 1 120px; min-width: 0; }
   .filters { padding: 10px 12px; }
   .f-body { gap: 10px 18px; margin-top: 10px; }
   .f-summary { display: block; cursor: pointer; font-weight: 600; font-size: 13px; }
@@ -449,6 +466,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   .deals-table, .deals-table tbody, .deals-table tr, .deals-table td { display: block; }
   .deals-table thead { display: none; }
   .deals-table tr.deal-row { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px 8px; margin: 10px 0; }
+  .deals-table tr.deal-row.won { background: var(--won-bg); } .deals-table tr.deal-row.lost { background: var(--lost-bg); }
   .deals-table td { border: 0; padding: 2px 0; text-align: left; }
   .deals-table td.num { text-align: left; }
   .deals-table td.name { font-size: 15px; padding-bottom: 4px; }
@@ -464,7 +482,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
 
 /* ---------- print: the active tab, light tokens, no chrome */
 @media print {
-  :root, :root[data-theme="dark"], :root:not([data-theme="light"]) { --page: #fff; --surface: #fff; --raised: #fff; --ink: #111; --ink-2: #444; --muted: #666; --display: #0d366b; --grid: #ddd; --axis: #bbb; --rule: #ddd; --rule-strong: #bbb; --tint: #f2f5fa; }
+  :root, :root[data-theme="dark"], :root:not([data-theme="light"]) { --page: #fff; --surface: #fff; --raised: #fff; --ink: #111; --ink-2: #444; --muted: #666; --display: #0d366b; --grid: #ddd; --axis: #bbb; --rule: #ddd; --rule-strong: #bbb; --tint: #f2f5fa; --won-bg: #eef8ef; --won-bg-hover: #eef8ef; --lost-bg: #fdf0f0; --lost-bg-hover: #fdf0f0; }
   @page { margin: 14mm; }
   html, body { background: #fff; }
   .top { position: static; border: 0; }
@@ -505,13 +523,13 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     <div class="brand">
       <a class="mark" href="https://github.com/RhysEJF/flow-sales" target="_blank" rel="noopener" aria-label="FlowSales on GitHub" title="FlowSales on GitHub">__FS_MARK__</a>
       <div class="brand-text">
-        <h1><span class="t-long">__FS_TITLE__</span><span class="t-short">__FS_ORG__</span></h1>
+        <h1><span class="t-long">__FS_HEADLINE__</span><span class="t-short">__FS_ORG__</span></h1>
       </div>
     </div>
     <div class="toolbar">
       <select id="period-select" class="period" aria-label="Period for the Overview and Reps tabs" title="Period for the Overview and Reps tabs"></select>
       <span class="daterange" id="date-range" hidden><input type="date" id="date-from" aria-label="From date"><span>to</span><input type="date" id="date-to" aria-label="To date"></span>
-      <details class="menu" id="export-menu"><summary class="btn">Export</summary><div class="menu-list"><button type="button" id="export-pdf">Save as PDF</button><button type="button" id="export-md">Download Markdown</button><button type="button" id="export-md-copy">Copy Markdown</button></div></details>
+      <details class="menu" id="export-menu"><summary class="btn" title="Save as PDF, or download or copy Markdown">Export</summary><div class="menu-list"><button type="button" id="export-pdf">Save as PDF</button><button type="button" id="export-md">Download Markdown</button><button type="button" id="export-md-copy">Copy Markdown</button><div class="menu-sep">Safe to send outside the sales team</div><button type="button" id="export-impact-pdf" title="The Impact slide only, with every rep name replaced by Rep A, Rep B">Impact slide, names hidden (PDF)</button><button type="button" id="export-impact-md" title="The Impact slide only, with every rep name replaced by Rep A, Rep B">Impact slide, names hidden (Markdown)</button><div class="menu-sep">One rep, nobody else on the page</div><button type="button" id="export-rep-pdf" title="Pick one rep on the Reps tab first">This rep's page (PDF)</button><button type="button" id="export-rep-md" title="Pick one rep on the Reps tab first">This rep's page (Markdown)</button></div></details>
       <button type="button" class="btn" id="theme-toggle" aria-pressed="false">Dark theme</button>
     </div>
   </div>
@@ -519,9 +537,9 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     <button class="tab" role="tab" id="tab-btn-overview" aria-controls="tab-overview" aria-selected="true" tabindex="0"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 0h3v3H0z M5 0h3v3H5z M0 5h3v3H0z M5 5h3v3H5z"/></svg>Overview</button>
     <button class="tab" role="tab" id="tab-btn-deals" aria-controls="tab-deals" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 0h8v1H0z M0 7h8v1H0z M0 1h1v6H0z M7 1h1v6H7z M2 3h4v1H2z"/></svg>Deals</button>
     <button class="tab" role="tab" id="tab-btn-reps" aria-controls="tab-reps" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M3 0h2v2H3z M2 3h4v1H2z M1 4h6v4H1z"/></svg>Reps</button>
-    <button class="tab" role="tab" id="tab-btn-elements" aria-controls="tab-elements" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 2h2v4H0z M3 2h2v4H3z M6 2h2v4H6z"/></svg>Elements</button>
+    <button class="tab" role="tab" id="tab-btn-elements" aria-controls="tab-elements" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 2h2v4H0z M3 2h2v4H3z M6 2h2v4H6z"/></svg>__FS_FW__</button>
     <button class="tab" role="tab" id="tab-btn-impact" aria-controls="tab-impact" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 5h2v3H0z M3 3h2v5H3z M6 0h2v8H6z"/></svg>Impact</button>
-    <button class="tab" role="tab" id="tab-btn-method" aria-controls="tab-method" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 0h2v2H0z M3 0h5v2H3z M0 3h2v2H0z M3 3h5v2H3z M0 6h2v2H0z M3 6h5v2H3z"/></svg>Method</button>
+    <button class="tab" role="tab" id="tab-btn-method" aria-controls="tab-method" aria-selected="false" tabindex="-1"><svg viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 0h2v2H0z M3 0h5v2H3z M0 3h2v2H0z M3 3h5v2H3z M0 6h2v2H0z M3 6h5v2H3z"/></svg><span class="tl-long">How this is scored</span><span class="tl-short">Scoring</span></button>
     <span class="tab-ink" aria-hidden="true"></span>
   </nav>
 </header>
@@ -703,48 +721,107 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     return d;
   }
   function N(v) { return h('span', { class: 'v-num' }, v); }
+  // point deltas are taken between the rounded figures the page prints, so 62% beside 38% reads +24, never +25
+  function pctPts(v) { var t = fmt.pct(v); return t === 'n/a' ? null : parseInt(t, 10); }
+  function liftText_(before, after) { var x = pctPts(before), y = pctPts(after); if (x == null || y == null) return null; var d = y - x; return (d >= 0 ? '+' : '') + d + ' pts'; }
 
-  // ---------- the verdict: the sentences a sales leader repeats, built from the analytics with the n kept close
-  function verdict() {
-    var tm = DATA.teamMetrics || {}, tot = tm.totals || {}, ba = tm.beforeAfter || {};
-    var before = ba.before || {}, after = ba.after || {};
+  // ---------- the verdict: the sentences a sales leader repeats, recomputed from the records in view.
+  // The whole window reproduces the analytics files; a slice that spans the training date keeps the comparison
+  // shape; a slice on one side of it states the plain rate. The quarter sentence stays on the impact file.
+  var MIN_CLOSED = 5;      // fewer closed deals than this and a win rate is not worth a sentence
+  var MIN_REP_SIDE = 5;    // a rep needs this many interactions on each side of the training date to be named
+  function spansTraining() {
+    if (!TRAINING) return false;
+    var r = periodRange(); if (!r) return true;
+    return (!r[0] || r[0] < TRAINING) && (!r[1] || r[1] > TRAINING);
+  }
+  function verdictStats(recs) {
+    var dealMap = dealsInView(recs);
+    var n = recs.length, applied = recs.filter(isApplied).length;
+    var bn = 0, ba = 0, an = 0, aa = 0;
+    if (TRAINING) recs.forEach(function (r) { if (!r.at) return; if (r.at < TRAINING) { bn += 1; if (isApplied(r)) ba += 1; } else { an += 1; if (isApplied(r)) aa += 1; } });
+    var closed = closedIn(dealMap);
+    var wr = function (list) { return list.length ? list.filter(function (c) { return c.won; }).length / list.length : null; };
+    var bd = TRAINING ? closed.filter(function (c) { return c.at && c.at < TRAINING; }) : [];
+    var ad = TRAINING ? closed.filter(function (c) { return c.at && c.at >= TRAINING; }) : [];
+    return { n: n, applied: applied, rate: n ? applied / n : null,
+      before: { n: bn, rate: bn ? ba / bn : null, closed: bd.length, winRate: wr(bd) },
+      after: { n: an, rate: an ? aa / an : null, closed: ad.length, winRate: wr(ad) },
+      closed: closed.length, winRate: wr(closed), terts: tertileRows(dealMap), byRep: beforeAfterByRep(recs) };
+  }
+  function verdictSubject(capital) {
+    var s = F.reps && F.reps.length === 1 ? repName(F.reps[0]) : F.reps ? 'the selected reps' : 'the team';
+    return capital ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+  }
+  function verdictOpening() {
+    var d = META.trainingDate ? fmt.date(META.trainingDate) : null;
+    if (F.period === 'before' && d) return 'Before the training on ' + d + ', ';
+    if (F.period === 'after' && d) return 'Since the training on ' + d + ', ';
+    if (F.period === 'last12') return 'In the last 12 weeks, ';
+    if (F.period === 'last26') return 'In the last 26 weeks, ';
+    if (customOk()) return 'Between ' + fmt.date(F.from.toISOString()) + ' and ' + fmt.date(F.to.toISOString()) + ', ';
+    return '';
+  }
+  function verdict(recs) {
+    if (!recs) recs = inView().recs;
+    var v = verdictStats(recs), spans = spansTraining();
+    var what = F.element ? F.element + ' ' + elName(F.element) : FW_NAME;
+    var ofWhat = F.element ? ' of the interactions where it was applicable' : ' of interactions';
     var lead = null, more = [];
-    var pctR = function (v) { return Math.round(v * 100); };
-    if (META.trainingDate && isNum(before.adoptionRate) && isNum(after.adoptionRate)) {
-      var b = pctR(before.adoptionRate), a = pctR(after.adoptionRate);
+    if (!v.n) {
+      lead = ['No interactions match this view.'];
+    } else if (spans && v.before.n && v.after.n) {
+      var b = pctPts(v.before.rate), a = pctPts(v.after.rate);
       var tail = a > b + 1 ? ['up from ', N(b + '%'), ' before it.'] : a < b - 1 ? ['down from ', N(b + '%'), ' before it.'] : ['level with the ', N(b + '%'), ' before it.'];
-      lead = ['Since the training on ' + fmt.date(META.trainingDate) + ', the team applied ' + FW_NAME + ' in ', N(a + '%'), ' of interactions, '].concat(tail);
-      if (isNum(before.winRate) && isNum(after.winRate) && ((before.dealsClosed || 0) + (after.dealsClosed || 0)) > 0) {
-        more.push(['Deals closed after it won ', N(fmt.pct(after.winRate)), ' of the time, against ', N(fmt.pct(before.winRate)), ' before (' + fmt.num(after.dealsClosed) + ' and ' + fmt.num(before.dealsClosed) + ' closed deals).']);
+      lead = ['Since the training on ' + fmt.date(META.trainingDate) + ', ' + verdictSubject(false) + ' applied ' + what + ' in ', N(a + '%'), ofWhat + ', '].concat(tail);
+      if (!winRateMeaningful()) { /* an outcome filter makes every win rate 0% or 100% */ }
+      else if (v.before.closed >= MIN_CLOSED && v.after.closed >= MIN_CLOSED) {
+        more.push(['Deals closed after it won ', N(fmt.pct(v.after.winRate)), ' of the time, against ', N(fmt.pct(v.before.winRate)), ' before (' + fmt.num(v.after.closed) + ' and ' + fmt.num(v.before.closed) + ' closed deals).']);
+      } else if (v.after.closed >= MIN_CLOSED) {
+        more.push(['Deals closed after it won ', N(fmt.pct(v.after.winRate)), ' of the time (' + fmt.num(v.after.closed) + ' closed deals); only ' + fmt.num(v.before.closed) + ' closed before it, too few to compare.']);
+      } else if (v.before.closed >= MIN_CLOSED) {
+        more.push(['Deals closed before it won ', N(fmt.pct(v.before.winRate)), ' of the time (' + fmt.num(v.before.closed) + ' closed deals); only ' + fmt.num(v.after.closed) + ' have closed since, too few to compare.']);
+      } else if (v.closed) {
+        more.push(['Only ' + fmt.num(v.closed) + ' closed deal' + (v.closed === 1 ? '' : 's') + ' in this view, too few for a win rate.']);
       }
-    } else if (isNum(tot.adoptionRate) || isNum(tot.interactions)) {
-      lead = ['The team applied ' + FW_NAME + ' in ', N(fmt.pct(tot.adoptionRate)), ' of ', N(fmt.num(tot.interactions)), ' interactions' + (META.window && META.window.from ? ' between ' + fmt.date(META.window.from) + ' and ' + fmt.date(META.window.to) : '') + '.'];
-      if (isNum(tm.winRate)) more.push(['Win rate across the window was ', N(fmt.pct(tm.winRate)), ' on ' + fmt.num((tot.dealsWon || 0) + (tot.dealsLost || 0)) + ' closed deals.']);
+    } else {
+      var open = verdictOpening();
+      var subj = open ? verdictSubject(false) : verdictSubject(true);
+      var when = open ? '' : (META.window && META.window.from ? ' between ' + fmt.date(META.window.from) + ' and ' + fmt.date(META.window.to) : '');
+      lead = [open + subj + ' applied ' + what + ' in ', N(fmt.pct(v.rate)), ' of ', N(fmt.num(v.n)), (F.element ? ' interactions where it was applicable' : ' interactions') + when + '.'];
+      if (!winRateMeaningful()) { /* outcome filter */ }
+      else if (v.closed >= MIN_CLOSED) more.push(['Deals closed in this view won ', N(fmt.pct(v.winRate)), ' of the time (' + fmt.num(v.closed) + ' closed deals).']);
+      else if (v.closed) more.push(['Only ' + fmt.num(v.closed) + ' closed deal' + (v.closed === 1 ? '' : 's') + ' in this view, too few for a win rate.']);
     }
-    var movers = REPS.map(function (r) { return { r: r, m: metricsById[r.id] }; }).filter(function (x) { return x.m && isNum(x.m.adoptionLift) && x.m.beforeTraining && x.m.afterTraining; });
-    movers.sort(function (x, y) { return y.m.adoptionLift - x.m.adoptionLift; });
-    if (movers.length && movers[0].m.adoptionLift >= 0.05) {
-      var top = movers[0];
-      more.push([top.r.name + ' moved most, from ', N(fmt.pct(top.m.beforeTraining.adoptionRate)), ' to ', N(fmt.pct(top.m.afterTraining.adoptionRate)), ' of interactions.']);
+    if (spans && v.before.n && v.after.n) {
+      var movers = REPS_SORTED.map(function (r) { var p = v.byRep[r.id]; return p && p.bn >= MIN_REP_SIDE && p.an >= MIN_REP_SIDE ? { r: r, b: p.ba / p.bn, a: p.aa / p.an } : null; }).filter(Boolean);
+      movers.forEach(function (m) { m.lift = pctPts(m.a) - pctPts(m.b); });
+      movers.sort(function (x, y) { return y.lift - x.lift; });
+      if (movers.length) {
+        var top = movers[0], bottom = movers[movers.length - 1];
+        var teamFlat = Math.abs(pctPts(v.after.rate) - pctPts(v.before.rate)) <= 2;
+        if (teamFlat && top.lift >= 5 && bottom.lift <= -5 && top.r.id !== bottom.r.id) more.push(['Behind the flat average, ' + top.r.name + ' rose ', N(top.lift + ' points'), ' while ' + bottom.r.name + ' fell ', N(Math.abs(bottom.lift) + ' points'), '.']);
+        else if (top.lift >= 5 && movers.length > 1) more.push([top.r.name + ' moved most, from ', N(fmt.pct(top.b)), ' to ', N(fmt.pct(top.a)), ofWhat + '.']);
+      }
     }
-    var terts = tm.winRateByAdoptionTertile || [], hi = null, lo = null;
-    terts.forEach(function (t) { if (t.tertile === 'high') hi = t; if (t.tertile === 'low') lo = t; });
-    if (hi && lo && isNum(hi.winRate) && isNum(lo.winRate)) {
+    var hi = null, lo = null;
+    v.terts.forEach(function (t) { if (t.tertile === 'high') hi = t; if (t.tertile === 'low') lo = t; });
+    if (winRateMeaningful() && hi && lo && hi.n >= 3 && lo.n >= 3 && isNum(hi.winRate) && isNum(lo.winRate)) {
       more.push(['Deals in the top third by adoption won ', N(fmt.pct(hi.winRate)), ' of the time; the bottom third won ', N(fmt.pct(lo.winRate)), '.']);
     }
     var im = DATA.impact;
     if (im && isNum(im.influencedCount) && isNum(im.wonCount) && im.wonCount > 0) {
-      more.push(['In ' + (im.quarter || 'the quarter') + ', ', N(fmt.num(im.influencedCount)), ' of the ' + fmt.num(im.wonCount) + ' won deals followed framework actions (' + fmt.moneyTotal(im.influencedAmount, im.influencedAmountByCurrency, META.currency) + ').']);
+      more.push(['In ' + (im.quarter || 'the quarter') + ', ', N(fmt.num(im.influencedCount)), ' of the ' + fmt.num(im.wonCount) + ' won deals followed framework actions (' + fmt.moneyTotal(im.influencedAmount, im.influencedAmountByCurrency, META.currency) + ')' + (fActive() ? ', whole quarter, not this view' : '') + '.']);
     }
-    if (!lead) return null;
     var box = h('div', { class: 'verdict' });
+    if (fActive()) box.appendChild(h('p', { class: 'v-badge' }, 'Verdict for: ' + sliceLabel() + '.'));
     box.appendChild(h('p', { class: 'verdict-lead' }, lead));
     if (more.length) {
       var p = h('p', { class: 'verdict-more' });
       more.forEach(function (s, i) { if (i) p.appendChild(document.createTextNode(' ')); append(p, s); });
       box.appendChild(p);
     }
-    box.appendChild(h('p', { class: 'verdict-note' }, 'Every number here is a count or a rate from your own pipeline, with its n beside it. The rates are correlations over small samples; the Impact tab lists the caveats and the Method tab the rules.'));
+    box.appendChild(h('p', { class: 'verdict-note' }, 'Every number here is a count or a rate from your own pipeline, with its n beside it, and it follows the filters and the period. The rates are correlations over small samples; the Impact tab lists the caveats and the rules are under "How this is scored".'));
     return box;
   }
 
@@ -812,13 +889,17 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
 
   // ---------- filter state: null means "all"
   var F = { reps: null, element: '', types: null, outcomes: null, period: 'all', from: null, to: null };
+  var HIDDEN = {}; // rep lines hidden on the adoption chart: display only, the numbers do not change
+  if (narrowMQ.matches) REP_IDS.forEach(function (id) { HIDDEN[id] = true; });
   function customOk() { return F.period === 'custom' && F.from && F.to && !isNaN(F.from) && !isNaN(F.to) && F.from <= F.to; }
   function fActive() { return !!(F.reps || F.element || F.types || F.outcomes || F.period !== 'all'); }
   function fReset() { F.reps = null; F.element = ''; F.types = null; F.outcomes = null; }
   function localActive() { return !!(F.reps || F.element || F.types || F.outcomes); }
   function toggleIn(key, all, id) {
-    var cur = F[key] ? F[key].slice() : all.slice();
-    var i = cur.indexOf(id); if (i >= 0) cur.splice(i, 1); else cur.push(id);
+    var cur = F[key];
+    if (!cur) { F[key] = [id]; return; }
+    if (cur.length === 1 && cur[0] === id) { F[key] = null; return; }
+    cur = cur.slice(); var i = cur.indexOf(id); if (i >= 0) cur.splice(i, 1); else cur.push(id);
     F[key] = cur.length === all.length ? null : cur;
   }
   function periodWeeks() {
@@ -888,7 +969,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     var series = [], pooled = 0, pooledMap = {};
     REPS_SORTED.forEach(function (rep) {
       var m = byRep[rep.id]; if (!m) return;
-      if (rep.slot) { series.push({ name: rep.name, key: rep.id, values: sliceTo(rolling(m, WEEKS), weeks), color: 's' + rep.slot }); return; }
+      if (rep.slot) { series.push({ name: rep.name, key: rep.id, values: sliceTo(rolling(m, WEEKS), weeks), color: 's' + rep.slot, off: !!HIDDEN[rep.id] }); return; }
       pooled += 1;
       Object.keys(m).forEach(function (w) { var b = pooledMap[w] || (pooledMap[w] = { n: 0, a: 0 }); b.n += m[w].n; b.a += m[w].a; });
     });
@@ -903,14 +984,25 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     return m;
   }
   function outcomeOf(id) { return (stateById[id] || {}).outcome || (dealById[id] || {}).outcome || 'open'; }
+  function closedAtOf(id) { var s = stateById[id] || {}, at = s.closedAt || (dealById[id] || {}).closedAt, t = at ? new Date(at) : null; return t && !isNaN(t) ? t : null; }
+  function closedIn(dealMap) {
+    var r = periodRange(), out = [];
+    Object.keys(dealMap).forEach(function (id) {
+      var oc = outcomeOf(id); if (oc !== 'won' && oc !== 'lost') return;
+      var at = closedAtOf(id);
+      if (r && at && !((!r[0] || at >= r[0]) && (!r[1] || at < r[1]))) return;
+      out.push({ id: id, won: oc === 'won', at: at });
+    });
+    return out;
+  }
+  function winRateMeaningful() { return !F.outcomes || (F.outcomes.indexOf('won') >= 0 && F.outcomes.indexOf('lost') >= 0); }
   function median(xs) { if (!xs.length) return null; var s = xs.slice().sort(function (a, b) { return a - b; }); var k = s.length; return k % 2 ? s[(k - 1) / 2] : (s[k / 2 - 1] + s[k / 2]) / 2; }
   function tertileRows(dealMap) {
     var closed = [];
-    Object.keys(dealMap).forEach(function (id) {
-      var oc = outcomeOf(id); if (oc !== 'won' && oc !== 'lost') return;
-      var v = dealMap[id]; if (!v.n) return;
+    closedIn(dealMap).forEach(function (c) {
+      var id = c.id, v = dealMap[id]; if (!v.n) return;
       var s = stateById[id] || {}, d = dealById[id] || {};
-      closed.push({ id: id, adoption: v.a / v.n, outcome: oc, cycle: s.cycleDays, amount: s.amount != null ? s.amount : d.amount });
+      closed.push({ id: id, adoption: v.a / v.n, outcome: c.won ? 'won' : 'lost', cycle: s.cycleDays, amount: s.amount != null ? s.amount : d.amount });
     });
     closed.sort(function (x, y) { return x.adoption - y.adoption; });
     var groups = { low: [], mid: [], high: [] };
@@ -1145,40 +1237,52 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
       barSync.push(function () { b.setAttribute('aria-pressed', isOn() ? 'true' : 'false'); });
       return b;
     }
-    if (REPS_SORTED.length > 1) body.appendChild(group('Reps', REPS_SORTED.map(function (rep) { return chip(rep.name || rep.id, function () { return !F.reps || F.reps.indexOf(rep.id) >= 0; }, function () { toggleIn('reps', REP_IDS, rep.id); }, rep.slot || 0); })));
+    if (REPS_SORTED.length > 1) { var rg = group('Reps', REPS_SORTED.map(function (rep) { return chip(rep.name || rep.id, function () { return !F.reps || F.reps.indexOf(rep.id) >= 0; }, function () { toggleIn('reps', REP_IDS, rep.id); }, rep.slot || 0); })); rg.querySelector('.f-label').textContent = 'Reps (click one to see only that rep)'; body.appendChild(rg); }
     var sel = h('select', { 'aria-label': 'Element' }, [h('option', { value: '' }, 'Any element')].concat(ELEMENTS.map(function (e) { return h('option', { value: e.code }, e.code + ' ' + e.name); })));
     sel.value = F.element; sel.addEventListener('change', function () { F.element = sel.value; refreshOverview(); });
     barSync.push(function () { sel.value = F.element; });
     body.appendChild(group('Element applied', sel));
     if (TYPES.length > 1) body.appendChild(group('Interaction type', TYPES.map(function (t) { return chip(t, function () { return !F.types || F.types.indexOf(t) >= 0; }, function () { toggleIn('types', TYPES, t); }); })));
     body.appendChild(group('Deal outcome', OUTCOMES.map(function (oc) { return chip(oc.charAt(0).toUpperCase() + oc.slice(1), function () { return !F.outcomes || F.outcomes.indexOf(oc) >= 0; }, function () { toggleIn('outcomes', OUTCOMES, oc); }); })));
+    body.appendChild(group('Period', PERIOD_OPTIONS.map(function (p) { var c = chip(p[2] || p[1], function () { return F.period === p[0]; }, function () { if (F.period !== p[0]) setPeriod(p[0]); }); c.classList.add('fchip-radio'); return c; })));
     var status = h('span'), reset = h('button', { type: 'button', class: 'btn btn-sm' }, 'Clear filters');
     reset.addEventListener('click', function () { fReset(); refreshOverview(); });
     barSync.push(function () {
       var view = inView(), dm = dealsInView(view.recs);
-      status.replaceChildren(h('b', null, fmt.num(view.recs.length)), ' of ' + fmt.num(RECORDS.length) + ' interactions on ', h('b', null, fmt.num(Object.keys(dm).length)), ' deals in view.', localActive() || F.period !== 'all' ? ' ' + filterSummary() : ' Every chart below follows these filters and the period in the header; the verdict above does not.');
+      status.replaceChildren(h('b', null, fmt.num(view.recs.length)), ' of ' + fmt.num(RECORDS.length) + ' interactions on ', h('b', null, fmt.num(Object.keys(dm).length)), ' deals in view.', localActive() || F.period !== 'all' ? ' ' + filterSummary() : ' The verdict, the tiles and every chart on this tab follow these filters and the period in the header.');
       reset.disabled = !localActive();
     });
     body.appendChild(h('div', { class: 'f-status' }, status, reset));
     syncFilterBar();
     return bar;
   }
-  function toggleRep(id) { if (REP_IDS.indexOf(id) < 0) return; toggleIn('reps', REP_IDS, id); refreshOverview(); }
+  function toggleRep(id) { if (REP_IDS.indexOf(id) < 0) return; HIDDEN[id] = !HIDDEN[id]; if (ovDyn && ovDyn.isConnected) drawOverview(false); }
+  function sliceLabel() {
+    var bits = [];
+    if (F.reps) bits.push(F.reps.map(repName).join(', '));
+    if (F.element) bits.push(F.element + ' ' + elName(F.element));
+    if (F.types) bits.push(F.types.join(', '));
+    if (F.outcomes) bits.push(F.outcomes.join(', '));
+    if (F.period !== 'all') bits.push(periodLabel());
+    return bits.join(', ');
+  }
   function drawOverview(animate) {
     var dyn = ovDyn; dyn.replaceChildren();
     var view = inView(), recs = view.recs, weeks = view.weeks;
+    var vEl = document.querySelector('#tab-overview .verdict');
+    if (vEl) { try { vEl.replaceWith(verdict(recs)); } catch (e) { /* keep the previous verdict */ } }
     var dealMap = dealsInView(recs), dealIds = Object.keys(dealMap);
     var tm = DATA.teamMetrics || {}, tot = tm.totals || {}, cov = tm.dataCoverage || {};
     var n = recs.length, applied = recs.filter(isApplied).length, won = 0, lost = 0;
-    dealIds.forEach(function (id) { var oc = outcomeOf(id); if (oc === 'won') won += 1; else if (oc === 'lost') lost += 1; });
+    closedIn(dealMap).forEach(function (c) { if (c.won) won += 1; else lost += 1; });
     var active = fActive(), elLabel = F.element ? F.element + ' ' + elName(F.element) : null;
     var w = META.window || {};
     var windowTxt = w.from ? fmt.date(w.from) + ' to ' + fmt.date(w.to) : 'window not set';
     var tiles = h('div', { class: 'tiles' });
     tiles.appendChild(tile(active ? 'Deals in view' : 'Deals audited', fmt.num(active ? dealIds.length : (tot.deals != null ? tot.deals : dealIds.length)), active ? 'with at least one interaction in view, of ' + fmt.num(tot.deals != null ? tot.deals : DEALS.length) + ' audited' : 'of ' + fmt.num(META.counts && META.counts.deals != null ? META.counts.deals : DEALS.length) + ' deals in window, ' + windowTxt));
     tiles.appendChild(tile(active ? 'Interactions in view' : 'Interactions scored', fmt.num(n), fmt.num(applied) + (elLabel ? ' where the rep applied ' + elLabel : ' with at least one framework behaviour')));
-    tiles.appendChild(tile(elLabel ? 'Adoption of ' + elLabel : (active ? 'Adoption rate in view' : 'Team adoption rate'), fmt.pct(n ? applied / n : null), 'n = ' + fmt.num(n) + ' interactions' + (elLabel ? ' where it was applicable' : '')));
-    tiles.appendChild(tile('Win rate', fmt.pct(won + lost ? won / (won + lost) : null), 'n = ' + fmt.num(won + lost) + ' closed deals' + (active ? ' in view' : '') + ' (' + fmt.num(won) + ' won, ' + fmt.num(lost) + ' lost)'));
+    tiles.appendChild(tile(active ? 'Adoption: ' + sliceLabel() : 'Team adoption rate', fmt.pct(n ? applied / n : null), 'n = ' + fmt.num(n) + ' interactions' + (elLabel ? ' where it was applicable' : '')));
+    tiles.appendChild(tile('Win rate', fmt.pct(won + lost ? won / (won + lost) : null), 'n = ' + fmt.num(won + lost) + (F.period !== 'all' ? ' deals closed in the period' : active ? ' closed deals in view' : ' closed deals') + ' (' + fmt.num(won) + ' won, ' + fmt.num(lost) + ' lost)'));
     dyn.appendChild(tiles);
     if (!n) {
       dyn.appendChild(h('div', { class: 'panel' }, h('p', null, 'No interactions match these filters.'), h('p', { class: 'muted small' }, 'Widen the period, add a rep or an interaction type, or clear the filters to see the whole window.')));
@@ -1194,7 +1298,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     }
     var what = elLabel ? 'applied the framework for ' + elLabel + ', over interactions where it was applicable' : 'applied at least one framework behaviour';
     var tNote = TRAINING ? (vline ? ' Training date ' + fmt.date(META.trainingDate) + ' marked.' : '') : ' No training date set (config.trainingDate).';
-    var f1 = makeFig(dyn, 'Adoption over time, trailing 4 weeks', 'Share of interactions in the trailing four ISO weeks where the rep ' + what + '; one line per rep, ' + (F.reps ? 'selected reps' : 'team') + ' dashed. A single week has too few interactions to read on its own, so each point pools the four weeks ending there. Click a name in the legend to hide or show that rep.' + tNote, { animate: animate });
+    var f1 = makeFig(dyn, 'Adoption over time, trailing 4 weeks', 'Share of interactions in the trailing four ISO weeks where the rep ' + what + '; one line per rep, ' + (F.reps ? 'selected reps' : 'team') + ' dashed. A single week has too few interactions to read on its own, so each point pools the four weeks ending there. Click a name in the legend to hide or show that rep\'s line; the Reps filter above changes the numbers.' + (narrowMQ.matches ? ' On a phone the rep lines start hidden: tap a name to show one.' : '') + tNote, { animate: animate });
     fills.push(function () { fillFig(f1, function (width) { return lineChart({ labels: labels, xTips: xTips, series: series, vline: vline, width: width, height: width < 500 ? 250 : 300, endLabels: width >= 500, caption: 'Adoption rate by ISO week, trailing 4-week window', aria: 'Adoption rate, trailing 4 weeks, one line per rep, team dashed' }); }); });
     var grid = h('div', { class: 'grid-2' }); dyn.appendChild(grid);
     var terts = tertileRows(dealMap);
@@ -1215,8 +1319,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
         var br = p.bn ? p.ba / p.bn : null, ar = p.an ? p.aa / p.an : null;
         panels.push({ title: rep.name, values: [br, ar], labels: [fmt.pct(br) + ' (' + fmt.num(p.bn) + ')', fmt.pct(ar) + ' (' + fmt.num(p.an) + ')'],
           tips: [tipStr(rep.name + ': before training', [['adoption', fmt.pct(br), 'ba-before'], ['interactions', fmt.num(p.bn), '']]), tipStr(rep.name + ': after training', [['adoption', fmt.pct(ar), 'ba-after'], ['interactions', fmt.num(p.an), '']])] });
-        var lift = (br != null && ar != null) ? ar - br : null;
-        trows.push([rep.name, fmt.pct(br), fmt.num(p.bn), fmt.pct(ar), fmt.num(p.an), lift == null ? 'n/a' : (lift >= 0 ? '+' : '') + (lift * 100).toFixed(0) + ' pts']);
+        trows.push([rep.name, fmt.pct(br), fmt.num(p.bn), fmt.pct(ar), fmt.num(p.an), liftText_(br, ar) || 'n/a']);
       });
       if (panels.length) {
         var f3 = makeFig(grid, 'Before and after training, adoption by rep', 'Interactions before and after ' + fmt.date(META.trainingDate) + ' in view. Labels show the adoption rate and n.', { tableBeneath: true });
@@ -1274,14 +1377,14 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   var COLS = [
     { key: 'name', label: 'Deal', get: function (r) { return r.d.name || r.d.id; }, show: function (r) {
       var o = r.d.outcome;
-      return [r.d.name || r.d.id, o === 'won' || o === 'lost' ? h('span', { class: 'outcome ' + o }, o) : null]; } },
+      return r.d.name || r.d.id; } },
     { key: 'owner', label: 'Owner', cls: 'm-inline', get: function (r) { return repName(r.d.ownerId); } },
     { key: 'amount', label: 'Amount', num: true, cls: 'm-inline', get: function (r) { return r.d.amount; }, show: function (r) { return fmt.money(r.d.amount, r.d.currency); } },
     { key: 'stage', label: 'Stage', cls: 'm-inline', get: function (r) { return r.d.stageLabel || r.d.stage || ''; } },
-    { key: 'coverage2', label: 'Elements at 2+', num: true, cls: 'strip-cell', get: function (r) { return r.s ? r.s.coverage2 : null; }, show: function (r) { return r.s ? [strip(r.s), h('span', { class: 'count' }, fmt.num(r.s.coverage2) + ' of ' + ELEMENTS.length)] : h('span', { class: 'muted' }, 'not assessed'); } },
+    { key: 'coverage2', label: 'Elements at 2+', title: ELEMENTS.map(function (e) { return e.code + ' ' + e.name; }).join(', '), num: true, cls: 'strip-cell', get: function (r) { return r.s ? r.s.coverage2 : null; }, show: function (r) { return r.s ? [strip(r.s), h('span', { class: 'count' }, fmt.num(r.s.coverage2) + ' of ' + ELEMENTS.length)] : h('span', { class: 'muted' }, 'not assessed'); } },
     { key: 'gate', label: 'Gate', cls: 'gate-cell', get: function (r) { return r.s ? r.s.gate : ''; }, show: function (r) { return r.s ? gateChip(r.s.gate) : h('span', { class: 'muted' }, 'not assessed'); } },
     { key: 'dealAdoption', label: 'Adoption', num: true, cls: 'm-inline', get: function (r) { return r.s ? r.s.dealAdoption : null; }, show: function (r) { return r.s ? fmt.pct(r.s.dealAdoption) + ' (' + fmt.num(r.s.appliedInteractions) + '/' + fmt.num(r.s.interactions) + ')' : 'n/a'; } },
-    { key: 'eqi', label: 'Evidence quality', num: true, cls: 'm-inline', get: function (r) { return r.s ? r.s.evidenceQualityIndex : null; }, show: function (r) { return r.s ? fmt.pct(r.s.evidenceQualityIndex) : 'n/a'; } },
+    { key: 'eqi', label: 'Evidence quality', title: 'Share of level-2+ scores backed by a verified buyer quote', num: true, cls: 'm-inline', get: function (r) { return r.s ? r.s.evidenceQualityIndex : null; }, show: function (r) { return r.s ? fmt.pct(r.s.evidenceQualityIndex) : 'n/a'; } },
     { key: 'last', label: 'Last activity', cls: 'm-inline', get: function (r) { return r.last || ''; }, show: function (r) { return r.last ? fmt.date(r.last) : h('span', { class: 'muted' }, 'none'); } }
   ];
   function dealRows() {
@@ -1310,10 +1413,19 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     input.addEventListener('input', function () { dealFilter.text = input.value; drawBody(); });
     sel.addEventListener('change', function () { dealFilter.outcome = sel.value; drawBody(); });
     root.appendChild(h('div', { class: 'deals-toolbar' }, input, sel, count));
+    var eqis = STATES.map(function (x) { return x.evidenceQualityIndex; }).filter(isNum);
+    var eqiUniform = eqis.length > 1 && eqis.every(function (v) { return Math.abs(v - eqis[0]) < 1e-9; });
+    var cols = COLS.filter(function (c) { return !(c.key === 'eqi' && eqiUniform); });
+    var scoring = (FW && FW.scoring) || {}, cg = scoring.commitGate || {}, qo = scoring.qualifyOut || {};
+    var key = h('div', { class: 'deals-key' });
+    key.appendChild(h('div', null, h('b', null, 'Gate. '), gateChip('commit-eligible'), ' all elements at ' + fmt.num(cg.all != null ? cg.all : 2) + ' or more, E and CH at ' + fmt.num(cg.E != null ? cg.E : 3) + ', PP at ' + fmt.num(cg.PP != null ? cg.PP : 2) + ' or more. ', gateChip('upside'), ' six or more elements at 2 or more. ', gateChip('pipeline'), ' the rest. ', gateChip('qualify-out'), ' total at most ' + fmt.num(qo.maxTotal != null ? qo.maxTotal : 9) + ' after ' + fmt.num(qo.minInteractions != null ? qo.minInteractions : 4) + ' or more interactions, or E or CH still 0 after evaluation.'));
+    key.appendChild(h('div', null, h('b', null, 'Elements. '), ELEMENTS.map(function (e) { return e.code + ' ' + e.name; }).join(', ') + '. The strip shows the eight levels, 0 to ' + MAX_LEVEL + ', in that order; the count is elements at 2 or more.'));
+    if (eqiUniform) key.appendChild(h('div', null, h('b', null, 'Evidence quality. '), fmt.pct(eqis[0]) + ' on every deal: that share of level-2+ scores comes from a verified buyer quote, so the column is not repeated per row.'));
+    root.appendChild(key);
     var table = h('table', { class: 'deals-table' });
     var thead = h('thead'), tr = h('tr');
-    COLS.forEach(function (c) {
-      var b = h('button', { type: 'button', 'aria-sort': dealSort.key === c.key ? (dealSort.dir > 0 ? 'ascending' : 'descending') : null }, c.label);
+    cols.forEach(function (c) {
+      var b = h('button', { type: 'button', title: c.title || null, 'aria-sort': dealSort.key === c.key ? (dealSort.dir > 0 ? 'ascending' : 'descending') : null }, c.label);
       b.addEventListener('click', function () {
         if (dealSort.key === c.key) dealSort.dir = -dealSort.dir; else { dealSort.key = c.key; dealSort.dir = c.num ? -1 : 1; }
         tr.querySelectorAll('button').forEach(function (x) { x.removeAttribute('aria-sort'); });
@@ -1329,8 +1441,9 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
       var rows = dealRows();
       count.textContent = rows.length + ' deal' + (rows.length === 1 ? '' : 's');
       rows.forEach(function (r) {
-        var trr = h('tr', { class: 'deal-row', tabindex: '0', role: 'link', 'aria-label': 'Open ' + (r.d.name || r.d.id) });
-        COLS.forEach(function (c) {
+        var oc = r.d.outcome === 'won' || r.d.outcome === 'lost' ? r.d.outcome : '';
+        var trr = h('tr', { class: 'deal-row' + (oc ? ' ' + oc : ''), tabindex: '0', role: 'link', 'aria-label': 'Open ' + (r.d.name || r.d.id) + (oc ? ', closed ' + oc : '') });
+        cols.forEach(function (c) {
           var v = c.show ? c.show(r) : c.get(r);
           var cls = [c.num && c.key !== 'coverage2' ? 'num' : '', c.key === 'name' ? 'name' : '', c.cls || ''].join(' ').trim();
           trr.appendChild(h('td', { class: cls || null, 'data-label': c.label }, v == null ? 'n/a' : v));
@@ -1340,7 +1453,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
         trr.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
         tbody.appendChild(trr);
       });
-      if (!rows.length) tbody.appendChild(h('tr', null, h('td', { colspan: String(COLS.length), class: 'muted' }, 'No deals match. Clear the filter to see all of them.')));
+      if (!rows.length) tbody.appendChild(h('tr', null, h('td', { colspan: String(cols.length), class: 'muted' }, 'No deals match. Clear the filter to see all of them.')));
     }
     drawBody();
     root.appendChild(h('div', { class: 'panel panel-flush' }, h('div', { class: 'deals-wrap' }, table)));
@@ -1361,12 +1474,12 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     sub.appendChild(h('span', null, (d.stageLabel || d.stage || 'stage n/a') + (d.outcome ? ', ' + d.outcome : ', open')));
     root.appendChild(sub);
     var facts = h('dl', { class: 'facts' });
-    function fact(k, v) { facts.appendChild(h('div', null, h('dt', null, k), h('dd', null, v == null ? 'n/a' : v))); }
+    function fact(k, v, title) { facts.appendChild(h('div', { title: title || null }, h('dt', null, k), h('dd', null, v == null ? 'n/a' : v))); }
     fact('Created', fmt.date(d.createdAt));
     fact('Closed', d.closedAt ? fmt.date(d.closedAt) : 'open');
     if (s) {
       fact('Cycle days', s.cycleDays != null ? fmt.num(s.cycleDays) : 'open');
-      fact('Total', fmt.num(s.total) + ' of ' + fmt.num(s.maxTotal || MAX_TOTAL));
+      fact('Total', fmt.num(s.total) + ' of ' + fmt.num(s.maxTotal || MAX_TOTAL), 'The eight element levels added up, each 0 to ' + MAX_LEVEL);
       fact('Elements at 2 or more', fmt.num(s.coverage2) + ' of ' + ELEMENTS.length);
       fact('Deal adoption', fmt.pct(s.dealAdoption) + ' (' + fmt.num(s.appliedInteractions) + ' of ' + fmt.num(s.interactions) + ' interactions)');
       fact('Evidence quality', fmt.pct(s.evidenceQualityIndex) + ' of scores at 2+ from buyer quotes');
@@ -1378,8 +1491,19 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     } else {
       var dc = (CHARTS.deals || {})[dealId] || {};
       var ef = figure(dc.elements, 'Element levels: best verified evidence, after decay', 'Fill is the level, 0 to ' + MAX_LEVEL + '; the number is always printed. A corner marker means the level decayed by one because the last supporting evidence is older than the decay window. Hover or focus a cell for first and last evidence dates.');
-      ef.insertBefore(h('p', { class: 'elements-key' }, ELEMENTS.map(function (e) { return e.code + ' ' + e.name; }).join(', ')), ef.querySelector('.fig-note'));
+      ef.insertBefore(h('p', { class: 'elements-key' }, ELEMENTS.map(function (e) { return e.code + ' ' + e.name; }).join(', ') + '. A corner marker on a cell means the level decayed.'), ef.querySelector('.fig-note'));
       root.appendChild(ef);
+      var decayedEls = ELEMENTS.filter(function (e) { var x = s.elements && s.elements[e.code]; return x && x.decayed; });
+      if (decayedEls.length) {
+        var ref = d.closedAt || (META.window && META.window.to), refLabel = d.closedAt ? 'before close' : 'before the window end';
+        var win = (META.config && META.config.attribution && META.config.attribution.decayDays) || (FW && FW.scoring && FW.scoring.decayDays) || 45;
+        var dl = h('ul', { class: 'plain' });
+        decayedEls.forEach(function (e) {
+          var x = s.elements[e.code], days = (x.lastAt && ref) ? Math.round((new Date(ref) - new Date(x.lastAt)) / 864e5) : null;
+          dl.appendChild(h('li', null, h('b', null, e.code + ' ' + e.name), ' decayed from ' + fmt.num(x.level + 1) + ' to ' + fmt.num(x.level) + ': last evidence ' + fmt.date(x.lastAt) + (days != null ? ', ' + fmt.num(days) + ' days ' + refLabel : '') + ', window ' + fmt.num(win) + ' days.'));
+        });
+        root.appendChild(h('div', { class: 'panel decay-panel' }, h('h4', { style: 'margin-top:0' }, 'Decayed evidence'), dl, h('p', { class: 'muted small', style: 'margin:6px 0 0' }, 'Nothing contradicted the evidence; it went quiet. Fresh buyer words on the element restore the level.')));
+      }
       if (s.influenced && s.influenced.isInfluenced) {
         root.appendChild(h('p', { class: 'small' }, h('b', null, 'Influenced: '), s.influenced.rule || ''));
       }
@@ -1392,6 +1516,33 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
         gaps.forEach(function (g) { gb.appendChild(h('tr', null, h('td', null, g.phase), h('td', null, g.element + ' ' + elName(g.element)), h('td', { class: 'num' }, fmt.num(g.expected)), h('td', { class: 'num' }, fmt.num(g.actual)))); });
         gt.appendChild(gb);
         root.appendChild(h('div', { class: 'panel panel-flush' }, gt));
+      }
+    }
+    if (s && a) {
+      var gapBy = {}; (s.stageGaps || []).forEach(function (g) { gapBy[g.element] = g; });
+      var fixes = [];
+      ELEMENTS.forEach(function (e) {
+        var x = s.elements && s.elements[e.code], lv = x ? x.level : null;
+        if (!(gapBy[e.code] || (lv != null && lv < 2))) return;
+        var best = null;
+        (a.interactions || []).forEach(function (ai) { var ent = (ai.elements || {})[e.code]; if (!ent || (!ent.whyNotHigher && !ent.nextQuestion)) return; if (!best || (ai.at || '') > (best.ai.at || '')) best = { ai: ai, ent: ent }; });
+        fixes.push({ e: e, level: lv, decayed: !!(x && x.decayed), gap: gapBy[e.code], best: best });
+      });
+      if (fixes.length) {
+        root.appendChild(h('h3', null, 'What to fix on this deal'));
+        root.appendChild(h('p', { class: 'ekey' }, 'Elements below level 2 or behind their stage, with the judge\'s latest reason and the next question to ask.'));
+        var fp = h('div', { class: 'panel' });
+        fixes.forEach(function (f) {
+          var row = h('div', { class: 'fix-row' });
+          row.appendChild(h('div', { class: 'fix-head' }, levelCell(f.level, f.e.name + ': level ' + f.level), h('b', null, f.e.code + ' ' + f.e.name), f.decayed ? h('span', { class: 'badge' }, 'decayed') : null, f.gap ? h('span', { class: 'badge' }, 'expected ' + fmt.num(f.gap.expected) + ' at ' + f.gap.phase) : null));
+          if (f.best) {
+            if (f.best.ent.whyNotHigher) row.appendChild(h('p', { class: 'why' }, h('b', null, 'Why not higher: '), f.best.ent.whyNotHigher));
+            if (f.best.ent.nextQuestion) row.appendChild(h('p', { class: 'why' }, h('b', null, 'Ask next: '), '\u201c' + f.best.ent.nextQuestion + '\u201d'));
+            row.appendChild(h('p', { class: 'muted small' }, 'From the ' + fmt.date(f.best.ai.at) + ' interaction, in the timeline below.'));
+          } else row.appendChild(h('p', { class: 'muted small' }, 'No judge note on this element yet.'));
+          fp.appendChild(row);
+        });
+        root.appendChild(fp);
       }
     }
     root.appendChild(h('h3', null, 'Interaction timeline'));
@@ -1505,7 +1656,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   }
   // ---------- reps: a sticky switcher (previous, dropdown, next), one rep at a time when there are many,
   // every number recomputed for the global period from the same records the rollup used
-  var repSel = null, repsBody = null, repSelect = null, repPos = null;
+  var repSel = null, repsBody = null, repSelect = null, repPos = null, repElement = '';
   function defaultRep() { return REPS_SORTED.length > 6 ? REP_IDS[0] : 'all'; }
   function periodLabel() {
     if (F.period === 'before') return 'before training'; if (F.period === 'after') return 'after training';
@@ -1538,19 +1689,20 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     return scored.slice(0, 3).map(function (t) { return t[2]; });
   }
   function repView(rep) {
-    var recs = periodRecs().filter(function (r) { return r.repId === rep.id; });
+    var recs = periodRecs().filter(function (r) { return r.repId === rep.id && (!repElement || r.applicable.indexOf(repElement) >= 0); });
+    var appliedOf = function (r) { return repElement ? !!r.els[repElement] : r.applied; };
     var states = STATES.filter(function (s) { return s.ownerId === rep.id && dealInPeriod(s); });
     var won = states.filter(function (s) { return s.outcome === 'won'; }), lost = states.filter(function (s) { return s.outcome === 'lost'; }), open = states.filter(function (s) { return s.outcome === 'open'; });
-    var applied = recs.filter(function (r) { return r.applied; }).length;
+    var applied = recs.filter(appliedOf).length;
     var applicable = {}, appliedBy = {};
     recs.forEach(function (r) { r.applicable.forEach(function (c) { applicable[c] = (applicable[c] || 0) + 1; if (r.els[c]) appliedBy[c] = (appliedBy[c] || 0) + 1; }); });
     var adoption = {}; CODES.forEach(function (c) { adoption[c] = applicable[c] ? Math.round(1000 * (appliedBy[c] || 0) / applicable[c]) / 1000 : null; });
     var before = [], after = [];
     if (TRAINING) recs.forEach(function (r) { if (r.at) (r.at < TRAINING ? before : after).push(r); });
-    var bRate = before.length ? before.filter(function (r) { return r.applied; }).length / before.length : null;
-    var aRate = after.length ? after.filter(function (r) { return r.applied; }).length / after.length : null;
+    var bRate = before.length ? before.filter(appliedOf).length / before.length : null;
+    var aRate = after.length ? after.filter(appliedOf).length / after.length : null;
     var hi = 0, hiB = 0; recs.forEach(function (r) { hi += r.hi; hiB += r.hiBuyer; });
-    var weekly = {}; recs.forEach(function (r) { if (!r.at) return; var w = isoWeek(r.at); var b = weekly[w] || (weekly[w] = { n: 0, a: 0 }); b.n += 1; if (r.applied) b.a += 1; });
+    var weekly = {}; recs.forEach(function (r) { if (!r.at) return; var w = isoWeek(r.at); var b = weekly[w] || (weekly[w] = { n: 0, a: 0 }); b.n += 1; if (appliedOf(r)) b.a += 1; });
     var weeks = periodWeeks();
     return { recs: recs, n: recs.length, applied: applied, adoptionRate: recs.length ? applied / recs.length : null, adoption: adoption, applicable: applicable, appliedBy: appliedBy,
       won: won.length, lost: lost.length, open: open.length, winRate: won.length + lost.length ? won.length / (won.length + lost.length) : null,
@@ -1579,14 +1731,14 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     var card = h('section', { class: 'rep-card', id: 'rep-' + safeId(rep.id) });
     card.appendChild(h('div', { class: 'rep-head' }, h('span', { class: 'swatch s' + (rep.slot || 0), 'aria-hidden': 'true' }), h('h3', null, rep.name || rep.id), rep.email ? h('span', { class: 'muted small' }, rep.email) : null, inPeriod ? h('span', { class: 'badge' }, periodLabel()) : null));
     var tiles = h('div', { class: 'tiles in-panel' });
-    var t1 = tile('Adoption rate', fmt.pct(v.adoptionRate), 'n = ' + fmt.num(v.n) + ' interactions' + (v.n && v.weeks.length ? ', weekly trend below' : ''));
+    var t1 = tile(repElement ? 'Adoption of ' + repElement + ' ' + elName(repElement) : 'Adoption rate', fmt.pct(v.adoptionRate), 'n = ' + fmt.num(v.n) + ' interactions' + (repElement ? ' where it was applicable' : '') + (v.n && v.weeks.length ? ', weekly trend below' : ''));
     if (v.n && v.weeks.length) {
       var sp = sparkline(v.spark, v.weeks.map(function (w) { return w + ' (week of ' + weekLabel(w) + ')'; }), 160, 36);
       t1.appendChild(h('div', { class: 'tile-spark', html: sp.svg }));
       t1.appendChild(h('details', { class: 'tile-table' }, h('summary', null, 'Table'), h('div', { html: sp.table })));
     }
     tiles.appendChild(t1);
-    tiles.appendChild(tile('Interactions', fmt.num(v.n), fmt.num(v.applied) + ' with a framework behaviour'));
+    tiles.appendChild(tile('Interactions', fmt.num(v.n), fmt.num(v.applied) + (repElement ? ' where the rep applied ' + repElement : ' with a framework behaviour')));
     tiles.appendChild(tile('Win rate', fmt.pct(v.winRate), fmt.num(v.won) + ' won, ' + fmt.num(v.lost) + ' lost, ' + fmt.num(v.open) + ' open (n = ' + fmt.num(v.won + v.lost) + ' closed' + (inPeriod ? ' in the period' : '') + ')'));
     tiles.appendChild(tile('Evidence quality', fmt.pct(v.eqi), 'share of scores at 2+ backed by a buyer quote'));
     card.appendChild(tiles);
@@ -1598,7 +1750,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     side.appendChild(h('h4', null, 'Weakest three')); side.appendChild(chipList(v.weakest));
     side.appendChild(h('h4', null, 'Strongest three')); side.appendChild(chipList(v.strongest));
     if (TRAINING && (v.before.n || v.after.n)) {
-      var liftText = v.lift != null ? (v.lift >= 0 ? '+' : '') + (v.lift * 100).toFixed(0) + ' pts' : 'lift n/a';
+      var liftText = liftText_(v.before.rate, v.after.rate) || 'lift n/a';
       var f2 = makeFig(side, 'Before and after training: ' + liftText, 'Before n = ' + fmt.num(v.before.n) + ', after n = ' + fmt.num(v.after.n) + ' interactions.');
       fills.push(function () { fillFig(f2, function (width) { return smallMultiples({ panels: [{ title: 'Adoption rate', values: [v.before.rate, v.after.rate], labels: [fmt.pct(v.before.rate) + ' (n=' + fmt.num(v.before.n) + ')', fmt.pct(v.after.rate) + ' (n=' + fmt.num(v.after.n) + ')'], tips: [tipStr(rep.name + ': before training', [['adoption', fmt.pct(v.before.rate), 'ba-before'], ['interactions', fmt.num(v.before.n), '']]), tipStr(rep.name + ': after training', [['adoption', fmt.pct(v.after.rate), 'ba-after'], ['interactions', fmt.num(v.after.n), '']])] }], cats: ['Before', 'After'], colors: ['ba-before', 'ba-after'], cols: 1, panelW: Math.min(300, width - 16), panelH: 170, caption: 'Before and after training', headers: ['Rep', 'Before', 'After'], rows: [[rep.name, fmt.pct(v.before.rate) + ' (n=' + fmt.num(v.before.n) + ')', fmt.pct(v.after.rate) + ' (n=' + fmt.num(v.after.n) + ')']], aria: 'Adoption before and after training for ' + rep.name }); }); });
     } else { side.appendChild(h('h4', null, 'Before and after training')); side.appendChild(h('p', { class: 'muted small' }, TRAINING ? 'No dated interactions in this period.' : 'No training date set.')); }
@@ -1635,7 +1787,9 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     function step(d) { var i = REP_IDS.indexOf(repSel); var j = i < 0 ? (d > 0 ? 0 : REP_IDS.length - 1) : (i + d + REP_IDS.length) % REP_IDS.length; location.hash = '#reps/' + REP_IDS[j]; }
     prev.addEventListener('click', function () { step(-1); }); next.addEventListener('click', function () { step(1); });
     repSelect.addEventListener('change', function () { location.hash = repSelect.value === 'all' ? '#reps' : '#reps/' + repSelect.value; });
-    sw.appendChild(prev); sw.appendChild(repSelect); sw.appendChild(next); sw.appendChild(repPos);
+    var elSel = h('select', { 'aria-label': 'Element for this rep', title: 'Count only interactions where the rep applied this element' }, [h('option', { value: '' }, 'Any element')].concat(ELEMENTS.map(function (e) { return h('option', { value: e.code }, e.code + ' ' + e.name); })));
+    elSel.value = repElement; elSel.addEventListener('change', function () { repElement = elSel.value; drawReps(); });
+    sw.appendChild(prev); sw.appendChild(repSelect); sw.appendChild(next); sw.appendChild(elSel); sw.appendChild(repPos);
     root.appendChild(sw);
     repsBody = h('div'); root.appendChild(repsBody);
     drawReps();
@@ -1646,7 +1800,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     repSelect.value = repSel;
     var list = repSel === 'all' ? REPS_SORTED : REPS_SORTED.filter(function (r) { return r.id === repSel; });
     var i = REP_IDS.indexOf(repSel);
-    repPos.textContent = (repSel === 'all' ? 'All ' + REPS_SORTED.length + ' reps' : (i + 1) + ' of ' + REPS_SORTED.length) + (F.period !== 'all' ? ', ' + periodLabel() : '') + '. Keys: [ and ] switch rep.';
+    repPos.replaceChildren((repSel === 'all' ? 'All ' + REPS_SORTED.length + ' reps' : (i + 1) + ' of ' + REPS_SORTED.length) + (F.period !== 'all' ? ', ' + periodLabel() : '') + (repElement ? ', ' + repElement + ' only' : '') + '.', h('span', { class: 'kbd-hint' }, ' Keys: [ and ] switch rep.'));
     repsBody.replaceChildren();
     var fills = [];
     list.forEach(function (rep) { repsBody.appendChild(repCard(rep, fills)); });
@@ -1654,14 +1808,19 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   }
 
   // ---------- period: one control in the header, honoured by the Overview and Reps tabs
-  var periodSelect = document.getElementById('period-select');
-  var periodNote = document.getElementById('period-note');
-  (function () {
+  var PERIOD_OPTIONS = (function () {
     var per = [['all', 'Whole window']];
-    if (TRAINING) per.push(['before', 'Before training (' + fmt.date(META.trainingDate) + ')'], ['after', 'After training (' + fmt.date(META.trainingDate) + ')']);
+    if (TRAINING) per.push(['before', 'Before training (' + fmt.date(META.trainingDate) + ')', 'Before training'], ['after', 'After training (' + fmt.date(META.trainingDate) + ')', 'After training']);
     if (WEEKS.length > 12) per.push(['last12', 'Last 12 weeks']);
     if (WEEKS.length > 26) per.push(['last26', 'Last 26 weeks']);
     per.push(['custom', 'Custom dates']);
+    return per;
+  })();
+  function setPeriod(p) { var sel = document.getElementById('period-select'); sel.value = p; sel.dispatchEvent(new Event('change')); }
+  var periodSelect = document.getElementById('period-select');
+  var periodNote = document.getElementById('period-note');
+  (function () {
+    var per = PERIOD_OPTIONS;
     per.forEach(function (p) { periodSelect.appendChild(h('option', { value: p[0] }, p[1])); });
     periodSelect.value = F.period;
     var dr = document.getElementById('date-range'), dFrom = document.getElementById('date-from'), dTo = document.getElementById('date-to');
@@ -1726,7 +1885,8 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
       if (tag === 'P') { var s = text(el); if (s) out.push('', s); return; }
       if (tag === 'LI') { var li = el.cloneNode(true); [].forEach.call(li.querySelectorAll('ul, ol, details'), function (x) { x.remove(); }); out.push('- ' + text(li)); [].forEach.call(el.querySelectorAll(':scope > div > ul > li, :scope > ul > li'), function (sub) { out.push('  - ' + text(sub)); }); return; }
       if (cls.contains('chips')) { out.push('', [].map.call(el.querySelectorAll('.chip'), text).join(', '), ''); return; }
-      if (cls.contains('verdict')) { [].forEach.call(el.querySelectorAll('.verdict-lead, .verdict-more'), function (p) { out.push('', text(p)); }); out.push(''); return; }
+      if (cls.contains('rule-box') || cls.contains('warn-box') || cls.contains('callout')) { out.push('', text(el)); return; }
+      if (cls.contains('verdict')) { [].forEach.call(el.querySelectorAll('.v-badge, .verdict-lead, .verdict-more'), function (p) { out.push('', text(p)); }); out.push(''); return; }
       if (cls.contains('strip') || cls.contains('estrip')) return;
       [].forEach.call(el.children, walk);
     }
@@ -1749,7 +1909,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   function exportMarkdownNow() {
     var w = META.window || {};
     var L = ['# ' + (META.title || 'FlowSales report'), '', 'Window ' + (w.from ? fmt.date(w.from) + ' to ' + fmt.date(w.to) : 'not set') + ', generated ' + fmt.datetime(META.generatedAt) + '. ' + filterSummary()];
-    var names = { overview: 'Overview', deals: 'Deals', reps: 'Reps', elements: 'Elements', impact: 'Impact', method: 'Method' };
+    var names = { overview: 'Overview', deals: 'Deals', reps: 'Reps', elements: FW_NAME, impact: 'Impact', method: 'How this is scored' };
     TABS.forEach(function (t) {
       var panel = document.getElementById('tab-' + t);
       var lines = domToMd(panel);
@@ -1766,6 +1926,62 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
   }
   window.flowsalesExportMarkdown = exportMarkdown;
+
+  // ---------- share-safe exports: the Impact slide with rep names hidden, or one rep's page on its own
+  var NAME_MAP = (function () {
+    var m = [];
+    REPS_SORTED.forEach(function (r, i) {
+      var alias = 'Rep ' + String.fromCharCode(65 + (i % 26)) + (i >= 26 ? String(Math.floor(i / 26) + 1) : '');
+      if (r.name && String(r.name).trim()) m.push([String(r.name).trim(), alias]);
+      if (r.email) m.push([String(r.email), alias.toLowerCase().replace(/\s+/g, '-') + '@hidden']);
+      if (r.id && String(r.id) !== String(r.name)) m.push([String(r.id), alias]);
+    });
+    m.sort(function (a, b) { return b[0].length - a[0].length; });
+    return m;
+  })();
+  function hideNames(str) { NAME_MAP.forEach(function (p) { str = str.split(p[0]).join(p[1]); }); return str; }
+  function hideNamesIn(el) {
+    var touched = [];
+    (function walk(n) { if (n.nodeType === 3) { var t = n.textContent, u = hideNames(t); if (u !== t) { touched.push([n, t]); n.textContent = u; } } else [].forEach.call(n.childNodes, walk); })(el);
+    [].forEach.call(el.querySelectorAll('[data-tip], [title], [aria-label]'), function (x) {
+      ['data-tip', 'title', 'aria-label'].forEach(function (a) { var v = x.getAttribute(a); if (v != null) { var u = hideNames(v); if (u !== v) { touched.push([x, a, v]); x.setAttribute(a, u); } } });
+    });
+    return function () { touched.forEach(function (t) { if (t.length === 2) t[0].textContent = t[1]; else t[0].setAttribute(t[1], t[2]); }); };
+  }
+  function printOnly(tab, prep) {
+    activate(tab);
+    var restore = prep ? prep(document.getElementById('tab-' + tab)) : null, once = false;
+    var done = function () { if (once) return; once = true; window.removeEventListener('afterprint', done); if (restore) restore(); route(); };
+    window.addEventListener('afterprint', done);
+    window.print();
+    setTimeout(done, 4000);
+  }
+  function exportHeader(title, note) {
+    var w = META.window || {};
+    return ['# ' + title, '', 'Window ' + (w.from ? fmt.date(w.from) + ' to ' + fmt.date(w.to) : 'not set') + ', generated ' + fmt.datetime(META.generatedAt) + '. ' + note];
+  }
+  function exportFooter() { return ['', '---', '', 'Made by Rhys at The Cognitive Shift (https://thecognitiveshift.com/?utm_source=flowsales&utm_medium=markdown&utm_campaign=report-export). Generated with FlowSales; every score sits next to the quote that earned it in the HTML report.']; }
+  function exportImpactSafe() {
+    ensureRendered();
+    var lines = domToMd(document.getElementById('tab-impact'));
+    var L = exportHeader(hideNames(META.title || 'FlowSales report') + ': Impact', 'Rep names are hidden in this export (Rep A, Rep B, in the order of the report).').concat(lines, exportFooter());
+    return hideNames(L.join('\n')).replace(/\n{3,}/g, '\n\n') + '\n';
+  }
+  function currentRep() { return (repsBody && repSel && repSel !== 'all') ? REPS_SORTED.filter(function (r) { return r.id === repSel; })[0] : null; }
+  function exportRepMd(rep) {
+    var card = document.getElementById('rep-' + safeId(rep.id));
+    if (!card) return null;
+    var lines = domToMd(card);
+    var L = exportHeader((rep.name || rep.id) + ': ' + FW_NAME + ' adoption', 'One rep\'s page from the FlowSales report for ' + (META.orgName || 'the team') + (F.period !== 'all' ? ', period ' + periodLabel() : '') + (repElement ? ', ' + repElement + ' only' : '') + '. No other rep appears in this export.').concat(lines, exportFooter());
+    return L.join('\n').replace(/\n{3,}/g, '\n\n') + '\n';
+  }
+  function safeName(s) { return String(s || 'report').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+  document.getElementById('export-impact-pdf').addEventListener('click', function () { exportMenu.open = false; printOnly('impact', hideNamesIn); });
+  document.getElementById('export-impact-md').addEventListener('click', function () { var b = this; exportMenu.open = false; try { downloadText('flowsales-' + safeName(META.orgName) + '-impact-names-hidden-' + String(META.generatedAt || '').slice(0, 10) + '.md', exportImpactSafe()); flash(b, 'Downloaded'); } catch (e) { flash(b, 'Could not download'); } });
+  document.getElementById('export-rep-pdf').addEventListener('click', function () { var b = this, rep = currentRep(); if (!rep) { flash(b, 'Pick one rep on the Reps tab first'); return; } exportMenu.open = false; printOnly('reps'); });
+  document.getElementById('export-rep-md').addEventListener('click', function () { var b = this, rep = currentRep(); if (!rep) { flash(b, 'Pick one rep on the Reps tab first'); return; } exportMenu.open = false; try { var txt = exportRepMd(rep); if (!txt) throw new Error('no card'); downloadText('flowsales-' + safeName(rep.name || rep.id) + '-' + String(META.generatedAt || '').slice(0, 10) + '.md', txt); flash(b, 'Downloaded'); } catch (e) { flash(b, 'Could not download'); } });
+  window.flowsalesExportImpactSafe = exportImpactSafe;
+  window.flowsalesExportRep = function (id) { var rep = REPS_SORTED.filter(function (r) { return r.id === id; })[0]; if (!rep) return null; var keep = repSel; repSel = id; if (repsBody) drawReps(); try { return exportRepMd(rep); } finally { repSel = keep; if (repsBody) drawReps(); } };
   var exportMenu = document.getElementById('export-menu');
   function flash(btn, msg) { var old = btn.textContent; btn.textContent = msg; setTimeout(function () { btn.textContent = old; }, 1600); }
   document.getElementById('export-pdf').addEventListener('click', function () { exportMenu.open = false; window.print(); });
@@ -1796,11 +2012,13 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   }
   function renderElements(root) {
     var tm = DATA.teamMetrics || {};
-    root.appendChild(sectionHead('Elements, team view', 'Which parts of ' + FW_NAME + ' the team applies, which parts separate won deals from lost ones, and the buyer quotes that show what good looks like on your own calls.'));
+    root.appendChild(sectionHead(FW_NAME + ', team view', 'Which parts of ' + FW_NAME + ' the team applies, which parts separate won deals from lost ones, and the buyer quotes that show what good looks like on your own calls.'));
     var grid = h('div', { class: 'grid-2' });
     grid.appendChild(figure(CHARTS.elementWonLost, 'Average level on won and lost deals', 'Level after decay, averaged over closed deals. n = ' + fmt.num((tm.totals || {}).dealsWon) + ' won, ' + fmt.num((tm.totals || {}).dealsLost) + ' lost.'));
     grid.appendChild(figure(CHARTS.elementAdoption, 'Adoption rate by element', 'Interactions where a rep applied the framework for the element, over interactions where it was applicable.'));
     root.appendChild(grid);
+    var inverted = (tm.elementWeakness || []).filter(function (w) { return isNum(w.avgLevelWon) && isNum(w.avgLevelLost) && w.avgLevelLost > w.avgLevelWon; });
+    if (inverted.length) root.appendChild(h('div', { class: 'panel callout' }, h('b', null, 'Higher on lost deals than won: '), inverted.map(function (w) { var c = w.element || w.code; return c + ' ' + elName(c) + ' (' + fmt.level(w.avgLevelLost) + ' lost vs ' + fmt.level(w.avgLevelWon) + ' won)'; }).join(', ') + '. An element that scores higher on the deals you lost is usually one reps reach for once a deal is already slipping. Read it as a warning sign, not a strength.'));
     var weakness = {};
     (tm.elementWeakness || []).forEach(function (w) { weakness[w.element || w.code] = w; });
     ELEMENTS.forEach(function (e) {
@@ -1825,7 +2043,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   // ---------- impact: the slide
   function renderImpact(root) {
     var im = DATA.impact;
-    root.appendChild(sectionHead('Impact', 'One quarter, four numbers and the rule beside each of them. This is the slide.'));
+    root.appendChild(sectionHead('Impact', 'One quarter, four numbers and the rule beside each of them. This is the slide. Export in the header saves it as PDF or Markdown, caveats included.'));
     if (!im) {
       root.appendChild(h('div', { class: 'panel' }, h('p', null, 'No impact.json in the store yet.'), h('p', null, 'Produce it with ', h('code', null, 'python3 scripts/fs.py impact --quarter YYYY-Qn'), ' (or the /flow-sales:impact skill), then run ', h('code', null, 'python3 scripts/fs.py report'), ' again. The quarter view shows adoption and win rate before and after the training date and the won deals that followed framework actions, with the rule printed next to every number.')));
       return;
@@ -1838,6 +2056,10 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     body.appendChild(figure(CHARTS.impactBeforeAfter, 'Adoption and win rate, before and after training', 'Adoption n = interactions (' + fmt.num(im.adoptionBeforeN) + ' before, ' + fmt.num(im.adoptionAfterN) + ' after); win rate n = closed deals (' + fmt.num(im.closedBefore) + ' before, ' + fmt.num(im.closedAfter) + ' after).'));
     var side = h('div');
     side.appendChild(h('div', { class: 'rule-box' }, h('b', null, 'The rule. '), im.rule || 'n/a'));
+    if (TRAINING) {
+      var moves = REPS_SORTED.map(function (r) { var m = metricsById[r.id]; if (!m || !m.beforeTraining || !m.afterTraining) return null; var t = liftText_(m.beforeTraining.adoptionRate, m.afterTraining.adoptionRate); return t ? r.name + ' ' + t : null; }).filter(Boolean);
+      if (moves.length) side.appendChild(h('div', { class: 'rule-box' }, h('b', null, 'The reps. '), 'Adoption after the training against before: ' + moves.join(', ') + '. A flat team average can hide reps moving in opposite directions.'));
+    }
     var infl = im.influencedDeals || [];
     if (infl.length) side.appendChild(h('div', { class: 'rule-box' }, h('b', null, 'The deals. '), infl.map(function (r) { return (r.name || dealName(r.dealId)) + ' (' + fmt.money(r.amount, (dealById[r.dealId] || {}).currency || META.currency) + ')'; }).join(', ') + '.'));
     body.appendChild(side);
@@ -1868,7 +2090,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   function renderMethod(root) {
     var fwm = META.framework || {}, cfg = META.config || {}, attr = cfg.attribution || {}, judge = cfg.judge || {};
     var tm = DATA.teamMetrics || {}, cov = tm.dataCoverage || {}, counts = META.counts || {};
-    root.appendChild(sectionHead('Method', 'The rubric, the rules and the data behind every number in this report. Change the framework file and the judge changes with it.'));
+    root.appendChild(sectionHead('How this is scored', 'The rubric, the rules and the data behind every number in this report. Change the framework file and the judge changes with it.'));
     var scoring = (FW && FW.scoring) || {};
     var gate = scoring.commitGate || {}, qo = scoring.qualifyOut || {};
     root.appendChild(h('div', { class: 'panel' }, kv([

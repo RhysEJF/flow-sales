@@ -164,6 +164,7 @@ def collect(store: Store, plugin_root: Path, read: Optional[list] = None) -> dic
     window = cfg.get("window") or {}
     meta = {
         "title": f"FlowSales report for {org}",
+        "headline": f"Report for {org}",
         "orgName": org,
         "home": str(store.home),
         "generatedAt": now_iso(),
@@ -530,9 +531,9 @@ def before_after_by_rep(payload: dict, narrow: bool = False) -> Optional[C.Chart
                        "labels": [f"{_pct(br)} ({C.fmt_num(b.get('n'))})", f"{_pct(ar)} ({C.fmt_num(a.get('n'))})"],
                        "tips": [C.tip(f"{rep['name']}: before training", [("adoption", _pct(br), "ba-before"), ("interactions", C.fmt_num(b.get("n")), "")]),
                                 C.tip(f"{rep['name']}: after training", [("adoption", _pct(ar), "ba-after"), ("interactions", C.fmt_num(a.get("n")), "")])]})
-        lift = m.get("adoptionLift")
+        pb, pa = _pct_points(br), _pct_points(ar)
         trows.append((rep["name"], _pct(br), C.fmt_num(b.get("n")), _pct(ar), C.fmt_num(a.get("n")),
-                      (("+" if float(lift) >= 0 else "") + f"{float(lift) * 100:.0f} pts") if lift is not None else "n/a"))
+                      f"{pa - pb:+d} pts" if pb is not None and pa is not None else "n/a"))
     if not panels:
         return None
     return C.small_multiples(panels, ["Before", "After"], ["ba-before", "ba-after"], value_fmt=C.fmt_pct, is_rate=True,
@@ -592,17 +593,24 @@ def impact_before_after(payload: dict, narrow: bool = False) -> Optional[C.Chart
                           aria="Adoption and win rate before and after training", table_caption="Before and after training")
 
 
+def _pct_points(v: Any) -> Optional[int]:
+    """The whole-number percentage the page prints for v (same rounding as fmt_pct), or None."""
+    txt = C.fmt_pct(v)
+    return None if txt == "n/a" else int(txt[:-1])
+
+
 def impact_tiles(payload: dict) -> list[str]:
     im = payload.get("impact") or {}
     cur = payload["meta"].get("currency")
+    # Deltas are taken between the rounded figures the tile prints, so 62% beside 38% reads +24 and never +25.
     lift = None
-    if im.get("adoptionBefore") is not None and im.get("adoptionAfter") is not None:
-        lift = (float(im["adoptionAfter"]) - float(im["adoptionBefore"])) * 100
+    if _pct_points(im.get("adoptionBefore")) is not None and _pct_points(im.get("adoptionAfter")) is not None:
+        lift = _pct_points(im["adoptionAfter"]) - _pct_points(im["adoptionBefore"])
     wlift = None
-    if im.get("winRateBefore") is not None and im.get("winRateAfter") is not None:
-        wlift = (float(im["winRateAfter"]) - float(im["winRateBefore"])) * 100
+    if _pct_points(im.get("winRateBefore")) is not None and _pct_points(im.get("winRateAfter")) is not None:
+        wlift = _pct_points(im["winRateAfter"]) - _pct_points(im["winRateBefore"])
     def _delta(points: Optional[float]) -> tuple[Optional[str], Optional[bool]]:
-        """Rounded first, so 60.8 to 61.4 reads 'no change' in neutral, never '-0 pts' in red."""
+        """Zero reads 'no change' in neutral, never '-0 pts' in red."""
         if points is None:
             return None, None
         r = int(round(points))
@@ -690,6 +698,8 @@ def render(payload: dict, plugin_root: Path) -> str:
     window_txt = f"{C.fmt_date(w.get('from'))} to {C.fmt_date(w.get('to'))}" if w.get("from") else "not set"
     html = (template
             .replace("__FS_TITLE__", escape(meta["title"]))
+            .replace("__FS_HEADLINE__", escape(meta.get("headline") or meta["title"]))
+            .replace("__FS_FW__", escape(str(((meta.get("framework") or {}).get("name")) or "Elements")))
             .replace("__FS_WINDOW__", escape(window_txt))
             .replace("__FS_ORG__", escape(str(meta.get("orgName") or "your team")))
             .replace("__FS_GENERATED__", escape(C.fmt_date(meta["generatedAt"]) + " " + meta["generatedAt"][11:16] + " UTC"))

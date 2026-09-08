@@ -13,7 +13,7 @@ Run `fs.py status --json`; if there is no store, point to `/flow-sales:setup` an
 
 ## 2. Refresh (gate, skipped with --no-refresh)
 
-Ask whether to pull the latest activity first. If yes and HubSpot is enabled, run `fs.py pull hubspot --since <yesterday>`; if Granola is enabled with the MCP route, export the last 7 days as described in the setup skill and run `fs.py import granola --export-dir .flow-sales/cache/granola`; then `fs.py link --json` and, if anything is pending for this rep's deals, resolve it as in the link skill. Then `fs.py plan-assessment --json`: if it planned batches, judge them exactly as the audit skill does (parallel `flow-sales:deal-assessor` agents, one per batch, up to config `judge.parallel`), then `fs.py rollup --json`. Keep this quiet: one line of progress.
+Ask whether to pull the latest activity first. If yes and HubSpot is enabled, run `fs.py pull hubspot --since <yesterday>`; if Granola is enabled with the MCP route, export the last 7 days as described in the setup skill and run `fs.py import granola --export-dir .flow-sales/cache/granola`; then `fs.py link --json` and, if anything is pending for this rep's deals, resolve it the way the audit skill's link step does. Then `fs.py plan-assessment --json`: if it planned batches, judge them exactly as the audit skill does (parallel `flow-sales:deal-assessor` agents, one per batch, up to config `judge.parallel`), then `fs.py rollup --json`. Keep this quiet: one line of progress.
 
 ## 3. Pack
 

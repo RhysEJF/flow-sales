@@ -51,6 +51,14 @@ class ReportTests(unittest.TestCase):
             self.assertFalse(re.search(r'<link[^>]*href="https?://', html), "report must not load stylesheets or fonts from the network")
             self.assertFalse(re.search(r'@import|url\(\s*["\']?https?://', html), "report must not import anything from the network")
             self.assertNotIn("—", html)
+            self.assertNotIn("__FS_", html, "every template placeholder is filled")
+            # usability round two: the header text starts at "Report for", the tabs carry the framework's own name and plain words
+            self.assertIn('class="t-long">Report for ', html)
+            self.assertIn("How this is scored", html)
+            self.assertNotIn(">Elements</button>", html)
+            self.assertNotIn(">Method</button>", html)
+            for btn in ("export-impact-pdf", "export-impact-md", "export-rep-pdf", "export-rep-md"):
+                self.assertIn('id="%s"' % btn, html, "share-safe exports are in the Export menu")
 
     def test_charts_are_well_formed_svg(self):
         for name in dir(charts):

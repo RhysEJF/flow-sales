@@ -47,3 +47,47 @@ A competent default: identical rounded cards with the same border on everything,
 ## Not done
 
 - The standup and retro briefings (markdown) and the README hero image are unchanged. The README's report screenshots were regenerated from the new report and a phone and impact screenshot were added.
+
+## Usability round one: what changed (branch `usability-fixes`)
+
+Ten synthetic personas (AskRally GenPop, sales roles) tested the report on 2026-09-08; the analysis is in the flow-os-rhys brain under `experiences/flow-sales/usability-2026-09-08/analysis.md`. Changes made in response, in the order of the findings:
+
+1. Point deltas (the "+25 pts" beside 62% and 38%) are now taken between the rounded figures the page prints, in the Impact tiles, the before-and-after tables and the rep cards. Same rule in Python (`_pct_points`) and in the page (`pctPts`).
+2. When any filter or period is active the verdict dims and carries a "Whole window" badge; the adoption tile is named after the slice ("Adoption: Tom Ellis, after training"). Superseded later the same day: the verdict now follows the filters (see "The verdict follows the view" below).
+3. Decayed elements get a sentence with dates under the element strip ("CO decayed from 2 to 1: last evidence 6 Apr 2026, 57 days before close, window 45 days") and the key line names the corner marker.
+4. "What to fix on this deal": for every element below level 2 or behind its stage, the judge's latest "why not higher" and "ask next", above the timeline.
+5. The Deals tab carries a key under the toolbar: the four gate rules with their chips, the eight element names, and what the strip shows. Column headers explain themselves on hover.
+6. Evidence quality: when it is the same on every deal the column folds into one line in the key that says what it measures; otherwise it stays, with a tooltip.
+7. The verdict names the divergence behind a flat average ("Behind the flat average, Tom Ellis rose 34 points while Amira Khan fell 19 points"); the Impact slide lists every rep's before-to-after change.
+8. The Elements tab calls out any element that scores higher on lost deals than won, with a one-line reading.
+9. Clicking a rep chip while all are selected now shows only that rep (click again for everyone); the period presets sit in the filter bar as chips, sharing the header control; the Reps switcher has an element select, so "Tom, Champion, after training" is one row on one page.
+10. On phones the adoption chart starts with the team line only; legend names now hide or show a line and no longer change the numbers (the Reps filter does that).
+11. The timeline strip fits on one row on a phone; the keyboard hint is hidden on phones.
+12. The Impact blurb and the Export button say what the export produces; the Total fact explains itself on hover.
+
+## Usability round two: what changed (branch `usability-fixes`)
+
+The same ten personas read the install page cold, answered setup's questions in character, reacted to ten real gotchas and rated the six commands. Analysis in the flow-os-rhys brain under `experiences/flow-sales/usability-2026-09-08/analysis-round2.md`. One of ten would have reached the demo report alone; nine stalled on the first line of the install page. Changes, in the order of the findings:
+
+1. **Install page rewritten around one paste.** The README and INSTALL.md open with who the page is for (whoever runs the CRM, twenty minutes, reps install nothing), then a three-line environment check the reader pastes and gets ok or a fix from (Claude Code present, Python 3.10 or newer, access to the private repo), then one install route, then the demo with what each command does and how long it takes, ending on the line the audit prints (`Report is ready at <path>`). The local checkout is a developer route in INSTALL.md.
+2. **Link folded into audit.** `/flow-sales:audit` applies the automatic links first and stops only for ambiguous ones, four at a time, with "skip the rest". Setup applies the automatic links and defers the ambiguous ones to audit. `/flow-sales:link` stays as the standalone repair command and is out of the loop diagram. Standup and retro point at the audit step.
+3. **Audit says what is happening.** One line before each step with the duration, a progress line per judged deal with time left, the cost in dollars before the volume gate, and a note that a rerun only judges changed deals.
+4. **Cost in dollars.** `plan-assessment` prints `estCostUsd` (a low-to-high range at list price, `judge.pricingUsdPerMTok` to change the prices) and has `--estimate-only`, which writes and clears nothing.
+5. **`/flow-sales:status`.** A read-only screen: environment, token and scopes, counts, ambiguous links, last run per command (new `lastRun` and `latestReport` in `fs.py status`), what the next audit would judge and cost, a to-do list with the fixing command.
+6. **Share-safe exports.** The Export menu gained "Impact slide, names hidden" (PDF and Markdown: every rep name, email and id replaced by Rep A, Rep B in report order, tooltips included, restored after printing) and "This rep's page" (PDF and Markdown of one rep card with nobody else on it). Rule boxes now reach the Markdown export.
+7. **Setup asks about consent first.** Before sources: have the reps been told, and who will see the report (recorded under `consent` in config). Email bodies and notes are an explicit question with the consequence stated, names-in-report likewise, and the evidence decay window is asked in days. Sources name Gong, Fireflies, Fathom and the Salesforce CSV route.
+8. **Names.** The Elements tab carries the framework's own name (MEDDPICC); Method is "How this is scored" (Scoring on phones). The header text starts at "Report for", since the wordmark already says FlowSales.
+
+Not done from the panel's list: a second training date (touches the analytics), a manager's week across all reps, the rep note-back on a score, alerts when a gate flips, and the Overview's two period controls (the chip row and the header select do the same thing; one should go).
+
+## The verdict follows the view
+
+The headline and the paragraph under it are now recomputed from the interaction records in the page, the same records that feed the tiles and charts, so the whole window reproduces the analytics files and any filter or period changes the numbers in the sentences. Rules:
+
+- A view that spans the training date keeps the comparison shape ("applied MEDDPICC in 61% of interactions, level with the 61% before it"; "deals closed after it won 62% of the time, against 38% before (16 and 8 closed deals)"; the rep divergence sentence). A view on one side of it states the plain rate with its n ("Since the training on 7 May 2026, the team applied MEDDPICC in 61% of 92 interactions") and the win rate of deals closed in the view.
+- Closed deals in a period are deals closed inside the period (by close date), not deals with an interaction in it. The Win rate tile and the tertile chart use the same rule, so the three agree.
+- A win rate needs at least five closed deals on each side it compares; below that the sentence says how many closed and that it is too few. A rep is named in the divergence sentence only with at least five interactions on each side of the training date.
+- An outcome filter that removes won or lost deals makes every win rate 0% or 100%, so the win-rate and tertile sentences are dropped under it.
+- The quarter sentence ("In 2026-Q3, 5 of the 6 won deals followed framework actions") stays on the impact file and says "whole quarter, not this view" when a filter is active.
+- A single-rep filter puts the rep's name in the subject; an element filter names the element and counts only interactions where it was applicable. A "Verdict for: ..." pill above the headline states the slice.
+
