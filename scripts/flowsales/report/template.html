@@ -1678,7 +1678,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     rows.forEach(function (r) { out.push('| ' + r.map(mdCell).join(' | ') + ' |'); });
     return out.join('\n');
   }
-  function cellText(el) { return [].map.call(el.childNodes, function (n) { return n.textContent; }).join(' ').replace(/\s+/g, ' ').trim(); }
+  function cellText(el) { var parts = []; (function walk(n) { if (n.nodeType === 3) parts.push(n.textContent); else [].forEach.call(n.childNodes, walk); })(el); return parts.join(' ').replace(/\s+/g, ' ').trim(); }
   function tableElToMd(t) {
     var headers = [].map.call(t.querySelectorAll('thead th'), cellText);
     var rows = [].map.call(t.querySelectorAll('tbody tr'), function (tr) { return [].map.call(tr.querySelectorAll('td, th'), cellText); }).filter(function (r) { return r.length; });
