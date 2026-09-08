@@ -65,6 +65,16 @@ def fmt_level(v: Any, digits: int = 1) -> str:
 SYMBOLS = {"GBP": "£", "USD": "$", "EUR": "€"}
 
 
+def fmt_money_total(total: Any, by_currency: Any, currency: str = "", compact: bool = False) -> str:
+    """Show each currency's own sum when more than one is present; never add currencies together."""
+    if isinstance(by_currency, dict) and len(by_currency) > 1:
+        return " + ".join(fmt_money(v, k, compact) for k, v in sorted(by_currency.items()))
+    if isinstance(by_currency, dict) and len(by_currency) == 1:
+        (cur, val), = by_currency.items()
+        return fmt_money(val, cur, compact)
+    return fmt_money(total, currency, compact)
+
+
 def fmt_money(v: Any, currency: str = "", compact: bool = False) -> str:
     if v is None:
         return "n/a"
@@ -377,6 +387,7 @@ def grouped_bars(categories: Sequence[str], series: Sequence[dict], *,
         t = tips[i] if tips and i < len(tips) and tips[i] else tip(name, rows)
         body.append(f'<g class="hit" tabindex="0" data-tip="{_tipattr(t)}">')
         body.append(f'<rect x="{_n(left + slot * i)}" y="{_n(pad_top)}" width="{_n(slot)}" height="{_n(plot_h)}" class="hitarea"/>')
+        bars: list[tuple[float, float, float, Optional[str]]] = []  # (x, y_top, height, label) per series in this group
         for j, s in enumerate(series):
             v = s["values"][i] if i < len(s["values"]) else None
             h = 0.0 if v is None else (float(v) / top) * plot_h
@@ -385,8 +396,25 @@ def grouped_bars(categories: Sequence[str], series: Sequence[dict], *,
             token = s.get("color", "s1")
             if h > 0:
                 body.append(f'<path d="{_vbar(x, y, bw, h)}" class="mark fill-{token} {token}"/>')
-            if bar_labels and j < len(bar_labels) and i < len(bar_labels[j]) and bar_labels[j][i]:
-                body.append(f'<text x="{_n(x + bw / 2)}" y="{_n(y - 5)}" class="dl sm" text-anchor="middle">{_esc(bar_labels[j][i])}</text>')
+            label = bar_labels[j][i] if bar_labels and j < len(bar_labels) and i < len(bar_labels[j]) else None
+            bars.append((x, y, h, label))
+        # Labels are wider than the bars, so they are drawn after every bar in the group (on top), lifted
+        # clear of any taller neighbour they would run into, then staggered a line apart when two still
+        # collide (equal before and after values). Keeps small bars and equal bars readable.
+        placed: list[tuple[float, float, float]] = []
+        for x, y, h, label in bars:
+            if not label:
+                continue
+            half = len(label) * CHAR_W * 0.9 / 2
+            lx, ly = x + bw / 2, y - 5
+            for bx, by, bh, _ in bars:
+                if bh > 0 and lx - half < bx + bw and lx + half > bx and by < ly + 4:
+                    ly = min(ly, by - 5)
+            for _ in range(len(placed)):
+                if any(lx - half < px1 and lx + half > px0 and abs(ly - py) < 12 for px0, px1, py in placed):
+                    ly -= 12
+            placed.append((lx - half, lx + half, ly))
+            body.append(f'<text x="{_n(lx)}" y="{_n(ly)}" class="dl sm" text-anchor="middle">{_esc(label)}</text>')
         body.append("</g>")
         body.append(f'<text x="{_n(cx)}" y="{_n(y0 + 17)}" class="ax" text-anchor="middle">{_esc(_fit(cat, slot - 6))}</text>')
     body.append(f'<line x1="{_n(left)}" x2="{_n(left + plot_w)}" y1="{_n(y0)}" y2="{_n(y0)}" class="axis"/>')

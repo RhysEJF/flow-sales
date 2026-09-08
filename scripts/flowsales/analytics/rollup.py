@@ -124,6 +124,15 @@ def _num(value: Any, default: float) -> float:
     return float(value)
 
 
+def amount_by_currency(states: Iterable[dict]) -> dict[str, float]:
+    """Sum deal amounts per currency code; money is never converted (CONTRACTS 9)."""
+    out: dict[str, float] = {}
+    for s in states:
+        cur = str(s.get("currency") or "unknown")
+        out[cur] = round(out.get(cur, 0.0) + _num(s.get("amount"), 0.0), 2)
+    return dict(sorted(out.items()))
+
+
 def ratio(numerator: float, denominator: float) -> Optional[float]:
     """None when the denominator is zero; every ratio in the outputs goes through here."""
     if not denominator:
@@ -629,6 +638,8 @@ def compute_team_metrics(deal_states: list[dict], records: list[dict], reps: lis
         "interactions": len(records), "appliedInteractions": applied, "adoptionRate": ratio(applied, len(records)),
         "behaviours": sum(len(r["tags"]) for r in records),
         "amountWon": round(sum(_num(s.get("amount"), 0.0) for s in won), 2),
+        "amountWonByCurrency": amount_by_currency(won),
+        "currencies": sorted({str(s.get("currency")) for s in deal_states if s.get("currency")}),
     }
 
     # win rate by adoption tertile (closed deals, cut points on dealAdoption)

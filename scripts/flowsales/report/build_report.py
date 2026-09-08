@@ -160,6 +160,7 @@ def collect(store: Store, plugin_root: Path, read: Optional[list] = None) -> dic
     hashes = sorted({str(a.get("rubricHash")) for a in assessments.values() if a.get("rubricHash")})
     org = (cfg.get("org") or {}).get("name") or store.home.parent.name or "your team"
     currency = next((d.get("currency") for d in deals if d.get("currency")), "")
+    currencies = sorted({str(d.get("currency")) for d in deals if d.get("currency")})
     window = cfg.get("window") or {}
     meta = {
         "title": f"FlowSales report for {org}",
@@ -169,6 +170,7 @@ def collect(store: Store, plugin_root: Path, read: Optional[list] = None) -> dic
         "window": {"from": window.get("from"), "to": window.get("to")},
         "trainingDate": cfg.get("trainingDate"),
         "currency": currency,
+        "currencies": currencies,
         "framework": {"slug": slug, "name": (framework or {}).get("name") or slug.upper(), "version": (framework or {}).get("version"),
                       "maxLevel": (framework or {}).get("maxLevel", 3)},
         "elements": elements,
@@ -387,6 +389,24 @@ def _rate(bucket: Optional[dict]) -> Optional[float]:
     return None
 
 
+ROLLING_WEEKS = 4
+
+
+def _rolling_rate(buckets: dict, weeks: list[str], window: int = ROLLING_WEEKS) -> list[Optional[float]]:
+    """Adoption over a trailing window of ISO weeks, weighted by interactions. A week with no interactions in
+    the whole window is None. With one to three interactions a week, the plain weekly rate only ever reads 0% or 100%."""
+    out: list[Optional[float]] = []
+    for i, _w in enumerate(weeks):
+        n = a = 0.0
+        for w in weeks[max(0, i - window + 1): i + 1]:
+            b = buckets.get(w) or {}
+            n += float(b.get("interactions") or 0)
+            applied = b.get("applied", b.get("appliedInteractions"))
+            a += float(applied) if applied is not None else 0.0
+        out.append((a / n) if n else None)
+    return out
+
+
 def adoption_over_time(payload: dict) -> Optional[C.Chart]:
     weeks, team, reps_ts = _norm_timeseries(payload.get("timeseries"))
     if not weeks:
@@ -402,7 +422,7 @@ def adoption_over_time(payload: dict) -> Optional[C.Chart]:
         if not m:
             continue
         if rep["slot"]:
-            series.append({"name": rep["name"], "values": [_rate(m.get(w)) for w in weeks], "color": f"s{rep['slot']}"})
+            series.append({"name": rep["name"], "values": _rolling_rate(m, weeks), "color": f"s{rep['slot']}"})
         else:
             pooled_reps += 1
             for w in weeks:
@@ -412,9 +432,10 @@ def adoption_over_time(payload: dict) -> Optional[C.Chart]:
                 pooled_n[w] = pooled_n.get(w, 0.0) + n
                 pooled_a[w] = pooled_a.get(w, 0.0) + (float(a) if a is not None else 0.0)
     if pooled_reps:
-        series.append({"name": f"Other reps ({pooled_reps}, pooled)", "values": [(pooled_a[w] / pooled_n[w]) if pooled_n.get(w) else None for w in weeks], "color": "s0"})
+        pooled = {w: {"interactions": pooled_n.get(w, 0.0), "applied": pooled_a.get(w, 0.0)} for w in weeks}
+        series.append({"name": f"Other reps ({pooled_reps}, pooled)", "values": _rolling_rate(pooled, weeks), "color": "s0"})
     if team:
-        series.append({"name": "Team", "values": [_rate(team.get(w)) for w in weeks], "color": "ink2", "dashed": True})
+        series.append({"name": "Team", "values": _rolling_rate(team, weeks), "color": "ink2", "dashed": True})
     if not series:
         return None
     vline = None
@@ -426,7 +447,8 @@ def adoption_over_time(payload: dict) -> Optional[C.Chart]:
         if 0.0 <= pos <= 1.0:
             vline = {"pos": pos, "label": f"Training {C.fmt_date(training)}"}
     return C.line_chart(labels, series, x_tips=tips, is_rate=True, vline=vline, width=760, height=300,
-                        aria="Adoption rate per week, one line per rep, team dashed", table_caption="Adoption rate by ISO week")
+                        aria=f"Adoption rate, trailing {ROLLING_WEEKS} weeks, one line per rep, team dashed",
+                        table_caption=f"Adoption rate by ISO week, trailing {ROLLING_WEEKS}-week window")
 
 
 def win_rate_by_tertile(payload: dict) -> Optional[C.Chart]:
@@ -445,13 +467,15 @@ def win_rate_by_tertile(payload: dict) -> Optional[C.Chart]:
             extra.append(("closed deals", C.fmt_num(r.get("closed")), ""))
         if r.get("medianCycleDays") is not None:
             extra.append(("median cycle days", C.fmt_num(r.get("medianCycleDays")), ""))
-        if r.get("avgAmount") is not None:
+        mixed = len(payload["meta"].get("currencies") or []) > 1
+        if r.get("avgAmount") is not None and not mixed:
             extra.append(("avg amount", C.fmt_money(r.get("avgAmount"), payload["meta"].get("currency")), ""))
         rng = r.get("adoptionRange")
         if isinstance(rng, list) and len(rng) == 2:
             extra.append(("adoption range", f"{_pct(rng[0])} to {_pct(rng[1])}", ""))
         tips.append(C.tip(name, extra))
-        trows.append((name, _pct(r.get("winRate")), C.fmt_num(n), C.fmt_num(r.get("medianCycleDays")), C.fmt_money(r.get("avgAmount"), payload["meta"].get("currency"))))
+        trows.append((name, _pct(r.get("winRate")), C.fmt_num(n), C.fmt_num(r.get("medianCycleDays")),
+                      "mixed currencies" if mixed else C.fmt_money(r.get("avgAmount"), payload["meta"].get("currency"))))
     return C.bar_chart(cats, vals, value_fmt=C.fmt_pct, is_rate=True, bar_labels=labels, tips=tips, width=520, height=260,
                        aria="Win rate by adoption tertile", table_caption="Win rate by adoption tertile",
                        table_headers=["Tertile", "Win rate", "Deals (n)", "Median cycle days", "Avg amount"], table_rows=trows)
@@ -545,13 +569,24 @@ def impact_tiles(payload: dict) -> list[str]:
     wlift = None
     if im.get("winRateBefore") is not None and im.get("winRateAfter") is not None:
         wlift = (float(im["winRateAfter"]) - float(im["winRateBefore"])) * 100
+    def _delta(points: Optional[float]) -> tuple[Optional[str], Optional[bool]]:
+        """Rounded first, so 60.8 to 61.4 reads 'no change' in neutral, never '-0 pts' in red."""
+        if points is None:
+            return None, None
+        r = int(round(points))
+        if r == 0:
+            return "no change vs before", None
+        return f"{r:+d} pts vs before", r > 0
+
+    lift_txt, lift_good = _delta(lift)
+    wlift_txt, wlift_good = _delta(wlift)
     return [
-        C.stat_tile("Influenced deals", C.fmt_num(im.get("influencedCount")), sub=f"{C.fmt_money(im.get('influencedAmount'), cur)} of {C.fmt_money(im.get('wonAmount'), cur)} won in {im.get('quarter', 'the quarter')}"),
-        C.stat_tile("Won deals in quarter", C.fmt_num(im.get("wonCount")), sub=C.fmt_money(im.get("wonAmount"), cur)),
+        C.stat_tile("Influenced deals", C.fmt_num(im.get("influencedCount")), sub=f"{C.fmt_money_total(im.get('influencedAmount'), im.get('influencedAmountByCurrency'), cur)} of {C.fmt_money_total(im.get('wonAmount'), im.get('wonAmountByCurrency'), cur)} won in {im.get('quarter', 'the quarter')}"),
+        C.stat_tile("Won deals in quarter", C.fmt_num(im.get("wonCount")), sub=C.fmt_money_total(im.get("wonAmount"), im.get("wonAmountByCurrency"), cur)),
         C.stat_tile("Adoption after training", _pct(im.get("adoptionAfter")), sub=f"before {_pct(im.get('adoptionBefore'))}, n = {C.fmt_num(im.get('adoptionBeforeN'))} then {C.fmt_num(im.get('adoptionAfterN'))} interactions",
-                    delta=(f"{lift:+.0f} pts vs before" if lift is not None else None), delta_good=(lift >= 0) if lift is not None else None),
+                    delta=lift_txt, delta_good=lift_good),
         C.stat_tile("Win rate after training", _pct(im.get("winRateAfter")), sub=f"before {_pct(im.get('winRateBefore'))}, n = {C.fmt_num(im.get('closedBefore'))} then {C.fmt_num(im.get('closedAfter'))} closed deals",
-                    delta=(f"{wlift:+.0f} pts vs before" if wlift is not None else None), delta_good=(wlift >= 0) if wlift is not None else None),
+                    delta=wlift_txt, delta_good=wlift_good),
     ]
 
 

@@ -190,6 +190,7 @@ M: `asked-metrics`, `quantified-impact`. E: `identified-eb`, `asked-eb-access`, 
 ### 8.2 Validation (`fs.py validate-assessment <file>`)
 
 - Schema: every listed interaction exists in the batch, every applicable element has an entry, values in range, tags in vocabulary.
+- Timestamps: a `judgedAt` later than the validation time (a judge writing local time as UTC) is replaced by the validation time with a warning.
 - Source text: the validator reads the deal's batch file(s). When none exists (the plan was rebuilt after the deal was assessed), it verifies against the deal's stored interactions in `data/interactions/<dealIdSafe>.json` instead and adds a warning; it fails only when the deal itself is unknown to the store.
 - Quote verification: normalise whitespace and case; a quote is verified if it is a substring of the interaction `body`, else if `difflib.SequenceMatcher` finds a window with ratio at least 0.85. Unverified quotes: set `verified: false`, cap `evidence` at 1, add `"flags": ["quote-unverified"]` on the element. Verified quotes get `verified: true`.
 - The validator writes the corrected file in place and prints a JSON report `{ "ok": bool, "errors": [], "warnings": [], "capped": n }`. Exit code 1 on schema errors so the judge agent fixes and re-runs.
@@ -224,7 +225,7 @@ Definitions:
 
 `timeseries.json`: weekly buckets (ISO week) per rep and for the team: interactions, applied, adoptionRate, per-element applied counts.
 
-`impact.json` (from `fs.py impact --quarter 2026-Q3`): quarter, trainingDate, rule text, influencedDeals [{dealId, name, amount, ownerId, movedElements, behaviours}], influencedCount, influencedAmount, wonCount, wonAmount, adoptionBefore, adoptionAfter, winRateBefore, winRateAfter, caveats [].
+`impact.json` (from `fs.py impact --quarter 2026-Q3`): quarter, trainingDate, rule text, influencedDeals [{dealId, name, amount, currency, ownerId, movedElements, behaviours}], influencedCount, influencedAmount, influencedAmountByCurrency {GBP: n, EUR: n}, wonCount, wonAmount, wonAmountByCurrency, adoptionBefore, adoptionAfter, winRateBefore, winRateAfter, caveats []. Money is never converted: `*Amount` sums raw numbers and is only meaningful when every deal shares a currency; renderers show the `*ByCurrency` breakdown whenever more than one currency is present (team_metrics carries `amountWonByCurrency` and `currencies` the same way).
 
 ## 10. CLI (`scripts/fs.py`)
 

@@ -130,18 +130,27 @@ def locate_batches(assessment: dict, store: Store) -> tuple[list[dict], Optional
     found: dict[Any, dict] = {}
     primary: Optional[dict] = None
     batch_file = assessment.get("batchFile")
+    own_deal = assessment.get("dealId")
     if isinstance(batch_file, str) and batch_file:
         batch = _read_json(batch_file)
         if isinstance(batch, dict) and isinstance(batch.get("interactions"), list):
-            primary = batch
-            found[batch.get("batchId") or batch_file] = batch
-    deal_id = assessment.get("dealId") or (primary or {}).get("dealId")
+            # A later plan-assessment can reuse the same file name for a different deal.
+            # A batch file that names another deal is stale: ignore it and fall through
+            # to the plan, the batches folder and finally the store.
+            if own_deal and batch.get("dealId") and batch.get("dealId") != own_deal:
+                pass
+            else:
+                primary = batch
+                found[batch.get("batchId") or batch_file] = batch
+    deal_id = own_deal or (primary or {}).get("dealId")
     if deal_id:
         plan = store.read_json("work/plan.json", None) or {}
         files = [e.get("file") for e in (plan.get("batches") or [])
                  if isinstance(e, dict) and e.get("dealId") == deal_id and e.get("file")]
-        if not files and store.batches_dir.exists():
+        if store.batches_dir.exists():
             for path in sorted(store.batches_dir.glob("*.json")):
+                if str(path) in files:
+                    continue
                 batch = _read_json(path)
                 if isinstance(batch, dict) and batch.get("dealId") == deal_id:
                     files.append(str(path))
@@ -299,10 +308,14 @@ def _stamp(assessment: dict, primary: dict, batches: list[dict], report: dict) -
     for key in ("batchFile", "framework", "dealId"):
         if not assessment.get(key) and primary.get(key):
             assessment[key] = primary[key]
+    validated_at = now_iso()
     if not assessment.get("judgedAt"):
-        assessment["judgedAt"] = now_iso()
+        assessment["judgedAt"] = validated_at
         report["warnings"].append("judgedAt was missing; stamped with the validation time")
-    assessment["validatedAt"] = now_iso()
+    elif str(assessment["judgedAt"]) > validated_at:
+        report["warnings"].append(f"judgedAt {assessment['judgedAt']} is later than now; replaced with the validation time")
+        assessment["judgedAt"] = validated_at
+    assessment["validatedAt"] = validated_at
 
 
 def _new_report(path: Path) -> dict:

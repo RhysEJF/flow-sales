@@ -101,7 +101,9 @@ def compute_impact(quarter: str, deal_states: list[dict], records: list[dict], c
         "trainingDate": str(training_raw)[:10] if training else None, "splitDate": to_iso(split), "rule": rule,
         "influencedDeals": rows, "influencedCount": len(rows),
         "influencedAmount": round(sum(rollup._num(s.get("amount"), 0.0) for s in influenced), 2),
+        "influencedAmountByCurrency": rollup.amount_by_currency(influenced),
         "wonCount": len(won_q), "wonAmount": round(sum(rollup._num(s.get("amount"), 0.0) for s in won_q), 2),
+        "wonAmountByCurrency": rollup.amount_by_currency(won_q),
         "adoptionBefore": adoption_before, "adoptionAfter": adoption_after,
         "adoptionBeforeN": len(before_r), "adoptionAfterN": len(after_r),
         "winRateBefore": rollup._win_rate(before_d), "winRateAfter": rollup._win_rate(after_d),
@@ -120,21 +122,35 @@ def _money(amount: Any, currency: Optional[str]) -> str:
     return f"{currency + ' ' if currency else ''}{amount:,.0f}"
 
 
+def _money_total(total: Any, by_currency: Optional[dict], fallback_currency: Optional[str]) -> str:
+    """One currency: the plain total. Several: each currency's own sum, never added together."""
+    if isinstance(by_currency, dict) and len(by_currency) > 1:
+        return " + ".join(_money(v, k) for k, v in sorted(by_currency.items()))
+    if isinstance(by_currency, dict) and len(by_currency) == 1:
+        (cur, val), = by_currency.items()
+        return _money(val, cur)
+    return _money(total, fallback_currency)
+
+
 def render_markdown(impact: dict) -> str:
     q = impact["quarter"]
     rows = impact.get("influencedDeals") or []
     currencies = Counter(r.get("currency") for r in rows if r.get("currency"))
     currency = currencies.most_common(1)[0][0] if currencies else None
     won_amount = impact.get("wonAmount") or 0.0
-    share = _pct(rollup.ratio(impact.get("influencedAmount") or 0.0, won_amount)) if won_amount else "n/a"
+    won_by = impact.get("wonAmountByCurrency") or {}
+    inf_by = impact.get("influencedAmountByCurrency") or {}
+    mixed = isinstance(won_by, dict) and len(won_by) > 1
+    share = "n/a" if mixed or not won_amount else _pct(rollup.ratio(impact.get("influencedAmount") or 0.0, won_amount))
+    share_txt = "share not computed across currencies" if mixed else f"{share} of the won amount"
     split = impact.get("trainingDate") or f"quarter start ({(impact.get('quarterStart') or '')[:10]})"
     lines = [
         f"# Impact: {q}", "",
         f"Generated {impact.get('generatedAt')}. Training date: {impact.get('trainingDate') or 'not set'}.", "",
         "## Headline", "",
-        f"- Won deals closed in {q}: {impact.get('wonCount')} ({_money(won_amount, currency)})",
+        f"- Won deals closed in {q}: {impact.get('wonCount')} ({_money_total(won_amount, won_by, currency)})",
         f"- Influenced by the framework: {impact.get('influencedCount')} of {impact.get('wonCount')} "
-        f"({_money(impact.get('influencedAmount'), currency)}, {share} of the won amount)",
+        f"({_money_total(impact.get('influencedAmount'), inf_by, currency)}, {share_txt})",
         f"- Adoption before {split}: {_pct(impact.get('adoptionBefore'))} (n = {impact.get('adoptionBeforeN')} interactions); "
         f"after: {_pct(impact.get('adoptionAfter'))} (n = {impact.get('adoptionAfterN')})",
         f"- Win rate before {split}: {_pct(impact.get('winRateBefore'))} (n = {impact.get('closedBefore')} closed deals); "
@@ -208,7 +224,8 @@ def run(ctx: dict, args: Any) -> int:
         print(json.dumps({"ok": True, **impact, "wrote": wrote}, indent=2, ensure_ascii=False))
     else:
         print(f"Impact {quarter}: {impact['influencedCount']} of {impact['wonCount']} won deals influenced "
-              f"({impact['influencedAmount']:,.0f} of {impact['wonAmount']:,.0f}). Adoption {_pct(impact['adoptionBefore'])} "
+              f"({_money_total(impact['influencedAmount'], impact.get('influencedAmountByCurrency'), None)} of "
+              f"{_money_total(impact['wonAmount'], impact.get('wonAmountByCurrency'), None)}). Adoption {_pct(impact['adoptionBefore'])} "
               f"before, {_pct(impact['adoptionAfter'])} after; win rate {_pct(impact['winRateBefore'])} before, "
               f"{_pct(impact['winRateAfter'])} after.")
         print(f"Wrote {md_path}")

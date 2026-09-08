@@ -323,6 +323,12 @@ ul.plain { padding-left: 20px; margin: 4px 0; }
     pct: function (v, d) { return isNum(v) ? (v * 100).toFixed(d || 0) + '%' : 'n/a'; },
     num: function (v) { return isNum(v) ? v.toLocaleString('en-GB') : (v == null ? 'n/a' : String(v)); },
     level: function (v) { return isNum(v) ? v.toFixed(1) : 'n/a'; },
+    moneyTotal: function (total, byCur, cur) {
+      var keys = byCur && typeof byCur === 'object' ? Object.keys(byCur).sort() : [];
+      if (keys.length > 1) return keys.map(function (k) { return fmt.money(byCur[k], k); }).join(' + ');
+      if (keys.length === 1) return fmt.money(byCur[keys[0]], keys[0]);
+      return fmt.money(total, cur);
+    },
     money: function (v, cur) {
       if (!isNum(v)) return 'n/a';
       var sym = { GBP: '£', USD: '$', EUR: '€' }[(cur || '').toUpperCase()];
@@ -417,7 +423,7 @@ ul.plain { padding-left: 20px; margin: 4px 0; }
     root.appendChild(htmlBlock((tiles.overview || []).join(''), 'tiles'));
     var windowNote = META.window ? 'Window ' + fmt.date(META.window.from) + ' to ' + fmt.date(META.window.to) + '.' : '';
     var tNote = META.trainingDate ? ' Training date ' + fmt.date(META.trainingDate) + ' marked.' : ' No training date set (config.trainingDate).';
-    root.appendChild(figure(CHARTS.adoptionOverTime, 'Adoption over time, weekly', 'Share of interactions in each ISO week where the rep applied at least one framework behaviour; one line per rep, team dashed. Weeks with no interactions are skipped.' + tNote));
+    root.appendChild(figure(CHARTS.adoptionOverTime, 'Adoption over time, trailing 4 weeks', 'Share of interactions in the trailing four ISO weeks where the rep applied at least one framework behaviour; one line per rep, team dashed. A single week has too few interactions to read on its own, so each point pools the four weeks ending there.' + tNote));
     var grid = h('div', { class: 'grid-2' });
     grid.appendChild(figure(CHARTS.winRateByTertile, 'Win rate by adoption tertile', 'Assessed deals split into thirds by deal adoption (applied interactions over all interactions). n on each bar is deals in the tertile; win rate uses the closed ones.'));
     if (CHARTS.beforeAfterByRep) {
@@ -429,7 +435,7 @@ ul.plain { padding-left: 20px; margin: 4px 0; }
     if (DATA.impact) {
       var im = DATA.impact;
       root.appendChild(h('div', { class: 'tiles' },
-        tile('Deals influenced in ' + (im.quarter || 'the quarter'), fmt.num(im.influencedCount), fmt.money(im.influencedAmount, META.currency) + ' across ' + fmt.num(im.influencedCount) + ' of ' + fmt.num(im.wonCount) + ' won deals in the quarter', im.rule || '')));
+        tile('Deals influenced in ' + (im.quarter || 'the quarter'), fmt.num(im.influencedCount), fmt.moneyTotal(im.influencedAmount, im.influencedAmountByCurrency, META.currency) + ' across ' + fmt.num(im.influencedCount) + ' of ' + fmt.num(im.wonCount) + ' won deals in the quarter', im.rule || '')));
     }
     root.appendChild(h('h3', null, 'Data coverage'));
     root.appendChild(h('p', { class: 'muted small' }, 'What the numbers above rest on. Gaps are listed here rather than hidden.'));
