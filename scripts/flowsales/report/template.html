@@ -93,7 +93,9 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
 .top { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--rule); }
 .top-row { max-width: 1180px; margin: 0 auto; padding: 12px 24px 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
 .brand { display: flex; align-items: center; gap: 16px; min-width: 0; }
-.mark svg { display: block; height: 14px; width: auto; color: var(--ink); }
+.mark { display: inline-block; color: var(--ink); }
+a.mark:hover svg { color: var(--accent-ink); }
+.mark svg { display: block; height: 14px; width: auto; color: currentColor; }
 .brand-text { min-width: 0; }
 .brand-text h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .t-short { display: none; }
@@ -413,7 +415,6 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   .t-long, .meta-gen { display: none; }
   .t-short { display: inline; }
   .toolbar .btn { padding: 7px 9px; }
-  #texture-toggle { display: none; }
   .toolbar { justify-content: flex-start; }
   .toolbar select.period { max-width: 160px; }
   .rep-switch { top: 0; }
@@ -503,7 +504,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
 <header class="top">
   <div class="top-row">
     <div class="brand">
-      <span class="mark">__FS_MARK__</span>
+      <a class="mark" href="https://github.com/RhysEJF/flow-sales" target="_blank" rel="noopener" aria-label="FlowSales on GitHub" title="FlowSales on GitHub">__FS_MARK__</a>
       <div class="brand-text">
         <h1><span class="t-long">__FS_TITLE__</span><span class="t-short">__FS_ORG__</span></h1>
         <p class="meta"><span>Window __FS_WINDOW__</span><span class="meta-gen">, generated __FS_GENERATED__</span></p>
@@ -514,7 +515,6 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
       <span class="daterange" id="date-range" hidden><input type="date" id="date-from" aria-label="From date"><span>to</span><input type="date" id="date-to" aria-label="To date"></span>
       <details class="menu" id="export-menu"><summary class="btn">Export</summary><div class="menu-list"><button type="button" id="export-pdf">Save as PDF</button><button type="button" id="export-md">Download Markdown</button><button type="button" id="export-md-copy">Copy Markdown</button></div></details>
       <button type="button" class="btn" id="theme-toggle" aria-pressed="false">Dark theme</button>
-      <button type="button" class="btn" id="texture-toggle" aria-pressed="false" title="Textured fills for colour-blind readers and print">Texture</button>
     </div>
   </div>
   <nav class="tabs" role="tablist" aria-label="Report sections">
@@ -539,7 +539,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
 </main>
 <footer class="foot">
   <div class="foot-in">
-    <span class="powered"><span class="mark">__FS_MARK__</span> Made by <a href="https://x.com/virtual_rf" target="_blank" rel="noopener">Rhys</a> at <a href="https://thecognitiveshift.com/?utm_source=flowsales&amp;utm_medium=report&amp;utm_campaign=report-footer&amp;utm_content=made-by" target="_blank" rel="noopener">The Cognitive Shift</a></span>
+    <span class="powered"><a class="mark" href="https://github.com/RhysEJF/flow-sales" target="_blank" rel="noopener" aria-label="FlowSales on GitHub" title="FlowSales on GitHub">__FS_MARK__</a> Made by <a href="https://x.com/virtual_rf" target="_blank" rel="noopener">Rhys</a> at <a href="https://thecognitiveshift.com/?utm_source=flowsales&amp;utm_medium=report&amp;utm_campaign=report-footer&amp;utm_content=made-by" target="_blank" rel="noopener">The Cognitive Shift</a></span>
     <span class="lic">FlowSales is source-available under the FlowSales Source-Available License 1.0. This report is your Output and is yours to share; the FlowSales name, mark and this notice stay where they are, as a condition of the licence.</span>
   </div>
 </footer>
@@ -1744,6 +1744,11 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   }
   function exportMarkdown() {
     ensureRendered();
+    var keep = repSel;
+    if (repsBody && repSel !== 'all') { repSel = 'all'; drawReps(); }
+    try { return exportMarkdownNow(); } finally { if (repsBody && keep !== 'all') { repSel = keep; drawReps(); } }
+  }
+  function exportMarkdownNow() {
     var w = META.window || {};
     var L = ['# ' + (META.title || 'FlowSales report'), '', 'Window ' + (w.from ? fmt.date(w.from) + ' to ' + fmt.date(w.to) : 'not set') + ', generated ' + fmt.datetime(META.generatedAt) + '. ' + filterSummary()];
     var names = { overview: 'Overview', deals: 'Deals', reps: 'Reps', elements: 'Elements', impact: 'Impact', method: 'Method' };
@@ -2070,8 +2075,6 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   setTheme(savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : null, false);
   themeBtn.addEventListener('click', function () { setTheme(effectiveTheme() === 'dark' ? 'light' : 'dark', true); });
   if (darkMQ && darkMQ.addEventListener) darkMQ.addEventListener('change', function () { setTheme(null, false); });
-  var texBtn = document.getElementById('texture-toggle');
-  texBtn.addEventListener('click', function () { var on = document.body.classList.toggle('texture'); texBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); });
   window.addEventListener('beforeprint', function () { document.querySelectorAll('.tabpanel.active details').forEach(function (d) { d.setAttribute('data-was-open', d.open ? '1' : '0'); d.open = true; }); });
   window.addEventListener('afterprint', function () { document.querySelectorAll('.tabpanel.active details[data-was-open]').forEach(function (d) { d.open = d.getAttribute('data-was-open') === '1'; d.removeAttribute('data-was-open'); }); });
 
