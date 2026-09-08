@@ -53,3 +53,32 @@ Scores are proposals the rep confirms, edits or rejects with a reason; they are 
 | CO | Competition | Named vendors, build, other priorities and the status quo, each assessed | named-competition, tested-status-quo, positioned-differentiation |
 
 General tags for any element: secured-next-step, multi-threaded, summarised-and-confirmed. MEDDIC uses the first seven rows without PP and CO, with I read as Identify Pain.
+
+## Behaviour tags: when each one applies
+
+A tag records what the rep did, not what the buyer said. Attach every tag whose test is met in the interaction; two tags on one element are normal when the rep did both things. Where two tags in one element look alike, the second is the step beyond the first.
+
+| Tag | The rep... |
+|---|---|
+| asked-metrics | asked what number would change, what it is today, or who reports it |
+| quantified-impact | asked what the problem or the improvement is worth in money, time or volume (beyond naming the metric) |
+| identified-eb | asked who approves or signs spend of this size, or who holds the budget, whatever the answer |
+| asked-eb-access | asked to meet, be introduced to, or present to that person |
+| engaged-eb | spoke with the Economic Buyer directly in this interaction, or asked them a question |
+| mapped-decision-criteria | asked what the buyer will judge vendors on, how criteria are weighted, or what the scorecard looks like |
+| shaped-decision-criteria | proposed a criterion or a weighting, and the buyer took it into their list |
+| mapped-decision-process | asked about the steps, the people or the dates between now and a decision |
+| agreed-mutual-plan | proposed or confirmed a dated sequence of steps that both sides accepted |
+| asked-paper-process | asked about legal, security, procurement, contract or signature steps, owners or durations |
+| identified-pain | asked what the problem is, how it shows up, or who feels it |
+| implicated-pain | asked what happens if nothing changes, what it costs, or who is accountable for it |
+| tested-champion | asked the contact to do something that shows influence: an introduction, an internal meeting, a document shared, a scenario without the rep in the room |
+| developed-champion | armed the contact to sell internally: gave them the business case, coached the pitch, offered material for the steering group |
+| named-competition | asked which alternatives are being considered, including build or the incumbent |
+| tested-status-quo | asked what happens if the buyer does nothing, or whether doing nothing is an option |
+| positioned-differentiation | contrasted the offer with a named alternative on a criterion the buyer cares about |
+| secured-next-step | a dated next step both sides agreed before the interaction ended |
+| multi-threaded | a second buyer-side person took part in the interaction, or the rep asked for another named person to be brought in |
+| summarised-and-confirmed | restated what the buyer said and the buyer confirmed or corrected it |
+
+Attach an element's tags to that element. Attach a general tag to the element it served (multi-threaded usually to E or CH, secured-next-step to DP, summarised-and-confirmed to whatever was summarised).

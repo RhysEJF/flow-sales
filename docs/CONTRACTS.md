@@ -185,7 +185,7 @@ Rules the judge follows (also in `skills/methodology/SKILL.md`):
 
 ### 8.1 Behaviour tag vocabulary
 
-M: `asked-metrics`, `quantified-impact`. E: `identified-eb`, `asked-eb-access`, `engaged-eb`. DC: `mapped-decision-criteria`, `shaped-decision-criteria`. DP: `mapped-decision-process`, `agreed-mutual-plan`. PP: `asked-paper-process`. I: `identified-pain`, `implicated-pain`. CH: `tested-champion`, `developed-champion`. CO: `named-competition`, `tested-status-quo`, `positioned-differentiation`. Any element: `secured-next-step`, `multi-threaded`, `summarised-and-confirmed`.
+Each tag has an operational test in `skills/methodology/SKILL.md` ("Behaviour tags: when each one applies"); the judge attaches every tag whose test is met. M: `asked-metrics`, `quantified-impact`. E: `identified-eb`, `asked-eb-access`, `engaged-eb`. DC: `mapped-decision-criteria`, `shaped-decision-criteria`. DP: `mapped-decision-process`, `agreed-mutual-plan`. PP: `asked-paper-process`. I: `identified-pain`, `implicated-pain`. CH: `tested-champion`, `developed-champion`. CO: `named-competition`, `tested-status-quo`, `positioned-differentiation`. Any element: `secured-next-step`, `multi-threaded`, `summarised-and-confirmed`.
 
 ### 8.2 Validation (`fs.py validate-assessment <file>`)
 
