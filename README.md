@@ -81,7 +81,7 @@ Every deal is a row with its eight element levels, its gate and the adoption beh
 <p align="center"><img src="./docs/screenshots/report-deals.png" alt="FlowSales deals table with the element strip per deal" width="900"></p>
 <p align="center"><img src="./docs/screenshots/report-deal-page.png" alt="FlowSales deal page with the interaction timeline" width="900"></p>
 
-The impact tab is the slide: one quarter, four numbers, the before and after chart and the rule beside them. The whole report works on a phone, with charts rendered at phone width and the tabs as a bottom bar.
+The impact tab is the slide: one quarter, four numbers, the before and after chart and the rule beside them. Filters on the overview (reps, one element, interaction type, deal outcome) and a period control in the header recompute the charts from the interaction-level data in the file. The Export menu saves the report as PDF or Markdown. The whole report works on a phone, with charts rendered at phone width and the tabs as a bottom bar.
 
 <p align="center"><img src="./docs/screenshots/report-impact.png" alt="FlowSales impact slide" width="900"></p>
 <p align="center"><img src="./docs/screenshots/report-phone.png" alt="FlowSales report on a phone" width="300"></p>

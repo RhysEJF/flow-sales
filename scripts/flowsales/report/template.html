@@ -124,6 +124,40 @@ main { max-width: 1180px; margin: 0 auto; padding: 24px 24px 56px; }
 .verdict-more .v-num { color: var(--ink); font-weight: 700; }
 .verdict-note { margin: 10px 0 0; font-size: 12px; color: var(--muted); }
 
+/* ---------- header controls: period, export menu, the note on tabs the period does not touch */
+.toolbar { flex-wrap: wrap; justify-content: flex-end; }
+.toolbar select.period { font: inherit; font-size: 12px; padding: 6px 26px 6px 10px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--surface); color: var(--ink); max-width: 220px; }
+.menu { position: relative; }
+.menu summary { list-style: none; display: inline-block; }
+.menu summary::-webkit-details-marker { display: none; }
+.menu summary::after { content: " \25BE"; font-size: 10px; }
+.menu[open] summary { background: var(--raised); }
+.menu-list { position: absolute; right: 0; top: calc(100% + 6px); z-index: 45; display: grid; min-width: 200px; padding: 6px; background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 8px; box-shadow: 0 10px 28px rgba(0,0,0,.14); }
+.menu-list button { font: inherit; font-size: 13px; text-align: left; background: none; border: 0; padding: 8px 10px; border-radius: 6px; color: var(--ink); cursor: pointer; white-space: nowrap; }
+.menu-list button:hover { background: var(--tint); }
+.period-note { margin: 0 0 12px; padding: 8px 12px; font-size: 12.5px; color: var(--ink-2); background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--st-warn); border-radius: 6px; }
+
+/* ---------- filters: chips and selects that drive every chart on the overview */
+.filters { display: block; padding: 12px 16px; margin: 4px 0 6px; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; }
+.f-body { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: flex-start; }
+.f-summary { display: none; }
+.f-group { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.f-label { font-size: 12px; color: var(--muted); }
+.f-controls { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.fchip { font: inherit; font-size: 12.5px; line-height: 1.3; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--rule-strong); background: var(--surface); color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.fchip[aria-pressed="false"] { color: var(--muted); border-style: dashed; }
+.fchip[aria-pressed="false"] .swatch { opacity: .3; }
+.fchip:hover { border-color: var(--accent); color: var(--ink); }
+.filters select { font: inherit; font-size: 12.5px; padding: 5px 8px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--surface); color: var(--ink); min-height: 30px; }
+.f-status { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 12px; color: var(--ink-2); border-top: 1px solid var(--rule); padding-top: 10px; margin-top: 2px; }
+.f-status b { color: var(--ink); }
+.f-status .btn[disabled] { opacity: .45; cursor: default; }
+.filters-print { display: none; font-size: 12px; color: var(--ink-2); margin: 6px 0; }
+.viz .lg-item { cursor: pointer; }
+.viz .lg-item:hover text, .viz .lg-item:focus text { fill: var(--ink); text-decoration: underline; }
+.viz .lg-item.off { opacity: .4; }
+.viz .lg-item .hitarea { fill: transparent; }
+
 /* ---------- tiles */
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px 24px; margin: 18px 0; }
 .tile { border-top: 2px solid var(--display); padding: 10px 0 2px; min-width: 0; }
@@ -250,6 +284,10 @@ ul.plain { padding-left: 20px; margin: 4px 0; }
 ul.plain li { margin: 4px 0; max-width: 90ch; }
 
 /* ---------- reps */
+.rep-switch { position: sticky; top: var(--top-h, 0px); z-index: 20; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 0; margin: 0 0 12px; background: var(--page); border-bottom: 1px solid var(--rule); }
+.rep-switch select { font: inherit; font-size: 13px; padding: 7px 28px 7px 10px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--surface); color: var(--ink); min-width: 220px; max-width: 100%; }
+.rep-switch .btn { padding: 6px 11px; font-size: 15px; line-height: 1; }
+.rep-pos { flex-basis: auto; }
 .rep-nav { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 12px; }
 .rep-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 18px 20px; margin: 16px 0; scroll-margin-top: 110px; }
 .rep-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
@@ -365,13 +403,23 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
 /* ---------- phone: bottom tab bar with the pixel icons, stacked tiles, deal cards, charts rendered at phone width */
 @media (max-width: 720px) {
   .top { position: static; }
-  .top-row { padding: 12px 16px 10px; align-items: center; }
+  .top-row { padding: 10px 16px 8px; align-items: center; flex-wrap: wrap; gap: 8px 12px; }
+  .brand { flex: 1 1 100%; }
+  .toolbar { flex: 1 1 100%; }
   .brand { gap: 12px; }
   .mark svg { height: 12px; }
   .t-long, .meta-gen { display: none; }
   .t-short { display: inline; }
   .toolbar .btn { padding: 7px 9px; }
-  #texture-toggle, #print-btn { display: none; }
+  #texture-toggle { display: none; }
+  .toolbar { justify-content: flex-start; }
+  .toolbar select.period { max-width: 160px; }
+  .rep-switch { top: 0; }
+  .rep-switch select { min-width: 0; flex: 1 1 140px; }
+  .rep-pos { flex-basis: 100%; }
+  .filters { padding: 10px 12px; }
+  .f-body { gap: 10px 18px; margin-top: 10px; }
+  .f-summary { display: block; cursor: pointer; font-weight: 600; font-size: 13px; }
   .tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; margin: 0; max-width: none; padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); background: var(--surface); border-top: 1px solid var(--rule); display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; }
   .tab { flex-direction: column; gap: 4px; padding: 6px 0 4px; font-size: 10.5px; border-radius: 6px; color: var(--muted); }
   .tab svg { display: block; width: 18px; height: 18px; }
@@ -418,7 +466,8 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   @page { margin: 14mm; }
   html, body { background: #fff; }
   .top { position: static; border: 0; }
-  .toolbar, .tabs, .fig-toggle, .deals-toolbar, .tip, .back, .rep-nav, .verdict-note { display: none !important; }
+  .toolbar, .tabs, .fig-toggle, .deals-toolbar, .tip, .back, .rep-nav, .verdict-note, .filters, .rep-switch, .period-note { display: none !important; }
+  .filters-print { display: block; }
   main { padding: 0; max-width: none; }
   .tabpanel:not(.active) { display: none !important; }
   .tabpanel.active { display: block !important; animation: none; }
@@ -459,9 +508,10 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
       </div>
     </div>
     <div class="toolbar">
+      <select id="period-select" class="period" aria-label="Period for the Overview and Reps tabs" title="Period for the Overview and Reps tabs"></select>
+      <details class="menu" id="export-menu"><summary class="btn">Export</summary><div class="menu-list"><button type="button" id="export-pdf">Save as PDF</button><button type="button" id="export-md">Download Markdown</button><button type="button" id="export-md-copy">Copy Markdown</button></div></details>
       <button type="button" class="btn" id="theme-toggle" aria-pressed="false">Dark theme</button>
       <button type="button" class="btn" id="texture-toggle" aria-pressed="false" title="Textured fills for colour-blind readers and print">Texture</button>
-      <button type="button" class="btn" id="print-btn">Print</button>
     </div>
   </div>
   <nav class="tabs" role="tablist" aria-label="Report sections">
@@ -475,6 +525,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   </nav>
 </header>
 <main>
+  <p id="period-note" class="period-note" hidden></p>
   <section id="tab-overview" class="tabpanel active" role="tabpanel" aria-labelledby="tab-btn-overview"></section>
   <section id="tab-deals" class="tabpanel" role="tabpanel" aria-labelledby="tab-btn-deals" hidden></section>
   <section id="tab-reps" class="tabpanel" role="tabpanel" aria-labelledby="tab-btn-reps" hidden></section>
@@ -536,7 +587,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   }
   function isNum(v) { return typeof v === 'number' && !isNaN(v); }
   var fmt = {
-    pct: function (v, d) { return isNum(v) ? (v * 100).toFixed(d || 0) + '%' : 'n/a'; },
+    pct: function (v, d) { if (!isNum(v)) return 'n/a'; var x = v * 100, p = Math.pow(10, d || 0), y = x * p, f = Math.floor(y), r = Math.abs(y - f - 0.5) < 1e-9 ? (f % 2 === 0 ? f : f + 1) : Math.round(y); return (r / p).toFixed(d || 0) + '%'; },
     num: function (v) { return isNum(v) ? v.toLocaleString('en-GB') : (v == null ? 'n/a' : String(v)); },
     level: function (v) { return isNum(v) ? v.toFixed(1) : 'n/a'; },
     moneyTotal: function (total, byCur, cur) {
@@ -625,7 +676,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     fig.appendChild(head);
     if (!chart || !chart.svg) { fig.appendChild(h('p', { class: 'empty' }, note || 'No data for this chart yet.')); return fig; }
     var chartEl = h('div', { class: 'fig-chart', html: chartHtml(chart) });
-    figs.push({ el: chartEl, chart: chart });
+    if (chart.narrow) figs.push({ el: chartEl, chart: chart });
     var tableEl = h('div', { class: 'fig-table', html: chart.table || '' });
     if (opts.tableBeneath) {
       head.appendChild(h('span', { class: 'badge' }, 'chart and table'));
@@ -696,22 +747,509 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     return box;
   }
 
-  // ---------- overview
+  // ---------- interaction records: the same rows the rollup builds (one per judged interaction), so the
+  // filtered numbers reproduce the analytics files exactly when no filter is set
+  var CODES = ELEMENTS.map(function (e) { return e.code; });
+  var RECORDS = [];
+  DEALS.forEach(function (d) {
+    var a = ASSESS[d.id]; if (!a) return;
+    var st = stateById[d.id] || {};
+    var stored = {}; (INTER[d.id] || []).forEach(function (i) { if (i.id) stored[i.id] = i; });
+    var seen = {};
+    (a.interactions || []).forEach(function (e) {
+      if (!e || typeof e !== 'object') return;
+      var iid = e.interactionId; if (!iid || seen[iid]) return; seen[iid] = 1;
+      var inter = stored[iid] || {};
+      var atIso = e.at || inter.at || null;
+      var at = atIso ? new Date(atIso) : null; if (at && isNaN(at)) at = null;
+      var raw = e.elements && typeof e.elements === 'object' ? e.elements : {};
+      var applicable = (Array.isArray(e.applicable) ? e.applicable : Object.keys(raw)).filter(function (c) { return CODES.indexOf(c) >= 0; });
+      var els = {}, tags = 0, hi = 0, hiBuyer = 0;
+      CODES.forEach(function (c) {
+        var b = raw[c]; if (!b || typeof b !== 'object') return;
+        var t = (b.behaviourTags || []).filter(function (x) { return typeof x === 'string' && x; });
+        els[c] = Number(b.behaviour) === 1 || t.length > 0;
+        tags += t.length;
+        var ev = Math.max(0, parseInt(b.evidence, 10) || 0); if (ev > 1 && b.verified !== true) ev = 1;
+        if (ev >= 2) { hi += 1; if (b.speaker === 'buyer') hiBuyer += 1; }
+      });
+      RECORDS.push({ id: iid, dealId: d.id, at: at, type: inter.type || e.type || 'unknown', repId: inter.repId || d.ownerId || null,
+        outcome: st.outcome || d.outcome || 'open', applicable: applicable, els: els, applied: tags > 0, hi: hi, hiBuyer: hiBuyer });
+    });
+  });
+  var TYPES = []; RECORDS.forEach(function (r) { if (TYPES.indexOf(r.type) < 0) TYPES.push(r.type); }); TYPES.sort();
+  var OUTCOMES = ['won', 'lost', 'open'];
+  var TRAINING = META.trainingDate ? new Date(META.trainingDate) : null; if (TRAINING && isNaN(TRAINING)) TRAINING = null;
+  var REPS_SORTED = REPS.slice().sort(function (a, b) { return (a.slot || 99) - (b.slot || 99) || String(a.name).localeCompare(String(b.name)); });
+  var REP_IDS = REPS_SORTED.map(function (r) { return r.id; });
+
+  // ISO weeks, Monday start, in UTC (the rollup's week grid)
+  function weekStart(d) { var t = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate())); t.setUTCDate(t.getUTCDate() - ((t.getUTCDay() + 6) % 7)); return t; }
+  function isoWeek(d) {
+    var t = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+    var day = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - day);
+    var y = t.getUTCFullYear(); var w = Math.ceil(((t - Date.UTC(y, 0, 1)) / 864e5 + 1) / 7);
+    return y + '-W' + (w < 10 ? '0' : '') + w;
+  }
+  function weekMonday(w) {
+    var m = /^(\d{4})-W(\d{2})$/.exec(w); if (!m) return null;
+    var mon = weekStart(new Date(Date.UTC(+m[1], 0, 4))); mon.setUTCDate(mon.getUTCDate() + (+m[2] - 1) * 7); return mon;
+  }
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function weekLabel(w) { var d = weekMonday(w); return d ? d.getUTCDate() + ' ' + MONTHS[d.getUTCMonth()] : w; }
+  function weekTip(w) { var d = weekMonday(w); return d ? w + ' (week of ' + fmt.date(d.toISOString()) + ')' : w; }
+  var WEEKS = (function () {
+    var ts = DATA.timeseries;
+    if (ts && Array.isArray(ts.weeks) && ts.weeks.length) return ts.weeks.map(String);
+    var pts = RECORDS.map(function (r) { return r.at; }).filter(Boolean);
+    if (META.window) { ['from', 'to'].forEach(function (k) { if (META.window[k]) { var d = new Date(META.window[k]); if (!isNaN(d)) pts.push(d); } }); }
+    if (!pts.length) return [];
+    var cur = weekStart(new Date(Math.min.apply(null, pts))), last = weekStart(new Date(Math.max.apply(null, pts))), out = [];
+    while (cur <= last) { out.push(isoWeek(cur)); cur = new Date(cur.getTime() + 7 * 864e5); }
+    return out;
+  })();
+
+  // ---------- filter state: null means "all"
+  var F = { reps: null, element: '', types: null, outcomes: null, period: 'all' };
+  function fActive() { return !!(F.reps || F.element || F.types || F.outcomes || F.period !== 'all'); }
+  function fReset() { F.reps = null; F.element = ''; F.types = null; F.outcomes = null; }
+  function localActive() { return !!(F.reps || F.element || F.types || F.outcomes); }
+  function toggleIn(key, all, id) {
+    var cur = F[key] ? F[key].slice() : all.slice();
+    var i = cur.indexOf(id); if (i >= 0) cur.splice(i, 1); else cur.push(id);
+    F[key] = cur.length === all.length ? null : cur;
+  }
+  function periodWeeks() {
+    var w = WEEKS;
+    if (F.period === 'last12') return w.slice(-12);
+    if (F.period === 'last26') return w.slice(-26);
+    if (TRAINING && (F.period === 'before' || F.period === 'after')) {
+      var i = w.indexOf(isoWeek(TRAINING)); if (i < 0) return w;
+      return F.period === 'before' ? w.slice(0, i + 1) : w.slice(i);
+    }
+    return w;
+  }
+  function isApplied(r) { return F.element ? !!r.els[F.element] : r.applied; }
+  function inView() {
+    var weeks = periodWeeks();
+    var from = weeks.length ? weekMonday(weeks[0]) : null;
+    var to = weeks.length ? new Date(weekMonday(weeks[weeks.length - 1]).getTime() + 7 * 864e5) : null;
+    var zoom = F.period === 'last12' || F.period === 'last26';
+    var recs = RECORDS.filter(function (r) {
+      if (F.reps && F.reps.indexOf(r.repId) < 0) return false;
+      if (F.types && F.types.indexOf(r.type) < 0) return false;
+      if (F.outcomes && F.outcomes.indexOf(r.outcome) < 0) return false;
+      if (F.element && r.applicable.indexOf(F.element) < 0) return false;
+      if (F.period === 'before' && TRAINING && !(r.at && r.at < TRAINING)) return false;
+      if (F.period === 'after' && TRAINING && !(r.at && r.at >= TRAINING)) return false;
+      if (zoom && !(r.at && from && r.at >= from && r.at < to)) return false;
+      return true;
+    });
+    return { recs: recs, weeks: weeks };
+  }
+  function filterSummary() {
+    var bits = [];
+    if (F.reps) bits.push('reps ' + F.reps.map(repName).join(', '));
+    if (F.element) bits.push('element ' + F.element + ' ' + elName(F.element));
+    if (F.types) bits.push('type ' + F.types.join(', '));
+    if (F.outcomes) bits.push('outcome ' + F.outcomes.join(', '));
+    if (F.period === 'before') bits.push('before training'); if (F.period === 'after') bits.push('after training');
+    if (F.period === 'last12') bits.push('last 12 weeks'); if (F.period === 'last26') bits.push('last 26 weeks');
+    return bits.length ? 'Filters: ' + bits.join('; ') + '.' : 'No filters: the whole window.';
+  }
+
+  // ---------- computations on the records in view (the rollup's rules, applied to the subset)
+  function weekBuckets(recs, keyOf) {
+    var out = {};
+    recs.forEach(function (r) {
+      if (!r.at) return;
+      var k = keyOf(r), w = isoWeek(r.at);
+      var m = out[k] || (out[k] = {}); var b = m[w] || (m[w] = { n: 0, a: 0 });
+      b.n += 1; if (isApplied(r)) b.a += 1;
+    });
+    return out;
+  }
+  function rolling(map, weeks, win) {
+    win = win || 4; var out = [];
+    for (var i = 0; i < weeks.length; i++) {
+      var n = 0, a = 0;
+      for (var j = Math.max(0, i - win + 1); j <= i; j++) { var b = map && map[weeks[j]]; if (b) { n += b.n; a += b.a; } }
+      out.push(n ? a / n : null);
+    }
+    return out;
+  }
+  function sliceTo(values, weeks) { var i = WEEKS.indexOf(weeks[0]); return i < 0 ? values : values.slice(i, i + weeks.length); }
+  function adoptionSeries(recs, weeks) {
+    var byRep = weekBuckets(recs, function (r) { return r.repId || ''; });
+    var series = [], pooled = 0, pooledMap = {};
+    REPS_SORTED.forEach(function (rep) {
+      var m = byRep[rep.id]; if (!m) return;
+      if (rep.slot) { series.push({ name: rep.name, key: rep.id, values: sliceTo(rolling(m, WEEKS), weeks), color: 's' + rep.slot }); return; }
+      pooled += 1;
+      Object.keys(m).forEach(function (w) { var b = pooledMap[w] || (pooledMap[w] = { n: 0, a: 0 }); b.n += m[w].n; b.a += m[w].a; });
+    });
+    if (pooled) series.push({ name: 'Other reps (' + pooled + ', pooled)', values: sliceTo(rolling(pooledMap, WEEKS), weeks), color: 's0' });
+    var team = weekBuckets(recs, function () { return 't'; }).t;
+    if (team && (series.length !== 1 || pooled)) series.push({ name: F.reps ? 'Selected reps' : 'Team', values: sliceTo(rolling(team, WEEKS), weeks), color: 'ink2', dashed: true });
+    return series;
+  }
+  function dealsInView(recs) {
+    var m = {};
+    recs.forEach(function (r) { var d = m[r.dealId] || (m[r.dealId] = { n: 0, a: 0 }); d.n += 1; if (isApplied(r)) d.a += 1; });
+    return m;
+  }
+  function outcomeOf(id) { return (stateById[id] || {}).outcome || (dealById[id] || {}).outcome || 'open'; }
+  function median(xs) { if (!xs.length) return null; var s = xs.slice().sort(function (a, b) { return a - b; }); var k = s.length; return k % 2 ? s[(k - 1) / 2] : (s[k / 2 - 1] + s[k / 2]) / 2; }
+  function tertileRows(dealMap) {
+    var closed = [];
+    Object.keys(dealMap).forEach(function (id) {
+      var oc = outcomeOf(id); if (oc !== 'won' && oc !== 'lost') return;
+      var v = dealMap[id]; if (!v.n) return;
+      var s = stateById[id] || {}, d = dealById[id] || {};
+      closed.push({ id: id, adoption: v.a / v.n, outcome: oc, cycle: s.cycleDays, amount: s.amount != null ? s.amount : d.amount });
+    });
+    closed.sort(function (x, y) { return x.adoption - y.adoption; });
+    var groups = { low: [], mid: [], high: [] };
+    if (closed.length) {
+      var n = closed.length, q1 = closed[Math.floor(n / 3)].adoption, q2 = closed[Math.floor(2 * n / 3)].adoption;
+      closed.forEach(function (c) { if (c.adoption < q1) groups.low.push(c); else if (c.adoption < q2) groups.mid.push(c); else groups.high.push(c); });
+    }
+    return ['low', 'mid', 'high'].map(function (name) {
+      var g = groups[name], won = g.filter(function (c) { return c.outcome === 'won'; }).length;
+      var ad = g.map(function (c) { return c.adoption; });
+      return { tertile: name, n: g.length, winRate: g.length ? won / g.length : null,
+        medianCycleDays: median(g.map(function (c) { return c.cycle; }).filter(isNum)),
+        adoptionRange: g.length ? [Math.min.apply(null, ad), Math.max.apply(null, ad)] : null };
+    });
+  }
+  function beforeAfterByRep(recs) {
+    var per = {};
+    recs.forEach(function (r) {
+      if (!r.at) return;
+      var p = per[r.repId || ''] || (per[r.repId || ''] = { bn: 0, ba: 0, an: 0, aa: 0 });
+      if (r.at < TRAINING) { p.bn += 1; if (isApplied(r)) p.ba += 1; } else { p.an += 1; if (isApplied(r)) p.aa += 1; }
+    });
+    return per;
+  }
+
+  // ---------- chart builders in the page (the same marks and spacing as charts.py)
+  var CW = 6.2, BAR_MAX = 24, BAR_R = 4, LEG_ROW = 18;
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function nn(x) { return Math.abs(x - Math.round(x)) < 0.005 ? String(Math.round(x)) : x.toFixed(1); }
+  function tipStr(title, rows) { return [title].concat(rows.map(function (r) { return r.map(function (p) { return p == null ? '' : String(p); }).join('|'); })).join('\n'); }
+  function tipAttr(t) { return esc(t).replace(/\n/g, '&#10;'); }
+  function fit(text, maxW) { text = String(text == null ? '' : text); var n = Math.floor(maxW / CW); if (text.length <= n) return text; if (n <= 1) return ''; return text.slice(0, n - 1).replace(/\s+$/, '') + '…'; }
+  function maxLen(list) { return list.reduce(function (m, s) { return Math.max(m, String(s).length); }, 0); }
+  function ticksFor(vmax, isRate) {
+    if (isRate) return [0, 0.25, 0.5, 0.75, 1];
+    if (!vmax || vmax <= 0) return [0, 1];
+    var raw = vmax / 4, mag = Math.pow(10, Math.floor(Math.log10(raw))), step = mag;
+    [1, 2, 2.5, 5, 10].some(function (m) { step = m * mag; return step >= raw; });
+    var top = Math.ceil(vmax / step - 1e-9) * step, k = Math.max(1, Math.round(top / step)), out = [];
+    for (var i = 0; i <= k; i++) out.push(i * step);
+    return out;
+  }
+  function vbar(x, y, w, hh) { if (hh <= 0 || w <= 0) return ''; var r = Math.min(BAR_R, w / 2, hh); return 'M' + nn(x) + ',' + nn(y + hh) + 'V' + nn(y + r) + 'A' + nn(r) + ',' + nn(r) + ' 0 0 1 ' + nn(x + r) + ',' + nn(y) + 'H' + nn(x + w - r) + 'A' + nn(r) + ',' + nn(r) + ' 0 0 1 ' + nn(x + w) + ',' + nn(y + r) + 'V' + nn(y + hh) + 'Z'; }
+  function hbarPath(x, y, w, hh) { if (hh <= 0 || w <= 0) return ''; var r = Math.min(BAR_R, hh / 2, w); return 'M' + nn(x) + ',' + nn(y) + 'H' + nn(x + w - r) + 'A' + nn(r) + ',' + nn(r) + ' 0 0 1 ' + nn(x + w) + ',' + nn(y + r) + 'V' + nn(y + hh - r) + 'A' + nn(r) + ',' + nn(r) + ' 0 0 1 ' + nn(x + w - r) + ',' + nn(y + hh) + 'H' + nn(x) + 'Z'; }
+  function svgWrap(w, hh, body, aria) { return '<svg class="viz" viewBox="0 0 ' + nn(w) + ' ' + nn(hh) + '" width="' + nn(w) + '" height="' + nn(hh) + '" role="img" aria-label="' + esc(aria) + '">' + body + '</svg>'; }
+  function tableHtml(headers, rows, caption, numFrom) {
+    var out = ['<table class="viz-table">'];
+    if (caption) out.push('<caption>' + esc(caption) + '</caption>');
+    out.push('<thead><tr>' + headers.map(function (hd, i) { return '<th scope="col"' + (i >= numFrom ? ' class="num"' : '') + '>' + esc(hd) + '</th>'; }).join('') + '</tr></thead><tbody>');
+    rows.forEach(function (r) { out.push('<tr>' + r.map(function (c, i) { return '<td' + (i >= numFrom ? ' class="num"' : '') + '>' + esc(c) + '</td>'; }).join('') + '</tr>'); });
+    out.push('</tbody></table>');
+    return out.join('');
+  }
+  function legendSvg(items, x, y, maxW, kind) {
+    var parts = [], cx = x, cy = y;
+    items.forEach(function (it) {
+      var w = (kind === 'line' ? 18 : 14) + it.name.length * CW + 16;
+      if (cx > x && cx + w > x + maxW) { cx = x; cy += LEG_ROW; }
+      if (it.key) {
+        parts.push('<g class="lg-item' + (it.off ? ' off' : '') + '" data-rep="' + esc(it.key) + '" tabindex="0" role="button" aria-pressed="' + (it.off ? 'false' : 'true') + '" aria-label="' + esc((it.off ? 'Show ' : 'Hide ') + it.name) + '">');
+        parts.push('<rect x="' + nn(cx - 4) + '" y="' + nn(cy - 9) + '" width="' + nn(w - 8) + '" height="18" rx="4" class="hitarea"/>');
+      } else parts.push('<g>');
+      if (kind === 'line') {
+        parts.push('<line x1="' + nn(cx) + '" y1="' + nn(cy) + '" x2="' + nn(cx + 14) + '" y2="' + nn(cy) + '" class="lkey stroke-' + it.token + '"' + (it.dashed ? ' stroke-dasharray="5 4"' : '') + '/>');
+        parts.push('<text x="' + nn(cx + 19) + '" y="' + nn(cy + 4) + '" class="lg">' + esc(it.name) + '</text>');
+      } else {
+        parts.push('<rect x="' + nn(cx) + '" y="' + nn(cy - 5) + '" width="10" height="10" rx="2" class="mark fill-' + it.token + ' ' + it.token + '"/>');
+        parts.push('<text x="' + nn(cx + 15) + '" y="' + nn(cy + 4) + '" class="lg">' + esc(it.name) + '</text>');
+      }
+      parts.push('</g>');
+      cx += w;
+    });
+    return { svg: parts.join(''), h: (cy - y) + LEG_ROW };
+  }
+  function lineChart(o) {
+    var n = o.labels.length, W = o.width, H = o.height, top = 1;
+    var ticks = ticksFor(1, true), tl = ticks.map(function (t) { return fmt.pct(t); });
+    var left = maxLen(tl) * CW + 12;
+    var doEnd = o.endLabels && o.series.length <= 4;
+    var right = 14 + (doEnd ? maxLen(o.series.map(function (s) { return s.name; })) * CW + 14 : 0);
+    var plotW = W - left - right;
+    var lg = { svg: '', h: 0 };
+    if (o.series.length >= 2 || o.legendAlways) lg = legendSvg(o.series.map(function (s) { return { name: s.name, token: s.color, dashed: !!s.dashed, key: s.key, off: s.off }; }).concat(o.extraLegend || []), left, 10, plotW, 'line');
+    var padTop = lg.h + (o.vline && o.vline.label ? 26 : 14), bottom = 28, plotH = H - padTop - bottom, y0 = padTop + plotH;
+    var xs = []; for (var i = 0; i < n; i++) xs.push(left + (n > 1 ? plotW * i / (n - 1) : plotW / 2));
+    var slot = n > 1 ? plotW / (n - 1) : plotW;
+    var b = [lg.svg];
+    ticks.forEach(function (t, i) {
+      var y = y0 - (t / top) * plotH;
+      b.push('<line x1="' + nn(left) + '" x2="' + nn(left + plotW) + '" y1="' + nn(y) + '" y2="' + nn(y) + '" class="grid"/>');
+      b.push('<text x="' + nn(left - 6) + '" y="' + nn(y + 4) + '" class="ax" text-anchor="end">' + esc(tl[i]) + '</text>');
+    });
+    b.push('<line x1="' + nn(left) + '" x2="' + nn(left + plotW) + '" y1="' + nn(y0) + '" y2="' + nn(y0) + '" class="axis"/>');
+    if (n) {
+      var every = n > 1 ? Math.max(1, Math.ceil((maxLen(o.labels) * CW + 10) / slot)) : 1;
+      o.labels.forEach(function (lab, i) { if (i % every === 0 || (i === n - 1 && (n - 1) % every >= every / 2)) b.push('<text x="' + nn(xs[i]) + '" y="' + nn(y0 + 17) + '" class="ax" text-anchor="middle">' + esc(lab) + '</text>'); });
+    }
+    if (o.vline && o.vline.pos != null) {
+      var vx = left + Math.max(0, Math.min(1, o.vline.pos)) * plotW;
+      b.push('<line x1="' + nn(vx) + '" x2="' + nn(vx) + '" y1="' + nn(padTop - 4) + '" y2="' + nn(y0) + '" class="vmark"/>');
+      if (o.vline.label) { var anchor = vx < left + plotW * 0.7 ? 'start' : 'end'; b.push('<text x="' + nn(anchor === 'start' ? vx + 5 : vx - 5) + '" y="' + nn(padTop - 6) + '" class="ax vlab" text-anchor="' + anchor + '">' + esc(o.vline.label) + '</text>'); }
+    }
+    var usedY = [], r = n <= 30 ? 4 : 3;
+    o.series.forEach(function (s) {
+      if (s.off) return;
+      var pts = []; s.values.forEach(function (v, i) { if (v != null) pts.push([xs[i], y0 - (v / top) * plotH]); });
+      if (!pts.length) return;
+      var path = 'M' + pts.map(function (p) { return nn(p[0]) + ',' + nn(p[1]); }).join('L');
+      b.push('<path d="' + path + '" class="line ' + (s.dashed ? 'dashed' : 'solid') + ' stroke-' + s.color + '"' + (s.dashed ? ' stroke-dasharray="6 5"' : ' pathLength="1"') + '/>');
+      pts.forEach(function (p) { b.push('<circle cx="' + nn(p[0]) + '" cy="' + nn(p[1]) + '" r="' + r + '" class="pt fill-' + s.color + '"/>'); });
+      if (doEnd) { var last = pts[pts.length - 1]; if (usedY.every(function (u) { return Math.abs(last[1] - u) >= 12; })) { usedY.push(last[1]); b.push('<text x="' + nn(last[0] + 8) + '" y="' + nn(last[1] + 4) + '" class="dl">' + esc(s.name) + '</text>'); } }
+    });
+    for (var k = 0; k < n; k++) {
+      var title = o.xTips ? o.xTips[k] : o.labels[k];
+      var rows = o.series.filter(function (s) { return !s.off; }).map(function (s) { return [s.name, fmt.pct(s.values[k]), s.color]; });
+      b.push('<rect x="' + nn(Math.max(left, xs[k] - slot / 2)) + '" y="' + nn(padTop) + '" width="' + nn(n > 1 ? slot : plotW) + '" height="' + nn(plotH) + '" class="hitarea col" tabindex="0" data-x="' + nn(xs[k]) + '" data-tip="' + tipAttr(tipStr(title, rows)) + '"/>');
+    }
+    b.push('<line x1="' + nn(left) + '" x2="' + nn(left) + '" y1="' + nn(padTop) + '" y2="' + nn(y0) + '" class="xhair" style="visibility:hidden"/>');
+    var headers = ['Period'].concat(o.series.map(function (s) { return s.name; }));
+    var trows = []; for (var q = 0; q < n; q++) trows.push([o.xTips ? o.xTips[q] : o.labels[q]].concat(o.series.map(function (s) { return fmt.pct(s.values[q]); })));
+    return { svg: svgWrap(W, H, b.join(''), o.aria || o.caption), table: tableHtml(headers, trows, o.caption, 1) };
+  }
+  function barChart(o) { // {cats, vals, labels, tips, width, height, isRate, valueFmt, caption, aria, headers, rows, color}
+    var n = o.cats.length, W = o.width, H = o.height, vf = o.valueFmt || fmt.num, color = o.color || 's1';
+    var vmax = Math.max.apply(null, o.vals.filter(isNum).concat([0]));
+    var ticks = ticksFor(vmax, o.isRate), top = ticks[ticks.length - 1] || 1, tl = ticks.map(function (t) { return vf(t); });
+    var left = maxLen(tl) * CW + 12, padTop = o.labels ? 24 : 12, bottom = 28, plotW = W - left - 12, plotH = H - padTop - bottom, y0 = padTop + plotH;
+    var b = [];
+    ticks.forEach(function (t, i) { var y = y0 - (t / top) * plotH; b.push('<line x1="' + nn(left) + '" x2="' + nn(left + plotW) + '" y1="' + nn(y) + '" y2="' + nn(y) + '" class="grid"/>'); b.push('<text x="' + nn(left - 6) + '" y="' + nn(y + 4) + '" class="ax" text-anchor="end">' + esc(tl[i]) + '</text>'); });
+    var slot = plotW / Math.max(n, 1), bw = Math.min(BAR_MAX, slot * 0.6);
+    o.cats.forEach(function (cat, i) {
+      var v = o.vals[i], cx = left + slot * (i + 0.5), x = cx - bw / 2, hh = isNum(v) ? (v / top) * plotH : 0, y = y0 - hh;
+      var t = (o.tips && o.tips[i]) || tipStr(cat, [['value', vf(v), color]]);
+      b.push('<g class="hit" tabindex="0" data-tip="' + tipAttr(t) + '"><rect x="' + nn(left + slot * i) + '" y="' + nn(padTop) + '" width="' + nn(slot) + '" height="' + nn(plotH) + '" class="hitarea"/>');
+      if (hh > 0) b.push('<path d="' + vbar(x, y, bw, hh) + '" class="mark fill-' + color + ' ' + color + '"/>');
+      if (o.labels && o.labels[i]) b.push('<text x="' + nn(cx) + '" y="' + nn(y - 6) + '" class="dl" text-anchor="middle">' + esc(o.labels[i]) + '</text>');
+      b.push('</g><text x="' + nn(cx) + '" y="' + nn(y0 + 17) + '" class="ax" text-anchor="middle">' + esc(fit(cat, slot - 6)) + '</text>');
+    });
+    b.push('<line x1="' + nn(left) + '" x2="' + nn(left + plotW) + '" y1="' + nn(y0) + '" y2="' + nn(y0) + '" class="axis"/>');
+    var headers = o.headers || ['Category', 'Value'];
+    var rows = o.rows || o.cats.map(function (c, i) { return [c, vf(o.vals[i])]; });
+    return { svg: svgWrap(W, H, b.join(''), o.aria || o.caption), table: tableHtml(headers, rows, o.caption, 1) };
+  }
+  function hbarChart(o) { // {cats, vals, width, rowH, valueFmt, isRate, caption, aria, headers, color, labelMax}
+    var n = o.cats.length, W = o.width, rowH = o.rowH || 24, vf = o.valueFmt || fmt.num, color = o.color || 's1';
+    var vmax = Math.max.apply(null, o.vals.filter(isNum).concat([0]));
+    var ticks = ticksFor(vmax, o.isRate), top = ticks[ticks.length - 1] || 1, tl = ticks.map(function (t) { return vf(t); });
+    var labelW = Math.min(o.labelMax || 160, Math.max(maxLen(o.cats), 4) * CW + 6), left = labelW + 8;
+    var right = (o.vals.length ? maxLen(o.vals.map(function (v) { return vf(v); })) * CW + 16 : 40), padTop = 6, bottom = 22, plotW = W - left - right, plotH = rowH * Math.max(n, 1), H = padTop + plotH + bottom, yEnd = padTop + plotH;
+    var b = [];
+    ticks.forEach(function (t, i) { var x = left + (t / top) * plotW; b.push('<line x1="' + nn(x) + '" x2="' + nn(x) + '" y1="' + nn(padTop) + '" y2="' + nn(yEnd) + '" class="grid"/>'); b.push('<text x="' + nn(x) + '" y="' + nn(yEnd + 15) + '" class="ax" text-anchor="middle">' + esc(tl[i]) + '</text>'); });
+    var bh = Math.min(18, rowH - 6);
+    o.cats.forEach(function (cat, i) {
+      var v = o.vals[i], y = padTop + rowH * i + (rowH - bh) / 2, w = isNum(v) ? (v / top) * plotW : 0;
+      b.push('<g class="hit" tabindex="0" data-tip="' + tipAttr(tipStr(cat, [['value', vf(v), color]])) + '"><rect x="0" y="' + nn(padTop + rowH * i) + '" width="' + nn(W) + '" height="' + nn(rowH) + '" class="hitarea"/>');
+      if (w > 0) b.push('<path d="' + hbarPath(left, y, w, bh) + '" class="mark fill-' + color + ' ' + color + '"/>');
+      b.push('<text x="' + nn(left + w + 6) + '" y="' + nn(y + bh / 2 + 4) + '" class="dl">' + esc(vf(v)) + '</text></g>');
+      b.push('<text x="' + nn(left - 8) + '" y="' + nn(y + bh / 2 + 4) + '" class="ax cat" text-anchor="end">' + esc(fit(cat, labelW)) + '</text>');
+    });
+    b.push('<line x1="' + nn(left) + '" x2="' + nn(left) + '" y1="' + nn(padTop) + '" y2="' + nn(yEnd) + '" class="axis"/>');
+    var headers = o.headers || ['Category', 'Value'];
+    return { svg: svgWrap(W, H, b.join(''), o.aria || o.caption), table: tableHtml(headers, o.cats.map(function (c, i) { return [c, vf(o.vals[i])]; }), o.caption, 1) };
+  }
+  function smallMultiples(o) { // {panels:[{title, values, labels, tips}], cats, colors, cols, panelW, panelH, caption, aria, headers, rows}
+    var n = o.panels.length, cols = Math.max(1, Math.min(o.cols, Math.max(n, 1))), rowsN = Math.max(1, Math.ceil(n / cols));
+    var panelW = o.panelW || 150, panelH = o.panelH || 132, top = 1, W = cols * panelW + 16, nb = Math.max(o.cats.length, 1);
+    var lg = legendSvg(o.cats.map(function (c, i) { return { name: c, token: o.colors[i % o.colors.length] }; }), 8, 12, W - 16, 'rect');
+    var headerH = lg.h + 4, H = headerH + rowsN * panelH + 6, b = [lg.svg];
+    o.panels.forEach(function (p, k) {
+      var px = 8 + (k % cols) * panelW, py = headerH + Math.floor(k / cols) * panelH;
+      b.push('<text x="' + nn(px + 6) + '" y="' + nn(py + 14) + '" class="pt-title">' + esc(fit(p.title, panelW - 12)) + '</text>');
+      var plotTop = py + 34, base = py + panelH - 22, plotH = base - plotTop, innerW = panelW - 24, slot = innerW / nb, bw = Math.min(BAR_MAX, slot * 0.6);
+      b.push('<line x1="' + nn(px + 12) + '" x2="' + nn(px + 12 + innerW) + '" y1="' + nn(base) + '" y2="' + nn(base) + '" class="axis"/>');
+      o.cats.forEach(function (cat, i) {
+        var v = p.values[i], cx = px + 12 + slot * (i + 0.5), hh = isNum(v) ? (v / top) * plotH : 0, y = base - hh, token = o.colors[i % o.colors.length];
+        var t = (p.tips && p.tips[i]) || tipStr(p.title + ': ' + cat, [[cat, fmt.pct(v), token]]);
+        b.push('<g class="hit" tabindex="0" data-tip="' + tipAttr(t) + '"><rect x="' + nn(cx - slot / 2) + '" y="' + nn(plotTop - 14) + '" width="' + nn(slot) + '" height="' + nn(plotH + 14) + '" class="hitarea"/>');
+        if (hh > 0) b.push('<path d="' + vbar(cx - bw / 2, y, bw, hh) + '" class="mark fill-' + token + ' ' + token + '"/>');
+        if (p.labels && p.labels[i]) b.push('<text x="' + nn(cx) + '" y="' + nn(y - 5) + '" class="dl sm" text-anchor="middle">' + esc(p.labels[i]) + '</text>');
+        b.push('</g><text x="' + nn(cx) + '" y="' + nn(base + 15) + '" class="ax" text-anchor="middle">' + esc(fit(cat, slot - 4)) + '</text>');
+      });
+    });
+    return { svg: svgWrap(W, H, b.join(''), o.aria || o.caption), table: tableHtml(o.headers || ['Panel'].concat(o.cats), o.rows, o.caption, 1) };
+  }
+
+  // ---------- overview: the verdict, the filters, and the charts they drive
+  var ovDyn = null, ovBar = null;
+  function makeFig(parent, title, note, opts) {
+    opts = opts || {};
+    var fig = h('figure', { class: 'fig' + (opts.animate ? ' animate' : '') });
+    var head = h('figcaption', { class: 'fig-head' }, h('span', { class: 'fig-title' }, title));
+    var chartEl = h('div', { class: 'fig-chart' }), tableEl = h('div', { class: 'fig-table', hidden: true });
+    if (opts.tableBeneath) head.appendChild(h('span', { class: 'badge' }, 'chart and table'));
+    else head.appendChild(h('button', { type: 'button', class: 'btn btn-sm btn-text fig-toggle', 'aria-pressed': 'false' }, 'Show table'));
+    fig.appendChild(head); fig.appendChild(chartEl); fig.appendChild(tableEl);
+    if (opts.tableBeneath) tableEl.hidden = false;
+    if (note) fig.appendChild(h('p', { class: 'fig-note' }, note));
+    parent.appendChild(fig);
+    return { fig: fig, chartEl: chartEl, tableEl: tableEl };
+  }
+  function fillFig(f, render) {
+    var w = Math.max(280, Math.floor(f.chartEl.clientWidth || (narrowMQ.matches ? 330 : 700)));
+    var ch = render(w);
+    f.chartEl.innerHTML = ch.svg; f.tableEl.innerHTML = ch.table;
+  }
   function renderOverview(root) {
-    var tm = DATA.teamMetrics || {}, tot = tm.totals || {}, cov = tm.dataCoverage || {};
-    var tiles = CHARTS.tiles || {};
     var v = verdict();
     if (v) root.appendChild(v); else root.appendChild(h('h2', null, 'Overview'));
+    if (!RECORDS.length) { renderOverviewStatic(root); return; }
+    ovBar = filterBar(); root.appendChild(ovBar);
+    root.appendChild(h('p', { class: 'filters-print' }, filterSummary()));
+    ovDyn = h('div', { class: 'ov-dyn' }); root.appendChild(ovDyn);
+    drawOverview(true);
+  }
+  function refreshOverview() {
+    if (!ovDyn) return;
+    syncFilterBar();
+    var p = ovBar && ovBar.nextElementSibling; if (p && p.classList.contains('filters-print')) p.textContent = filterSummary();
+    drawOverview(false);
+  }
+  var barSync = [];
+  function syncFilterBar() { barSync.forEach(function (fn) { fn(); }); }
+  function filterBar() {
+    barSync = [];
+    var bar = h('details', { class: 'filters', open: !narrowMQ.matches });
+    bar.appendChild(h('summary', { class: 'f-summary' }, 'Filters'));
+    var body = h('div', { class: 'f-body' }); bar.appendChild(body);
+    function group(label, controls) { return h('div', { class: 'f-group' }, h('span', { class: 'f-label' }, label), h('div', { class: 'f-controls' }, controls)); }
+    function chip(label, isOn, onToggle, slot) {
+      var b = h('button', { type: 'button', class: 'fchip', 'aria-pressed': isOn() ? 'true' : 'false' }, slot != null ? h('span', { class: 'swatch s' + slot, 'aria-hidden': 'true' }) : null, label);
+      b.addEventListener('click', function () { onToggle(); refreshOverview(); });
+      barSync.push(function () { b.setAttribute('aria-pressed', isOn() ? 'true' : 'false'); });
+      return b;
+    }
+    if (REPS_SORTED.length > 1) body.appendChild(group('Reps', REPS_SORTED.map(function (rep) { return chip(rep.name || rep.id, function () { return !F.reps || F.reps.indexOf(rep.id) >= 0; }, function () { toggleIn('reps', REP_IDS, rep.id); }, rep.slot || 0); })));
+    var sel = h('select', { 'aria-label': 'Element' }, [h('option', { value: '' }, 'Any element')].concat(ELEMENTS.map(function (e) { return h('option', { value: e.code }, e.code + ' ' + e.name); })));
+    sel.value = F.element; sel.addEventListener('change', function () { F.element = sel.value; refreshOverview(); });
+    barSync.push(function () { sel.value = F.element; });
+    body.appendChild(group('Element applied', sel));
+    if (TYPES.length > 1) body.appendChild(group('Interaction type', TYPES.map(function (t) { return chip(t, function () { return !F.types || F.types.indexOf(t) >= 0; }, function () { toggleIn('types', TYPES, t); }); })));
+    body.appendChild(group('Deal outcome', OUTCOMES.map(function (oc) { return chip(oc.charAt(0).toUpperCase() + oc.slice(1), function () { return !F.outcomes || F.outcomes.indexOf(oc) >= 0; }, function () { toggleIn('outcomes', OUTCOMES, oc); }); })));
+    var status = h('span'), reset = h('button', { type: 'button', class: 'btn btn-sm' }, 'Clear filters');
+    reset.addEventListener('click', function () { fReset(); refreshOverview(); });
+    barSync.push(function () {
+      var view = inView(), dm = dealsInView(view.recs);
+      status.replaceChildren(h('b', null, fmt.num(view.recs.length)), ' of ' + fmt.num(RECORDS.length) + ' interactions on ', h('b', null, fmt.num(Object.keys(dm).length)), ' deals in view.', localActive() || F.period !== 'all' ? ' ' + filterSummary() : ' Every chart below follows these filters and the period in the header; the verdict above does not.');
+      reset.disabled = !localActive();
+    });
+    body.appendChild(h('div', { class: 'f-status' }, status, reset));
+    syncFilterBar();
+    return bar;
+  }
+  function toggleRep(id) { if (REP_IDS.indexOf(id) < 0) return; toggleIn('reps', REP_IDS, id); refreshOverview(); }
+  function drawOverview(animate) {
+    var dyn = ovDyn; dyn.replaceChildren();
+    var view = inView(), recs = view.recs, weeks = view.weeks;
+    var dealMap = dealsInView(recs), dealIds = Object.keys(dealMap);
+    var tm = DATA.teamMetrics || {}, tot = tm.totals || {}, cov = tm.dataCoverage || {};
+    var n = recs.length, applied = recs.filter(isApplied).length, won = 0, lost = 0;
+    dealIds.forEach(function (id) { var oc = outcomeOf(id); if (oc === 'won') won += 1; else if (oc === 'lost') lost += 1; });
+    var active = fActive(), elLabel = F.element ? F.element + ' ' + elName(F.element) : null;
+    var w = META.window || {};
+    var windowTxt = w.from ? fmt.date(w.from) + ' to ' + fmt.date(w.to) : 'window not set';
+    var tiles = h('div', { class: 'tiles' });
+    tiles.appendChild(tile(active ? 'Deals in view' : 'Deals audited', fmt.num(active ? dealIds.length : (tot.deals != null ? tot.deals : dealIds.length)), active ? 'with at least one interaction in view, of ' + fmt.num(tot.deals != null ? tot.deals : DEALS.length) + ' audited' : 'of ' + fmt.num(META.counts && META.counts.deals != null ? META.counts.deals : DEALS.length) + ' deals in window, ' + windowTxt));
+    tiles.appendChild(tile(active ? 'Interactions in view' : 'Interactions scored', fmt.num(n), fmt.num(applied) + (elLabel ? ' where the rep applied ' + elLabel : ' with at least one framework behaviour')));
+    tiles.appendChild(tile(elLabel ? 'Adoption of ' + elLabel : (active ? 'Adoption rate in view' : 'Team adoption rate'), fmt.pct(n ? applied / n : null), 'n = ' + fmt.num(n) + ' interactions' + (elLabel ? ' where it was applicable' : '')));
+    tiles.appendChild(tile('Win rate', fmt.pct(won + lost ? won / (won + lost) : null), 'n = ' + fmt.num(won + lost) + ' closed deals' + (active ? ' in view' : '') + ' (' + fmt.num(won) + ' won, ' + fmt.num(lost) + ' lost)'));
+    dyn.appendChild(tiles);
+    if (!n) {
+      dyn.appendChild(h('div', { class: 'panel' }, h('p', null, 'No interactions match these filters.'), h('p', { class: 'muted small' }, 'Widen the period, add a rep or an interaction type, or clear the filters to see the whole window.')));
+      return;
+    }
+    var fills = [];
+    var series = adoptionSeries(recs, weeks);
+    var labels = weeks.map(weekLabel), xTips = weeks.map(weekTip);
+    var vline = null;
+    if (TRAINING && weeks.length > 1) {
+      var first = weekMonday(weeks[0]), last = weekMonday(weeks[weeks.length - 1]);
+      if (first && last && last > first) { var pos = (TRAINING - first) / (last - first); if (pos >= 0 && pos <= 1) vline = { pos: pos, label: 'Training ' + fmt.date(META.trainingDate) }; }
+    }
+    var what = elLabel ? 'applied the framework for ' + elLabel + ', over interactions where it was applicable' : 'applied at least one framework behaviour';
+    var tNote = TRAINING ? (vline ? ' Training date ' + fmt.date(META.trainingDate) + ' marked.' : '') : ' No training date set (config.trainingDate).';
+    var f1 = makeFig(dyn, 'Adoption over time, trailing 4 weeks', 'Share of interactions in the trailing four ISO weeks where the rep ' + what + '; one line per rep, ' + (F.reps ? 'selected reps' : 'team') + ' dashed. A single week has too few interactions to read on its own, so each point pools the four weeks ending there. Click a name in the legend to hide or show that rep.' + tNote, { animate: animate });
+    fills.push(function () { fillFig(f1, function (width) { return lineChart({ labels: labels, xTips: xTips, series: series, vline: vline, width: width, height: width < 500 ? 250 : 300, endLabels: width >= 500, caption: 'Adoption rate by ISO week, trailing 4-week window', aria: 'Adoption rate, trailing 4 weeks, one line per rep, team dashed' }); }); });
+    var grid = h('div', { class: 'grid-2' }); dyn.appendChild(grid);
+    var terts = tertileRows(dealMap);
+    var f2 = makeFig(grid, 'Win rate by adoption tertile', 'Closed deals in view split into thirds by deal adoption (applied interactions over all interactions in view). n on each bar is deals in the tertile.');
+    fills.push(function () { fillFig(f2, function (width) {
+      var cats = terts.map(function (t) { return t.tertile.charAt(0).toUpperCase() + t.tertile.slice(1) + ' adoption'; });
+      var mixed = (META.currencies || []).length > 1;
+      return barChart({ cats: cats, vals: terts.map(function (t) { return t.winRate; }), isRate: true, valueFmt: fmt.pct, width: width, height: width < 500 ? 240 : 260,
+        labels: terts.map(function (t) { return fmt.pct(t.winRate) + ' (n=' + fmt.num(t.n) + ')'; }),
+        tips: terts.map(function (t, i) { var rows = [['win rate', fmt.pct(t.winRate), 's1'], ['deals', fmt.num(t.n), '']]; if (t.medianCycleDays != null) rows.push(['median cycle days', fmt.num(t.medianCycleDays), '']); if (t.adoptionRange) rows.push(['adoption range', fmt.pct(t.adoptionRange[0]) + ' to ' + fmt.pct(t.adoptionRange[1]), '']); return tipStr(cats[i], rows); }),
+        caption: 'Win rate by adoption tertile', headers: ['Tertile', 'Win rate', 'Deals (n)', 'Median cycle days'],
+        rows: terts.map(function (t, i) { return [cats[i], fmt.pct(t.winRate), fmt.num(t.n), fmt.num(t.medianCycleDays)]; }) });
+    }); });
+    if (TRAINING) {
+      var per = beforeAfterByRep(recs), panels = [], trows = [];
+      REPS_SORTED.forEach(function (rep) {
+        var p = per[rep.id]; if (!p) return;
+        var br = p.bn ? p.ba / p.bn : null, ar = p.an ? p.aa / p.an : null;
+        panels.push({ title: rep.name, values: [br, ar], labels: [fmt.pct(br) + ' (' + fmt.num(p.bn) + ')', fmt.pct(ar) + ' (' + fmt.num(p.an) + ')'],
+          tips: [tipStr(rep.name + ': before training', [['adoption', fmt.pct(br), 'ba-before'], ['interactions', fmt.num(p.bn), '']]), tipStr(rep.name + ': after training', [['adoption', fmt.pct(ar), 'ba-after'], ['interactions', fmt.num(p.an), '']])] });
+        var lift = (br != null && ar != null) ? ar - br : null;
+        trows.push([rep.name, fmt.pct(br), fmt.num(p.bn), fmt.pct(ar), fmt.num(p.an), lift == null ? 'n/a' : (lift >= 0 ? '+' : '') + (lift * 100).toFixed(0) + ' pts']);
+      });
+      if (panels.length) {
+        var f3 = makeFig(grid, 'Before and after training, adoption by rep', 'Interactions before and after ' + fmt.date(META.trainingDate) + ' in view. Labels show the adoption rate and n.', { tableBeneath: true });
+        fills.push(function () { fillFig(f3, function (width) { return smallMultiples({ panels: panels, cats: ['Before', 'After'], colors: ['ba-before', 'ba-after'], cols: width < 500 ? 2 : Math.max(1, Math.min(4, Math.floor((width - 16) / 150))), panelW: width < 500 ? Math.floor((width - 16) / 2) : 150, caption: 'Adoption before and after training by rep', headers: ['Rep', 'Before', 'n before', 'After', 'n after', 'Lift'], rows: trows }); }); });
+      } else grid.appendChild(figure(null, 'Before and after training', 'No dated interactions in view on either side of the training date.'));
+    } else grid.appendChild(figure(null, 'Before and after training', 'Set config.trainingDate and run rollup to see adoption before and after the training.'));
+    dyn.appendChild(sectionHead('What the numbers rest on', 'Gaps are listed here rather than hidden.'));
+    var cgrid = h('div', { class: 'grid-2' }); dyn.appendChild(cgrid);
+    var byType = {}; recs.forEach(function (r) { byType[r.type] = (byType[r.type] || 0) + 1; });
+    var types = Object.keys(byType).sort(function (a, b) { return byType[b] - byType[a] || a.localeCompare(b); });
+    var f4 = makeFig(cgrid, 'Interactions by type', (active ? 'Interactions in view' : 'Linked interactions in the store') + ', by source type.');
+    fills.push(function () { fillFig(f4, function (width) { return hbarChart({ cats: types, vals: types.map(function (t) { return byType[t]; }), width: Math.min(width, 420), caption: 'Interactions by type', headers: ['Type', 'Interactions'] }); }); });
+    var ctiles = h('div', { class: 'tiles' });
+    ctiles.appendChild(tile('Deals without interactions', fmt.num(cov.dealsWithoutInteractions), 'of ' + fmt.num(tot.deals != null ? tot.deals : DEALS.length) + ' deals in window; not assessed'));
+    ctiles.appendChild(tile('Unlinked interactions', fmt.num(cov.unlinkedInteractions != null ? cov.unlinkedInteractions : META.counts && META.counts.unlinked), 'no accepted deal link; excluded from every number'));
+    ctiles.appendChild(tile('Deals with transcripts', fmt.num(cov.dealsWithTranscripts), (cov.transcriptsPresent != null ? fmt.num(cov.transcriptsPresent) + ' transcripts present. ' : '') + 'Transcripts give the judge verbatim buyer quotes'));
+    ctiles.appendChild(tile('Interactions linked', fmt.num(cov.interactionsLinked != null ? cov.interactionsLinked : META.counts && META.counts.interactions), 'read by the judge'));
+    cgrid.appendChild(ctiles);
+    if (DATA.warnings && DATA.warnings.length) dyn.appendChild(h('div', { class: 'warn-box' }, h('b', null, 'Report builder notes: '), DATA.warnings.join(' ')));
+    fills.forEach(function (fn) { fn(); });
+  }
+  var resizeTimer = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () { if (ovDyn && ovDyn.isConnected && !document.getElementById('tab-overview').hidden) drawOverview(false); }, 180);
+  });
+  // the pre-rendered charts, used when the payload carries analytics but no assessments to recompute from
+  function renderOverviewStatic(root) {
+    var tm = DATA.teamMetrics || {}, tot = tm.totals || {}, cov = tm.dataCoverage || {};
+    var tiles = CHARTS.tiles || {};
     root.appendChild(htmlBlock((tiles.overview || []).join(''), 'tiles'));
     var tNote = META.trainingDate ? ' Training date ' + fmt.date(META.trainingDate) + ' marked.' : ' No training date set (config.trainingDate).';
     root.appendChild(figure(CHARTS.adoptionOverTime, 'Adoption over time, trailing 4 weeks', 'Share of interactions in the trailing four ISO weeks where the rep applied at least one framework behaviour; one line per rep, team dashed. A single week has too few interactions to read on its own, so each point pools the four weeks ending there.' + tNote, { animate: true }));
     var grid = h('div', { class: 'grid-2' });
     grid.appendChild(figure(CHARTS.winRateByTertile, 'Win rate by adoption tertile', 'Assessed deals split into thirds by deal adoption (applied interactions over all interactions). n on each bar is deals in the tertile; win rate uses the closed ones.'));
-    if (CHARTS.beforeAfterByRep) {
-      grid.appendChild(figure(CHARTS.beforeAfterByRep, 'Before and after training, adoption by rep', 'Interactions before and after ' + fmt.date(META.trainingDate) + '. Labels show the adoption rate and n.', { tableBeneath: true }));
-    } else {
-      grid.appendChild(figure(null, 'Before and after training', 'Set config.trainingDate and run rollup to see adoption before and after the training.'));
-    }
+    if (CHARTS.beforeAfterByRep) grid.appendChild(figure(CHARTS.beforeAfterByRep, 'Before and after training, adoption by rep', 'Interactions before and after ' + fmt.date(META.trainingDate) + '. Labels show the adoption rate and n.', { tableBeneath: true }));
+    else grid.appendChild(figure(null, 'Before and after training', 'Set config.trainingDate and run rollup to see adoption before and after the training.'));
     root.appendChild(grid);
     root.appendChild(sectionHead('What the numbers rest on', 'Gaps are listed here rather than hidden.'));
     var cgrid = h('div', { class: 'grid-2' });
@@ -723,9 +1261,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     ctiles.appendChild(tile('Interactions linked', fmt.num(cov.interactionsLinked != null ? cov.interactionsLinked : META.counts && META.counts.interactions), 'read by the judge'));
     cgrid.appendChild(ctiles);
     root.appendChild(cgrid);
-    if (DATA.warnings && DATA.warnings.length) {
-      root.appendChild(h('div', { class: 'warn-box' }, h('b', null, 'Report builder notes: '), DATA.warnings.join(' ')));
-    }
+    if (DATA.warnings && DATA.warnings.length) root.appendChild(h('div', { class: 'warn-box' }, h('b', null, 'Report builder notes: '), DATA.warnings.join(' ')));
   }
 
   // ---------- deals
@@ -963,70 +1499,261 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
         nextQuestion: fe ? fe.nextQuestionAt1 : null, example: fe && fe.exampleQuotes ? (fe.exampleQuotes['2'] || fe.exampleQuotes['3'] || fe.exampleQuotes['1']) : null, deals: cands.slice(0, 2) };
     });
   }
-  function renderReps(root) {
-    root.appendChild(sectionHead('Reps', 'Every number on a rep card is a count or a rate from the analytics. Every recommendation cites the framework and a quote or judge note from a real interaction.'));
-    var reps = REPS.slice().sort(function (a, b) { return (a.slot || 99) - (b.slot || 99) || String(a.name).localeCompare(String(b.name)); });
-    if (!reps.length) root.appendChild(h('p', { class: 'muted' }, 'No reps in the store.'));
-    if (reps.length > 1) {
-      root.appendChild(h('div', { class: 'rep-nav' }, reps.map(function (rep) {
-        var rm = metricsById[rep.id] || {};
-        return h('a', { class: 'chip link', href: '#reps/' + rep.id }, h('span', { class: 'swatch s' + (rep.slot || 0), 'aria-hidden': 'true' }), rep.name || rep.id, h('span', { class: 'muted' }, fmt.pct(rm.adoptionRate)));
-      })));
+  // ---------- reps: a sticky switcher (previous, dropdown, next), one rep at a time when there are many,
+  // every number recomputed for the global period from the same records the rollup used
+  var repSel = null, repsBody = null, repSelect = null, repPos = null;
+  function defaultRep() { return REPS_SORTED.length > 6 ? REP_IDS[0] : 'all'; }
+  function periodLabel() {
+    if (F.period === 'before') return 'before training'; if (F.period === 'after') return 'after training';
+    if (F.period === 'last12') return 'last 12 weeks'; if (F.period === 'last26') return 'last 26 weeks';
+    return 'whole window';
+  }
+  function periodRange() {
+    if (F.period === 'all') return null;
+    if (F.period === 'before' && TRAINING) return [null, TRAINING];
+    if (F.period === 'after' && TRAINING) return [TRAINING, null];
+    var weeks = periodWeeks(); if (!weeks.length) return null;
+    return [weekMonday(weeks[0]), new Date(weekMonday(weeks[weeks.length - 1]).getTime() + 7 * 864e5)];
+  }
+  function periodRecs() {
+    var r = periodRange(); if (!r) return RECORDS;
+    return RECORDS.filter(function (x) { return x.at && (!r[0] || x.at >= r[0]) && (!r[1] || x.at < r[1]); });
+  }
+  function dealInPeriod(s) {
+    var r = periodRange(); if (!r) return true;
+    var at = s.closedAt || (dealById[s.dealId] || {}).closedAt; if (!at) return true;
+    var t = new Date(at); if (isNaN(t)) return true;
+    return (!r[0] || t >= r[0]) && (!r[1] || t < r[1]);
+  }
+  function avg(xs) { var v = xs.filter(isNum); return v.length ? v.reduce(function (a, b) { return a + b; }, 0) / v.length : null; }
+  function ranked(adoption, lowest) {
+    var scored = CODES.map(function (c, i) { return [adoption[c], i, c]; }).filter(function (t) { return t[0] != null; });
+    scored.sort(function (a, b) { return (lowest ? a[0] - b[0] : b[0] - a[0]) || (a[1] - b[1]); });
+    return scored.slice(0, 3).map(function (t) { return t[2]; });
+  }
+  function repView(rep) {
+    var recs = periodRecs().filter(function (r) { return r.repId === rep.id; });
+    var states = STATES.filter(function (s) { return s.ownerId === rep.id && dealInPeriod(s); });
+    var won = states.filter(function (s) { return s.outcome === 'won'; }), lost = states.filter(function (s) { return s.outcome === 'lost'; }), open = states.filter(function (s) { return s.outcome === 'open'; });
+    var applied = recs.filter(function (r) { return r.applied; }).length;
+    var applicable = {}, appliedBy = {};
+    recs.forEach(function (r) { r.applicable.forEach(function (c) { applicable[c] = (applicable[c] || 0) + 1; if (r.els[c]) appliedBy[c] = (appliedBy[c] || 0) + 1; }); });
+    var adoption = {}; CODES.forEach(function (c) { adoption[c] = applicable[c] ? Math.round(1000 * (appliedBy[c] || 0) / applicable[c]) / 1000 : null; });
+    var before = [], after = [];
+    if (TRAINING) recs.forEach(function (r) { if (r.at) (r.at < TRAINING ? before : after).push(r); });
+    var bRate = before.length ? before.filter(function (r) { return r.applied; }).length / before.length : null;
+    var aRate = after.length ? after.filter(function (r) { return r.applied; }).length / after.length : null;
+    var hi = 0, hiB = 0; recs.forEach(function (r) { hi += r.hi; hiB += r.hiBuyer; });
+    var weekly = {}; recs.forEach(function (r) { if (!r.at) return; var w = isoWeek(r.at); var b = weekly[w] || (weekly[w] = { n: 0, a: 0 }); b.n += 1; if (r.applied) b.a += 1; });
+    var weeks = periodWeeks();
+    return { recs: recs, n: recs.length, applied: applied, adoptionRate: recs.length ? applied / recs.length : null, adoption: adoption, applicable: applicable, appliedBy: appliedBy,
+      won: won.length, lost: lost.length, open: open.length, winRate: won.length + lost.length ? won.length / (won.length + lost.length) : null,
+      eqi: hi ? hiB / hi : null, before: { n: before.length, rate: bRate }, after: { n: after.length, rate: aRate }, lift: (bRate != null && aRate != null) ? aRate - bRate : null,
+      avgCov: { won: avg(won.map(function (s) { return s.coverage2; })), lost: avg(lost.map(function (s) { return s.coverage2; })) },
+      avgTotalWon: avg(won.map(function (s) { return s.total; })), avgTotalLost: avg(lost.map(function (s) { return s.total; })),
+      weeks: weeks, spark: weeks.map(function (w) { return weekly[w] ? weekly[w].a / weekly[w].n : null; }),
+      weakest: ranked(adoption, true), strongest: ranked(adoption, false) };
+  }
+  function sparkline(values, labels, width, height) {
+    var n = values.length, defined = []; values.forEach(function (v, i) { if (v != null) defined.push([i, v]); });
+    var pad = 5, xs = [], ys = {};
+    for (var i = 0; i < n; i++) xs.push(pad + (n > 1 ? (width - 2 * pad) * i / (n - 1) : (width - 2 * pad) / 2));
+    defined.forEach(function (p) { ys[p[0]] = height - pad - p[1] * (height - 2 * pad); });
+    var b = [];
+    if (defined.length) {
+      b.push('<path d="M' + defined.map(function (p) { return nn(xs[p[0]]) + ',' + nn(ys[p[0]]); }).join('L') + '" class="spark"/>');
+      var li = defined[defined.length - 1][0]; b.push('<circle cx="' + nn(xs[li]) + '" cy="' + nn(ys[li]) + '" r="3.5" class="pt fill-s1"/>');
     }
-    reps.forEach(function (rep) {
-      var rm = metricsById[rep.id] || {};
-      var rc = (CHARTS.reps || {})[rep.id] || {};
-      var card = h('section', { class: 'rep-card', id: 'rep-' + safeId(rep.id) });
-      card.appendChild(h('div', { class: 'rep-head' }, h('span', { class: 'swatch s' + (rep.slot || 0), 'aria-hidden': 'true' }), h('h3', null, rep.name || rep.id), rep.email ? h('span', { class: 'muted small' }, rep.email) : null));
-      var tiles = h('div', { class: 'tiles in-panel' });
-      if (rc.adoptionTile) tiles.appendChild(htmlBlock(rc.adoptionTile, 'tile-wrap')); else tiles.appendChild(tile('Adoption rate', fmt.pct(rm.adoptionRate), 'n = ' + fmt.num(rm.interactions) + ' interactions'));
-      tiles.appendChild(tile('Interactions', fmt.num(rm.interactions), fmt.num(rm.appliedInteractions) + ' with a framework behaviour'));
-      var closed = (rm.dealsWon || 0) + (rm.dealsLost || 0);
-      tiles.appendChild(tile('Win rate', fmt.pct(rm.winRate), fmt.num(rm.dealsWon) + ' won, ' + fmt.num(rm.dealsLost) + ' lost, ' + fmt.num(rm.dealsOpen) + ' open (n = ' + closed + ' closed)'));
-      tiles.appendChild(tile('Evidence quality', fmt.pct(rm.evidenceQualityIndex), 'share of scores at 2+ backed by a buyer quote'));
-      card.appendChild(tiles);
-      var grid = h('div', { class: 'grid-2' });
-      grid.appendChild(figure(rc.byElement, 'Adoption by element', 'Interactions where the rep applied the framework for the element, over interactions where it was applicable.'));
-      var side = h('div');
-      var weak = normCodes(rm.weakestElements).slice(0, 3), strong = normCodes(rm.strongestElements).slice(0, 3);
-      function chipList(codes) { return h('div', { class: 'chips' }, codes.length ? codes.map(function (c) { return h('span', { class: 'chip' }, c + ' ' + elName(c) + ', ' + fmt.pct(rm.adoptionByElement ? rm.adoptionByElement[c] : null)); }) : h('span', { class: 'muted' }, 'n/a')); }
-      side.appendChild(h('h4', null, 'Weakest three')); side.appendChild(chipList(weak));
-      side.appendChild(h('h4', null, 'Strongest three')); side.appendChild(chipList(strong));
-      var bt = rm.beforeTraining || {}, at = rm.afterTraining || {};
-      if (rc.beforeAfter) {
-        var liftText = isNum(rm.adoptionLift) ? (rm.adoptionLift >= 0 ? '+' : '') + (rm.adoptionLift * 100).toFixed(0) + ' pts' : 'lift n/a';
-        side.appendChild(figure(rc.beforeAfter, 'Before and after training: ' + liftText, 'Before n = ' + fmt.num(bt.n) + ', after n = ' + fmt.num(at.n) + ' interactions.'));
-      } else {
-        side.appendChild(h('h4', null, 'Before and after training')); side.appendChild(h('p', { class: 'muted small' }, 'No training date set.'));
-      }
-      var acc = rm.avgCoverageAtClose || {};
-      side.appendChild(h('h4', null, 'At close'));
-      side.appendChild(kv([['Avg elements at 2+, won deals', acc.won != null ? fmt.level(acc.won) : 'n/a'], ['Avg elements at 2+, lost deals', acc.lost != null ? fmt.level(acc.lost) : 'n/a'], ['Avg total, won', rm.avgTotalWon != null ? fmt.level(rm.avgTotalWon) : 'n/a'], ['Avg total, lost', rm.avgTotalLost != null ? fmt.level(rm.avgTotalLost) : 'n/a']]));
-      grid.appendChild(side);
-      card.appendChild(grid);
-      card.appendChild(h('h4', null, 'What to practise next'));
-      var recs = recommendationsFor(rep, rm);
-      if (!recs.length) card.appendChild(h('p', { class: 'muted small' }, 'No weak elements recorded in rep_metrics.'));
-      var ol = h('ol', { class: 'rec' });
-      recs.forEach(function (r) {
-        var li = h('li');
-        li.appendChild(h('div', null, h('b', null, r.code + ' ' + elName(r.code)), ': applied in ' + fmt.num(r.counts.applied) + ' of ' + fmt.num(r.counts.applicable) + ' applicable interactions (' + fmt.pct(r.rate) + ').'));
-        if (r.nextQuestion) li.appendChild(h('p', { class: 'why' }, h('b', null, 'Ask next: '), '“' + r.nextQuestion + '”'));
-        if (r.example) li.appendChild(h('p', { class: 'why' }, h('b', null, 'What a level-2 answer sounds like: '), '“' + r.example + '”', h('span', { class: 'muted' }, ' (framework example)')));
-        if (!r.nextQuestion && !r.example) li.appendChild(h('p', { class: 'muted small' }, 'Framework file not found, so no suggested question.'));
-        if (r.deals.length) {
-          var ul = h('ul', { class: 'deal-cite' });
-          r.deals.forEach(function (c) { ul.appendChild(h('li', null, h('a', { href: '#deals/' + c.s.dealId }, dealName(c.s.dealId)), ' (level ' + (c.level == null ? 'n/a' : c.level) + ', ' + fmt.date(c.at) + '): ', h('span', { class: 'muted' }, c.why))); });
-          li.appendChild(h('div', null, h('b', { class: 'small' }, 'Where the gap shows'), ul));
-        } else {
-          li.appendChild(h('p', { class: 'muted small' }, 'No interaction with a judge note on this element for this rep.'));
-        }
-        ol.appendChild(li);
-      });
-      card.appendChild(ol);
-      root.appendChild(card);
+    var slot = n > 1 ? (width - 2 * pad) / (n - 1) : width;
+    for (var k = 0; k < n; k++) b.push('<rect x="' + nn(Math.max(0, xs[k] - slot / 2)) + '" y="0" width="' + nn(slot) + '" height="' + nn(height) + '" class="hitarea" tabindex="0" data-tip="' + tipAttr(tipStr(labels[k], [['value', fmt.pct(values[k]), 's1']])) + '"/>');
+    return { svg: svgWrap(width, height, b.join(''), 'Weekly adoption rate'), table: tableHtml(['Period', 'Value'], values.map(function (v, i) { return [labels[i], fmt.pct(v)]; }), 'Weekly adoption rate', 1) };
+  }
+  function repCard(rep, fills) {
+    var v = repView(rep), rm = metricsById[rep.id] || {}, inPeriod = F.period !== 'all';
+    var card = h('section', { class: 'rep-card', id: 'rep-' + safeId(rep.id) });
+    card.appendChild(h('div', { class: 'rep-head' }, h('span', { class: 'swatch s' + (rep.slot || 0), 'aria-hidden': 'true' }), h('h3', null, rep.name || rep.id), rep.email ? h('span', { class: 'muted small' }, rep.email) : null, inPeriod ? h('span', { class: 'badge' }, periodLabel()) : null));
+    var tiles = h('div', { class: 'tiles in-panel' });
+    var t1 = tile('Adoption rate', fmt.pct(v.adoptionRate), 'n = ' + fmt.num(v.n) + ' interactions' + (v.n && v.weeks.length ? ', weekly trend below' : ''));
+    if (v.n && v.weeks.length) {
+      var sp = sparkline(v.spark, v.weeks.map(function (w) { return w + ' (week of ' + weekLabel(w) + ')'; }), 160, 36);
+      t1.appendChild(h('div', { class: 'tile-spark', html: sp.svg }));
+      t1.appendChild(h('details', { class: 'tile-table' }, h('summary', null, 'Table'), h('div', { html: sp.table })));
+    }
+    tiles.appendChild(t1);
+    tiles.appendChild(tile('Interactions', fmt.num(v.n), fmt.num(v.applied) + ' with a framework behaviour'));
+    tiles.appendChild(tile('Win rate', fmt.pct(v.winRate), fmt.num(v.won) + ' won, ' + fmt.num(v.lost) + ' lost, ' + fmt.num(v.open) + ' open (n = ' + fmt.num(v.won + v.lost) + ' closed' + (inPeriod ? ' in the period' : '') + ')'));
+    tiles.appendChild(tile('Evidence quality', fmt.pct(v.eqi), 'share of scores at 2+ backed by a buyer quote'));
+    card.appendChild(tiles);
+    var grid = h('div', { class: 'grid-2' }); card.appendChild(grid);
+    var f1 = makeFig(grid, 'Adoption by element', 'Interactions where the rep applied the framework for the element, over interactions where it was applicable.');
+    fills.push(function () { fillFig(f1, function (width) { return hbarChart({ cats: CODES.map(function (c) { return c + ' ' + elName(c); }), vals: CODES.map(function (c) { return v.adoption[c]; }), isRate: true, valueFmt: fmt.pct, width: Math.min(width, 440), labelMax: width < 400 ? 118 : 160, caption: 'Adoption by element', headers: ['Element', 'Adoption rate'], aria: 'Adoption by element for ' + rep.name }); }); });
+    var side = h('div'); grid.appendChild(side);
+    function chipList(codes) { return h('div', { class: 'chips' }, codes.length ? codes.map(function (c) { return h('span', { class: 'chip' }, c + ' ' + elName(c) + ', ' + fmt.pct(v.adoption[c])); }) : h('span', { class: 'muted' }, 'n/a')); }
+    side.appendChild(h('h4', null, 'Weakest three')); side.appendChild(chipList(v.weakest));
+    side.appendChild(h('h4', null, 'Strongest three')); side.appendChild(chipList(v.strongest));
+    if (TRAINING && (v.before.n || v.after.n)) {
+      var liftText = v.lift != null ? (v.lift >= 0 ? '+' : '') + (v.lift * 100).toFixed(0) + ' pts' : 'lift n/a';
+      var f2 = makeFig(side, 'Before and after training: ' + liftText, 'Before n = ' + fmt.num(v.before.n) + ', after n = ' + fmt.num(v.after.n) + ' interactions.');
+      fills.push(function () { fillFig(f2, function (width) { return smallMultiples({ panels: [{ title: 'Adoption rate', values: [v.before.rate, v.after.rate], labels: [fmt.pct(v.before.rate) + ' (n=' + fmt.num(v.before.n) + ')', fmt.pct(v.after.rate) + ' (n=' + fmt.num(v.after.n) + ')'], tips: [tipStr(rep.name + ': before training', [['adoption', fmt.pct(v.before.rate), 'ba-before'], ['interactions', fmt.num(v.before.n), '']]), tipStr(rep.name + ': after training', [['adoption', fmt.pct(v.after.rate), 'ba-after'], ['interactions', fmt.num(v.after.n), '']])] }], cats: ['Before', 'After'], colors: ['ba-before', 'ba-after'], cols: 1, panelW: Math.min(300, width - 16), panelH: 170, caption: 'Before and after training', headers: ['Rep', 'Before', 'After'], rows: [[rep.name, fmt.pct(v.before.rate) + ' (n=' + fmt.num(v.before.n) + ')', fmt.pct(v.after.rate) + ' (n=' + fmt.num(v.after.n) + ')']], aria: 'Adoption before and after training for ' + rep.name }); }); });
+    } else { side.appendChild(h('h4', null, 'Before and after training')); side.appendChild(h('p', { class: 'muted small' }, TRAINING ? 'No dated interactions in this period.' : 'No training date set.')); }
+    side.appendChild(h('h4', null, 'At close'));
+    side.appendChild(kv([['Avg elements at 2+, won deals', v.avgCov.won != null ? fmt.level(v.avgCov.won) : 'n/a'], ['Avg elements at 2+, lost deals', v.avgCov.lost != null ? fmt.level(v.avgCov.lost) : 'n/a'], ['Avg total, won', v.avgTotalWon != null ? fmt.level(v.avgTotalWon) : 'n/a'], ['Avg total, lost', v.avgTotalLost != null ? fmt.level(v.avgTotalLost) : 'n/a']]));
+    card.appendChild(h('h4', null, 'What to practise next' + (inPeriod ? ' (whole window)' : '')));
+    var recs = recommendationsFor(rep, rm);
+    if (!recs.length) card.appendChild(h('p', { class: 'muted small' }, 'No weak elements recorded in rep_metrics.'));
+    var ol = h('ol', { class: 'rec' });
+    recs.forEach(function (r) {
+      var li = h('li');
+      li.appendChild(h('div', null, h('b', null, r.code + ' ' + elName(r.code)), ': applied in ' + fmt.num(r.counts.applied) + ' of ' + fmt.num(r.counts.applicable) + ' applicable interactions (' + fmt.pct(r.rate) + ').'));
+      if (r.nextQuestion) li.appendChild(h('p', { class: 'why' }, h('b', null, 'Ask next: '), '“' + r.nextQuestion + '”'));
+      if (r.example) li.appendChild(h('p', { class: 'why' }, h('b', null, 'What a level-2 answer sounds like: '), '“' + r.example + '”', h('span', { class: 'muted' }, ' (framework example)')));
+      if (!r.nextQuestion && !r.example) li.appendChild(h('p', { class: 'muted small' }, 'Framework file not found, so no suggested question.'));
+      if (r.deals.length) {
+        var ul = h('ul', { class: 'deal-cite' });
+        r.deals.forEach(function (c) { ul.appendChild(h('li', null, h('a', { href: '#deals/' + c.s.dealId }, dealName(c.s.dealId)), ' (level ' + (c.level == null ? 'n/a' : c.level) + ', ' + fmt.date(c.at) + '): ', h('span', { class: 'muted' }, c.why))); });
+        li.appendChild(h('div', null, h('b', { class: 'small' }, 'Where the gap shows'), ul));
+      } else li.appendChild(h('p', { class: 'muted small' }, 'No interaction with a judge note on this element for this rep.'));
+      ol.appendChild(li);
+    });
+    card.appendChild(ol);
+    return card;
+  }
+  function renderReps(root) {
+    root.appendChild(sectionHead('Reps', 'Every number on a rep card is a count or a rate from your pipeline. Every recommendation cites the framework and a quote or judge note from a real interaction.'));
+    if (!REPS_SORTED.length) { root.appendChild(h('p', { class: 'muted' }, 'No reps in the store.')); return; }
+    var sw = h('div', { class: 'rep-switch' });
+    var prev = h('button', { type: 'button', class: 'btn', 'aria-label': 'Previous rep', title: 'Previous rep' }, '‹');
+    var next = h('button', { type: 'button', class: 'btn', 'aria-label': 'Next rep', title: 'Next rep' }, '›');
+    repSelect = h('select', { 'aria-label': 'Rep' }, [h('option', { value: 'all' }, 'All reps (' + REPS_SORTED.length + ')')].concat(REPS_SORTED.map(function (rep) { var rm = metricsById[rep.id] || {}; return h('option', { value: rep.id }, (rep.name || rep.id) + (isNum(rm.adoptionRate) ? ', ' + fmt.pct(rm.adoptionRate) : '')); })));
+    repPos = h('span', { class: 'rep-pos muted small' });
+    function step(d) { var i = REP_IDS.indexOf(repSel); var j = i < 0 ? (d > 0 ? 0 : REP_IDS.length - 1) : (i + d + REP_IDS.length) % REP_IDS.length; location.hash = '#reps/' + REP_IDS[j]; }
+    prev.addEventListener('click', function () { step(-1); }); next.addEventListener('click', function () { step(1); });
+    repSelect.addEventListener('change', function () { location.hash = repSelect.value === 'all' ? '#reps' : '#reps/' + repSelect.value; });
+    sw.appendChild(prev); sw.appendChild(repSelect); sw.appendChild(next); sw.appendChild(repPos);
+    root.appendChild(sw);
+    repsBody = h('div'); root.appendChild(repsBody);
+    drawReps();
+  }
+  function drawReps() {
+    if (!repsBody) return;
+    if (repSel == null || (repSel !== 'all' && REP_IDS.indexOf(repSel) < 0)) repSel = defaultRep();
+    repSelect.value = repSel;
+    var list = repSel === 'all' ? REPS_SORTED : REPS_SORTED.filter(function (r) { return r.id === repSel; });
+    var i = REP_IDS.indexOf(repSel);
+    repPos.textContent = (repSel === 'all' ? 'All ' + REPS_SORTED.length + ' reps' : (i + 1) + ' of ' + REPS_SORTED.length) + (F.period !== 'all' ? ', ' + periodLabel() : '') + '. Keys: [ and ] switch rep.';
+    repsBody.replaceChildren();
+    var fills = [];
+    list.forEach(function (rep) { repsBody.appendChild(repCard(rep, fills)); });
+    fills.forEach(function (fn) { fn(); });
+  }
+
+  // ---------- period: one control in the header, honoured by the Overview and Reps tabs
+  var periodSelect = document.getElementById('period-select');
+  var periodNote = document.getElementById('period-note');
+  (function () {
+    var per = [['all', 'Whole window']];
+    if (TRAINING) per.push(['before', 'Before training (' + fmt.date(META.trainingDate) + ')'], ['after', 'After training (' + fmt.date(META.trainingDate) + ')']);
+    if (WEEKS.length > 12) per.push(['last12', 'Last 12 weeks']);
+    if (WEEKS.length > 26) per.push(['last26', 'Last 26 weeks']);
+    per.forEach(function (p) { periodSelect.appendChild(h('option', { value: p[0] }, p[1])); });
+    periodSelect.value = F.period;
+    periodSelect.addEventListener('change', function () {
+      F.period = periodSelect.value;
+      refreshOverview();
+      if (repsBody) drawReps();
+      updatePeriodNote();
+    });
+  })();
+  function updatePeriodNote() {
+    var tab = document.querySelector('.tabpanel.active'); var name = tab ? tab.id.replace('tab-', '') : 'overview';
+    var applies = name === 'overview' || name === 'reps';
+    periodNote.hidden = !(F.period !== 'all' && !applies);
+    periodNote.textContent = 'Period "' + periodLabel() + '" applies to the Overview and Reps tabs. This tab shows the whole window.';
+  }
+
+  // ---------- export: the page as it stands, to PDF through the print dialog or to Markdown
+  function mdCell(s) { return String(s == null ? '' : s).replace(/\s+/g, ' ').replace(/\|/g, '\\|').trim(); }
+  function mdTable(headers, rows) {
+    var out = ['| ' + headers.map(mdCell).join(' | ') + ' |', '| ' + headers.map(function () { return '---'; }).join(' | ') + ' |'];
+    rows.forEach(function (r) { out.push('| ' + r.map(mdCell).join(' | ') + ' |'); });
+    return out.join('\n');
+  }
+  function cellText(el) { return [].map.call(el.childNodes, function (n) { return n.textContent; }).join(' ').replace(/\s+/g, ' ').trim(); }
+  function tableElToMd(t) {
+    var headers = [].map.call(t.querySelectorAll('thead th'), cellText);
+    var rows = [].map.call(t.querySelectorAll('tbody tr'), function (tr) { return [].map.call(tr.querySelectorAll('td, th'), cellText); }).filter(function (r) { return r.length; });
+    if (!headers.length && rows.length) { headers = rows.shift(); }
+    var cap = t.querySelector('caption');
+    return (cap ? '*' + mdCell(cap.textContent) + '*\n\n' : '') + (headers.length ? mdTable(headers, rows) : '');
+  }
+  function domToMd(root) {
+    var out = [];
+    function text(el) { return el.textContent.replace(/\s+/g, ' ').trim(); }
+    function walk(el) {
+      if (el.nodeType !== 1) return;
+      var cls = el.classList, tag = el.tagName;
+      if (el.hidden && !cls.contains('fig-table')) return;
+      if (cls.contains('filters') || cls.contains('rep-switch') || cls.contains('deals-toolbar') || cls.contains('back') || cls.contains('filters-print') || cls.contains('elements-key') || tag === 'BUTTON' || tag === 'SELECT' || tag === 'SUMMARY' || tag === 'SVG' || tag === 'svg') return;
+      if (tag === 'H2') { out.push('', '## ' + text(el), ''); return; }
+      if (tag === 'H3') { out.push('', '### ' + text(el), ''); return; }
+      if (tag === 'H4') { out.push('', '**' + text(el) + '**', ''); return; }
+      if (cls.contains('tile')) { var lab = el.querySelector('.tile-label'), val = el.querySelector('.tile-value'), sub = el.querySelector('.tile-sub'), del = el.querySelector('.tile-delta'); out.push('- ' + (lab ? text(lab) : '') + ': **' + (val ? text(val) : '') + '**' + (del ? ' (' + text(del) + ')' : '') + (sub ? ', ' + text(sub) : '')); return; }
+      if (cls.contains('fig')) { var ft = el.querySelector('.fig-title'), tb = el.querySelector('.fig-table table'), note = el.querySelector('.fig-note'); out.push('', '**' + (ft ? text(ft) : 'Chart') + '**', ''); if (tb) out.push(tableElToMd(tb)); if (note) out.push('', text(note)); out.push(''); return; }
+      if (tag === 'TABLE') { out.push('', tableElToMd(el), ''); return; }
+      if (tag === 'DL') { var dts = el.querySelectorAll('dt'), dds = el.querySelectorAll('dd'); out.push(''); for (var i = 0; i < dts.length; i++) out.push('- ' + text(dts[i]) + ': ' + (dds[i] ? text(dds[i]) : '')); out.push(''); return; }
+      if (tag === 'BLOCKQUOTE') { var q = el.cloneNode(true), c = q.querySelector('cite'); if (c) c.remove(); var cite = el.querySelector('cite'); out.push('', '> ' + text(q)); if (cite) out.push('> ' + text(cite)); out.push(''); return; }
+      if (tag === 'P') { var s = text(el); if (s) out.push('', s); return; }
+      if (tag === 'LI') { var li = el.cloneNode(true); [].forEach.call(li.querySelectorAll('ul, ol, details'), function (x) { x.remove(); }); out.push('- ' + text(li)); [].forEach.call(el.querySelectorAll(':scope > div > ul > li, :scope > ul > li'), function (sub) { out.push('  - ' + text(sub)); }); return; }
+      if (cls.contains('chips')) { out.push('', [].map.call(el.querySelectorAll('.chip'), text).join(', '), ''); return; }
+      if (cls.contains('verdict')) { [].forEach.call(el.querySelectorAll('.verdict-lead, .verdict-more'), function (p) { out.push('', text(p)); }); out.push(''); return; }
+      if (cls.contains('strip') || cls.contains('estrip')) return;
+      [].forEach.call(el.children, walk);
+    }
+    [].forEach.call(root.children, walk);
+    return out;
+  }
+  function ensureRendered() {
+    TABS.forEach(function (t) {
+      var panel = document.getElementById('tab-' + t);
+      if (t === 'deals') { if (!panel.children.length) { try { renderDealList(panel); } catch (e) { /* leave empty */ } } return; }
+      if (!rendered[t]) { rendered[t] = true; try { RENDER[t](panel); } catch (e) { /* leave empty */ } }
     });
   }
+  function exportMarkdown() {
+    ensureRendered();
+    var w = META.window || {};
+    var L = ['# ' + (META.title || 'FlowSales report'), '', 'Window ' + (w.from ? fmt.date(w.from) + ' to ' + fmt.date(w.to) : 'not set') + ', generated ' + fmt.datetime(META.generatedAt) + '. ' + filterSummary()];
+    var names = { overview: 'Overview', deals: 'Deals', reps: 'Reps', elements: 'Elements', impact: 'Impact', method: 'Method' };
+    TABS.forEach(function (t) {
+      var panel = document.getElementById('tab-' + t);
+      var lines = domToMd(panel);
+      if (t === 'overview' || !lines.some(function (x) { return /^## /.test(x); })) lines.unshift('', '## ' + names[t], '');
+      L = L.concat(lines);
+    });
+    L.push('', '---', '', 'Made by Rhys at The Cognitive Shift (https://thecognitiveshift.com/?utm_source=flowsales&utm_medium=markdown&utm_campaign=report-export). Generated with FlowSales; every score sits next to the quote that earned it in the HTML report.');
+    return L.join('\n').replace(/\n{3,}/g, '\n\n') + '\n';
+  }
+  function exportName() { return 'flowsales-' + String(META.orgName || 'report').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + String(META.generatedAt || '').slice(0, 10) + '.md'; }
+  function downloadText(name, txt) {
+    var blob = new Blob([txt], { type: 'text/markdown;charset=utf-8' }), url = URL.createObjectURL(blob);
+    var a = h('a', { href: url, download: name }); document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+  }
+  window.flowsalesExportMarkdown = exportMarkdown;
+  var exportMenu = document.getElementById('export-menu');
+  function flash(btn, msg) { var old = btn.textContent; btn.textContent = msg; setTimeout(function () { btn.textContent = old; }, 1600); }
+  document.getElementById('export-pdf').addEventListener('click', function () { exportMenu.open = false; window.print(); });
+  document.getElementById('export-md').addEventListener('click', function () { var b = this; try { downloadText(exportName(), exportMarkdown()); flash(b, 'Downloaded'); } catch (e) { flash(b, 'Could not download: copy instead'); } });
+  document.getElementById('export-md-copy').addEventListener('click', function () {
+    var b = this, txt = exportMarkdown();
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function () { flash(b, 'Copied'); }, function () { flash(b, 'Copy blocked by the browser'); });
+    else { var ta = h('textarea', null, txt); document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); flash(b, 'Copied'); } catch (e) { flash(b, 'Copy blocked by the browser'); } ta.remove(); }
+  });
+  document.addEventListener('click', function (e) { if (exportMenu.open && !exportMenu.contains(e.target)) exportMenu.open = false; });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && exportMenu.open) exportMenu.open = false; });
+  function setTopH() { var top = document.querySelector('.top'); document.documentElement.style.setProperty('--top-h', (narrowMQ.matches ? 0 : top.offsetHeight) + 'px'); }
+  window.addEventListener('resize', setTopH);
+  setTopH();
 
   // ---------- elements
   function goodPractice(code) {
@@ -1197,10 +1924,13 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     var idx = hash.indexOf('/');
     var tab = idx >= 0 ? hash.slice(0, idx) : hash, rest = idx >= 0 ? hash.slice(idx + 1) : '';
     if (TABS.indexOf(tab) < 0) { tab = 'overview'; rest = ''; }
+    var repsWasRendered = !!rendered.reps;
+    if (tab === 'reps') repSel = rest || null;
     activate(tab);
     var panel = document.getElementById('tab-' + tab);
     if (tab === 'deals') { try { if (rest) renderDeal(panel, rest); else renderDealList(panel); } catch (e) { panel.appendChild(h('p', { class: 'warn-box' }, 'Could not render: ' + e.message)); } window.scrollTo(0, 0); }
-    if (tab === 'reps' && rest) { var el = document.getElementById('rep-' + safeId(rest)); if (el) el.scrollIntoView({ block: 'start' }); }
+    if (tab === 'reps' && repsWasRendered) drawReps();
+    updatePeriodNote();
   }
   document.querySelectorAll('.tab').forEach(function (btn, i, all) {
     btn.addEventListener('click', function () { location.hash = '#' + btn.getAttribute('aria-controls').replace('tab-', ''); });
@@ -1218,6 +1948,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     var tag = (e.target && e.target.tagName) || '';
     if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA' || e.metaKey || e.ctrlKey || e.altKey) return;
     if (e.key >= '1' && e.key <= '6') { location.hash = '#' + TABS[Number(e.key) - 1]; }
+    else if ((e.key === '[' || e.key === ']') && repsBody && !document.getElementById('tab-reps').hidden) { var i = REP_IDS.indexOf(repSel), d = e.key === ']' ? 1 : -1; var j = i < 0 ? (d > 0 ? 0 : REP_IDS.length - 1) : (i + d + REP_IDS.length) % REP_IDS.length; location.hash = '#reps/' + REP_IDS[j]; }
     else if (e.key === '/') { e.preventDefault(); if (location.hash.indexOf('#deals') !== 0 || location.hash.indexOf('/') > 0) location.hash = '#deals'; if (dealFilterInput) dealFilterInput.focus(); }
   });
 
@@ -1276,8 +2007,14 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     showTip(t, r.left + r.width / 2, r.top + r.height / 2); crosshair(t, true);
   });
   document.addEventListener('focusout', function (e) { var t = e.target.closest ? e.target.closest('[data-tip]') : null; if (t) { hideTip(); crosshair(t, false); } });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hideTip(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') hideTip();
+    var li = (e.key === 'Enter' || e.key === ' ') && e.target.closest ? e.target.closest('.lg-item[data-rep]') : null;
+    if (li) { e.preventDefault(); toggleRep(li.getAttribute('data-rep')); }
+  });
   document.addEventListener('click', function (e) {
+    var li = e.target.closest ? e.target.closest('.lg-item[data-rep]') : null;
+    if (li) { toggleRep(li.getAttribute('data-rep')); return; }
     var btn = e.target.closest ? e.target.closest('.fig-toggle') : null;
     if (!btn) return;
     var fig = btn.closest('.fig'); if (!fig) return;
@@ -1312,7 +2049,6 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   if (darkMQ && darkMQ.addEventListener) darkMQ.addEventListener('change', function () { setTheme(null, false); });
   var texBtn = document.getElementById('texture-toggle');
   texBtn.addEventListener('click', function () { var on = document.body.classList.toggle('texture'); texBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); });
-  document.getElementById('print-btn').addEventListener('click', function () { window.print(); });
   window.addEventListener('beforeprint', function () { document.querySelectorAll('.tabpanel.active details').forEach(function (d) { d.setAttribute('data-was-open', d.open ? '1' : '0'); d.open = true; }); });
   window.addEventListener('afterprint', function () { document.querySelectorAll('.tabpanel.active details[data-was-open]').forEach(function (d) { d.open = d.getAttribute('data-was-open') === '1'; d.removeAttribute('data-was-open'); }); });
 
