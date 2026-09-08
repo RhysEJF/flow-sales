@@ -10,7 +10,7 @@ A source-available Claude Code plugin (this repo) that reads a sales team's own 
 
 | What | Path |
 |---|---|
-| Plugin repo (this) | `~/flow-sales` (git, main, pushed; commit `c61bbd4` at handoff) |
+| Plugin repo (this) | `~/flow-sales` (git, main, pushed; commit `567ffd6` at handoff) |
 | Contracts every module follows | `~/flow-sales/docs/CONTRACTS.md` (read this before writing code) |
 | Design, decisions, research summary, 17-task plan | `~/flow-os-rhys/experiences/plans/flow-sales-plugin-plan.md` (sections 14b and 15 hold the latest decisions) |
 | Research docs (HubSpot API, Granola, MEDDPICC canon, landscape, licence) | `~/flow-sales/docs/research/` (copies in `~/flow-os-rhys/experiences/flow-sales/research/`) |
@@ -80,6 +80,7 @@ Decisions still with Rhys: HubSpot token (item 6) and whether Tom Parker becomes
 - `fs.py` accepts `--home` and `--json` before or after the subcommand.
 - Quote verification: scores above 1 without a verifiable quote are capped to 1 and flagged; the judge copies exact spans from `body`.
 - Playwright MCP: no `file://`; serve over localhost; screenshot paths must be inside the project directory.
+- `validate-assessment` now logs into the store the assessment file belongs to even when run from another directory (fixed at handoff; earlier judge runs left a stray `.flow-sales/runs.jsonl` in whatever directory they ran from).
 - Quota: the old plan hit a 5-hour session limit with 7 parallel build agents and then the weekly limit with 16 parallel Sonnet judges. Run judges in waves of at most 8 and check for 429s in agent results.
 - Models used previously: orchestrator Claude Fable 5.1 (`claude-fable-5-1`, effort max); research and build subagents on the same model; judge subagents on Claude Sonnet 5 (`claude-sonnet-5`), which the deal-assessor agent pins with `model: sonnet`. Any capable model works for orchestration; keep Sonnet or better for judging.
 - Time zone: Rhys is in Europe/Amsterdam.
