@@ -48,3 +48,12 @@ python3 scripts/fs.py --home /tmp/fs-golden/.flow-sales eval-golden compare --mo
 ## Editing the set
 
 Keep snippets fictional, 60 to 200 words, with speaker labels that match `speakerRoles`. Any level above 1 needs a quote that is a verbatim substring of `body`. When adding a snippet, keep every element at every level covered at least twice, and re-run the checks: quote verbatim, word count, coverage, tags in vocabulary, no em dashes.
+
+## Runs so far
+
+| Date | Model | Exact | Within one | Tags | Note |
+|---|---|---|---|---|---|
+| 2026-09-08 | claude-sonnet-5 | 0.882 | 0.979 | 0.745 | first run; tags had names but no definitions |
+| 2026-09-08 | claude-sonnet-5 | 0.857 | 0.983 | 0.797 | after the tag tests were added to `skills/methodology/SKILL.md` |
+
+Both evidence targets are met in both runs; the tag target (0.90) is not. After run two the disagreement is symmetric (31 tags the judge added, 29 it omitted, over 19 snippets: g07, g08, g10, g13, g15, g17, g18, g21, g23, g26, g28, g31, g33, g35, g36, g37, g38, g39, g40) and centres on asked-metrics against quantified-impact in both directions, multi-threaded, shaped-decision-criteria and developed-champion. That is as much a labelling convention question as a judge question, so the next step is a human pass over those snippets against the tag table, not another prompt change. Four evidence misses of two levels recur in both runs and belong in the same review: g24 DC (labelled 0, judged 2), g29 DP (2, judged 0), g36 CO and g40 CO (labelled not applicable or 0, judged 2). Run details, including per-snippet tags and the confusion tables, are in `results/` (gitignored) and the summary lines in `runs.jsonl`.
