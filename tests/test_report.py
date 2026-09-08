@@ -40,12 +40,16 @@ class ReportTests(unittest.TestCase):
             html = out.read_text(encoding="utf-8")
             self.assertLess(out.stat().st_size, 1_000_000)
             self.assertIn("FlowSales", html)
-            self.assertIn("Powered by FlowSales", html)
+            self.assertIn("Made by", html)
+            self.assertIn("thecognitiveshift.com", html)
             for deal in json.loads((FIXTURES / "data" / "deals.json").read_text(encoding="utf-8")):
                 self.assertIn(deal["name"], html)
             for rep in json.loads((FIXTURES / "data" / "reps.json").read_text(encoding="utf-8")):
                 self.assertIn(rep["name"], html)
-            self.assertFalse(re.search(r'(src|href)="https?://', html), "report must not load anything from the network")
+            # hyperlinks the reader can click are fine; nothing may be fetched while the page loads
+            self.assertFalse(re.search(r'\ssrc="https?://', html), "report must not load anything from the network")
+            self.assertFalse(re.search(r'<link[^>]*href="https?://', html), "report must not load stylesheets or fonts from the network")
+            self.assertFalse(re.search(r'@import|url\(\s*["\']?https?://', html), "report must not import anything from the network")
             self.assertNotIn("—", html)
 
     def test_charts_are_well_formed_svg(self):

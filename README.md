@@ -72,13 +72,19 @@ The demo is 32 fictional deals, 4 reps with different adoption profiles and a tr
 
 ## What the report looks like
 
-Overview: adoption over time with the training date marked, win rate by adoption tertile, before and after training per rep, deals influenced with the rule beside the number, and the data coverage the numbers rest on.
+The overview opens with the verdict: the sentences a sales leader repeats, built from your own pipeline with the n beside each number. Under it: adoption over time with the training date marked, win rate by adoption tertile, before and after training per rep, and the data coverage the numbers rest on.
 
-<p align="center"><img src="./docs/screenshots/report-overview.png" alt="FlowSales report overview tab" width="900"></p>
+<p align="center"><img src="./docs/screenshots/report-overview.png" alt="FlowSales report overview: the verdict, four figures and adoption over time" width="900"></p>
 
-Every deal has a page: the eight element levels, stage gaps, and the interaction timeline with the evidence level and the behaviour mark per element, expandable to the quotes, the "why not higher" and the next question.
+Every deal is a row with its eight element levels, its gate and the adoption behind it, and every deal has a page: the element levels, stage gaps, and the interaction timeline with the evidence level and the behaviour mark per element, expandable to the quotes, the "why not higher" and the next question.
 
+<p align="center"><img src="./docs/screenshots/report-deals.png" alt="FlowSales deals table with the element strip per deal" width="900"></p>
 <p align="center"><img src="./docs/screenshots/report-deal-page.png" alt="FlowSales deal page with the interaction timeline" width="900"></p>
+
+The impact tab is the slide: one quarter, four numbers, the before and after chart and the rule beside them. Filters on the overview (reps, one element, interaction type, deal outcome) and a period control in the header recompute the charts from the interaction-level data in the file. The Export menu saves the report as PDF or Markdown. The whole report works on a phone, with charts rendered at phone width and the tabs as a bottom bar.
+
+<p align="center"><img src="./docs/screenshots/report-impact.png" alt="FlowSales impact slide" width="900"></p>
+<p align="center"><img src="./docs/screenshots/report-phone.png" alt="FlowSales report on a phone" width="300"></p>
 
 ## Your data
 

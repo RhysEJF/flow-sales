@@ -265,21 +265,48 @@ def build_charts(payload: dict) -> dict:
             warnings.append(f"chart '{name}' skipped: {type(exc).__name__}: {exc}")
             return None
 
+    def dual(name: str, fn, *a):
+        """Render at desktop width and again at phone width (NARROW_W). The page swaps the SVG on a
+        media query instead of shrinking a wide chart until its labels are unreadable."""
+        wide = safe(name, fn, *a)
+        if not isinstance(wide, dict):
+            return wide
+        narrow = safe(f"{name} (narrow)", fn, *a, narrow=True)
+        if isinstance(narrow, dict) and narrow.get("svg"):
+            wide = dict(wide)
+            wide["narrow"] = narrow["svg"]
+        return wide
+
+    def dual_map(name: str, fn, *a) -> dict:
+        wide = safe(name, fn, *a) or {}
+        narrow = safe(f"{name} (narrow)", fn, *a, narrow=True) or {}
+        out: dict[str, Any] = {}
+        for key, val in wide.items():
+            alt = narrow.get(key) if isinstance(narrow, dict) else None
+            if isinstance(val, dict) and isinstance(alt, dict) and alt.get("svg"):
+                val = dict(val)
+                val["narrow"] = alt["svg"]
+            out[key] = val
+        return out
+
     charts["tiles"]["overview"] = safe("overview tiles", overview_tiles, payload) or []
-    charts["adoptionOverTime"] = safe("adoptionOverTime", adoption_over_time, payload)
-    charts["winRateByTertile"] = safe("winRateByTertile", win_rate_by_tertile, payload)
-    charts["beforeAfterByRep"] = safe("beforeAfterByRep", before_after_by_rep, payload)
-    charts["interactionsByType"] = safe("interactionsByType", interactions_by_type, payload)
-    charts["elementWonLost"] = safe("elementWonLost", element_won_lost, payload)
-    charts["elementAdoption"] = safe("elementAdoption", element_adoption, payload)
+    charts["adoptionOverTime"] = dual("adoptionOverTime", adoption_over_time, payload)
+    charts["winRateByTertile"] = dual("winRateByTertile", win_rate_by_tertile, payload)
+    charts["beforeAfterByRep"] = dual("beforeAfterByRep", before_after_by_rep, payload)
+    charts["interactionsByType"] = dual("interactionsByType", interactions_by_type, payload)
+    charts["elementWonLost"] = dual("elementWonLost", element_won_lost, payload)
+    charts["elementAdoption"] = dual("elementAdoption", element_adoption, payload)
     if payload.get("impact"):
-        charts["impactBeforeAfter"] = safe("impactBeforeAfter", impact_before_after, payload)
+        charts["impactBeforeAfter"] = dual("impactBeforeAfter", impact_before_after, payload)
         charts["tiles"]["impact"] = safe("impact tiles", impact_tiles, payload) or []
     for rep in payload["reps"]:
-        charts["reps"][rep["id"]] = safe(f"rep {rep['id']}", rep_charts, payload, rep) or {}
+        charts["reps"][rep["id"]] = dual_map(f"rep {rep['id']}", rep_charts, payload, rep)
     for s in payload["dealStates"]:
-        charts["deals"][s["dealId"]] = safe(f"deal {s['dealId']}", deal_charts, payload, s) or {}
+        charts["deals"][s["dealId"]] = dual_map(f"deal {s['dealId']}", deal_charts, payload, s)
     return charts
+
+
+NARROW_W = 330  # widest chart that fits a 390px phone inside the page and figure padding
 
 
 def _element_names(payload: dict) -> dict:
@@ -407,7 +434,7 @@ def _rolling_rate(buckets: dict, weeks: list[str], window: int = ROLLING_WEEKS) 
     return out
 
 
-def adoption_over_time(payload: dict) -> Optional[C.Chart]:
+def adoption_over_time(payload: dict, narrow: bool = False) -> Optional[C.Chart]:
     weeks, team, reps_ts = _norm_timeseries(payload.get("timeseries"))
     if not weeks:
         return None
@@ -446,12 +473,13 @@ def adoption_over_time(payload: dict) -> Optional[C.Chart]:
         pos = (t.date() - first).days / (last - first).days
         if 0.0 <= pos <= 1.0:
             vline = {"pos": pos, "label": f"Training {C.fmt_date(training)}"}
-    return C.line_chart(labels, series, x_tips=tips, is_rate=True, vline=vline, width=760, height=300,
+    return C.line_chart(labels, series, x_tips=tips, is_rate=True, vline=vline, width=NARROW_W if narrow else 760,
+                        height=250 if narrow else 300, end_labels=not narrow,
                         aria=f"Adoption rate, trailing {ROLLING_WEEKS} weeks, one line per rep, team dashed",
                         table_caption=f"Adoption rate by ISO week, trailing {ROLLING_WEEKS}-week window")
 
 
-def win_rate_by_tertile(payload: dict) -> Optional[C.Chart]:
+def win_rate_by_tertile(payload: dict, narrow: bool = False) -> Optional[C.Chart]:
     rows = (payload.get("teamMetrics") or {}).get("winRateByAdoptionTertile") or []
     if not rows:
         return None
@@ -476,12 +504,13 @@ def win_rate_by_tertile(payload: dict) -> Optional[C.Chart]:
         tips.append(C.tip(name, extra))
         trows.append((name, _pct(r.get("winRate")), C.fmt_num(n), C.fmt_num(r.get("medianCycleDays")),
                       "mixed currencies" if mixed else C.fmt_money(r.get("avgAmount"), payload["meta"].get("currency"))))
-    return C.bar_chart(cats, vals, value_fmt=C.fmt_pct, is_rate=True, bar_labels=labels, tips=tips, width=520, height=260,
+    return C.bar_chart(cats, vals, value_fmt=C.fmt_pct, is_rate=True, bar_labels=labels, tips=tips,
+                       width=NARROW_W if narrow else 520, height=240 if narrow else 260,
                        aria="Win rate by adoption tertile", table_caption="Win rate by adoption tertile",
                        table_headers=["Tertile", "Win rate", "Deals (n)", "Median cycle days", "Avg amount"], table_rows=trows)
 
 
-def before_after_by_rep(payload: dict) -> Optional[C.Chart]:
+def before_after_by_rep(payload: dict, narrow: bool = False) -> Optional[C.Chart]:
     rm = payload.get("repMetrics") or []
     if not rm:
         return None
@@ -506,21 +535,22 @@ def before_after_by_rep(payload: dict) -> Optional[C.Chart]:
                       (("+" if float(lift) >= 0 else "") + f"{float(lift) * 100:.0f} pts") if lift is not None else "n/a"))
     if not panels:
         return None
-    return C.small_multiples(panels, ["Before", "After"], ["ba-before", "ba-after"], value_fmt=C.fmt_pct, is_rate=True, cols=4,
+    return C.small_multiples(panels, ["Before", "After"], ["ba-before", "ba-after"], value_fmt=C.fmt_pct, is_rate=True,
+                             cols=2 if narrow else 4, panel_w=156 if narrow else 150,
                              aria="Adoption before and after training, one panel per rep", table_caption="Adoption before and after training by rep",
                              table_headers=["Rep", "Before", "n before", "After", "n after", "Lift"], table_rows=trows)
 
 
-def interactions_by_type(payload: dict) -> Optional[C.Chart]:
+def interactions_by_type(payload: dict, narrow: bool = False) -> Optional[C.Chart]:
     by_type = ((payload.get("teamMetrics") or {}).get("dataCoverage") or {}).get("interactionsByType") or {}
     if not by_type:
         return None
     items = sorted(by_type.items(), key=lambda kv: (-float(kv[1] or 0), kv[0]))
-    return C.hbar_chart([k for k, _ in items], [v for _, v in items], value_fmt=C.fmt_num, width=420, aria="Interactions by type",
+    return C.hbar_chart([k for k, _ in items], [v for _, v in items], value_fmt=C.fmt_num, width=NARROW_W if narrow else 420, aria="Interactions by type",
                         table_caption="Interactions by type", table_headers=["Type", "Interactions"])
 
 
-def element_won_lost(payload: dict) -> Optional[C.Chart]:
+def element_won_lost(payload: dict, narrow: bool = False) -> Optional[C.Chart]:
     rows = (payload.get("teamMetrics") or {}).get("elementWeakness") or []
     if not rows:
         return None
@@ -530,11 +560,12 @@ def element_won_lost(payload: dict) -> Optional[C.Chart]:
     max_level = payload["meta"]["framework"].get("maxLevel", 3)
     return C.grouped_bars(codes, [{"name": "Won deals", "values": [by_code[c].get("avgLevelWon") for c in codes], "color": "s1"},
                                   {"name": "Lost deals", "values": [by_code[c].get("avgLevelLost") for c in codes], "color": "s2"}],
-                          value_fmt=C.fmt_level, y_max=max_level, width=560, height=260, aria="Average element level on won versus lost deals",
+                          value_fmt=C.fmt_level, y_max=max_level, width=NARROW_W if narrow else 560, height=240 if narrow else 260,
+                          aria="Average element level on won versus lost deals",
                           table_caption="Average level after decay, won vs lost", category_names=[f"{c} {names.get(c, c)}" for c in codes])
 
 
-def element_adoption(payload: dict) -> Optional[C.Chart]:
+def element_adoption(payload: dict, narrow: bool = False) -> Optional[C.Chart]:
     rows = (payload.get("teamMetrics") or {}).get("elementWeakness") or []
     if not rows:
         return None
@@ -542,11 +573,12 @@ def element_adoption(payload: dict) -> Optional[C.Chart]:
     by_code = {r.get("element") or r.get("code"): r for r in rows}
     codes = [e["code"] for e in payload["meta"]["elements"] if e["code"] in by_code] or list(by_code)
     return C.hbar_chart([f"{c} {names.get(c, c)}" for c in codes], [by_code[c].get("adoptionRate") for c in codes], value_fmt=C.fmt_pct,
-                        is_rate=True, width=520, aria="Adoption rate by element", table_caption="Adoption rate by element",
+                        is_rate=True, width=NARROW_W if narrow else 520, label_max=118 if narrow else 160,
+                        aria="Adoption rate by element", table_caption="Adoption rate by element",
                         table_headers=["Element", "Adoption rate"])
 
 
-def impact_before_after(payload: dict) -> Optional[C.Chart]:
+def impact_before_after(payload: dict, narrow: bool = False) -> Optional[C.Chart]:
     im = payload.get("impact") or {}
     vals_b = [im.get("adoptionBefore"), im.get("winRateBefore")]
     vals_a = [im.get("adoptionAfter"), im.get("winRateAfter")]
@@ -556,7 +588,7 @@ def impact_before_after(payload: dict) -> Optional[C.Chart]:
               [f"{_pct(vals_a[0])} (n={C.fmt_num(im.get('adoptionAfterN'))})", f"{_pct(vals_a[1])} (n={C.fmt_num(im.get('closedAfter'))})"]]
     return C.grouped_bars(["Adoption rate", "Win rate"], [{"name": "Before training", "values": vals_b, "color": "ba-before"},
                                                           {"name": "After training", "values": vals_a, "color": "ba-after"}],
-                          value_fmt=C.fmt_pct, is_rate=True, bar_labels=labels, width=480, height=260,
+                          value_fmt=C.fmt_pct, is_rate=True, bar_labels=labels, width=NARROW_W if narrow else 480, height=240 if narrow else 260,
                           aria="Adoption and win rate before and after training", table_caption="Before and after training")
 
 
@@ -590,7 +622,7 @@ def impact_tiles(payload: dict) -> list[str]:
     ]
 
 
-def rep_charts(payload: dict, rep: dict) -> dict:
+def rep_charts(payload: dict, rep: dict, narrow: bool = False) -> dict:
     out: dict[str, Any] = {}
     names = _element_names(payload)
     metrics = {(m.get("repId") or m.get("id") or m.get("ownerId")): m for m in (payload.get("repMetrics") or [])}
@@ -606,21 +638,22 @@ def rep_charts(payload: dict, rep: dict) -> dict:
     if by_el:
         codes = [e["code"] for e in payload["meta"]["elements"] if e["code"] in by_el] or list(by_el)
         out["byElement"] = C.hbar_chart([f"{c} {names.get(c, c)}" for c in codes], [by_el.get(c) for c in codes], value_fmt=C.fmt_pct, is_rate=True,
-                                        width=440, aria=f"Adoption by element for {rep['name']}", table_caption="Adoption by element",
+                                        width=NARROW_W if narrow else 440, label_max=118 if narrow else 160,
+                                        aria=f"Adoption by element for {rep['name']}", table_caption="Adoption by element",
                                         table_headers=["Element", "Adoption rate"]).as_dict()
     b = m.get("beforeTraining") or {}
     a = m.get("afterTraining") or {}
     if payload["meta"].get("trainingDate") or b.get("n") or a.get("n"):
         out["beforeAfter"] = C.grouped_bars(["Adoption rate"], [{"name": "Before training", "values": [b.get("adoptionRate")], "color": "ba-before"},
                                                                 {"name": "After training", "values": [a.get("adoptionRate")], "color": "ba-after"}],
-                                            value_fmt=C.fmt_pct, is_rate=True, width=300, height=210,
+                                            value_fmt=C.fmt_pct, is_rate=True, width=280 if narrow else 300, height=210,
                                             bar_labels=[[f"{_pct(b.get('adoptionRate'))} (n={C.fmt_num(b.get('n'))})"], [f"{_pct(a.get('adoptionRate'))} (n={C.fmt_num(a.get('n'))})"]],
                                             aria=f"Adoption before and after training for {rep['name']}", table_caption="Before and after training",
                                             table_rows=[["Adoption rate", f"{_pct(b.get('adoptionRate'))} (n={C.fmt_num(b.get('n'))})", f"{_pct(a.get('adoptionRate'))} (n={C.fmt_num(a.get('n'))})"]]).as_dict()
     return out
 
 
-def deal_charts(payload: dict, state: dict) -> dict:
+def deal_charts(payload: dict, state: dict, narrow: bool = False) -> dict:
     names = _element_names(payload)
     els = state.get("elements") or {}
     codes = [e["code"] for e in payload["meta"]["elements"]] or list(els)
@@ -630,6 +663,7 @@ def deal_charts(payload: dict, state: dict) -> dict:
         cells.append({"code": c, "name": names.get(c, c), "level": e.get("level") if e else None, "decayed": e.get("decayed", False),
                       "firstAt": e.get("firstAt"), "lastAt": e.get("lastAt")})
     return {"elements": C.heatmap_cells(cells, max_level=payload["meta"]["framework"].get("maxLevel", 3),
+                                        size=36 if narrow else 46, gap=4 if narrow else 6,
                                         aria="Element levels for this deal", table_caption="Element levels after decay").as_dict()}
 
 
@@ -657,6 +691,7 @@ def render(payload: dict, plugin_root: Path) -> str:
     html = (template
             .replace("__FS_TITLE__", escape(meta["title"]))
             .replace("__FS_WINDOW__", escape(window_txt))
+            .replace("__FS_ORG__", escape(str(meta.get("orgName") or "your team")))
             .replace("__FS_GENERATED__", escape(C.fmt_date(meta["generatedAt"]) + " " + meta["generatedAt"][11:16] + " UTC"))
             .replace("__FS_MARK__", _mark_svg(plugin_root))
             .replace("__FS_DATA__", blob))
