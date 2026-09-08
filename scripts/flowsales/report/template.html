@@ -124,6 +124,9 @@ main { max-width: 1180px; margin: 0 auto; padding: 24px 24px 56px; }
 .verdict-more { font: 400 clamp(16px, 1.6vw, 19px)/1.5 var(--serif); color: var(--ink-2); margin: 14px 0 0; max-width: 72ch; }
 .verdict-more .v-num { color: var(--ink); font-weight: 700; }
 .verdict-note { margin: 10px 0 0; font-size: 12px; color: var(--muted); }
+.verdict.dimmed .verdict-lead, .verdict.dimmed .verdict-more, .verdict.dimmed .verdict-note { opacity: .5; }
+.v-badge { display: inline-block; margin: 0 0 10px; padding: 3px 10px; font-size: 12px; font-weight: 600; color: var(--ink-2); background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 999px; }
+.fchip-radio[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
 
 /* ---------- header controls: period, export menu, the note on tabs the period does not touch */
 .toolbar { flex-wrap: wrap; justify-content: flex-end; }
@@ -204,6 +207,13 @@ caption { text-align: left; color: var(--muted); font-size: 12px; padding: 4px 0
 .deals-toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 14px 0; }
 .deals-toolbar input, .deals-toolbar select { font: inherit; font-size: 13px; padding: 7px 10px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--surface); color: var(--ink); min-height: 36px; }
 .deals-toolbar input { flex: 1 1 220px; max-width: 360px; }
+.deals-key { display: grid; gap: 4px; margin: 0 0 12px; font-size: 12px; color: var(--ink-2); line-height: 1.7; }
+.deals-key .chip { font-size: 11px; padding: 0 7px 0 5px; margin: 0 2px; vertical-align: middle; }
+.fix-row { padding: 10px 0; border-top: 1px solid var(--rule); }
+.fix-row:first-child { padding-top: 0; border-top: 0; }
+.fix-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 4px; }
+.callout { border-left: 3px solid var(--st-warn); font-size: 13px; }
+.decay-panel { border-left: 3px solid var(--st-warn); }
 .deals-wrap { overflow-x: auto; }
 .deals-table th { position: sticky; top: 0; background: var(--surface); z-index: 1; }
 .deals-table th button { font: inherit; font-size: 12px; font-weight: 600; color: var(--ink-2); background: none; border: 0; padding: 0; cursor: pointer; white-space: nowrap; }
@@ -419,6 +429,10 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   .rep-switch { top: 0; }
   .rep-switch select { min-width: 0; flex: 1 1 140px; }
   .rep-pos { flex-basis: 100%; }
+  .kbd-hint { display: none; }
+  .ecell { min-width: 30px; }
+  .estrip { gap: 4px; }
+  .rep-switch select[aria-label="Element for this rep"] { flex: 1 1 120px; min-width: 0; }
   .filters { padding: 10px 12px; }
   .f-body { gap: 10px 18px; margin-top: 10px; }
   .f-summary { display: block; cursor: pointer; font-weight: 600; font-size: 13px; }
@@ -511,7 +525,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     <div class="toolbar">
       <select id="period-select" class="period" aria-label="Period for the Overview and Reps tabs" title="Period for the Overview and Reps tabs"></select>
       <span class="daterange" id="date-range" hidden><input type="date" id="date-from" aria-label="From date"><span>to</span><input type="date" id="date-to" aria-label="To date"></span>
-      <details class="menu" id="export-menu"><summary class="btn">Export</summary><div class="menu-list"><button type="button" id="export-pdf">Save as PDF</button><button type="button" id="export-md">Download Markdown</button><button type="button" id="export-md-copy">Copy Markdown</button></div></details>
+      <details class="menu" id="export-menu"><summary class="btn" title="Save as PDF, or download or copy Markdown">Export</summary><div class="menu-list"><button type="button" id="export-pdf">Save as PDF</button><button type="button" id="export-md">Download Markdown</button><button type="button" id="export-md-copy">Copy Markdown</button></div></details>
       <button type="button" class="btn" id="theme-toggle" aria-pressed="false">Dark theme</button>
     </div>
   </div>
@@ -703,6 +717,9 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     return d;
   }
   function N(v) { return h('span', { class: 'v-num' }, v); }
+  // point deltas are taken between the rounded figures the page prints, so 62% beside 38% reads +24, never +25
+  function pctPts(v) { var t = fmt.pct(v); return t === 'n/a' ? null : parseInt(t, 10); }
+  function liftText_(before, after) { var x = pctPts(before), y = pctPts(after); if (x == null || y == null) return null; var d = y - x; return (d >= 0 ? '+' : '') + d + ' pts'; }
 
   // ---------- the verdict: the sentences a sales leader repeats, built from the analytics with the n kept close
   function verdict() {
@@ -723,9 +740,13 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     }
     var movers = REPS.map(function (r) { return { r: r, m: metricsById[r.id] }; }).filter(function (x) { return x.m && isNum(x.m.adoptionLift) && x.m.beforeTraining && x.m.afterTraining; });
     movers.sort(function (x, y) { return y.m.adoptionLift - x.m.adoptionLift; });
-    if (movers.length && movers[0].m.adoptionLift >= 0.05) {
-      var top = movers[0];
-      more.push([top.r.name + ' moved most, from ', N(fmt.pct(top.m.beforeTraining.adoptionRate)), ' to ', N(fmt.pct(top.m.afterTraining.adoptionRate)), ' of interactions.']);
+    if (movers.length) {
+      var top = movers[0], bottom = movers[movers.length - 1];
+      var tl = pctPts(top.m.afterTraining.adoptionRate) - pctPts(top.m.beforeTraining.adoptionRate);
+      var bl = pctPts(bottom.m.afterTraining.adoptionRate) - pctPts(bottom.m.beforeTraining.adoptionRate);
+      var teamFlat = isNum(before.adoptionRate) && isNum(after.adoptionRate) && Math.abs(pctPts(after.adoptionRate) - pctPts(before.adoptionRate)) <= 2;
+      if (teamFlat && tl >= 5 && bl <= -5 && top.r.id !== bottom.r.id) more.push(['Behind the flat average, ' + top.r.name + ' rose ', N(tl + ' points'), ' while ' + bottom.r.name + ' fell ', N(Math.abs(bl) + ' points'), '.']);
+      else if (tl >= 5) more.push([top.r.name + ' moved most, from ', N(fmt.pct(top.m.beforeTraining.adoptionRate)), ' to ', N(fmt.pct(top.m.afterTraining.adoptionRate)), ' of interactions.']);
     }
     var terts = tm.winRateByAdoptionTertile || [], hi = null, lo = null;
     terts.forEach(function (t) { if (t.tertile === 'high') hi = t; if (t.tertile === 'low') lo = t; });
@@ -812,13 +833,17 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
 
   // ---------- filter state: null means "all"
   var F = { reps: null, element: '', types: null, outcomes: null, period: 'all', from: null, to: null };
+  var HIDDEN = {}; // rep lines hidden on the adoption chart: display only, the numbers do not change
+  if (narrowMQ.matches) REP_IDS.forEach(function (id) { HIDDEN[id] = true; });
   function customOk() { return F.period === 'custom' && F.from && F.to && !isNaN(F.from) && !isNaN(F.to) && F.from <= F.to; }
   function fActive() { return !!(F.reps || F.element || F.types || F.outcomes || F.period !== 'all'); }
   function fReset() { F.reps = null; F.element = ''; F.types = null; F.outcomes = null; }
   function localActive() { return !!(F.reps || F.element || F.types || F.outcomes); }
   function toggleIn(key, all, id) {
-    var cur = F[key] ? F[key].slice() : all.slice();
-    var i = cur.indexOf(id); if (i >= 0) cur.splice(i, 1); else cur.push(id);
+    var cur = F[key];
+    if (!cur) { F[key] = [id]; return; }
+    if (cur.length === 1 && cur[0] === id) { F[key] = null; return; }
+    cur = cur.slice(); var i = cur.indexOf(id); if (i >= 0) cur.splice(i, 1); else cur.push(id);
     F[key] = cur.length === all.length ? null : cur;
   }
   function periodWeeks() {
@@ -888,7 +913,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     var series = [], pooled = 0, pooledMap = {};
     REPS_SORTED.forEach(function (rep) {
       var m = byRep[rep.id]; if (!m) return;
-      if (rep.slot) { series.push({ name: rep.name, key: rep.id, values: sliceTo(rolling(m, WEEKS), weeks), color: 's' + rep.slot }); return; }
+      if (rep.slot) { series.push({ name: rep.name, key: rep.id, values: sliceTo(rolling(m, WEEKS), weeks), color: 's' + rep.slot, off: !!HIDDEN[rep.id] }); return; }
       pooled += 1;
       Object.keys(m).forEach(function (w) { var b = pooledMap[w] || (pooledMap[w] = { n: 0, a: 0 }); b.n += m[w].n; b.a += m[w].a; });
     });
@@ -1145,13 +1170,14 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
       barSync.push(function () { b.setAttribute('aria-pressed', isOn() ? 'true' : 'false'); });
       return b;
     }
-    if (REPS_SORTED.length > 1) body.appendChild(group('Reps', REPS_SORTED.map(function (rep) { return chip(rep.name || rep.id, function () { return !F.reps || F.reps.indexOf(rep.id) >= 0; }, function () { toggleIn('reps', REP_IDS, rep.id); }, rep.slot || 0); })));
+    if (REPS_SORTED.length > 1) { var rg = group('Reps', REPS_SORTED.map(function (rep) { return chip(rep.name || rep.id, function () { return !F.reps || F.reps.indexOf(rep.id) >= 0; }, function () { toggleIn('reps', REP_IDS, rep.id); }, rep.slot || 0); })); rg.querySelector('.f-label').textContent = 'Reps (click one to see only that rep)'; body.appendChild(rg); }
     var sel = h('select', { 'aria-label': 'Element' }, [h('option', { value: '' }, 'Any element')].concat(ELEMENTS.map(function (e) { return h('option', { value: e.code }, e.code + ' ' + e.name); })));
     sel.value = F.element; sel.addEventListener('change', function () { F.element = sel.value; refreshOverview(); });
     barSync.push(function () { sel.value = F.element; });
     body.appendChild(group('Element applied', sel));
     if (TYPES.length > 1) body.appendChild(group('Interaction type', TYPES.map(function (t) { return chip(t, function () { return !F.types || F.types.indexOf(t) >= 0; }, function () { toggleIn('types', TYPES, t); }); })));
     body.appendChild(group('Deal outcome', OUTCOMES.map(function (oc) { return chip(oc.charAt(0).toUpperCase() + oc.slice(1), function () { return !F.outcomes || F.outcomes.indexOf(oc) >= 0; }, function () { toggleIn('outcomes', OUTCOMES, oc); }); })));
+    body.appendChild(group('Period', PERIOD_OPTIONS.map(function (p) { var c = chip(p[2] || p[1], function () { return F.period === p[0]; }, function () { if (F.period !== p[0]) setPeriod(p[0]); }); c.classList.add('fchip-radio'); return c; })));
     var status = h('span'), reset = h('button', { type: 'button', class: 'btn btn-sm' }, 'Clear filters');
     reset.addEventListener('click', function () { fReset(); refreshOverview(); });
     barSync.push(function () {
@@ -1163,10 +1189,26 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     syncFilterBar();
     return bar;
   }
-  function toggleRep(id) { if (REP_IDS.indexOf(id) < 0) return; toggleIn('reps', REP_IDS, id); refreshOverview(); }
+  function toggleRep(id) { if (REP_IDS.indexOf(id) < 0) return; HIDDEN[id] = !HIDDEN[id]; if (ovDyn && ovDyn.isConnected) drawOverview(false); }
+  function sliceLabel() {
+    var bits = [];
+    if (F.reps) bits.push(F.reps.map(repName).join(', '));
+    if (F.element) bits.push(F.element + ' ' + elName(F.element));
+    if (F.types) bits.push(F.types.join(', '));
+    if (F.outcomes) bits.push(F.outcomes.join(', '));
+    if (F.period !== 'all') bits.push(periodLabel());
+    return bits.join(', ');
+  }
   function drawOverview(animate) {
     var dyn = ovDyn; dyn.replaceChildren();
     var view = inView(), recs = view.recs, weeks = view.weeks;
+    var vEl = document.querySelector('#tab-overview .verdict');
+    if (vEl) {
+      var isActive = fActive(), badge = vEl.querySelector('.v-badge');
+      vEl.classList.toggle('dimmed', isActive);
+      if (isActive && !badge) vEl.insertBefore(h('p', { class: 'v-badge' }, 'Whole window. The tiles and charts below follow the filters.'), vEl.firstChild);
+      if (!isActive && badge) badge.remove();
+    }
     var dealMap = dealsInView(recs), dealIds = Object.keys(dealMap);
     var tm = DATA.teamMetrics || {}, tot = tm.totals || {}, cov = tm.dataCoverage || {};
     var n = recs.length, applied = recs.filter(isApplied).length, won = 0, lost = 0;
@@ -1177,7 +1219,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     var tiles = h('div', { class: 'tiles' });
     tiles.appendChild(tile(active ? 'Deals in view' : 'Deals audited', fmt.num(active ? dealIds.length : (tot.deals != null ? tot.deals : dealIds.length)), active ? 'with at least one interaction in view, of ' + fmt.num(tot.deals != null ? tot.deals : DEALS.length) + ' audited' : 'of ' + fmt.num(META.counts && META.counts.deals != null ? META.counts.deals : DEALS.length) + ' deals in window, ' + windowTxt));
     tiles.appendChild(tile(active ? 'Interactions in view' : 'Interactions scored', fmt.num(n), fmt.num(applied) + (elLabel ? ' where the rep applied ' + elLabel : ' with at least one framework behaviour')));
-    tiles.appendChild(tile(elLabel ? 'Adoption of ' + elLabel : (active ? 'Adoption rate in view' : 'Team adoption rate'), fmt.pct(n ? applied / n : null), 'n = ' + fmt.num(n) + ' interactions' + (elLabel ? ' where it was applicable' : '')));
+    tiles.appendChild(tile(active ? 'Adoption: ' + sliceLabel() : 'Team adoption rate', fmt.pct(n ? applied / n : null), 'n = ' + fmt.num(n) + ' interactions' + (elLabel ? ' where it was applicable' : '')));
     tiles.appendChild(tile('Win rate', fmt.pct(won + lost ? won / (won + lost) : null), 'n = ' + fmt.num(won + lost) + ' closed deals' + (active ? ' in view' : '') + ' (' + fmt.num(won) + ' won, ' + fmt.num(lost) + ' lost)'));
     dyn.appendChild(tiles);
     if (!n) {
@@ -1194,7 +1236,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     }
     var what = elLabel ? 'applied the framework for ' + elLabel + ', over interactions where it was applicable' : 'applied at least one framework behaviour';
     var tNote = TRAINING ? (vline ? ' Training date ' + fmt.date(META.trainingDate) + ' marked.' : '') : ' No training date set (config.trainingDate).';
-    var f1 = makeFig(dyn, 'Adoption over time, trailing 4 weeks', 'Share of interactions in the trailing four ISO weeks where the rep ' + what + '; one line per rep, ' + (F.reps ? 'selected reps' : 'team') + ' dashed. A single week has too few interactions to read on its own, so each point pools the four weeks ending there. Click a name in the legend to hide or show that rep.' + tNote, { animate: animate });
+    var f1 = makeFig(dyn, 'Adoption over time, trailing 4 weeks', 'Share of interactions in the trailing four ISO weeks where the rep ' + what + '; one line per rep, ' + (F.reps ? 'selected reps' : 'team') + ' dashed. A single week has too few interactions to read on its own, so each point pools the four weeks ending there. Click a name in the legend to hide or show that rep\'s line; the Reps filter above changes the numbers.' + (narrowMQ.matches ? ' On a phone the rep lines start hidden: tap a name to show one.' : '') + tNote, { animate: animate });
     fills.push(function () { fillFig(f1, function (width) { return lineChart({ labels: labels, xTips: xTips, series: series, vline: vline, width: width, height: width < 500 ? 250 : 300, endLabels: width >= 500, caption: 'Adoption rate by ISO week, trailing 4-week window', aria: 'Adoption rate, trailing 4 weeks, one line per rep, team dashed' }); }); });
     var grid = h('div', { class: 'grid-2' }); dyn.appendChild(grid);
     var terts = tertileRows(dealMap);
@@ -1215,8 +1257,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
         var br = p.bn ? p.ba / p.bn : null, ar = p.an ? p.aa / p.an : null;
         panels.push({ title: rep.name, values: [br, ar], labels: [fmt.pct(br) + ' (' + fmt.num(p.bn) + ')', fmt.pct(ar) + ' (' + fmt.num(p.an) + ')'],
           tips: [tipStr(rep.name + ': before training', [['adoption', fmt.pct(br), 'ba-before'], ['interactions', fmt.num(p.bn), '']]), tipStr(rep.name + ': after training', [['adoption', fmt.pct(ar), 'ba-after'], ['interactions', fmt.num(p.an), '']])] });
-        var lift = (br != null && ar != null) ? ar - br : null;
-        trows.push([rep.name, fmt.pct(br), fmt.num(p.bn), fmt.pct(ar), fmt.num(p.an), lift == null ? 'n/a' : (lift >= 0 ? '+' : '') + (lift * 100).toFixed(0) + ' pts']);
+        trows.push([rep.name, fmt.pct(br), fmt.num(p.bn), fmt.pct(ar), fmt.num(p.an), liftText_(br, ar) || 'n/a']);
       });
       if (panels.length) {
         var f3 = makeFig(grid, 'Before and after training, adoption by rep', 'Interactions before and after ' + fmt.date(META.trainingDate) + ' in view. Labels show the adoption rate and n.', { tableBeneath: true });
@@ -1278,10 +1319,10 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     { key: 'owner', label: 'Owner', cls: 'm-inline', get: function (r) { return repName(r.d.ownerId); } },
     { key: 'amount', label: 'Amount', num: true, cls: 'm-inline', get: function (r) { return r.d.amount; }, show: function (r) { return fmt.money(r.d.amount, r.d.currency); } },
     { key: 'stage', label: 'Stage', cls: 'm-inline', get: function (r) { return r.d.stageLabel || r.d.stage || ''; } },
-    { key: 'coverage2', label: 'Elements at 2+', num: true, cls: 'strip-cell', get: function (r) { return r.s ? r.s.coverage2 : null; }, show: function (r) { return r.s ? [strip(r.s), h('span', { class: 'count' }, fmt.num(r.s.coverage2) + ' of ' + ELEMENTS.length)] : h('span', { class: 'muted' }, 'not assessed'); } },
+    { key: 'coverage2', label: 'Elements at 2+', title: ELEMENTS.map(function (e) { return e.code + ' ' + e.name; }).join(', '), num: true, cls: 'strip-cell', get: function (r) { return r.s ? r.s.coverage2 : null; }, show: function (r) { return r.s ? [strip(r.s), h('span', { class: 'count' }, fmt.num(r.s.coverage2) + ' of ' + ELEMENTS.length)] : h('span', { class: 'muted' }, 'not assessed'); } },
     { key: 'gate', label: 'Gate', cls: 'gate-cell', get: function (r) { return r.s ? r.s.gate : ''; }, show: function (r) { return r.s ? gateChip(r.s.gate) : h('span', { class: 'muted' }, 'not assessed'); } },
     { key: 'dealAdoption', label: 'Adoption', num: true, cls: 'm-inline', get: function (r) { return r.s ? r.s.dealAdoption : null; }, show: function (r) { return r.s ? fmt.pct(r.s.dealAdoption) + ' (' + fmt.num(r.s.appliedInteractions) + '/' + fmt.num(r.s.interactions) + ')' : 'n/a'; } },
-    { key: 'eqi', label: 'Evidence quality', num: true, cls: 'm-inline', get: function (r) { return r.s ? r.s.evidenceQualityIndex : null; }, show: function (r) { return r.s ? fmt.pct(r.s.evidenceQualityIndex) : 'n/a'; } },
+    { key: 'eqi', label: 'Evidence quality', title: 'Share of level-2+ scores backed by a verified buyer quote', num: true, cls: 'm-inline', get: function (r) { return r.s ? r.s.evidenceQualityIndex : null; }, show: function (r) { return r.s ? fmt.pct(r.s.evidenceQualityIndex) : 'n/a'; } },
     { key: 'last', label: 'Last activity', cls: 'm-inline', get: function (r) { return r.last || ''; }, show: function (r) { return r.last ? fmt.date(r.last) : h('span', { class: 'muted' }, 'none'); } }
   ];
   function dealRows() {
@@ -1310,10 +1351,19 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     input.addEventListener('input', function () { dealFilter.text = input.value; drawBody(); });
     sel.addEventListener('change', function () { dealFilter.outcome = sel.value; drawBody(); });
     root.appendChild(h('div', { class: 'deals-toolbar' }, input, sel, count));
+    var eqis = STATES.map(function (x) { return x.evidenceQualityIndex; }).filter(isNum);
+    var eqiUniform = eqis.length > 1 && eqis.every(function (v) { return Math.abs(v - eqis[0]) < 1e-9; });
+    var cols = COLS.filter(function (c) { return !(c.key === 'eqi' && eqiUniform); });
+    var scoring = (FW && FW.scoring) || {}, cg = scoring.commitGate || {}, qo = scoring.qualifyOut || {};
+    var key = h('div', { class: 'deals-key' });
+    key.appendChild(h('div', null, h('b', null, 'Gate. '), gateChip('commit-eligible'), ' all elements at ' + fmt.num(cg.all != null ? cg.all : 2) + ' or more, E and CH at ' + fmt.num(cg.E != null ? cg.E : 3) + ', PP at ' + fmt.num(cg.PP != null ? cg.PP : 2) + ' or more. ', gateChip('upside'), ' six or more elements at 2 or more. ', gateChip('pipeline'), ' the rest. ', gateChip('qualify-out'), ' total at most ' + fmt.num(qo.maxTotal != null ? qo.maxTotal : 9) + ' after ' + fmt.num(qo.minInteractions != null ? qo.minInteractions : 4) + ' or more interactions, or E or CH still 0 after evaluation.'));
+    key.appendChild(h('div', null, h('b', null, 'Elements. '), ELEMENTS.map(function (e) { return e.code + ' ' + e.name; }).join(', ') + '. The strip shows the eight levels, 0 to ' + MAX_LEVEL + ', in that order; the count is elements at 2 or more.'));
+    if (eqiUniform) key.appendChild(h('div', null, h('b', null, 'Evidence quality. '), fmt.pct(eqis[0]) + ' on every deal: that share of level-2+ scores comes from a verified buyer quote, so the column is not repeated per row.'));
+    root.appendChild(key);
     var table = h('table', { class: 'deals-table' });
     var thead = h('thead'), tr = h('tr');
-    COLS.forEach(function (c) {
-      var b = h('button', { type: 'button', 'aria-sort': dealSort.key === c.key ? (dealSort.dir > 0 ? 'ascending' : 'descending') : null }, c.label);
+    cols.forEach(function (c) {
+      var b = h('button', { type: 'button', title: c.title || null, 'aria-sort': dealSort.key === c.key ? (dealSort.dir > 0 ? 'ascending' : 'descending') : null }, c.label);
       b.addEventListener('click', function () {
         if (dealSort.key === c.key) dealSort.dir = -dealSort.dir; else { dealSort.key = c.key; dealSort.dir = c.num ? -1 : 1; }
         tr.querySelectorAll('button').forEach(function (x) { x.removeAttribute('aria-sort'); });
@@ -1330,7 +1380,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
       count.textContent = rows.length + ' deal' + (rows.length === 1 ? '' : 's');
       rows.forEach(function (r) {
         var trr = h('tr', { class: 'deal-row', tabindex: '0', role: 'link', 'aria-label': 'Open ' + (r.d.name || r.d.id) });
-        COLS.forEach(function (c) {
+        cols.forEach(function (c) {
           var v = c.show ? c.show(r) : c.get(r);
           var cls = [c.num && c.key !== 'coverage2' ? 'num' : '', c.key === 'name' ? 'name' : '', c.cls || ''].join(' ').trim();
           trr.appendChild(h('td', { class: cls || null, 'data-label': c.label }, v == null ? 'n/a' : v));
@@ -1340,7 +1390,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
         trr.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
         tbody.appendChild(trr);
       });
-      if (!rows.length) tbody.appendChild(h('tr', null, h('td', { colspan: String(COLS.length), class: 'muted' }, 'No deals match. Clear the filter to see all of them.')));
+      if (!rows.length) tbody.appendChild(h('tr', null, h('td', { colspan: String(cols.length), class: 'muted' }, 'No deals match. Clear the filter to see all of them.')));
     }
     drawBody();
     root.appendChild(h('div', { class: 'panel panel-flush' }, h('div', { class: 'deals-wrap' }, table)));
@@ -1361,12 +1411,12 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     sub.appendChild(h('span', null, (d.stageLabel || d.stage || 'stage n/a') + (d.outcome ? ', ' + d.outcome : ', open')));
     root.appendChild(sub);
     var facts = h('dl', { class: 'facts' });
-    function fact(k, v) { facts.appendChild(h('div', null, h('dt', null, k), h('dd', null, v == null ? 'n/a' : v))); }
+    function fact(k, v, title) { facts.appendChild(h('div', { title: title || null }, h('dt', null, k), h('dd', null, v == null ? 'n/a' : v))); }
     fact('Created', fmt.date(d.createdAt));
     fact('Closed', d.closedAt ? fmt.date(d.closedAt) : 'open');
     if (s) {
       fact('Cycle days', s.cycleDays != null ? fmt.num(s.cycleDays) : 'open');
-      fact('Total', fmt.num(s.total) + ' of ' + fmt.num(s.maxTotal || MAX_TOTAL));
+      fact('Total', fmt.num(s.total) + ' of ' + fmt.num(s.maxTotal || MAX_TOTAL), 'The eight element levels added up, each 0 to ' + MAX_LEVEL);
       fact('Elements at 2 or more', fmt.num(s.coverage2) + ' of ' + ELEMENTS.length);
       fact('Deal adoption', fmt.pct(s.dealAdoption) + ' (' + fmt.num(s.appliedInteractions) + ' of ' + fmt.num(s.interactions) + ' interactions)');
       fact('Evidence quality', fmt.pct(s.evidenceQualityIndex) + ' of scores at 2+ from buyer quotes');
@@ -1378,8 +1428,19 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     } else {
       var dc = (CHARTS.deals || {})[dealId] || {};
       var ef = figure(dc.elements, 'Element levels: best verified evidence, after decay', 'Fill is the level, 0 to ' + MAX_LEVEL + '; the number is always printed. A corner marker means the level decayed by one because the last supporting evidence is older than the decay window. Hover or focus a cell for first and last evidence dates.');
-      ef.insertBefore(h('p', { class: 'elements-key' }, ELEMENTS.map(function (e) { return e.code + ' ' + e.name; }).join(', ')), ef.querySelector('.fig-note'));
+      ef.insertBefore(h('p', { class: 'elements-key' }, ELEMENTS.map(function (e) { return e.code + ' ' + e.name; }).join(', ') + '. A corner marker on a cell means the level decayed.'), ef.querySelector('.fig-note'));
       root.appendChild(ef);
+      var decayedEls = ELEMENTS.filter(function (e) { var x = s.elements && s.elements[e.code]; return x && x.decayed; });
+      if (decayedEls.length) {
+        var ref = d.closedAt || (META.window && META.window.to), refLabel = d.closedAt ? 'before close' : 'before the window end';
+        var win = (META.config && META.config.attribution && META.config.attribution.decayDays) || (FW && FW.scoring && FW.scoring.decayDays) || 45;
+        var dl = h('ul', { class: 'plain' });
+        decayedEls.forEach(function (e) {
+          var x = s.elements[e.code], days = (x.lastAt && ref) ? Math.round((new Date(ref) - new Date(x.lastAt)) / 864e5) : null;
+          dl.appendChild(h('li', null, h('b', null, e.code + ' ' + e.name), ' decayed from ' + fmt.num(x.level + 1) + ' to ' + fmt.num(x.level) + ': last evidence ' + fmt.date(x.lastAt) + (days != null ? ', ' + fmt.num(days) + ' days ' + refLabel : '') + ', window ' + fmt.num(win) + ' days.'));
+        });
+        root.appendChild(h('div', { class: 'panel decay-panel' }, h('h4', { style: 'margin-top:0' }, 'Decayed evidence'), dl, h('p', { class: 'muted small', style: 'margin:6px 0 0' }, 'Nothing contradicted the evidence; it went quiet. Fresh buyer words on the element restore the level.')));
+      }
       if (s.influenced && s.influenced.isInfluenced) {
         root.appendChild(h('p', { class: 'small' }, h('b', null, 'Influenced: '), s.influenced.rule || ''));
       }
@@ -1392,6 +1453,33 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
         gaps.forEach(function (g) { gb.appendChild(h('tr', null, h('td', null, g.phase), h('td', null, g.element + ' ' + elName(g.element)), h('td', { class: 'num' }, fmt.num(g.expected)), h('td', { class: 'num' }, fmt.num(g.actual)))); });
         gt.appendChild(gb);
         root.appendChild(h('div', { class: 'panel panel-flush' }, gt));
+      }
+    }
+    if (s && a) {
+      var gapBy = {}; (s.stageGaps || []).forEach(function (g) { gapBy[g.element] = g; });
+      var fixes = [];
+      ELEMENTS.forEach(function (e) {
+        var x = s.elements && s.elements[e.code], lv = x ? x.level : null;
+        if (!(gapBy[e.code] || (lv != null && lv < 2))) return;
+        var best = null;
+        (a.interactions || []).forEach(function (ai) { var ent = (ai.elements || {})[e.code]; if (!ent || (!ent.whyNotHigher && !ent.nextQuestion)) return; if (!best || (ai.at || '') > (best.ai.at || '')) best = { ai: ai, ent: ent }; });
+        fixes.push({ e: e, level: lv, decayed: !!(x && x.decayed), gap: gapBy[e.code], best: best });
+      });
+      if (fixes.length) {
+        root.appendChild(h('h3', null, 'What to fix on this deal'));
+        root.appendChild(h('p', { class: 'ekey' }, 'Elements below level 2 or behind their stage, with the judge\'s latest reason and the next question to ask.'));
+        var fp = h('div', { class: 'panel' });
+        fixes.forEach(function (f) {
+          var row = h('div', { class: 'fix-row' });
+          row.appendChild(h('div', { class: 'fix-head' }, levelCell(f.level, f.e.name + ': level ' + f.level), h('b', null, f.e.code + ' ' + f.e.name), f.decayed ? h('span', { class: 'badge' }, 'decayed') : null, f.gap ? h('span', { class: 'badge' }, 'expected ' + fmt.num(f.gap.expected) + ' at ' + f.gap.phase) : null));
+          if (f.best) {
+            if (f.best.ent.whyNotHigher) row.appendChild(h('p', { class: 'why' }, h('b', null, 'Why not higher: '), f.best.ent.whyNotHigher));
+            if (f.best.ent.nextQuestion) row.appendChild(h('p', { class: 'why' }, h('b', null, 'Ask next: '), '\u201c' + f.best.ent.nextQuestion + '\u201d'));
+            row.appendChild(h('p', { class: 'muted small' }, 'From the ' + fmt.date(f.best.ai.at) + ' interaction, in the timeline below.'));
+          } else row.appendChild(h('p', { class: 'muted small' }, 'No judge note on this element yet.'));
+          fp.appendChild(row);
+        });
+        root.appendChild(fp);
       }
     }
     root.appendChild(h('h3', null, 'Interaction timeline'));
@@ -1505,7 +1593,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   }
   // ---------- reps: a sticky switcher (previous, dropdown, next), one rep at a time when there are many,
   // every number recomputed for the global period from the same records the rollup used
-  var repSel = null, repsBody = null, repSelect = null, repPos = null;
+  var repSel = null, repsBody = null, repSelect = null, repPos = null, repElement = '';
   function defaultRep() { return REPS_SORTED.length > 6 ? REP_IDS[0] : 'all'; }
   function periodLabel() {
     if (F.period === 'before') return 'before training'; if (F.period === 'after') return 'after training';
@@ -1538,19 +1626,20 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     return scored.slice(0, 3).map(function (t) { return t[2]; });
   }
   function repView(rep) {
-    var recs = periodRecs().filter(function (r) { return r.repId === rep.id; });
+    var recs = periodRecs().filter(function (r) { return r.repId === rep.id && (!repElement || r.applicable.indexOf(repElement) >= 0); });
+    var appliedOf = function (r) { return repElement ? !!r.els[repElement] : r.applied; };
     var states = STATES.filter(function (s) { return s.ownerId === rep.id && dealInPeriod(s); });
     var won = states.filter(function (s) { return s.outcome === 'won'; }), lost = states.filter(function (s) { return s.outcome === 'lost'; }), open = states.filter(function (s) { return s.outcome === 'open'; });
-    var applied = recs.filter(function (r) { return r.applied; }).length;
+    var applied = recs.filter(appliedOf).length;
     var applicable = {}, appliedBy = {};
     recs.forEach(function (r) { r.applicable.forEach(function (c) { applicable[c] = (applicable[c] || 0) + 1; if (r.els[c]) appliedBy[c] = (appliedBy[c] || 0) + 1; }); });
     var adoption = {}; CODES.forEach(function (c) { adoption[c] = applicable[c] ? Math.round(1000 * (appliedBy[c] || 0) / applicable[c]) / 1000 : null; });
     var before = [], after = [];
     if (TRAINING) recs.forEach(function (r) { if (r.at) (r.at < TRAINING ? before : after).push(r); });
-    var bRate = before.length ? before.filter(function (r) { return r.applied; }).length / before.length : null;
-    var aRate = after.length ? after.filter(function (r) { return r.applied; }).length / after.length : null;
+    var bRate = before.length ? before.filter(appliedOf).length / before.length : null;
+    var aRate = after.length ? after.filter(appliedOf).length / after.length : null;
     var hi = 0, hiB = 0; recs.forEach(function (r) { hi += r.hi; hiB += r.hiBuyer; });
-    var weekly = {}; recs.forEach(function (r) { if (!r.at) return; var w = isoWeek(r.at); var b = weekly[w] || (weekly[w] = { n: 0, a: 0 }); b.n += 1; if (r.applied) b.a += 1; });
+    var weekly = {}; recs.forEach(function (r) { if (!r.at) return; var w = isoWeek(r.at); var b = weekly[w] || (weekly[w] = { n: 0, a: 0 }); b.n += 1; if (appliedOf(r)) b.a += 1; });
     var weeks = periodWeeks();
     return { recs: recs, n: recs.length, applied: applied, adoptionRate: recs.length ? applied / recs.length : null, adoption: adoption, applicable: applicable, appliedBy: appliedBy,
       won: won.length, lost: lost.length, open: open.length, winRate: won.length + lost.length ? won.length / (won.length + lost.length) : null,
@@ -1579,14 +1668,14 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     var card = h('section', { class: 'rep-card', id: 'rep-' + safeId(rep.id) });
     card.appendChild(h('div', { class: 'rep-head' }, h('span', { class: 'swatch s' + (rep.slot || 0), 'aria-hidden': 'true' }), h('h3', null, rep.name || rep.id), rep.email ? h('span', { class: 'muted small' }, rep.email) : null, inPeriod ? h('span', { class: 'badge' }, periodLabel()) : null));
     var tiles = h('div', { class: 'tiles in-panel' });
-    var t1 = tile('Adoption rate', fmt.pct(v.adoptionRate), 'n = ' + fmt.num(v.n) + ' interactions' + (v.n && v.weeks.length ? ', weekly trend below' : ''));
+    var t1 = tile(repElement ? 'Adoption of ' + repElement + ' ' + elName(repElement) : 'Adoption rate', fmt.pct(v.adoptionRate), 'n = ' + fmt.num(v.n) + ' interactions' + (repElement ? ' where it was applicable' : '') + (v.n && v.weeks.length ? ', weekly trend below' : ''));
     if (v.n && v.weeks.length) {
       var sp = sparkline(v.spark, v.weeks.map(function (w) { return w + ' (week of ' + weekLabel(w) + ')'; }), 160, 36);
       t1.appendChild(h('div', { class: 'tile-spark', html: sp.svg }));
       t1.appendChild(h('details', { class: 'tile-table' }, h('summary', null, 'Table'), h('div', { html: sp.table })));
     }
     tiles.appendChild(t1);
-    tiles.appendChild(tile('Interactions', fmt.num(v.n), fmt.num(v.applied) + ' with a framework behaviour'));
+    tiles.appendChild(tile('Interactions', fmt.num(v.n), fmt.num(v.applied) + (repElement ? ' where the rep applied ' + repElement : ' with a framework behaviour')));
     tiles.appendChild(tile('Win rate', fmt.pct(v.winRate), fmt.num(v.won) + ' won, ' + fmt.num(v.lost) + ' lost, ' + fmt.num(v.open) + ' open (n = ' + fmt.num(v.won + v.lost) + ' closed' + (inPeriod ? ' in the period' : '') + ')'));
     tiles.appendChild(tile('Evidence quality', fmt.pct(v.eqi), 'share of scores at 2+ backed by a buyer quote'));
     card.appendChild(tiles);
@@ -1598,7 +1687,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     side.appendChild(h('h4', null, 'Weakest three')); side.appendChild(chipList(v.weakest));
     side.appendChild(h('h4', null, 'Strongest three')); side.appendChild(chipList(v.strongest));
     if (TRAINING && (v.before.n || v.after.n)) {
-      var liftText = v.lift != null ? (v.lift >= 0 ? '+' : '') + (v.lift * 100).toFixed(0) + ' pts' : 'lift n/a';
+      var liftText = liftText_(v.before.rate, v.after.rate) || 'lift n/a';
       var f2 = makeFig(side, 'Before and after training: ' + liftText, 'Before n = ' + fmt.num(v.before.n) + ', after n = ' + fmt.num(v.after.n) + ' interactions.');
       fills.push(function () { fillFig(f2, function (width) { return smallMultiples({ panels: [{ title: 'Adoption rate', values: [v.before.rate, v.after.rate], labels: [fmt.pct(v.before.rate) + ' (n=' + fmt.num(v.before.n) + ')', fmt.pct(v.after.rate) + ' (n=' + fmt.num(v.after.n) + ')'], tips: [tipStr(rep.name + ': before training', [['adoption', fmt.pct(v.before.rate), 'ba-before'], ['interactions', fmt.num(v.before.n), '']]), tipStr(rep.name + ': after training', [['adoption', fmt.pct(v.after.rate), 'ba-after'], ['interactions', fmt.num(v.after.n), '']])] }], cats: ['Before', 'After'], colors: ['ba-before', 'ba-after'], cols: 1, panelW: Math.min(300, width - 16), panelH: 170, caption: 'Before and after training', headers: ['Rep', 'Before', 'After'], rows: [[rep.name, fmt.pct(v.before.rate) + ' (n=' + fmt.num(v.before.n) + ')', fmt.pct(v.after.rate) + ' (n=' + fmt.num(v.after.n) + ')']], aria: 'Adoption before and after training for ' + rep.name }); }); });
     } else { side.appendChild(h('h4', null, 'Before and after training')); side.appendChild(h('p', { class: 'muted small' }, TRAINING ? 'No dated interactions in this period.' : 'No training date set.')); }
@@ -1635,7 +1724,9 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     function step(d) { var i = REP_IDS.indexOf(repSel); var j = i < 0 ? (d > 0 ? 0 : REP_IDS.length - 1) : (i + d + REP_IDS.length) % REP_IDS.length; location.hash = '#reps/' + REP_IDS[j]; }
     prev.addEventListener('click', function () { step(-1); }); next.addEventListener('click', function () { step(1); });
     repSelect.addEventListener('change', function () { location.hash = repSelect.value === 'all' ? '#reps' : '#reps/' + repSelect.value; });
-    sw.appendChild(prev); sw.appendChild(repSelect); sw.appendChild(next); sw.appendChild(repPos);
+    var elSel = h('select', { 'aria-label': 'Element for this rep', title: 'Count only interactions where the rep applied this element' }, [h('option', { value: '' }, 'Any element')].concat(ELEMENTS.map(function (e) { return h('option', { value: e.code }, e.code + ' ' + e.name); })));
+    elSel.value = repElement; elSel.addEventListener('change', function () { repElement = elSel.value; drawReps(); });
+    sw.appendChild(prev); sw.appendChild(repSelect); sw.appendChild(next); sw.appendChild(elSel); sw.appendChild(repPos);
     root.appendChild(sw);
     repsBody = h('div'); root.appendChild(repsBody);
     drawReps();
@@ -1646,7 +1737,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     repSelect.value = repSel;
     var list = repSel === 'all' ? REPS_SORTED : REPS_SORTED.filter(function (r) { return r.id === repSel; });
     var i = REP_IDS.indexOf(repSel);
-    repPos.textContent = (repSel === 'all' ? 'All ' + REPS_SORTED.length + ' reps' : (i + 1) + ' of ' + REPS_SORTED.length) + (F.period !== 'all' ? ', ' + periodLabel() : '') + '. Keys: [ and ] switch rep.';
+    repPos.replaceChildren((repSel === 'all' ? 'All ' + REPS_SORTED.length + ' reps' : (i + 1) + ' of ' + REPS_SORTED.length) + (F.period !== 'all' ? ', ' + periodLabel() : '') + (repElement ? ', ' + repElement + ' only' : '') + '.', h('span', { class: 'kbd-hint' }, ' Keys: [ and ] switch rep.'));
     repsBody.replaceChildren();
     var fills = [];
     list.forEach(function (rep) { repsBody.appendChild(repCard(rep, fills)); });
@@ -1654,14 +1745,19 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   }
 
   // ---------- period: one control in the header, honoured by the Overview and Reps tabs
-  var periodSelect = document.getElementById('period-select');
-  var periodNote = document.getElementById('period-note');
-  (function () {
+  var PERIOD_OPTIONS = (function () {
     var per = [['all', 'Whole window']];
-    if (TRAINING) per.push(['before', 'Before training (' + fmt.date(META.trainingDate) + ')'], ['after', 'After training (' + fmt.date(META.trainingDate) + ')']);
+    if (TRAINING) per.push(['before', 'Before training (' + fmt.date(META.trainingDate) + ')', 'Before training'], ['after', 'After training (' + fmt.date(META.trainingDate) + ')', 'After training']);
     if (WEEKS.length > 12) per.push(['last12', 'Last 12 weeks']);
     if (WEEKS.length > 26) per.push(['last26', 'Last 26 weeks']);
     per.push(['custom', 'Custom dates']);
+    return per;
+  })();
+  function setPeriod(p) { var sel = document.getElementById('period-select'); sel.value = p; sel.dispatchEvent(new Event('change')); }
+  var periodSelect = document.getElementById('period-select');
+  var periodNote = document.getElementById('period-note');
+  (function () {
+    var per = PERIOD_OPTIONS;
     per.forEach(function (p) { periodSelect.appendChild(h('option', { value: p[0] }, p[1])); });
     periodSelect.value = F.period;
     var dr = document.getElementById('date-range'), dFrom = document.getElementById('date-from'), dTo = document.getElementById('date-to');
@@ -1801,6 +1897,8 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     grid.appendChild(figure(CHARTS.elementWonLost, 'Average level on won and lost deals', 'Level after decay, averaged over closed deals. n = ' + fmt.num((tm.totals || {}).dealsWon) + ' won, ' + fmt.num((tm.totals || {}).dealsLost) + ' lost.'));
     grid.appendChild(figure(CHARTS.elementAdoption, 'Adoption rate by element', 'Interactions where a rep applied the framework for the element, over interactions where it was applicable.'));
     root.appendChild(grid);
+    var inverted = (tm.elementWeakness || []).filter(function (w) { return isNum(w.avgLevelWon) && isNum(w.avgLevelLost) && w.avgLevelLost > w.avgLevelWon; });
+    if (inverted.length) root.appendChild(h('div', { class: 'panel callout' }, h('b', null, 'Higher on lost deals than won: '), inverted.map(function (w) { var c = w.element || w.code; return c + ' ' + elName(c) + ' (' + fmt.level(w.avgLevelLost) + ' lost vs ' + fmt.level(w.avgLevelWon) + ' won)'; }).join(', ') + '. An element that scores higher on the deals you lost is usually one reps reach for once a deal is already slipping. Read it as a warning sign, not a strength.'));
     var weakness = {};
     (tm.elementWeakness || []).forEach(function (w) { weakness[w.element || w.code] = w; });
     ELEMENTS.forEach(function (e) {
@@ -1825,7 +1923,7 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
   // ---------- impact: the slide
   function renderImpact(root) {
     var im = DATA.impact;
-    root.appendChild(sectionHead('Impact', 'One quarter, four numbers and the rule beside each of them. This is the slide.'));
+    root.appendChild(sectionHead('Impact', 'One quarter, four numbers and the rule beside each of them. This is the slide. Export in the header saves it as PDF or Markdown, caveats included.'));
     if (!im) {
       root.appendChild(h('div', { class: 'panel' }, h('p', null, 'No impact.json in the store yet.'), h('p', null, 'Produce it with ', h('code', null, 'python3 scripts/fs.py impact --quarter YYYY-Qn'), ' (or the /flow-sales:impact skill), then run ', h('code', null, 'python3 scripts/fs.py report'), ' again. The quarter view shows adoption and win rate before and after the training date and the won deals that followed framework actions, with the rule printed next to every number.')));
       return;
@@ -1838,6 +1936,10 @@ ul.plain li { margin: 4px 0; max-width: 90ch; }
     body.appendChild(figure(CHARTS.impactBeforeAfter, 'Adoption and win rate, before and after training', 'Adoption n = interactions (' + fmt.num(im.adoptionBeforeN) + ' before, ' + fmt.num(im.adoptionAfterN) + ' after); win rate n = closed deals (' + fmt.num(im.closedBefore) + ' before, ' + fmt.num(im.closedAfter) + ' after).'));
     var side = h('div');
     side.appendChild(h('div', { class: 'rule-box' }, h('b', null, 'The rule. '), im.rule || 'n/a'));
+    if (TRAINING) {
+      var moves = REPS_SORTED.map(function (r) { var m = metricsById[r.id]; if (!m || !m.beforeTraining || !m.afterTraining) return null; var t = liftText_(m.beforeTraining.adoptionRate, m.afterTraining.adoptionRate); return t ? r.name + ' ' + t : null; }).filter(Boolean);
+      if (moves.length) side.appendChild(h('div', { class: 'rule-box' }, h('b', null, 'The reps. '), 'Adoption after the training against before: ' + moves.join(', ') + '. A flat team average can hide reps moving in opposite directions.'));
+    }
     var infl = im.influencedDeals || [];
     if (infl.length) side.appendChild(h('div', { class: 'rule-box' }, h('b', null, 'The deals. '), infl.map(function (r) { return (r.name || dealName(r.dealId)) + ' (' + fmt.money(r.amount, (dealById[r.dealId] || {}).currency || META.currency) + ')'; }).join(', ') + '.'));
     body.appendChild(side);

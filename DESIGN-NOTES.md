@@ -47,3 +47,20 @@ A competent default: identical rounded cards with the same border on everything,
 ## Not done
 
 - The standup and retro briefings (markdown) and the README hero image are unchanged. The README's report screenshots were regenerated from the new report and a phone and impact screenshot were added.
+
+## Usability round one: what changed (branch `usability-fixes`)
+
+Ten synthetic personas (AskRally GenPop, sales roles) tested the report on 2026-09-08; the analysis is in the flow-os-rhys brain under `experiences/flow-sales/usability-2026-09-08/analysis.md`. Changes made in response, in the order of the findings:
+
+1. Point deltas (the "+25 pts" beside 62% and 38%) are now taken between the rounded figures the page prints, in the Impact tiles, the before-and-after tables and the rep cards. Same rule in Python (`_pct_points`) and in the page (`pctPts`).
+2. When any filter or period is active the verdict dims and carries a "Whole window" badge; the adoption tile is named after the slice ("Adoption: Tom Ellis, after training").
+3. Decayed elements get a sentence with dates under the element strip ("CO decayed from 2 to 1: last evidence 6 Apr 2026, 57 days before close, window 45 days") and the key line names the corner marker.
+4. "What to fix on this deal": for every element below level 2 or behind its stage, the judge's latest "why not higher" and "ask next", above the timeline.
+5. The Deals tab carries a key under the toolbar: the four gate rules with their chips, the eight element names, and what the strip shows. Column headers explain themselves on hover.
+6. Evidence quality: when it is the same on every deal the column folds into one line in the key that says what it measures; otherwise it stays, with a tooltip.
+7. The verdict names the divergence behind a flat average ("Behind the flat average, Tom Ellis rose 34 points while Amira Khan fell 19 points"); the Impact slide lists every rep's before-to-after change.
+8. The Elements tab calls out any element that scores higher on lost deals than won, with a one-line reading.
+9. Clicking a rep chip while all are selected now shows only that rep (click again for everyone); the period presets sit in the filter bar as chips, sharing the header control; the Reps switcher has an element select, so "Tom, Champion, after training" is one row on one page.
+10. On phones the adoption chart starts with the team line only; legend names now hide or show a line and no longer change the numbers (the Reps filter does that).
+11. The timeline strip fits on one row on a phone; the keyboard hint is hidden on phones.
+12. The Impact blurb and the Export button say what the export produces; the Total fact explains itself on hover.
