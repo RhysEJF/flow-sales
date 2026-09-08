@@ -453,7 +453,7 @@ def line_chart(x_labels: Sequence[str], series: Sequence[dict], *, x_tips: Optio
     legend_svg, legend_h = ("", 0)
     if len(series) >= 2:
         legend_svg, legend_h = _legend([(s["name"], s.get("color", "s1"), bool(s.get("dashed"))) for s in series], left, 10, plot_w, "line")
-    pad_top = legend_h + 14
+    pad_top = legend_h + (26 if vline and vline.get("label") else 14)  # room for the marker label under the legend
     bottom = 28
     plot_h = height - pad_top - bottom
     y0 = pad_top + plot_h
@@ -502,7 +502,11 @@ def line_chart(x_labels: Sequence[str], series: Sequence[dict], *, x_tips: Optio
             if seg:
                 segs.append(seg)
             path = "".join("M" + "L".join(f"{_n(px)},{_n(py)}" for px, py in sg) for sg in segs)
-        body.append(f'<path d="{path}" class="line stroke-{token}"{dash}/>')
+        # solid lines carry pathLength="1" so the page can draw them in once with a dash offset; a dashed
+        # line keeps its user-unit dash pattern and fades in instead
+        kind = "dashed" if s.get("dashed") else "solid"
+        plen = "" if s.get("dashed") else ' pathLength="1"'
+        body.append(f'<path d="{path}" class="line {kind} stroke-{token}"{dash}{plen}/>')
         for px, py in pts:
             body.append(f'<circle cx="{_n(px)}" cy="{_n(py)}" r="{r}" class="pt fill-{token}"/>')
         if do_end:
