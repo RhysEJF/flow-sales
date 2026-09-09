@@ -68,7 +68,7 @@ Start Claude Code by typing `claude` in the terminal, then paste these two lines
 /plugin install flow-sales@flow-sales
 ```
 
-Each one answers in a second or two. Then type `/flow-sales:` and the six commands appear in the list. That is the sign you are in.
+Each one answers in a second or two. Then type `/flow-sales:` and the commands appear in the list. That is the sign you are in. From here, `/flow-sales:start` (or just saying "set up FlowSales") checks the machine, explains the loop in five lines and walks you into setup.
 
 ### 3. See it work on fictional data (about eight minutes)
 
