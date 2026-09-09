@@ -5,7 +5,7 @@ disable-model-invocation: true
 argument-hint: "[--demo]"
 ---
 
-You are running FlowSales setup for the user. Everything is local: the store is `.flow-sales/` in the current directory. Ask with AskUserQuestion at every gate below, one gate at a time, and never guess a token, a path or a date. Use the CLI at `${CLAUDE_PLUGIN_ROOT}/scripts/fs.py` (call it as `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/fs.py" ...`; add `--json` when you need to parse output). If `$ARGUMENTS` contains `--demo`, skip gates 2, 3, 4 and 6 entirely, use the demo dataset, and say so in one line.
+You are running FlowSales setup for the user. Everything is local: the store is `.flow-sales/` in the current directory. Ask with AskUserQuestion at every gate below, one gate at a time, and never guess a token, a path or a date. Use the CLI at `${CLAUDE_PLUGIN_ROOT}/scripts/fs.py` (call it as `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/fs.py" ...`; add `--json` when you need to parse output). If `$ARGUMENTS` contains `--demo`, skip gates 2, 3 and 5 entirely, use the demo dataset, ask nothing, and say so in one line.
 
 Say what each step does before you ask its question. The person may be a rep who wants the morning briefing, or the ops person setting it up for everyone. Either can go first; nothing here assumes someone else installed before them.
 
@@ -21,7 +21,7 @@ Ask, in one call:
 2. "Have the reps been told that FlowSales will read their calls, emails and notes and score them against the framework?" Options: yes, they know; not yet, I will tell them before the first audit; this is a pilot on my own deals only.
 3. "Who will see the finished report?" Options: only me; sales managers; the reps, each their own page; leadership or the board too.
 
-Record with `fs.py config set me.role "<rep|team|both>"`, `fs.py config set consent.repsInformed <true|false|"pilot">` and `fs.py config set consent.audience "<answer>"`. For a rep, also ask for their work email (the address on their HubSpot user) and set `me.email`; it selects their own deals later. If the reps have not been told, say plainly that the report names every rep next to their weakest elements, recommend switching anonymised names on for the first run (gate 7), and mention the report's names-hidden Impact export for anyone outside the sales team.
+Record with `fs.py config set me.role "<rep|team|both>"`, `fs.py config set consent.repsInformed <true|false|"pilot">` and `fs.py config set consent.audience "<answer>"`. For a rep, also ask for their work email (the address on their HubSpot user) and set `me.email`; it selects their own deals later. If the reps have not been told, say plainly that the report names every rep next to their weakest elements, recommend switching anonymised names on for the first run (gate 6), and mention the report's names-hidden Impact export for anyone outside the sales team.
 
 ## 3. Sources (gate, multi-select)
 
@@ -34,18 +34,11 @@ Ask which sources to connect:
 
 If the user is on HubSpot, say that HubSpot does not hand over call transcripts through its API, so the calls themselves come from Granola or the transcripts folder; without either, scores rest on emails, notes and meeting summaries and the report says so.
 
-## 4. Team folder (gate)
-
-Run `fs.py team candidates --json`. Explain in two lines: a team folder is a folder the team already syncs (Google Drive, OneDrive, Dropbox, SharePoint) holding one judged assessment per deal, so a deal is judged once for the whole team; it is not the record, deals and calls always come from each person's own sources, and it holds real quotes, so it is shared with the sales team only.
-
-- If candidates were found: "Your team already has a FlowSales folder at <path>. Use it?" Options: yes; a different path; not now. Join with `fs.py team join <path>`.
-- If none: "Share judged deals with teammates through a synced folder?" Options: create one (ask for a path inside a folder the team syncs, then `fs.py team init <path>`, and tell them to send the path to teammates or just let setup find it on their machines); join one (paste the path, `fs.py team join <path>`); not now (works alone; teammates who judge the same deals pay for the judging twice).
-
-## 5. Framework and window (gate)
+## 4. Framework and window (gate)
 
 Ask two questions in one call: framework (MEDDPICC, recommended; or MEDDIC, six elements) and window (last quarter, last 6 months, last 12 months, or custom dates). Apply with `fs.py config set framework "meddpicc"` and `fs.py config set window '{"from": "YYYY-MM-DD", "to": "YYYY-MM-DD"}'`.
 
-## 6. Connect each chosen source, one at a time
+## 5. Connect each chosen source, one at a time
 
 **HubSpot, connector route (default for everyone).** Nobody needs a token. Say: "Sign in to HubSpot as yourself; FlowSales sees what HubSpot lets you see." The plugin ships the HubSpot connector (`hubspot` in its `.mcp.json`, the server at mcp.hubspot.com). If its tools are not available in this session, tell the user how to sign in: in Claude Code run `/mcp`, pick hubspot and authenticate; in the Claude desktop app, Customize, Connectors, HubSpot. Then continue:
 
@@ -72,7 +65,7 @@ Report the counts. Note that the local Granola cache is encrypted on current mac
 
 **Demo.** Run `fs.py import demo`.
 
-## 7. Reps, training date, what may be read (gate)
+## 6. Reps, training date, what may be read (gate)
 
 Run `fs.py status --json` and read `data/reps.json` to list reps. If `me.role` is rep, match `me.email` to a rep and set `me.repId`; if no rep matches, ask which one they are. Ask: include all reps or pick some (set `reps` to `"all"` or a JSON list of rep ids; a rep on their own deals can leave it at all, their pull is already just their deals). Ask for the training date, if any (the date the team was trained on the framework; enables the before-and-after views; set `trainingDate` or leave null). Then ask three things, each as a real question with its consequence stated:
 
@@ -82,12 +75,14 @@ Run `fs.py status --json` and read `data/reps.json` to list reps. If `me.role` i
 
 Ask for the organisation's own email domains so the linker never treats colleagues as buyers (set `org.internalDomains` as a JSON list); suggest the rep email domains you saw.
 
-## 8. Link interactions to deals
+## 7. Link interactions to deals
 
-Run `fs.py link --json` to apply the automatic links. Report how many linked and how many are ambiguous. Do not resolve the ambiguous ones here: say that `/flow-sales:audit` and `/flow-sales:daily-sync` ask about them before they score, and that `/flow-sales:link` can revisit them at any time. If a team folder is set, run `fs.py team sync --json` and say how many judged deals came in.
+Run `fs.py link --json` to apply the automatic links. Report how many linked and how many are ambiguous. Do not resolve the ambiguous ones here: say that `/flow-sales:audit` and `/flow-sales:daily-sync` ask about them before they score, and that `/flow-sales:link` can revisit them at any time.
 
-## 9. Finish
+## 8. Finish
 
-Run `fs.py status` and show the counts in one short table. Then say exactly what happens next, in three lines, depending on who they are: a rep runs `/flow-sales:daily-sync` every morning (two minutes; it pulls their own deals, reuses anything the team has judged, judges the rest, then briefs them); the team person runs `/flow-sales:audit` once for the benchmark (state the rough duration from the interaction count and the cost the planner prints) and then weekly; everyone can run `/flow-sales:status` when in doubt. Every run is logged in `.flow-sales/runs.jsonl`; deleting `.flow-sales/` removes everything FlowSales knows on this machine, and the team folder keeps the judged deals.
+Run `fs.py status` and show the counts in one short table.
+
+**Team folder, only when `me.role` is team or both, never on `--demo`, never for a rep.** Run `fs.py team candidates --json` first. Then one question, with "not now" as the first option: "Later, teammates who install FlowSales can reuse the deals judged here instead of paying to judge them again. That works through a folder your team already syncs (Google Drive, OneDrive, Dropbox), holding one judged file per deal, nothing else. Set that up now?" Options: not now (it can be done any time with `/flow-sales:status`, which says how); yes, use the folder found at <path> (only when candidates were found); yes, create one at a path I give you. On yes, `fs.py team join <path>` or `fs.py team init <path>` and one line on what happened. In a cloud session (the workspace is not the user's own machine) say so and leave it at not now: the folder has to be one the desktop app can see, added with "Add folder", and that is a step for later. Then say exactly what happens next, in three lines, depending on who they are: a rep runs `/flow-sales:daily-sync` every morning (two minutes; it pulls their own deals, reuses anything the team has judged, judges the rest, then briefs them); the team person runs `/flow-sales:audit` once for the benchmark (state the rough duration from the interaction count and the cost the planner prints) and then weekly; everyone can run `/flow-sales:status` when in doubt. Every run is logged in `.flow-sales/runs.jsonl`; deleting `.flow-sales/` removes everything FlowSales knows on this machine, and the team folder keeps the judged deals.
 
 Keep the tone plain. No em dashes. Do not write to the CRM. Do not store a token anywhere the user did not choose.

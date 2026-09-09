@@ -17,3 +17,8 @@ Install: Customize, Plugins, add the marketplace `RhysEJF/flow-sales` (the repo 
 | 8 | Export, "Impact slide, names hidden (PDF)" | The print dialog with rep names replaced | Printing from Cowork's browser |
 
 If 2 passes, everything else is a matter of wording. If 2 fails, say so and we decide between a bundled runtime and a Cowork-specific route before any Cowork promise is made.
+
+## First run, 9 September 2026
+
+Line 2 passed: setup created the store and ran the toolkit, so Python works inside Cowork. Two findings. The session ran in the cloud, not on the Mac, so `.flow-sales` lives in the session workspace and nothing on the Mac's disk is visible unless the user adds a folder from the desktop app; the team folder therefore cannot be a synced drive path in that mode, and setup now leaves it at "not now" there. And the team-folder question, asked mid-setup with "Create one" first, confused the user; it now comes last, only for the team person, with "not now" as the default and one line on what it is for.
+
