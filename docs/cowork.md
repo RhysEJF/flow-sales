@@ -6,7 +6,8 @@ Install: Customize, Plugins, add the marketplace `RhysEJF/flow-sales` (the repo 
 
 | # | Try | What should happen | Risk it tests |
 |---|---|---|---|
-| 1 | Type `/flow-sales:` | The commands appear: setup, audit, daily-sync, retro, impact, status, link | Slash commands from plugin skills exist in Cowork |
+| 1 | Type `/flow-sales:` | The commands appear: start, setup, audit, daily-sync, retro, impact, status, link | Slash commands from plugin skills exist in Cowork |
+| 1b | Say "set up FlowSales" in plain words | Claude runs the start skill: a one-line machine check, five lines on the loop, one question | Plain-language invocation of a plugin skill in Cowork |
 | 2 | `/flow-sales:setup --demo` | "Store created at ...", 32 deals loaded, no questions asked | **Python.** Every command shells out to `python3 scripts/fs.py` under the plugin root. If this line fails, nothing else will work and the fix is a Cowork-side one (bundled Python, or a different runtime) |
 | 3 | `/flow-sales:status` | The one-screen status, "Next: /flow-sales:audit" | The read-only path, `${CLAUDE_PLUGIN_ROOT}` resolution |
 | 4 | `/flow-sales:audit`, answer "sample 10 deals" | The link line, the plan and the cost line, one question, then "Judged 1 of 10 ..." lines | **Subagents in parallel.** Audit launches the deal-assessor agent five at a time. Cowork supports subagents; the parallel launch is the thing to watch. If they run one at a time it still finishes, only slower |

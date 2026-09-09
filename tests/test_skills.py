@@ -17,7 +17,7 @@ def skill_text(name: str) -> str:
 class SkillSetTests(unittest.TestCase):
     def test_the_command_set(self):
         names = sorted(p.name for p in SKILLS.iterdir() if (p / "SKILL.md").exists())
-        self.assertEqual(names, ["audit", "coaching-voice", "daily-sync", "impact", "link", "methodology", "retro", "setup", "status"])
+        self.assertEqual(names, ["audit", "coaching-voice", "daily-sync", "impact", "link", "methodology", "retro", "setup", "start", "status"])
         self.assertFalse((SKILLS / "standup").exists(), "standup was renamed to daily-sync on 2026-09-09")
 
     def test_frontmatter_names_match_folders(self):
@@ -54,6 +54,13 @@ class SkillSetTests(unittest.TestCase):
 
     def test_status_reports_the_team_folder(self):
         self.assertIn("fs.py team status --json", skill_text("status"))
+
+    def test_start_and_status_may_be_invoked_from_plain_language(self):
+        for name in ("start", "status"):
+            self.assertNotIn("disable-model-invocation: true", skill_text(name), name)
+        for name in ("setup", "audit", "daily-sync", "retro", "impact", "link"):
+            self.assertIn("disable-model-invocation: true", skill_text(name), name + " spends money or writes files: slash command only")
+        self.assertIn("skills/setup/SKILL.md", skill_text("start"), "start hands off to setup")
 
     def test_manifest_and_marketplace_parse(self):
         for name in (".claude-plugin/plugin.json", ".claude-plugin/marketplace.json", ".mcp.json"):

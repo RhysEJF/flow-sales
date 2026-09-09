@@ -1,7 +1,6 @@
 ---
 name: status
 description: One screen that says whether FlowSales is working, without spending anything: the environment, the token and its scopes, what is stored and linked, what is still ambiguous, when each step last ran, and what the next audit would judge and roughly cost. Read-only; run it before an audit, after an install, or whenever a number in the report looks off.
-disable-model-invocation: true
 argument-hint: ""
 ---
 
