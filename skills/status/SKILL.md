@@ -37,7 +37,7 @@ To do         1. resolve 2 ambiguous links (audit will ask, or /flow-sales:link)
               2. map stage "contractreview" to a phase (fs.py config set stagePhases.contractreview commit)
 ```
 
-If no team folder is set and `me.role` is team or both, add one line under To do: "share judged deals with teammates: fs.py team init <a folder your team syncs> (or team join <path>, or team candidates to look)". Never for a rep.
+If no team folder is set: run `fs.py team candidates --json`. When one was found, add under To do (for anyone): "your team shares judged deals at <path>; using it means deals a teammate already scored are not scored again here (saves tokens): fs.py team join <path>". When none was found and `me.role` is team or both, add: "share judged deals with teammates so each deal is scored once for the team: fs.py team init <a folder your team syncs>". When none was found and the person is a rep, say nothing.
 
 Rules for the To do list: only things that change a number in the report or block a run, most consequential first, each with the exact command or skill that fixes it. An expired or missing token, a failing scope, an unmapped stage, ambiguous links, deals without interactions, a report older than the newest assessment, and a training date that is missing when the user wants before-and-after views all qualify. If there is nothing to do, say "Nothing to fix. Next: /flow-sales:audit" or, when nothing changed since the last audit, "Nothing changed since the last audit. Next: /flow-sales:daily-sync <rep>".
 

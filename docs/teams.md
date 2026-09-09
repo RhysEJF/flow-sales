@@ -8,6 +8,12 @@ HubSpot and Granola stay the record. Every machine keeps its own `.flow-sales` s
 2. **Nobody needs a token.** The HubSpot connector the plugin ships signs each person in as themselves, and they see what HubSpot lets them see. The private-app token is the route for an unattended machine or an ops person who prefers it; a rep never handles it.
 3. **Judged deals are shared through a folder.** Before judging a deal, the planner looks in the team folder for an assessment with the same deal id, the same input hash (exactly these interactions) and the same rubric hash. If it is there it is reused. After judging, new assessments are copied out. A stale or missing folder never changes a number; it only costs a repeat judging.
 
+## Why it exists, in the words setup uses
+
+Every deal FlowSales scores produces one judged file, and producing it costs model tokens. Teammates who run FlowSales on the same deals would each pay to produce the same file again, unless the files sit in a folder the team already syncs. The folder holds those judged files only, never the calls or emails. Skipping it is safe: everything works alone.
+
+How a later rep finds it: their own sync client. When the folder was created inside a shared Drive or OneDrive folder the rep also syncs, it is on their disk and setup offers it. Otherwise the team person tells them the path. A cloud session sees nothing on the Mac, so the question is not asked there.
+
 ## The folder
 
 ```
