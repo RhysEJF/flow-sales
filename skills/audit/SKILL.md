@@ -11,7 +11,7 @@ Say what is about to happen before each step, in one line, and how long it takes
 
 ## 1. Preflight
 
-Run `fs.py status --json`. If there is no store, tell the user to run `/flow-sales:setup` and stop. If a live source is enabled (HubSpot), ask whether to refresh it now (`fs.py pull hubspot`, under a minute for a few hundred deals) or audit what is already stored.
+Run `fs.py status --json`. If there is no store, tell the user to run `/flow-sales:setup` and stop. If HubSpot is enabled, ask whether to refresh it now or audit what is already stored. Refresh on the connector route (`sources.hubspot.route` is `connector`) means the tool walk described in the setup skill, deals modified since the last pull or import in `lastRun`, saved verbatim into `.flow-sales/cache/hubspot-mcp/` and then `fs.py import hubspot-cache`; on the private-app route it is `fs.py pull hubspot --since <last pull>` (under a minute for a few hundred deals). If `me.role` is rep, offer `--owner me` (or the owner filter on the connector search) so the audit covers their own deals only.
 
 ## 2. Link (automatic, then a gate only if needed)
 
@@ -21,7 +21,7 @@ If anything is pending and `$ARGUMENTS` does not contain `--no-link`: run `fs.py
 
 ## 3. Plan and gate on volume
 
-Run `fs.py plan-assessment --json` (pass through `--sample N`, `--force` and `--deal <id>` from `$ARGUMENTS`). Read the totals: deals, interactions, characters, the token estimate and `estCostUsd`. Present them in one short table and say plainly what the run costs: the token figure, the dollar range at list price for the judge model, and that on a Claude subscription it comes out of the plan's usage rather than a bill. Say that a rerun only judges deals whose interactions changed, so the second audit is much smaller than the first. If nothing was planned, say every deal is unchanged and skip to step 5.
+If a team folder is set (`team.folder` in the status payload), run `fs.py team sync --pull-only --json` first and say how many judged deals came in from teammates. Run `fs.py plan-assessment --json` (pass through `--sample N`, `--force` and `--deal <id>` from `$ARGUMENTS`). Read the totals: deals, interactions, characters, the token estimate, `estCostUsd` and `skipped.reusedFromTeam` (deals the team had already judged on exactly these interactions, reused for free). Present them in one short table and say plainly what the run costs: the token figure, the dollar range at list price for the judge model, and that on a Claude subscription it comes out of the plan's usage rather than a bill. Say that a rerun only judges deals whose interactions changed, so the second audit is much smaller than the first. If nothing was planned, say every deal is unchanged and skip to step 5.
 
 Ask with AskUserQuestion: run the full plan, run a sample of 10 deals first (recommended above 40 deals), or narrow the window (then set `window` with `fs.py config set` and re-plan).
 
@@ -33,10 +33,10 @@ For every batch file listed, launch the plugin agent `flow-sales:deal-assessor` 
 
 ## 5. Roll up and report
 
-Run `fs.py rollup --json`, then `fs.py impact --quarter <current quarter, YYYY-Qn>`, then `fs.py report --json`. Summarise in under 200 words: deals and interactions scored, team adoption rate, win rate by adoption tertile, the three weakest elements, before-and-after adoption when a training date is set, the number of influenced deals in the quarter with the rule stated, and the data coverage caveats (unlinked interactions, deals without interactions, transcripts present or not). Every number you quote must come from the analytics JSON.
+If a team folder is set, run `fs.py team sync --push-only --json` so the deals judged here are not judged again by a teammate. Run `fs.py rollup --json`, then `fs.py impact --quarter <current quarter, YYYY-Qn>`, then `fs.py report --json`. Summarise in under 200 words: deals and interactions scored, team adoption rate, win rate by adoption tertile, the three weakest elements, before-and-after adoption when a training date is set, the number of influenced deals in the quarter with the rule stated, and the data coverage caveats (unlinked interactions, deals without interactions, transcripts present or not). Every number you quote must come from the analytics JSON.
 
 ## 6. Finish (gate)
 
-End with the line `Report is ready at <absolute path>` and ask: open it in the browser (`fs.py report --open`), leave it there, or run a stand-up for a rep now (`/flow-sales:standup`). Mention once that the Export menu in the report has a names-hidden Impact export for anyone outside the sales team. Log a note with `fs.py log --command audit --note "<one line>"`.
+End with the line `Report is ready at <absolute path>` and ask: open it in the browser (`fs.py report --open`), leave it there, or run a stand-up for a rep now (`/flow-sales:daily-sync`). Mention once that the Export menu in the report has a names-hidden Impact export for anyone outside the sales team. Log a note with `fs.py log --command audit --note "<one line>"`.
 
 Never write to the CRM, never send anything, never quote a score without the evidence behind it. Plain language, no em dashes.

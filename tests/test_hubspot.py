@@ -981,3 +981,57 @@ class TestSeed(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestOwnerFilter(unittest.TestCase):
+    """`pull hubspot --owner`: a rep pulls their own deals, nothing else (and nobody else's token)."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+
+    def deal_search_bodies(self, fake):
+        return [c["body"] for c in fake.requests_to(r"/crm/v3/objects/deals/search", "POST")]
+
+    def test_owner_email_becomes_a_deal_filter(self):
+        store = make_store(self.tmp.name)
+        fake = FakeHubSpot()
+        summary = hs.pull(store, store.config, client=fake, owner="sam@vendor.com")
+        self.assertEqual(summary["owner"], {"email": "sam@vendor.com", "id": "41629779"})
+        bodies = self.deal_search_bodies(fake)
+        self.assertTrue(bodies, "the deal search ran")
+        for body in bodies:
+            filters = [f for g in body["filterGroups"] for f in g["filters"]]
+            self.assertIn({"propertyName": "hubspot_owner_id", "operator": "EQ", "value": "41629779"}, filters)
+        self.assertEqual(len(fake.requests_to(r"/crm/v3/owners", "GET")) >= 1, True)
+
+    def test_owner_me_reads_the_configured_email(self):
+        store = make_store(self.tmp.name)
+        store.config.set("me.email", "Jo@Vendor.com")
+        store.save_config()
+        fake = FakeHubSpot()
+        summary = hs.pull(store, store.config, client=fake, owner="me")
+        self.assertEqual(summary["owner"]["id"], "555")
+
+    def test_owner_me_without_email_fails_clearly(self):
+        store = make_store(self.tmp.name)
+        fake = FakeHubSpot()
+        with self.assertRaises(hs.HubSpotError) as cm:
+            hs.pull(store, store.config, client=fake, owner="me")
+        self.assertIn("me.email", str(cm.exception))
+
+    def test_unknown_owner_fails_clearly(self):
+        store = make_store(self.tmp.name)
+        fake = FakeHubSpot()
+        with self.assertRaises(hs.HubSpotError) as cm:
+            hs.pull(store, store.config, client=fake, owner="nobody@vendor.com")
+        self.assertIn("nobody@vendor.com", str(cm.exception))
+
+    def test_no_owner_means_no_owner_filter(self):
+        store = make_store(self.tmp.name)
+        fake = FakeHubSpot()
+        summary = hs.pull(store, store.config, client=fake)
+        self.assertIsNone(summary["owner"])
+        for body in self.deal_search_bodies(fake):
+            names = [f["propertyName"] for g in body["filterGroups"] for f in g["filters"]]
+            self.assertNotIn("hubspot_owner_id", names)

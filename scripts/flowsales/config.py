@@ -44,6 +44,8 @@ def default_config() -> dict:
         "content": {"emailBodies": True, "callTranscripts": True, "internalNotes": True},
         "anonymize": False,
         "consent": {"repsInformed": None, "audience": None},
+        "me": {"repId": None, "email": None, "role": None},
+        "team": {"folder": None},
         "attribution": {"influencedMinBehaviours": 3, "influencedMinInteractions": 2, "decayDays": 45},
         "judge": {"model": "sonnet", "parallel": 5, "maxInteractionChars": 60000},
         "linking": {"autoAcceptConfidence": 0.9, "timeGraceDays": 14},

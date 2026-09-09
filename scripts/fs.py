@@ -40,6 +40,7 @@ COMMANDS: dict[str, tuple[str, str]] = {
     "briefing-data": ("flowsales.analytics.packs", "briefing"),
     "retro-data": ("flowsales.analytics.packs", "retro"),
     "eval-golden": ("flowsales.evals.golden", "run"),
+    "team": ("flowsales.team", "run"),
 }
 
 
@@ -72,7 +73,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     lg = sub.add_parser("log", help="append a note to runs.jsonl")
     # dest must not be "command": that is the subparser slot, and a collision sends main() looking for a subcommand named after the note
-    lg.add_argument("--command", dest="log_command", required=True, help="the skill or step being logged, e.g. standup")
+    lg.add_argument("--command", dest="log_command", required=True, help="the skill or step being logged, e.g. daily-sync")
     lg.add_argument("--note", default="")
 
     d = sub.add_parser("doctor", help="check python, tokens, sources")
@@ -82,15 +83,17 @@ def build_parser() -> argparse.ArgumentParser:
     pl.add_argument("source", choices=["hubspot"])
     pl.add_argument("--since", help="only objects modified since this ISO date")
     pl.add_argument("--limit-deals", type=int, default=None, help="cap the number of deals (testing)")
+    pl.add_argument("--owner", default=None, help="only deals owned by this HubSpot user: an email, or 'me' for config me.email (a rep's own pipeline)")
 
     im = sub.add_parser("import", help="import from a file-based source")
-    im.add_argument("source", choices=["demo", "csv", "granola", "transcripts"])
+    im.add_argument("source", choices=["demo", "csv", "granola", "transcripts", "hubspot-cache"])
     im.add_argument("--seed", type=int, default=7)
     im.add_argument("--deals", help="csv: deals file")
     im.add_argument("--interactions", help="csv: interactions file")
     im.add_argument("--cache", help="granola: path to the local cache file")
     im.add_argument("--export-dir", help="granola: directory of exported meeting JSON files")
     im.add_argument("--folder", help="transcripts: folder of transcript files")
+    im.add_argument("--dir", help="hubspot-cache: folder of HubSpot connector responses saved verbatim (default .flow-sales/cache/hubspot-mcp)")
 
     ln = sub.add_parser("link", help="link interactions to deals")
     ln.add_argument("action", nargs="?", choices=["run", "confirm", "reject", "pending"], default="run")
@@ -130,6 +133,12 @@ def build_parser() -> argparse.ArgumentParser:
     eg.add_argument("--model", default=None, help="compare: judge model name to record (default: from the assessments)")
     eg.add_argument("--note", default=None, help="compare: free-text note for runs.jsonl")
     eg.add_argument("--strict", action="store_true", help="compare: exit 1 when a target is missed")
+
+    tm = sub.add_parser("team", help="a folder the team syncs, holding one judged assessment per deal, so a deal is judged once")
+    tm.add_argument("action", nargs="?", choices=["status", "init", "join", "sync", "leave", "candidates"], default="status")
+    tm.add_argument("path", nargs="?", help="init/join: the folder (inside Drive, OneDrive, Dropbox or any folder the team syncs)")
+    tm.add_argument("--pull-only", action="store_true", help="sync: copy in only")
+    tm.add_argument("--push-only", action="store_true", help="sync: copy out only")
 
     return p
 

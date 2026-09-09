@@ -22,7 +22,7 @@ Six commands. One loop. Source-available. Installed and running on the demo in a
         |               ambiguous ones), score every interaction with quoted evidence, roll
         |               up to deals, reps, elements and team, build the report
         |
-  /flow-sales:standup   one rep, one morning: say where each live deal stands, then see the
+  /flow-sales:daily-sync   one rep, one morning: say where each live deal stands, then see the
         |               evidence, the next framework move per deal, one thing to practise
         |
   /flow-sales:retro     one rep, one week: adoption vs last week and the team, deals moved,
@@ -35,7 +35,7 @@ Six commands. One loop. Source-available. Installed and running on the demo in a
                         what the next audit would judge and cost. Reads, never writes.
 ```
 
-Run `audit` once for the historical benchmark, then `standup` daily and `retro` weekly. `impact` is the slide. `status` is the thing to run when in doubt. A rerun of `audit` only judges deals whose interactions changed.
+Run `audit` once for the historical benchmark, then `daily-sync` daily and `retro` weekly. `impact` is the slide. `status` is the thing to run when in doubt. A rerun of `audit` only judges deals whose interactions changed.
 
 ## Why
 
@@ -89,13 +89,13 @@ Then run, one after the other:
 
 `audit` links the calls to the deals, tells you how many interactions it is about to score and roughly what that costs, and asks you once to confirm. Then five judges score about 160 interactions in parallel, printing a progress line as each deal finishes (about six to eight minutes on the demo), and it ends with `Report is ready at <path>` and offers to open it in your browser.
 
-After that: `/flow-sales:standup Tom Ellis` for one rep's morning, `/flow-sales:impact` for the quarter, `/flow-sales:status` to see the state of everything.
+After that: `/flow-sales:daily-sync Tom Ellis` for one rep's morning, `/flow-sales:impact` for the quarter, `/flow-sales:status` to see the state of everything.
 
 ### 4. Connect your own data
 
-Make a new folder for the real thing and run `/flow-sales:setup` without `--demo`. Before it connects anything it asks whether the reps have been told and who will see the report, then which sources to use. Have these to hand:
+Make a new folder for the real thing and run `/flow-sales:setup` without `--demo`. It asks who you are (a rep, or setting it up for the team), whether the reps have been told and who will see the report, whether your team already shares a FlowSales folder, then which sources to use. Have these to hand:
 
-- **HubSpot**: a private app with six read scopes, created by your HubSpot admin in about five minutes; [docs/hubspot.md](docs/hubspot.md) has the exact page and scopes. HubSpot does not hand over call transcripts, so pair it with one of the next two.
+- **HubSpot**: nothing, if you sign in as yourself through the connector when setup asks. A private app with six read scopes only for an unattended machine; [docs/hubspot.md](docs/hubspot.md). HubSpot does not hand over call transcripts, so pair it with one of the next two.
 - **Granola**: sign in from Claude Code with `/mcp` when setup asks; [docs/granola.md](docs/granola.md).
 - **A folder of call transcripts** exported from Gong, Fireflies, Fathom or Google Meet.
 - **Salesforce, Pipedrive or any other CRM**: a two-file CSV export; [docs/other-crms.md](docs/other-crms.md). The report is the same.
@@ -120,7 +120,7 @@ The impact tab is the slide: one quarter, four numbers, the before and after cha
 
 ## Your data
 
-- **HubSpot**: a private app with six read scopes; see [docs/hubspot.md](docs/hubspot.md). Deals, stage history, contacts, companies, calls, emails, meetings and notes come through the REST API. HubSpot does not expose call transcripts reliably through its API, so pair it with Granola or a transcripts folder for the calls themselves.
+- **HubSpot**: sign in as yourself through the HubSpot connector the plugin ships, no token needed; or, for an unattended machine, a private app with six read scopes. See [docs/hubspot.md](docs/hubspot.md). Deals, stage history, contacts, companies, calls, emails, meetings and notes. HubSpot does not expose call transcripts reliably, so pair it with Granola or a transcripts folder for the calls themselves.
 - **Granola**: the official Granola MCP server (all plans, sign in from Claude Code) or the public API (Business and Enterprise); see [docs/granola.md](docs/granola.md).
 - **Transcripts folder**: Gong, Fireflies, Fathom and Google Meet exports as `.md`, `.txt`, `.vtt` or `.json`.
 - **Any other CRM**: a two-file CSV export; see [docs/other-crms.md](docs/other-crms.md), which also explains how to write an adapter.
@@ -131,7 +131,7 @@ The impact tab is the slide: one quarter, four numbers, the before and after cha
 |---|---|---|
 | `/flow-sales:setup` | your answers, the sources you connect | `.flow-sales/config.json`, cached source data, canonical deals and interactions |
 | `/flow-sales:audit` | every interaction in the window, the framework file; links new ones to deals first and asks about the ambiguous ones | `.flow-sales/data/links.json`, one assessment file per deal, the analytics files, `reports/flowsales-<date>.html` |
-| `/flow-sales:standup` | the rep's active deals, their assessments, the rep's answers | `briefings/<rep>/<date>.md` |
+| `/flow-sales:daily-sync` | the rep's active deals, their assessments, the rep's answers | `briefings/<rep>/<date>.md` |
 | `/flow-sales:retro` | the rep's week, their assessments | `retros/<rep>/<week>.md` and, if the rep chooses, a manager summary |
 | `/flow-sales:impact` | the analytics, the training date, the influence rule | `analytics/impact-<quarter>.json` and `.md` |
 | `/flow-sales:status` | everything above | nothing but a line in the runs log |
@@ -141,6 +141,10 @@ The impact tab is the slide: one quarter, four numbers, the before and after cha
 Everything lives under `.flow-sales/` in the directory you run Claude Code in. Delete the folder and FlowSales forgets everything, so back it up like any other folder if the history matters. Every command appends a line to `.flow-sales/runs.jsonl` saying what it read and wrote.
 
 Cost: audit prints the token count and a dollar range at list price before it starts (the demo is about $3 to $5 on Sonnet), and a rerun only judges deals whose interactions changed. On a Claude subscription the tokens come out of the plan's usage rather than a bill.
+
+## Teams
+
+Anyone can install first, a rep or the ops person. Every machine pulls its own data (a rep's daily sync pulls their own deals, in seconds) and keeps its own store, so nobody's morning depends on a colleague and nobody runs a server. The one thing a team shares is the judged assessments, through a folder it already syncs (Drive, OneDrive, Dropbox, SharePoint): before judging a deal, FlowSales checks the folder for an assessment on exactly those interactions and reuses it; after judging, it copies the new one out. Setup finds the folder on a teammate's machine or creates it; `fs.py team status` and `fs.py team sync` do it by hand. [docs/teams.md](docs/teams.md) has the rules and what happens when the folder is stale, deleted or missing. [docs/cowork.md](docs/cowork.md) is the checklist for running all of this in the Claude desktop app.
 
 ## How scoring works
 

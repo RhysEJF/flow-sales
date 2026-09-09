@@ -1,6 +1,6 @@
 {
   "name": "flow-sales",
-  "description": "FlowSales: methodology adoption audits, daily stand-ups and weekly retros for sales teams, inside Claude Code.",
+  "description": "FlowSales: methodology adoption audits, a daily sync and a weekly retro per rep for sales teams, inside Claude Code.",
   "owner": { "name": "Rhys Fisher", "email": "rhys@unvanity.com" },
   "plugins": [
     {

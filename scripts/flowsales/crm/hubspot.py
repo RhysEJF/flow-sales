@@ -1009,11 +1009,145 @@ def _lastmod_ms(raw: Optional[dict]) -> int:
     return _ms(p.get("hs_lastmodifieddate")) or _ms(raw.get("updatedAt")) or -1
 
 
+def resolve_owner(client: HubSpotClient, cfg: Config, owner: str) -> tuple[dict, list[dict]]:
+    """The HubSpot owner record for an email, or for "me" (config me.email). Returns (owner, all owners)."""
+    email = (cfg.get("me.email") or "") if owner.strip().lower() == "me" else owner
+    email = (email or "").strip().lower()
+    if not email:
+        raise HubSpotError("--owner me needs your email in config (me.email); setup asks for it")
+    owners = client.owners(archived=False)
+    for o in owners:
+        if str(o.get("email") or "").strip().lower() == email:
+            return o, owners
+    raise HubSpotError(f"no HubSpot owner with the email {email}; check the address, or leave --owner off to pull every deal")
+
+
+def register_pipelines(ctx: "_Context", cfg: Config, hs_cfg: dict, pipelines: list[dict], warnings: list[str],
+                       log: Optional[Callable[[str], None]] = None) -> tuple[list[str], list[dict]]:
+    """Fill the context with pipeline and stage labels and report stages without a phase mapping.
+    Returns (configured pipelines, unmapped stages). Shared by the REST pull and the connector-cache import."""
+    log = log or (lambda msg: None)
+    for pl in pipelines:
+        pid = str(pl.get("id"))
+        ctx.pipeline_label[pid] = pl.get("label") or pid
+        for st in pl.get("stages") or []:
+            sid = str(st.get("id"))
+            ctx.stage_label[sid] = st.get("label") or sid
+            ctx.stage_pipeline[sid] = pid
+    configured_pipelines = [str(p) for p in (hs_cfg.get("pipelines") or []) if p]
+    unknown_pipelines = [p for p in configured_pipelines if p not in ctx.pipeline_label]
+    if unknown_pipelines:
+        warnings.append(f"configured pipelines not found in the portal: {', '.join(unknown_pipelines)}")
+    stage_mapping = cfg.get("stagePhases") or {}
+    unmapped = [{"pipelineId": ctx.stage_pipeline[s], "stageId": s, "label": l, "suggestedPhase": ctx.phase_of(s)}
+                for s, l in ctx.stage_label.items()
+                if s not in stage_mapping and (not configured_pipelines or ctx.stage_pipeline[s] in configured_pipelines)]
+    log(f"pipelines: {len(pipelines)} ({len(ctx.stage_label)} stages, {len(unmapped)} without a phase mapping)")
+
+    return configured_pipelines, unmapped
+
+
+def assemble_and_save(store: Store, cfg: Config, ctx: "_Context", *, deal_ids: list[str], deals_raw: dict[str, dict],
+                      assoc: dict[str, dict[str, list[dict]]], objects: dict[str, dict[str, dict]],
+                      eng_contacts: dict[str, dict[str, list[str]]], contact_company: dict[str, Optional[str]],
+                      owners: list[dict], warnings: list[str], log: Callable[[str], None],
+                      cache: Optional["HubSpotCache"] = None,
+                      fetch_archived_owners: Optional[Callable[[], list[dict]]] = None) -> dict:
+    """Turn raw HubSpot objects into canonical records and save them through the store.
+
+    Shared by the REST pull (objects fetched with a token) and the connector-cache import (objects saved
+    verbatim from the HubSpot MCP tools). Returns deals, reps, contacts, companies, interaction counts,
+    links, validation and the list of files written."""
+    # 6. owners
+    owners = list(owners)
+    referenced = {str((r.get("properties") or {}).get("hubspot_owner_id")) for r in deals_raw.values()}
+    for kind in ENGAGEMENT_TYPES:
+        referenced |= {str((r.get("properties") or {}).get("hubspot_owner_id")) for r in objects[kind].values()}
+    referenced.discard("None")
+    referenced.discard("")
+    if fetch_archived_owners is not None and referenced - {str(o.get("id")) for o in owners}:
+        try:
+            owners += fetch_archived_owners()
+        except HubSpotError as exc:
+            warnings.append(f"archived owners not readable: {exc}")
+    if cache is not None:
+        cache.write_meta("owners", owners)
+    for o in owners:
+        ctx.owners[str(o.get("id"))] = o
+        if o.get("email"):
+            ctx.owner_by_email[str(o["email"]).lower()] = str(o.get("id"))
+    ctx.contacts = objects["contacts"]
+    ctx.companies = objects["companies"]
+    reps = [rep_record(o) for o in owners if str(o.get("id")) in referenced]
+    ctx.internal_domains = cfg.internal_domains(reps)
+    log(f"owners: {len(owners)} ({len(reps)} referenced)")
+
+    # 7. convert
+    deals: list[dict] = []
+    for did in deal_ids:
+        raw = deals_raw[did]
+        c_ids = [str(a.get("toObjectId")) for a in assoc["contacts"].get(did, [])]
+        co_ids = [{"id": str(a.get("toObjectId")), "typeIds": _type_ids(a)} for a in assoc["companies"].get(did, [])]
+        deals.append(deal_record(raw, ctx, c_ids, co_ids))
+    contacts = [contact_record(raw, contact_company.get(cid)) for cid, raw in objects["contacts"].items()]
+    companies = [company_record(raw) for raw in objects["companies"].values() if raw.get("id")]
+    now = now_iso()
+    per_deal: dict[str, list[dict]] = {}
+    links: list[dict] = []
+    counts = {v: 0 for v in ENGAGEMENT_TYPES.values()}
+    for did in deal_ids:
+        for kind in ENGAGEMENT_TYPES:
+            for a in assoc[kind].get(did, []):
+                oid = str(a.get("toObjectId"))
+                raw = objects[kind].get(oid)
+                if not raw:
+                    continue
+                rec = interaction_record(kind, raw, did, ctx, eng_contacts[kind].get(oid, []))
+                per_deal.setdefault(f"hs:{did}", []).append(rec)
+                links.append(link_record(rec["id"], f"hs:{did}", _type_ids(a), now))
+                counts[ENGAGEMENT_TYPES[kind]] += 1
+
+    # 8. validate (optional module written separately)
+    validation = _validate({"deal": deals, "rep": reps, "contact": contacts, "company": companies,
+                            "interaction": [i for items in per_deal.values() for i in items]})
+
+    # 9. save through the store (upsert by id)
+    wrote: list[str] = []
+    store.save_deals(Store.upsert(store.load_deals(), deals))
+    wrote.append("data/deals.json")
+    store.save_reps(Store.upsert(store.load_reps(), reps))
+    wrote.append("data/reps.json")
+    store.save_contacts(Store.upsert(store.load_contacts(), contacts))
+    wrote.append("data/contacts.json")
+    store.save_companies(Store.upsert(store.load_companies(), companies))
+    wrote.append("data/companies.json")
+    for deal_id, items in per_deal.items():
+        store.save_interactions(deal_id, Store.upsert(store.load_interactions(deal_id), items))
+        wrote.append(str(store.interactions_path(deal_id).relative_to(store.home)))
+    link_doc = store.load_links()
+    existing = {(l.get("interactionId"), l.get("dealId")): l for l in link_doc.get("links", [])}
+    for l in links:
+        key = (l["interactionId"], l["dealId"])
+        old = existing.get(key)
+        if old and old.get("status") in ("confirmed", "rejected"):
+            continue
+        existing[key] = l
+    link_doc["links"] = list(existing.values())
+    store.save_links(link_doc)
+    wrote.append("data/links.json")
+
+    return {"deals": deals, "reps": reps, "contacts": contacts, "companies": companies, "counts": counts,
+            "links": links, "validation": validation, "wrote": wrote}
+
+
 def pull(store: Store, cfg: Optional[Config] = None, since: Optional[str] = None, limit_deals: Optional[int] = None,
-         client: Optional[HubSpotClient] = None, log: Optional[Callable[[str], None]] = None) -> dict:
+         client: Optional[HubSpotClient] = None, log: Optional[Callable[[str], None]] = None,
+         owner: Optional[str] = None) -> dict:
     """Walk HubSpot for the configured window and save canonical records through the Store.
 
-    Returns a summary dict with counts and the request count. Raises HubSpotError / ScopeError on API failures.
+    `owner` (an email, or "me" for config me.email) narrows the walk to deals that person owns: what a rep's
+    stand-up needs, a fraction of the portal. Returns a summary dict with counts and the request count.
+    Raises HubSpotError / ScopeError on API failures.
     """
     cfg = cfg or store.config
     log = log or (lambda msg: None)
@@ -1037,26 +1171,16 @@ def pull(store: Store, cfg: Optional[Config] = None, since: Optional[str] = None
     refresh_all = since_ms is not None
     start_ms, end_ms = window_bounds(cfg)
     ctx = _Context(cfg)
+    owners_early: Optional[list[dict]] = None
+    owner_rec: Optional[dict] = None
+    if owner:
+        owner_rec, owners_early = resolve_owner(client, cfg, owner)
+        log(f"owner: {owner_rec.get('email')} (id {owner_rec.get('id')}), pulling their deals only")
 
     # 1. pipelines -> stage labels and phases
     pipelines = client.pipelines("deals")
     cache.write_meta("pipelines", pipelines)
-    for pl in pipelines:
-        pid = str(pl.get("id"))
-        ctx.pipeline_label[pid] = pl.get("label") or pid
-        for st in pl.get("stages") or []:
-            sid = str(st.get("id"))
-            ctx.stage_label[sid] = st.get("label") or sid
-            ctx.stage_pipeline[sid] = pid
-    configured_pipelines = [str(p) for p in (hs_cfg.get("pipelines") or []) if p]
-    unknown_pipelines = [p for p in configured_pipelines if p not in ctx.pipeline_label]
-    if unknown_pipelines:
-        warnings.append(f"configured pipelines not found in the portal: {', '.join(unknown_pipelines)}")
-    stage_mapping = cfg.get("stagePhases") or {}
-    unmapped = [{"pipelineId": ctx.stage_pipeline[s], "stageId": s, "label": l, "suggestedPhase": ctx.phase_of(s)}
-                for s, l in ctx.stage_label.items()
-                if s not in stage_mapping and (not configured_pipelines or ctx.stage_pipeline[s] in configured_pipelines)]
-    log(f"pipelines: {len(pipelines)} ({len(ctx.stage_label)} stages, {len(unmapped)} without a phase mapping)")
+    configured_pipelines, unmapped = register_pipelines(ctx, cfg, hs_cfg, pipelines, warnings, log)
 
     # 2. deal search: closed deals by closedate, open deals by createdate
     base_filters: list[dict] = []
@@ -1067,6 +1191,8 @@ def pull(store: Store, cfg: Optional[Config] = None, since: Optional[str] = None
             base_filters.append({"propertyName": "pipeline", "operator": "IN", "values": configured_pipelines})
     if since_ms is not None:
         base_filters.append({"propertyName": "hs_lastmodifieddate", "operator": "GTE", "value": str(since_ms)})
+    if owner_rec is not None:
+        base_filters.append({"propertyName": "hubspot_owner_id", "operator": "EQ", "value": str(owner_rec.get("id"))})
     closed = client.search_range("deals", base_filters + [{"propertyName": "hs_is_closed", "operator": "EQ", "value": "true"}],
                                  "closedate", start_ms, end_ms, DEAL_PROPERTIES, max_results=limit_deals)
     open_limit = None if limit_deals is None else max(0, limit_deals - len(closed))
@@ -1167,82 +1293,14 @@ def pull(store: Store, cfg: Optional[Config] = None, since: Optional[str] = None
             cache.write("companies", str(raw.get("id")), raw, COMPANY_PROPERTIES)
             objects["companies"][str(raw.get("id"))] = raw
 
-    # 6. owners
-    owners = client.owners(archived=False)
-    referenced = {str((r.get("properties") or {}).get("hubspot_owner_id")) for r in deals_raw.values()}
-    for kind in ENGAGEMENT_TYPES:
-        referenced |= {str((r.get("properties") or {}).get("hubspot_owner_id")) for r in objects[kind].values()}
-    referenced.discard("None")
-    referenced.discard("")
-    if referenced - {str(o.get("id")) for o in owners}:
-        try:
-            owners += client.owners(archived=True)
-        except HubSpotError as exc:
-            warnings.append(f"archived owners not readable: {exc}")
-    cache.write_meta("owners", owners)
-    for o in owners:
-        ctx.owners[str(o.get("id"))] = o
-        if o.get("email"):
-            ctx.owner_by_email[str(o["email"]).lower()] = str(o.get("id"))
-    ctx.contacts = objects["contacts"]
-    ctx.companies = objects["companies"]
-    reps = [rep_record(o) for o in owners if str(o.get("id")) in referenced]
-    ctx.internal_domains = cfg.internal_domains(reps)
-    log(f"owners: {len(owners)} ({len(reps)} referenced)")
-
-    # 7. convert
-    deals: list[dict] = []
-    for did in deal_ids:
-        raw = deals_raw[did]
-        c_ids = [str(a.get("toObjectId")) for a in assoc["contacts"].get(did, [])]
-        co_ids = [{"id": str(a.get("toObjectId")), "typeIds": _type_ids(a)} for a in assoc["companies"].get(did, [])]
-        deals.append(deal_record(raw, ctx, c_ids, co_ids))
-    contacts = [contact_record(raw, contact_company.get(cid)) for cid, raw in objects["contacts"].items()]
-    companies = [company_record(raw) for raw in objects["companies"].values() if raw.get("id")]
-    now = now_iso()
-    per_deal: dict[str, list[dict]] = {}
-    links: list[dict] = []
-    counts = {v: 0 for v in ENGAGEMENT_TYPES.values()}
-    for did in deal_ids:
-        for kind in ENGAGEMENT_TYPES:
-            for a in assoc[kind].get(did, []):
-                oid = str(a.get("toObjectId"))
-                raw = objects[kind].get(oid)
-                if not raw:
-                    continue
-                rec = interaction_record(kind, raw, did, ctx, eng_contacts[kind].get(oid, []))
-                per_deal.setdefault(f"hs:{did}", []).append(rec)
-                links.append(link_record(rec["id"], f"hs:{did}", _type_ids(a), now))
-                counts[ENGAGEMENT_TYPES[kind]] += 1
-
-    # 8. validate (optional module written separately)
-    validation = _validate({"deal": deals, "rep": reps, "contact": contacts, "company": companies,
-                            "interaction": [i for items in per_deal.values() for i in items]})
-
-    # 9. save through the store (upsert by id)
-    wrote: list[str] = []
-    store.save_deals(Store.upsert(store.load_deals(), deals))
-    wrote.append("data/deals.json")
-    store.save_reps(Store.upsert(store.load_reps(), reps))
-    wrote.append("data/reps.json")
-    store.save_contacts(Store.upsert(store.load_contacts(), contacts))
-    wrote.append("data/contacts.json")
-    store.save_companies(Store.upsert(store.load_companies(), companies))
-    wrote.append("data/companies.json")
-    for deal_id, items in per_deal.items():
-        store.save_interactions(deal_id, Store.upsert(store.load_interactions(deal_id), items))
-        wrote.append(str(store.interactions_path(deal_id).relative_to(store.home)))
-    link_doc = store.load_links()
-    existing = {(l.get("interactionId"), l.get("dealId")): l for l in link_doc.get("links", [])}
-    for l in links:
-        key = (l["interactionId"], l["dealId"])
-        old = existing.get(key)
-        if old and old.get("status") in ("confirmed", "rejected"):
-            continue
-        existing[key] = l
-    link_doc["links"] = list(existing.values())
-    store.save_links(link_doc)
-    wrote.append("data/links.json")
+    # 6 to 9. owners, convert, validate, save (shared with the connector-cache import)
+    owners = owners_early if owners_early is not None else client.owners(archived=False)
+    built = assemble_and_save(store, cfg, ctx, deal_ids=deal_ids, deals_raw=deals_raw, assoc=assoc, objects=objects,
+                              eng_contacts=eng_contacts, contact_company=contact_company, owners=owners,
+                              warnings=warnings, log=log, cache=cache,
+                              fetch_archived_owners=lambda: client.owners(archived=True))
+    deals, reps, contacts, companies = built["deals"], built["reps"], built["contacts"], built["companies"]
+    counts, links, validation, wrote = built["counts"], built["links"], built["validation"], built["wrote"]
 
     summary = {
         "ok": True,
@@ -1250,6 +1308,7 @@ def pull(store: Store, cfg: Optional[Config] = None, since: Optional[str] = None
         "baseUrl": client.base_url,
         "window": {"from": cfg.window[0], "to": cfg.window[1]},
         "since": since,
+        "owner": {"email": owner_rec.get("email"), "id": str(owner_rec.get("id"))} if owner_rec else None,
         "pipelines": [{"id": pid, "label": lbl} for pid, lbl in ctx.pipeline_label.items()],
         "counts": {"deals": len(deals), "contacts": len(contacts), "companies": len(companies), "reps": len(reps),
                    "interactions": counts, "links": len(links)},
