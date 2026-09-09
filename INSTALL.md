@@ -41,7 +41,7 @@ Open Claude Code and say: "Install FlowSales from https://github.com/RhysEJF/flo
 ## After installing
 
 1. Make an empty folder for FlowSales to keep its data in and start Claude Code there: `mkdir -p ~/flowsales-demo && cd ~/flowsales-demo && claude`. FlowSales stores everything under `.flow-sales/` in that directory.
-2. Run `/flow-sales:setup --demo` (a few seconds, asks nothing) and then `/flow-sales:audit` (asks you once to confirm the volume and cost, then about six to eight minutes with a progress line per deal, ending with `Report is ready at <path>`).
+2. Run `/flow-sales:setup --demo` (a few seconds, asks nothing) and then `/flow-sales:audit` (prints the volume and cost on one line and starts, then about six to eight minutes with a progress line per deal, ending with `Report is ready at <path>`). Run the session on Opus; the scoring runs in Sonnet sub-agents on its own.
 3. For your own data, make a second folder and run `/flow-sales:setup`. It asks who will see the report and whether the reps have been told before it connects anything. For HubSpot, follow [docs/hubspot.md](docs/hubspot.md) to create a private app with read scopes. For Granola, follow [docs/granola.md](docs/granola.md). For Gong, Fireflies or Fathom, export the transcripts to a folder. For Salesforce or any other CRM, see [docs/other-crms.md](docs/other-crms.md).
 4. `/flow-sales:status` at any time says whether everything is working and what the next audit would judge and cost, without spending anything.
 

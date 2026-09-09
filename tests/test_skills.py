@@ -52,6 +52,19 @@ class SkillSetTests(unittest.TestCase):
         self.assertIn("fs.py team sync --push-only", s)
         self.assertIn("reusedFromTeam", s)
 
+    def test_audit_prints_the_estimate_and_runs_without_asking(self):
+        s = skill_text("audit")
+        self.assertIn("Do not ask before running", s)
+        self.assertIn("more than 40 deals", s, "the only gate left is size")
+        self.assertNotIn("Plan and gate on volume", s)
+
+    def test_judge_agent_pins_sonnet_and_docs_say_so(self):
+        agent = (ROOT / "agents" / "deal-assessor.md").read_text(encoding="utf-8")
+        self.assertIn("model: sonnet", agent.split("---")[1])
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("pinned to Sonnet", readme)
+        self.assertIn("session itself on Opus", readme)
+
     def test_status_reports_the_team_folder(self):
         self.assertIn("fs.py team status --json", skill_text("status"))
 

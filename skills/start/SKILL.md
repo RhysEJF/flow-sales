@@ -16,7 +16,7 @@ Run `fs.py status --json`. If a store already exists in this folder, say what is
 
 Plain words, no bullets longer than a line:
 
-FlowSales reads your CRM and your call transcripts, scores every call and email against MEDDPICC with the buyer's own words as evidence, and shows each rep and the team how much of the framework they actually use, week by week, and what it changes on won and lost deals. Six commands: `setup` once, `audit` for the benchmark and then weekly, `daily-sync` every morning for a rep, `retro` every week, `impact` for the quarter, `status` whenever in doubt. Everything stays on this machine except the text sent to the model for scoring. Nobody needs a token: you sign in to HubSpot as yourself. A team shares judged deals through a folder it already syncs, so a deal is judged once.
+FlowSales reads your CRM and your call transcripts, scores every call and email against MEDDPICC with the buyer's own words as evidence, and shows each rep and the team how much of the framework they actually use, week by week, and what it changes on won and lost deals. Six commands: `setup` once, `audit` for the benchmark and then weekly, `daily-sync` every morning for a rep, `retro` every week, `impact` for the quarter, `status` whenever in doubt. Everything stays on this machine except the text sent to the model for scoring. Nobody needs a token: you sign in to HubSpot as yourself. A team shares judged deals through a folder it already syncs, so a deal is judged once. Scoring runs in Sonnet agents on its own; the session you are in is best on Opus.
 
 ## 3. Ask one question (gate)
 

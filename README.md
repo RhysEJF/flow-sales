@@ -140,7 +140,9 @@ The impact tab is the slide: one quarter, four numbers, the before and after cha
 
 Everything lives under `.flow-sales/` in the directory you run Claude Code in. Delete the folder and FlowSales forgets everything, so back it up like any other folder if the history matters. Every command appends a line to `.flow-sales/runs.jsonl` saying what it read and wrote.
 
-Cost: audit prints the token count and a dollar range at list price before it starts (the demo is about $3 to $5 on Sonnet), and a rerun only judges deals whose interactions changed. On a Claude subscription the tokens come out of the plan's usage rather than a bill.
+Cost: audit prints one line with the token count and a dollar range at list price, then starts without asking (the demo is about $3 to $5 on Sonnet); above 40 deals it offers a sample of 10 first. The estimate is real, not a guess: the planner counts the interactions already in the store after the pull and the link step. A rerun only judges deals whose interactions changed. On a Claude subscription the tokens come out of the plan's usage rather than a bill. `/flow-sales:status` shows the next run's size and cost without spending anything.
+
+Models: the judge agent is pinned to Sonnet (`agents/deal-assessor.md`, override with config `judge.model`), and that is where nearly all the tokens go. Every demo and golden run so far was judged by Sonnet, with zero unverified quotes across the 32 demo deals, and the validator refuses any quote it cannot find in the transcript whichever model wrote it. Run the session itself on Opus: it does the talking, the daily briefings and the retro, and it follows the long skills more reliably. Changing the judge to Opus multiplies the audit's cost for no measured gain; changing it to a smaller model has not been tested against the golden set.
 
 ## Teams
 
