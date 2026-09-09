@@ -67,14 +67,15 @@ def is_team_folder(path: Path) -> bool:
 
 
 def candidates(roots: Optional[Iterable[str]] = None) -> list[Path]:
-    """Folders named FlowSales that already hold assessments, in the usual synced drives, at most three deep."""
+    """Folders named FlowSales that already hold assessments, in the usual synced drives, at most four deep
+    (a shared drive mirrored to ~/Library/CloudStorage/GoogleDrive-<you>/Shared drives/Sales/Enablement/FlowSales still counts)."""
     found: list[Path] = []
     for pattern in roots or SYNC_ROOTS:
         for root in glob.glob(os.path.expanduser(pattern)):
             root_path = Path(root)
             if not root_path.is_dir():
                 continue
-            for depth_pattern in ("", "*/", "*/*/"):
+            for depth_pattern in ("", "*/", "*/*/", "*/*/*/"):
                 for hit in glob.glob(str(root_path / f"{depth_pattern}{FOLDER_NAME}")):
                     p = Path(hit)
                     if is_team_folder(p) and p not in found:
