@@ -46,7 +46,7 @@ A competent default: identical rounded cards with the same border on everything,
 
 ## Not done
 
-- The standup and retro briefings (markdown) and the README hero image are unchanged. The README's report screenshots were regenerated from the new report and a phone and impact screenshot were added.
+- The daily-sync (then called standup) and retro briefings (markdown) and the README hero image are unchanged. The README's report screenshots were regenerated from the new report and a phone and impact screenshot were added.
 
 ## Usability round one: what changed (branch `usability-fixes`)
 
@@ -90,4 +90,8 @@ The headline and the paragraph under it are now recomputed from the interaction 
 - An outcome filter that removes won or lost deals makes every win rate 0% or 100%, so the win-rate and tertile sentences are dropped under it.
 - The quarter sentence ("In 2026-Q3, 5 of the 6 won deals followed framework actions") stays on the impact file and says "whole quarter, not this view" when a filter is active.
 - A single-rep filter puts the rep's name in the subject; an element filter names the element and counts only interactions where it was applicable. A "Verdict for: ..." pill above the headline states the slice.
+
+## Any first user, no token, a team without a hub (2026-09-09)
+
+Feedback after the team-flows page: the first installer may be a rep, and a token in a file is a Claude Code habit that does not fit Cowork. Changes: `me` (role, email, rep id) asked in setup; the HubSpot connector as the default route for everyone (replies saved verbatim, `fs.py import hubspot-cache`, same normaliser as the REST pull, identical stores in tests, unverified live); `pull hubspot --owner me` for the private-app route; the team folder (`fs.py team`, planner reuse by deal id, input hash and rubric hash, sync around judging in audit and daily-sync, detection in the synced drives); `standup` renamed to `daily-sync`. `docs/teams.md` and `docs/cowork.md` written.
 

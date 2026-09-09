@@ -5,7 +5,7 @@ FlowSales reads HubSpot directly. Every other CRM comes in through one of two fi
 - **CSV**: two files, one of deals and one of interactions. `fs.py import csv --deals deals.csv --interactions interactions.csv`
 - **Transcripts folder**: a directory of `.md`, `.txt`, `.vtt` or `.json` meeting transcripts. `fs.py import transcripts --folder ./transcripts`
 
-Both write the same canonical records HubSpot produces (docs/CONTRACTS.md section 5), so everything downstream (link, plan-assessment, rollup, report, standup, retro) behaves the same. Sample files live in `docs/examples/`; try them with `fs.py import csv --deals docs/examples/deals.csv --interactions docs/examples/interactions.csv`.
+Both write the same canonical records HubSpot produces (docs/CONTRACTS.md section 5), so everything downstream (link, plan-assessment, rollup, report, daily-sync, retro) behaves the same. Sample files live in `docs/examples/`; try them with `fs.py import csv --deals docs/examples/deals.csv --interactions docs/examples/interactions.csv`.
 
 ## 1. The port contract in plain English
 

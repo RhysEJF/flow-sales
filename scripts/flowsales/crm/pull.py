@@ -51,8 +51,9 @@ def run(ctx: dict, args: Any) -> int:
 
     since = getattr(args, "since", None)
     limit = getattr(args, "limit_deals", None)
+    owner = getattr(args, "owner", None)
     try:
-        summary = pull(store, cfg, since=since, limit_deals=limit, client=client, log=progress)
+        summary = pull(store, cfg, since=since, limit_deals=limit, client=client, log=progress, owner=owner)
     except ValueError as exc:  # bad --since
         store.log_run("pull hubspot", _args(args), False, ctx["started"], notes=str(exc))
         _emit(ctx, {"ok": False, "error": str(exc)}, f"error: {exc}", err=True)
@@ -82,14 +83,15 @@ def run(ctx: dict, args: Any) -> int:
 
 def _args(args: Any) -> dict:
     return {"source": getattr(args, "source", None), "since": getattr(args, "since", None),
-            "limitDeals": getattr(args, "limit_deals", None)}
+            "limitDeals": getattr(args, "limit_deals", None), "owner": getattr(args, "owner", None)}
 
 
 def _text(s: dict) -> str:
     c = s["counts"]
     lines = [
         f"Pulled HubSpot ({s['baseUrl']}) for window {s['window']['from']} to {s['window']['to']}"
-        + (f" (modified since {s['since']})" if s.get("since") else ""),
+        + (f" (modified since {s['since']})" if s.get("since") else "")
+        + (f", deals owned by {s['owner']['email']}" if s.get("owner") else ""),
         f"  deals: {c['deals']}   contacts: {c['contacts']}   companies: {c['companies']}   reps: {c['reps']}",
         "  interactions: " + ", ".join(f"{k} {v}" for k, v in c["interactions"].items()) + f"   links: {c['links']}",
         f"  cache: {s['cache']['dealsFromCache']} deals and {s['cache']['objectsFromCache']} objects reused, "

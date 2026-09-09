@@ -18,6 +18,7 @@ from typing import Any, Iterable, Optional
 from ..config import Config
 from ..schema.validate import element_codes
 from ..store import Store
+from .. import team as team_mod
 from ..util import parse_iso, safe_id, sha1_text, sha256_of
 
 BATCH_OVERHEAD_TOKENS = 1500
@@ -334,6 +335,8 @@ def _summary_text(plan_doc: dict, plan_path: Optional[Path]) -> str:
         f"Considered {plan_doc['considered']} deals; skipped {skipped['unchanged']} unchanged, "
         f"{skipped['withoutInteractions']} without judgeable interactions"
     )
+    if skipped.get("reusedFromTeam"):
+        lines.append(f"Reused {skipped['reusedFromTeam']} assessments from the team folder ({plan_doc.get('teamFolder')}): judged once, not again")
     if skipped["notFound"]:
         lines.append(f"Not found: {', '.join(skipped['notFound'])}")
     if plan_doc["batches"]:
@@ -377,6 +380,10 @@ def run(ctx: dict, args: Any) -> int:
     plans: list[tuple[dict, list[dict], Optional[dict], str, str]] = []
     skipped_unchanged = 0
     skipped_empty = 0
+    reused_from_team: list[str] = []
+    team_folder = team_mod.folder_of(cfg)
+    if team_folder and not team_mod.is_team_folder(team_folder):
+        team_folder = None
     for deal in considered:
         deal_id = deal.get("id")
         read.append(str(store.interactions_path(deal_id)))
@@ -387,6 +394,15 @@ def run(ctx: dict, args: Any) -> int:
         input_hash_value = input_hash(inters)
         assessment = store.load_assessment(deal_id)
         plan, reason = needs_planning(assessment, rubric_hash, input_hash_value, force)
+        if plan and not force and team_folder:
+            # someone on the team may have judged exactly these interactions with this rubric already
+            shared = team_mod.matching(team_folder, deal_id, input_hash_value, rubric_hash)
+            if shared:
+                if not getattr(args, "estimate_only", False):
+                    store.write_json(store.assessment_path(deal_id), shared)
+                reused_from_team.append(deal_id)
+                skipped_unchanged += 1
+                continue
         if not plan:
             skipped_unchanged += 1
             continue
@@ -448,7 +464,10 @@ def run(ctx: dict, args: Any) -> int:
         "considered": len(considered),
         "batches": batches_meta,
         "totals": totals,
-        "skipped": {"unchanged": skipped_unchanged, "withoutInteractions": skipped_empty, "notFound": not_found},
+        "skipped": {"unchanged": skipped_unchanged, "withoutInteractions": skipped_empty, "notFound": not_found,
+                    "reusedFromTeam": len(reused_from_team)},
+        "reusedFromTeam": reused_from_team,
+        "teamFolder": str(team_folder) if team_folder else None,
     }
     if estimate_only:
         store.log_run("plan-assessment", _args_dict(args), True, ctx["started"], read=read,

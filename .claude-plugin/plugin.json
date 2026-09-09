@@ -2,7 +2,7 @@
   "name": "flow-sales",
   "displayName": "FlowSales",
   "version": "0.1.0",
-  "description": "Turns a sales methodology (MEDDPICC) from training people attend into a system of record, checks and daily stand-ups. Audits your CRM deals and meeting transcripts with quoted evidence, measures framework adoption per rep over time, links adoption to won and lost deals, and briefs each rep every morning. Local-first and read-only.",
+  "description": "Turns a sales methodology (MEDDPICC) from training people attend into a system of record, checks and daily stand-ups. Audits your CRM deals and meeting transcripts with quoted evidence, measures framework adoption per rep over time, links adoption to won and lost deals, and briefs each rep every morning from a daily sync of their own deals. Local-first and read-only; sign in to HubSpot as yourself, no token needed; a team shares judged deals through a folder it already syncs.",
   "author": {
     "name": "Rhys Fisher",
     "email": "rhys@unvanity.com",

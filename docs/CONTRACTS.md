@@ -248,8 +248,11 @@ Definitions:
 | `rollup` | section 9 |
 | `impact --quarter <YYYY-Qn>` | section 9 impact.json plus a markdown summary |
 | `report [--open]` | build the HTML report |
-| `briefing-data --rep <id> [--date <d>]` | JSON pack for the standup skill: active deals with state, last three interactions each, stage gaps, weakest elements, suggested next questions from the framework file (`focus`: up to three applicable elements below the top level, lowest first) |
+| `briefing-data --rep <id> [--date <d>]` | JSON pack for the daily-sync skill: active deals with state, last three interactions each, stage gaps, weakest elements, suggested next questions from the framework file (`focus`: up to three applicable elements below the top level, lowest first) |
 | `retro-data --rep <id> [--week <YYYY-Www>]` | JSON pack for the retro skill: this week vs last week vs benchmark, deals moved, wins and losses with element post-mortem inputs. Without `--week`: the current ISO week, or the previous one when run on a Monday or Tuesday |
+| `team [status|init <path>|join <path>|sync [--pull-only|--push-only]|leave|candidates]` | the team folder: one judged assessment per deal in a folder the team syncs; `init` creates, `join` points this store at one, `sync` copies matching assessments in and new ones out, `candidates` looks in the synced drives (`flowsales/team.py`) |
+| `import hubspot-cache [--dir <folder>]` | build the store from HubSpot connector (MCP) replies saved verbatim (default `.flow-sales/cache/hubspot-mcp`), through the same `assemble_and_save` as the REST pull; sets `sources.hubspot.route` to `connector` |
+| `pull hubspot [--since] [--owner <email|me>]` | private-app route; `--owner` narrows to deals owned by one person (`me` reads config `me.email`) |
 | `status` | counts of everything in the store, `lastRun` (newest successful timestamp per command from runs.jsonl, including skills that log with `fs.py log --command`) and `latestReport` |
 | `eval-golden build [--parts n]` | write the golden set (`evals/golden/snippets.json`) as batch files `work/batches/demo_golden-<n>.json` into the store at `--home` (a scratch store), with `work/plan.json`; prints the files to hand to the deal-assessor agent |
 | `eval-golden compare [--model m] [--note t] [--strict]` | validate `assessments/demo_golden-*.json` in that store, compare with the labels (section 13), print metrics, secondary checks and the confusion table, append to `evals/golden/runs.jsonl`, write detail to `evals/golden/results/`. `--strict` exits 1 when a target is missed or a snippet was not judged |
@@ -287,3 +290,5 @@ The rubric hash is the sha256 of the file's canonical JSON (sorted keys, no whit
 - Secondary checks: applicability mismatches, quote failures, rep-assertion snippets scored above 1, reversal snippets that used the earlier quote, pitch-monologue snippets with any tag or without `pitchBeforePain`, missing snippets.
 
 Each run appends `{at, rubricHash, framework, frameworkVersion, goldenVersion, model, note, metrics, passed, checks, store}` to `evals/golden/runs.jsonl` and writes the per-snippet detail and confusion tables to `evals/golden/results/<timestamp>-<model>.json`. A change to a framework file, the judge prompt or the model ships only if no target regresses against the last recorded run.
+
+Config keys added 2026-09-09: `me` (`role` rep|team|both, `email`, `repId`), `team.folder`, `sources.hubspot.route` (`connector` once `import hubspot-cache` has run; absent or `private-app` otherwise). `plan-assessment` output carries `reusedFromTeam` (deal ids) and `skipped.reusedFromTeam`; `status` carries `team` (folder, exists, teamAssessments, localAssessments, reusable, toShare) and `me`.

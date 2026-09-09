@@ -96,6 +96,8 @@ def cmd_status(ctx: dict, args: Any) -> int:
         "analytics": analytics,
         "reports": reports,
         "latestReport": str(store.reports_dir / reports[-1]) if reports else None,
+        "team": _team_status(store),
+        "me": store.config.get("me"),
         "lastRun": last_run,
     }
     text = "\n".join(f"{k}: {json.dumps(v) if not isinstance(v, str) else v}" for k, v in payload.items() if k != "ok")
@@ -103,7 +105,16 @@ def cmd_status(ctx: dict, args: Any) -> int:
     return 0
 
 
-LAST_RUN_COMMANDS = ("pull", "import", "link", "plan-assessment", "rollup", "impact", "report", "audit", "standup", "retro", "doctor", "status")
+def _team_status(store: Store) -> dict:
+    from . import team as team_mod
+    folder = team_mod.folder_of(store.config)
+    try:
+        return team_mod.status(store, folder)
+    except OSError:
+        return {"folder": str(folder) if folder else None, "exists": False}
+
+
+LAST_RUN_COMMANDS = ("pull", "import", "link", "plan-assessment", "rollup", "impact", "report", "audit", "standup", "daily-sync", "retro", "doctor", "status")
 
 
 def _last_runs(store: Store) -> dict[str, str]:

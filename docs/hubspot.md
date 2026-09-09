@@ -1,11 +1,20 @@
 # HubSpot
 
+## Two routes
+
+**Connector (default, anyone).** The plugin ships HubSpot's own MCP server (`hubspot` in `.mcp.json`, `https://mcp.hubspot.com/anthropic`). Each person signs in as themselves (OAuth, PKCE; in Claude Code `/mcp`, in the desktop app Customize, Connectors) and sees exactly what HubSpot lets them see. No token on disk, nothing for an admin to create. The setup, audit and daily-sync skills call the documented tools (`get_user_details`, `search_owners`, `search_crm_objects`, `get_crm_objects`, `get_properties`), save every reply unchanged into `.flow-sales/cache/hubspot-mcp/`, and `fs.py import hubspot-cache` turns the folder into the same store the private-app route builds. File names carry what the import needs: `deals-<n>.json`, `owners-<n>.json`, `properties-dealstage.json`, `<calls|emails|meetings|notes>-deal-<dealId>-<n>.json` (the deal id in the name attaches them), `contacts-<n>.json`, `companies-<n>.json`, or `associations-deals-<type>.json` for batch association replies. The import is tolerant about the envelope (bare list, `results`, a single object, an MCP content block with JSON in its text) and sniffs the kind from the properties when a file name says nothing.
+
+Status on 2026-09-09: built against HubSpot's documented v3 object shape and tested against the same fixtures as the REST route (the two routes produce identical stores), not yet exercised against the live connector. The first sign-in is the check; if the import warns, keep the saved files.
+
+**Private app (ops, or a machine that runs unattended).** The rest of this page. One token per portal with six read scopes, kept in an environment variable, the plugin option, or `.flow-sales/secrets.json`. `fs.py pull hubspot` walks the portal with it; `--owner <email>` or `--owner me` (config `me.email`) narrows the walk to one person's deals.
+
+
 How FlowSales reads a HubSpot portal: deals, stage history, contacts, companies, owners, and the calls, emails, meetings and notes on each deal. Read-only. Nothing is written back.
 
 ```
 python3 scripts/fs.py doctor --source hubspot        # token found, scopes present, portal reachable, stage ids mapped
 python3 scripts/fs.py pull hubspot                    # everything in the window into .flow-sales/cache/hubspot and data/
-python3 scripts/fs.py pull hubspot --since 2026-09-01 # incremental refresh (the standup and retro skills use this)
+python3 scripts/fs.py pull hubspot --since 2026-09-01 # incremental refresh (the daily-sync and retro skills use this)
 ```
 
 ## 1. Create a private app with read scopes

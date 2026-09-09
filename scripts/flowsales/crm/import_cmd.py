@@ -18,7 +18,9 @@ ADAPTERS = {
     "csv": "flowsales.crm.csv_adapter",
     "granola": "flowsales.crm.granola",
     "transcripts": "flowsales.crm.transcripts_folder",
+    "hubspot-cache": "flowsales.crm.hubspot_cache",
 }
+ENABLES = {"hubspot-cache": "hubspot"}   # which source flag an adapter switches on
 
 
 def _fail(ctx: dict, message: str) -> int:
@@ -47,7 +49,7 @@ def run(ctx: dict, args: Any) -> int:
     code = int(module.run(ctx, args) or 0)
     summary = ctx.get("summary") or {}
     if code == 0:
-        store.config.set(f"sources.{source}.enabled", True)
+        store.config.set(f"sources.{ENABLES.get(source, source)}.enabled", True)
         store.save_config()
     store.log_run(command, logged_args, code == 0, ctx["started"], read=summary.get("read") or [],
                   wrote=summary.get("wrote") or [], notes=summary.get("notes") or ("" if code == 0 else f"exit {code}"))
