@@ -24,7 +24,7 @@ How a later rep finds it: their own sync client. When the folder was created ins
     hs_1001.json      one judged assessment per deal, the same shape as the local one
 ```
 
-Create it with `fs.py team init <path>` (setup asks). Join it with `fs.py team join <path>`, or let setup find it: `fs.py team candidates` looks for a folder named FlowSales with an `assessments/` inside, up to four folders deep, under `~/Library/CloudStorage/*`, `~/Google Drive*`, `~/My Drive`, `~/Dropbox*`, `~/OneDrive*`, `~/Box*` and `~/Nextcloud`. `fs.py team status` compares the folder with this store; `fs.py team sync` copies matching assessments in and new ones out (`--pull-only`, `--push-only`); `fs.py team leave` forgets the folder without touching it. Audit and daily-sync run the sync around their judging step on their own.
+Create it with `fs.py team init <path>` (setup asks). Join it with `fs.py team join <path>`, or let setup find it: `fs.py team candidates` looks for a folder named FlowSales with an `assessments/` inside, up to four folders deep, under the working folder (where a folder added to a Cowork session appears) and under `~/Library/CloudStorage/*`, `~/Google Drive*`, `~/My Drive`, `~/Dropbox*`, `~/OneDrive*`, `~/Box*` and `~/Nextcloud`. `fs.py team status` compares the folder with this store; `fs.py team sync` copies matching assessments in and new ones out (`--pull-only`, `--push-only`); `fs.py team leave` forgets the folder without touching it. Audit and daily-sync run the sync around their judging step on their own.
 
 Privacy: the folder holds scores and quotes for every deal, so it is exactly as private as the folder. Share it with the sales team only. Anything that leaves the sales team goes through the report's names-hidden and one-rep exports.
 

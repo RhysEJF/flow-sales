@@ -66,11 +66,16 @@ def is_team_folder(path: Path) -> bool:
     return path.is_dir() and (assessments_dir(path).is_dir() or (path / MARKER).exists())
 
 
-def candidates(roots: Optional[Iterable[str]] = None) -> list[Path]:
-    """Folders named FlowSales that already hold assessments, in the usual synced drives, at most four deep
-    (a shared drive mirrored to ~/Library/CloudStorage/GoogleDrive-<you>/Shared drives/Sales/Enablement/FlowSales still counts)."""
+def candidates(roots: Optional[Iterable[str]] = None, workspace: Optional[Path] = None) -> list[Path]:
+    """Folders named FlowSales that already hold assessments, at most four deep under the usual synced drives
+    (a shared drive mirrored to ~/Library/CloudStorage/GoogleDrive-<you>/Shared drives/Sales/Enablement/FlowSales
+    still counts) and under the working folder, which is where a folder added to a Cowork session appears."""
     found: list[Path] = []
-    for pattern in roots or SYNC_ROOTS:
+    patterns = list(roots or SYNC_ROOTS)
+    if roots is None:
+        ws = Path(workspace or os.getcwd())
+        patterns = [str(ws), str(ws.parent)] + patterns
+    for pattern in patterns:
         for root in glob.glob(os.path.expanduser(pattern)):
             root_path = Path(root)
             if not root_path.is_dir():

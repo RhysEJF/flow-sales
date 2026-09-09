@@ -65,6 +65,14 @@ class TeamFolderTests(PlannerBase):
         self.assertEqual(found, [self.folder])
         self.assertEqual(team.candidates(roots=[str(Path(self._tmp.name) / "Nowhere")]), [])
 
+    def test_candidates_looks_under_the_working_folder_too(self):
+        # A folder added to a Cowork session lands under the session workspace, not under ~/Library/CloudStorage.
+        ws = Path(self._tmp.name) / "session"
+        added = ws / "Sales" / "FlowSales"
+        team.init(added)
+        found = team.candidates(workspace=ws)
+        self.assertIn(added, found)
+
     def test_planner_reuses_a_matching_team_assessment(self):
         self.seed_single_deal()
         team.init(self.folder)
